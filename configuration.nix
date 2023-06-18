@@ -20,12 +20,40 @@
   hardware.opengl.driSupport32Bit = true;
 
   # bootloader
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    memtest86.enable = true;
+    consoleMode = "max";
+  };
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
   # boot.initrd.secrets = {
     # "/crypto_keyfile.bin" = null;
   # };
+
+  console = {
+    earlySetup = true;
+    packages = with pkgs; [ spleen ];
+    font = "spleen-16x32";
+    colors = [
+      "11111b" # crust
+      "f38ba8" # red
+      "a6e3a1" # green
+      "fab387" # peach
+      "89b4fa" # blue
+      "cba6f7" # mauve
+      "89dceb" # sky
+      "a6adc8" # subtext 0
+      "1e1e2e" # base
+      "f5c2e7" # pink
+      "a6e3a1" # green (again...)
+      "f9e2af" # yellow
+      "74c7ec" # sapphire
+      "b3befe" # lavender
+      "94e2d5" # teal
+      "cdd6f4" # text
+    ];
+  };
 
   # networking
   networking.hostName = "nixos-pc"; 
@@ -37,7 +65,7 @@
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
-  # Select internationalisation properties.
+  # Select internationalization properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
@@ -50,6 +78,8 @@
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
+
+  services.getty.extraArgs = [ "--noclear" ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -64,7 +94,7 @@
     konsole
   ];
 
-  # customize avalible shells
+  # customize available shells
   programs.fish.enable = true;
   environment.shells = with pkgs; [
     fish

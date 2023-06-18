@@ -16,52 +16,66 @@
   hardware.nvidia.modesetting.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/43bf7935-ca90-4d0d-8d60-3c19ca8d5584";
-      fsType = "btrfs";
-      options = [ 
-        "subvol=@"
-        "compress-force=zstd:15"
-      ];
-    };
+  fileSystems."/" = { 
+    device = "/dev/disk/by-uuid/43bf7935-ca90-4d0d-8d60-3c19ca8d5584";
+    fsType = "btrfs";
+    options = [ 
+      "subvol=/@"
+      "compress-force=zstd:15"
+    ];
+  };
 
   boot.initrd.luks.devices."luks-d106ba24-da3a-4c5c-896f-734c430164ef".device = "/dev/disk/by-uuid/d106ba24-da3a-4c5c-896f-734c430164ef";
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/BDD7-316D";
-      fsType = "vfat";
-    };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/43bf7935-ca90-4d0d-8d60-3c19ca8d5584";
+    fsType = "btrfs";
+    options = [
+      "subvol=/@home"
+      "compress-force=zstd:15"
+    ];
+  };
 
-  fileSystems."/home/user/Games" =
-    { device = "/dev/disk/by-uuid/9eee903d-0dff-4c49-83db-34c75b2974af";
-      fsType = "btrfs";
-      options = [ 
-        "subvol=@games"
-        "compress-force=zstd:15"
-      ];
-    };
+  fileSystems."/nix" = { 
+    device = "/dev/disk/by-uuid/43bf7935-ca90-4d0d-8d60-3c19ca8d5584";
+    fsType = "btrfs";
+    options = [
+      "subvol=/@nix"
+      "compress-force=zstd:15"
+    ];
+  };
 
-  fileSystems."/mnt/btrfs/nixos" =
-    { device = "/dev/disk/by-uuid/43bf7935-ca90-4d0d-8d60-3c19ca8d5584";
-      fsType = "btrfs";
-    };
+  fileSystems."/boot" = { 
+    device = "/dev/disk/by-uuid/BDD7-316D";
+    fsType = "vfat";
+  };
 
-  fileSystems."/mnt/btrfs/bulk" =
-    { device = "/dev/disk/by-uuid/9eee903d-0dff-4c49-83db-34c75b2974af";
-      fsType = "btrfs";
-      options = [
-        "compress-force=zstd:15"
-      ];
-    };
+  fileSystems."/home/user/Games" = {
+    device = "/dev/disk/by-uuid/9eee903d-0dff-4c49-83db-34c75b2974af";
+    fsType = "btrfs";
+    options = [ 
+      "subvol=/@games"
+      "compress-force=zstd:15"
+    ];
+  };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/43bf7935-ca90-4d0d-8d60-3c19ca8d5584";
-      fsType = "btrfs";
-      options = [
-        "subvol=@nix"
-        "compress-force=zstd:15"
-      ];
-    };
+  fileSystems."/mnt/btrfs/nixos" = {
+    device = "/dev/disk/by-uuid/43bf7935-ca90-4d0d-8d60-3c19ca8d5584";
+    fsType = "btrfs";
+    options = [
+      "subvol=/"
+      "compress-force=zstd:15"
+    ];
+  };
+
+  fileSystems."/mnt/btrfs/bulk" = { 
+    device = "/dev/disk/by-uuid/9eee903d-0dff-4c49-83db-34c75b2974af";
+    fsType = "btrfs";
+    options = [
+      "subvol=/"
+      "compress-force=zstd:15"
+    ];
+  };
 
   swapDevices = [ ];
 
