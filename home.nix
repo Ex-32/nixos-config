@@ -27,19 +27,12 @@ in
     cargo-generate
     cargo-update
     cargo-watch
-    catppuccin-cursors
-    catppuccin-gtk
-    catppuccin-kde
-    catppuccin-kvantum
-    catppuccin-papirus-folders
     clang
     discord
     gh
     gimp-with-plugins
     inkscape-with-extensions
     kitty
-    libsForQt5.bismuth
-    libsForQt5.qtstyleplugin-kvantum
     lutris
     nerdfonts
     nomacs

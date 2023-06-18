@@ -16,9 +16,6 @@
   # enable experimental flake support
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # graphics config
-  hardware.nvidia.modesetting.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
   # needed for some 32-bit games
   hardware.opengl.driSupport32Bit = true;
 
@@ -93,12 +90,19 @@
   environment.systemPackages = with pkgs; [
     bat
     btdu
+    catppuccin-cursors
+    catppuccin-gtk
+    catppuccin-kde
+    catppuccin-kvantum
+    catppuccin-papirus-folders
     compsize
     curl
     file
     git
     gparted
     htop
+    libsForQt5.bismuth
+    libsForQt5.qtstyleplugin-kvantum
     lsd
     micro
     neofetch
