@@ -16,7 +16,7 @@ in
 {
   imports = [ spicetify-nix.homeManagerModule ];
 
-  packages = with pkgs; [
+  home.packages = with pkgs; [
     bacon
     btop
     cargo
