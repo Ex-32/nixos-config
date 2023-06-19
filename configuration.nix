@@ -27,9 +27,6 @@
   };
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.useTmpfs = true;
-  # boot.initrd.secrets = {
-    # "/crypto_keyfile.bin" = null;
-  # };
 
   console = {
     earlySetup = true;
@@ -54,6 +51,8 @@
       "cdd6f4" # text
     ];
   };
+
+  systemd.coredump.extraConfig = "Storage=none";
 
   # networking
   networking.hostName = "nixos-pc"; 
@@ -115,8 +114,6 @@
   };
   security.pam.services.user.enableKwallet = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     bat
     btdu
@@ -141,6 +138,7 @@
     tmux
     unzip
     wget
+    xclip
     zip
   ];
 
