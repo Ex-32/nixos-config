@@ -9,10 +9,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # configure home-manager
-  home-manager.useUserPackages = true;
-  home-manager.useGlobalPkgs = true;
-
   # enable experimental flake support
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
