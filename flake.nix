@@ -15,13 +15,12 @@
         system = "x86_64-linux";
         modules = [
           ./hardware/nixos-pc.nix
-          ./configuration.nix
+          ./system.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.user = import ./home.nix;
-
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
           }
