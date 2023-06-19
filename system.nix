@@ -80,17 +80,20 @@
 
   services.getty.extraArgs = [ "--noclear" ];
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  # Enable the KDE Plasma Desktop Environment, using startx instead of a DM;
-  services.xserver.displayManager.startx.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  # Remove default apps from KDE Plasma
+  services.xserver = {
+    enable = true;
+    displayManager.startx.enable = true;
+    desktopManager.plasma5.enable = true;
+    excludePackages = with pkgs; [
+      xterm
+    ];
+  };
   environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+    elisa
     gwenview
-    okular
     khelpcenter
     konsole
+    okular
   ];
 
   # customize available shells
@@ -117,19 +120,12 @@
   environment.systemPackages = with pkgs; [
     bat
     btdu
-    catppuccin-cursors
-    catppuccin-gtk
-    catppuccin-kde
-    catppuccin-kvantum
-    catppuccin-papirus-folders
     compsize
     curl
     file
     git
     gparted
     htop
-    libsForQt5.bismuth
-    libsForQt5.qtstyleplugin-kvantum
     lsd
     micro
     neofetch
@@ -201,30 +197,6 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 57621 ];
   networking.firewall.allowedUDPPorts = [ 57621 ];
-
-  nixpkgs.overlays = [
-    (final: prev: {
-      catppuccin-papirus-folders = prev.catppuccin-papirus-folders.override {
-        flavor = "mocha";
-        accent = "mauve";    
-      };
-      catppuccin-kvantum = prev.catppuccin-kvantum.override {
-        variant = "Mocha";
-        accent  = "Mauve";    
-      };
-      catppuccin-gtk = prev.catppuccin-gtk.override {
-        accents = [ "mauve" ];
-        variant = "mocha";
-      };
-      catppuccin-kde = prev.catppuccin-kde.override {
-        flavour = [ "mocha" ];
-        accents = [ "mauve" ];
-      };
-      nerdfonts = prev.nerdfonts.override {
-        fonts = [ "FiraCode" ];
-      };
-    })
-  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
