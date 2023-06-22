@@ -11,9 +11,12 @@
 
   # enable experimental flake support
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # needed for some 32-bit games
-  hardware.opengl.driSupport32Bit = true;
+ 
+  hardware.opengl = {
+    enable = true;
+    # needed for some 32-bit games
+    driSupport32Bit = true;
+  };
 
   # bootloader
   boot.loader.systemd-boot = {
@@ -74,7 +77,44 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  services.getty.extraArgs = [ "--noclear" ];
+  environment.variables = {
+    EDITOR = "nvim";
+    LESSHISTFILE = "-";
+    MICRO_TRUECOLOR = "1";
+    GHCUP_USE_XDG_DIRS = "1";
+  };
+
+  environment.sessionVariables = {
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_STATE_HOME = "$HOME/.local/state";
+
+    # XDG_BIN_HOME not officially part of the standard:
+    XDG_BIN_HOME = "$HOME/.local/bin";
+
+    XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
+    xserverauthfile = "$XAUTHORITY";
+
+    CARGO_HOME = "$XDG_DATA_HOME/cargo";
+    RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
+    GOPATH = "$XDG_DATA_HOME/go";
+    RBENV_ROOT = "$XDG_DATA_HOME/rbenv";
+    GNUPGHOME = "$XDG_DATA_HOME/gnugp";
+    WINEPREFIX = "$XDG_DATA_HOME/wine";
+ 
+    PYTHONSTARTUP = "$XDG_CONFIG_HOME/python3/startup.py";
+    GTK_RC_FILES = "$XDG_CONFIG_HOME/gtk-1.0/gtkrc";
+    GTK_RC2_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+    DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker";
+    _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java";
+
+    CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nvidia/ComputeCache";
+
+    PATH = "$XDG_BIN_HOME:$PATH:$CARGO_HOME/bin:$GOPATH/bin";
+  };
+
+  # services.getty.extraArgs = [ "--noclear" ];
 
   services.xserver = {
     enable = true;
@@ -85,11 +125,19 @@
     ];
   };
   environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+    ark
+    breeze-gtk
     elisa
     gwenview
+    kde-gtk-config
     khelpcenter
     konsole
+    kwayland
+    kwayland-integration
     okular
+    oxygen
+    oxygen-icons5
+    oxygen-sounds
   ];
 
   # customize available shells
@@ -104,6 +152,9 @@
     dedicatedServer.openFirewall = true;
   };
 
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.user = {
     isNormalUser = true;
@@ -117,6 +168,8 @@
     bat
     btdu
     compsize
+    cudatoolkit
+    cudaPackages.cudnn
     curl
     file
     git
@@ -129,6 +182,7 @@
     scc
     tmux
     unzip
+    virt-manager
     wget
     xclip
     zip
@@ -138,7 +192,17 @@
     l = "lsd -lAh --date relative";
     ll = "lsd -lAh";
     ls = null;
-  };
+    nix-fish = "nix-shell --command 'fish'";
+    sc = "sudo systemctl";
+    scu = "systemctl --user";
+    jc = "journalctl";
+    "..." = "../..";
+    "...." = "../../..";
+    "....." = "../../../..";
+    "......" = "../../../../..";
+    "......." = "../../../../../..";
+    "........" = "../../../../../../..";
+};
 
   # Configure keymap in X11
   services.xserver = {
@@ -190,7 +254,9 @@
     localuser = null;
   };
 
-  # Open ports in the firewall.
+  # firewall config
+  networking.firewall.enable = true;
+  # port 57621 TCP/UDP is for spotify-sync
   networking.firewall.allowedTCPPorts = [ 57621 ];
   networking.firewall.allowedUDPPorts = [ 57621 ];
 
