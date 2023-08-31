@@ -19,42 +19,51 @@
   };
 
   # bootloader
-  boot.loader.systemd-boot = {
-    enable = true;
-    memtest86.enable = true;
-    consoleMode = "max";
+  #boot.loader.systemd-boot = {
+  #  enable = true;
+  #  memtest86.enable = true;
+  #  consoleMode = "max";
+  #};
+  boot.loader.efi = {
+  	canTouchEfiVariables = true;
+    efiSysMountPoint = "/boot/efi";
   };
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub = {
+  	enable = true;
+	device = "nodev";
+  	efiSupport = true;
+  	enableCryptodisk = true;
+  };
   boot.tmp.useTmpfs = true;
 
   console = {
     earlySetup = true;
     packages = with pkgs; [ spleen ];
     font = "spleen-16x32";
-    colors = [
-      "11111b" # crust
-      "f38ba8" # red
-      "a6e3a1" # green
-      "fab387" # peach
-      "89b4fa" # blue
-      "cba6f7" # mauve
-      "89dceb" # sky
-      "a6adc8" # subtext 0
-      "1e1e2e" # base
-      "f5c2e7" # pink
-      "a6e3a1" # green (again...)
-      "f9e2af" # yellow
-      "74c7ec" # sapphire
-      "b3befe" # lavender
-      "94e2d5" # teal
-      "cdd6f4" # text
-    ];
+#    colors = [
+#      "11111b" # crust
+#      "f38ba8" # red
+#      "a6e3a1" # green
+#      "fab387" # peach
+#      "89b4fa" # blue
+#      "cba6f7" # mauve
+#      "89dceb" # sky
+#      "a6adc8" # subtext 0
+#      "1e1e2e" # base
+#      "f5c2e7" # pink
+#      "a6e3a1" # green (again...)
+#      "f9e2af" # yellow
+#      "74c7ec" # sapphire
+#      "b3befe" # lavender
+#      "94e2d5" # teal
+#      "cdd6f4" # text
+#    ];
   };
 
   systemd.coredump.extraConfig = "Storage=none";
 
   # networking
-  networking.hostName = "nixos-pc"; 
+  networking.hostName = "nixbook"; 
   networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";
@@ -116,60 +125,26 @@
 
   # services.getty.extraArgs = [ "--noclear" ];
 
-  services.xserver = {
-    enable = true;
-    displayManager.startx.enable = true;
-    desktopManager.plasma5.enable = true;
-    excludePackages = with pkgs; [
-      xterm
-    ];
-  };
-  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-    ark
-    breeze-gtk
-    elisa
-    gwenview
-    kde-gtk-config
-    khelpcenter
-    konsole
-    kwayland
-    kwayland-integration
-    okular
-    oxygen
-    oxygen-icons5
-    oxygen-sounds
-  ];
-
   # customize available shells
   programs.fish.enable = true;
   environment.shells = with pkgs; [
     fish
   ];
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
-
-  virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.user = {
+  users.users.jenna = {
     isNormalUser = true;
-    description = "NixOS User";
-    extraGroups = [ "networkmanager" "wheel" ];
+    description = "Jenna Fligor";
+    extraGroups = [ "networkmanager" "wheel" "video" ];
     shell = pkgs.fish;
   };
-  security.pam.services.user.enableKwallet = true;
 
   environment.systemPackages = with pkgs; [
     bat
     btdu
     compsize
-    cudatoolkit
-    cudaPackages.cudnn
     curl
     file
     git
@@ -182,9 +157,8 @@
     scc
     tmux
     unzip
-    virt-manager
     wget
-    xclip
+    wl-clipboard
     zip
   ];
 
@@ -196,18 +170,12 @@
     sc = "sudo systemctl";
     scu = "systemctl --user";
     jc = "journalctl";
-    "..." = "../..";
-    "...." = "../../..";
-    "....." = "../../../..";
-    "......" = "../../../../..";
-    "......." = "../../../../../..";
-    "........" = "../../../../../../..";
-};
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    "..." = "cd ../..";
+    "...." = "cd ../../..";
+    "....." = "cd ../../../..";
+    "......" = "cd ../../../../..";
+    "......." = "cd ../../../../../..";
+    "........" = "cd ../../../../../../..";
   };
 
   # enable CUPS to printing with avahi network support
@@ -221,6 +189,13 @@
   	openFirewall = true;
   };
 
+  security.pam.services.swaylock.text = ''
+    # PAM configuration file for the swaylock screen locker. 
+    # By default, it includes the 'login' configuration file 
+    # (see /etc/pam.d/login)
+    auth include login
+  '';
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -231,15 +206,12 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    #jack.enable = true;
+    jack.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh = {
-  	enable = true;
+  	enable = false;
   	ports = [ 3932 ];
   	startWhenNeeded = true;
   	settings.PermitRootLogin = "no";

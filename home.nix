@@ -8,7 +8,7 @@ let
     (import flake-compat {
       src = builtins.fetchTarball {
         url = "https://github.com/the-argus/spicetify-nix/archive/master.zip";
-        sha256 = "0l9rf5a80qq05kpkp1pi56saa0kmlps94amvwx4fzpjvikgyb339";
+        sha256 = "0szlf5264kvyqz3rm27jjh7kbxldz078939267c9rpin45dadyiv";
       };
     }).defaultNix;
   spicePkgs = spicetify-nix.packages.${pkgs.system}.default;
@@ -29,10 +29,6 @@ in
     cargo-generate
     cargo-update
     cargo-watch
-    (catppuccin-kde.override {
-      flavour = [ "mocha" ];
-      accents = [ "mauve" ];
-    })
     (catppuccin-kvantum.override {
       variant = "Mocha";
       accent  = "Mauve";
@@ -41,32 +37,130 @@ in
     clippy
     discord
     dconf # needed by home-manager gtk config
+    easyeffects
     gh
     gimp-with-plugins
-    inkscape-with-extensions
+    hyprpaper
     kitty
-    libsForQt5.bismuth
     libsForQt5.qtstyleplugin-kvantum
-    lutris
     (nerdfonts.override {
       fonts = [ "FiraCode" ];
     })
+    mate.mate-polkit
     nomacs
     obs-studio
+    obsidian
     onlyoffice-bin
     prismlauncher
-    protontricks
-    rofi
+    rofi-wayland
     rust-analyzer
     rustfmt
     starship
-    steamtinkerlaunch
-    tdrop
+    swayidle
     vivaldi
-    winetricks
-    wineWowPackages.staging
+    wezterm
     zoxide
   ];
+
+  wayland.windowManager.sway = {
+    enable = true;
+    config = rec {
+      modifier = "Mod4";
+      terminal = "wezterm";
+      gaps.inner = 10;
+      output."*".scale = "1";
+      };
+      keybindings = let 
+        mod = config.wayland.windowManager.sway.config.modifier;
+        conf = config.wayland.windowManager.sway.config;
+      in lib.mkOptionDefault {
+        "${mod}+Shift+q" = null;
+        "${mod}+Return" = null;
+        "${mod}+c" = "kill";
+        "${mod}+q" = "exec ${conf.terminal}";
+        "${mod}+d" = ''
+          exec rofi \
+            -show drun \
+            -modi drun \
+            -scroll-method 0 \
+            -drun-match-fields all \
+            -drun-display-format "{name}" \
+            -no-drun-show-actions \
+            -terminal wezterm \
+            -theme ~/.config/rofi/config/launcher.rasi
+        '';
+        "${mod}+Semicolon" = "exec swaylock";
+      };
+      input."*" = {
+        natural_scroll = "enabled";
+        pointer_accel = "0.7";
+      };
+    };
+  };
+
+  programs.swaylock = {
+    enable = true;
+    package = pkgs.swaylock-effects;
+    settings = {
+      screenshots = true;
+      clock = true;
+      timestr = "%H:%M:%S";
+      datestr = "%Y-%m-%d";
+      indicator = true;
+      indicator-radius = 350;
+      indicator-thickness = 12;
+      effect-blur = "8x5";
+      ring-color = "cba6f7";
+      ring-clear-color = "fab387";
+      ring-ver-color = "74c7ec";
+      ring-wrong-color = "f38ba8";
+      key-hl-color = "45475a";
+      bs-hl-color = "fab387";
+      line-color = "00000000";
+      line-clear-color = "00000000";
+      line-caps-lock-color = "00000000";
+      line-ver-color = "00000000";
+      line-wrong-color = "00000000";
+      inside-color = "00000000";
+      inside-clear-color = "00000000";
+      inside-caps-lock-color = "00000000";
+      inside-ver-color = "00000000";
+      inside-wrong-color = "00000000";
+      separator-color = "00000000";
+      text-color = "cba6f7";
+      text-clear-color = "fab387";
+      text-caps-lock-color = "f38ba8";
+      text-ver-color = "74c7ec";
+      text-wrong-color = "f38ba8";
+      fade-in = 0.2;
+      font = "Raleway";
+    };
+  };
+
+  services.swayidle = {
+    enable = true;
+    timeouts = [
+      { 
+        timeout = 120;
+        command = "${pkgs.swaylock-effects}/bin/swaylock --grace 10";
+      }
+      # {
+      #   timeout = 150;
+      #   command = "hyprctl dispatch dpms off";
+      # }
+    ];
+    events = [
+
+      # {
+      #   event = "resume";
+      #   command = "hyprctl dispatch dpms on";
+      # }
+      { 
+        event = "before-sleep";
+        command = "${pkgs.swaylock-effects}/bin/swaylock";
+      }
+    ];
+  };
 
   programs.gh = {
     enable = true;
@@ -111,7 +205,7 @@ in
         name = "bang-bang";
         src = pkgs.fetchzip {
           url = "https://github.com/oh-my-fish/plugin-bang-bang/archive/master.zip";
-          sha256 = "35xXBWCciXl4jJrFUUN5NhnHdzk6+gAxetPxXCv4pDc=";
+          sha256 = "oPPCtFN2DPuM//c48SXb4TrFRjJtccg0YPXcAo0Lxq0=";
         };
       }
       {
@@ -433,7 +527,6 @@ in
 
   programs.zoxide.enable = true;
   programs.direnv.enable = true;
-  programs.atuin.enable = true;
 
   programs.spicetify = {
     enable = true;
@@ -474,6 +567,16 @@ in
       size = 48;
     };
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+  };
+
+  home.pointerCursor = {
+    name = "Catppuccin-Mocha-Mauve-Cursors";
+    package = pkgs.catppuccin-cursors;
+    size = 48;
+    x11 = {
+      enable = true;
+      defaultCursor = "Catppuccin-Mocha-Mauve-Cursors";
+    };
   };
 
   programs.home-manager.enable = true;

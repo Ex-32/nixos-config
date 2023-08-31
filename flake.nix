@@ -20,11 +20,26 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.user = import ./home.nix;
+            home-manager.users.jenna = import ./home.nix;
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
           }
         ];
+      };
+      "nixbook" = nixpkgs.lib.nixosSystem {
+      	system = "x86_64-linux";
+      	modules = [
+      	  ./hardware/nixbook.nix
+      	  ./system.nix
+      	  home-manager.nixosModules.home-manager
+      	  {
+      	  	home-manager.useGlobalPkgs = true;
+      	  	home-manager.useUserPackages = true;
+      	  	home-manager.users.jenna = import ./home.nix;
+            # Optionally, use home-manager.extraSpecialArgs to pass
+            # arguments to home.nix      
+      	  }
+      	];
       };
     };
   };
