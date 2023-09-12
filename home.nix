@@ -18,9 +18,25 @@ in
 
   manual.manpages.enable = false;
 
+  xdg.userDirs = let
+    home = config.home.homeDirectory;
+  in {
+  	enable = true;
+  	createDirectories = true;
+  	desktop = null;
+  	documents = "${home}/documents";
+  	download = "${home}/downloads";
+  	music = "${home}/documents/music";
+  	pictures = "${home}/documents/pictures";
+  	publicShare = null;
+  	templates = null;
+  	videos = "${home}/documents/videos";
+  };
+
   home.packages = with pkgs; [
-    audacity
+    _1password-gui
     bacon
+    brightnessctl
     cargo
     cargo-audit
     cargo-cache
@@ -40,25 +56,28 @@ in
     easyeffects
     gh
     gimp-with-plugins
-    hyprpaper
-    kitty
-    libsForQt5.qtstyleplugin-kvantum
     (nerdfonts.override {
-      fonts = [ "FiraCode" ];
+      fonts = [
+        "FiraCode"
+        "NerdFontsSymbolsOnly"
+      ];
     })
-    mate.mate-polkit
     nomacs
     obs-studio
     obsidian
     onlyoffice-bin
+    playerctl
     prismlauncher
     rofi-wayland
     rust-analyzer
     rustfmt
     starship
     swayidle
+    texlab
+    texlive.combined.scheme-medium
     vivaldi
-    wezterm
+    xdg-utils
+    zathura
     zoxide
   ];
 
@@ -69,8 +88,7 @@ in
       terminal = "wezterm";
       gaps.inner = 10;
       output."*".scale = "1";
-      };
-      keybindings = let 
+      keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
         conf = config.wayland.windowManager.sway.config;
       in lib.mkOptionDefault {
@@ -90,12 +108,27 @@ in
             -theme ~/.config/rofi/config/launcher.rasi
         '';
         "${mod}+Semicolon" = "exec swaylock";
-      };
-      input."*" = {
-        natural_scroll = "enabled";
-        pointer_accel = "0.7";
-      };
-    };
+        "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+        "XF86AudioRaiseVolume" = "exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
+        "XF86AudioPrev" = "exec playerctl previous";
+        "XF86AudioPlay" = "exec playerctl play-pause";
+        "XF86AudioNext" = "exec playerctl next";
+        "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
+        "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
+	  };
+	  input."*" = {
+		natural_scroll = "enabled";
+		pointer_accel = "0.7";
+		click_method = "clickfinger";
+	  };
+	  bars = [];
+	};
+  };
+
+  programs.waybar = {
+  	enable = true;
+  	systemd.enable = true;
   };
 
   programs.swaylock = {
@@ -150,7 +183,6 @@ in
       # }
     ];
     events = [
-
       # {
       #   event = "resume";
       #   command = "hyprctl dispatch dpms on";
@@ -160,6 +192,33 @@ in
         command = "${pkgs.swaylock-effects}/bin/swaylock";
       }
     ];
+  };
+
+  programs.wezterm = {
+  	enable = true;
+  	extraConfig = ''
+      local config = {}
+      if wezterm.config_builder then
+        config = wezterm.config_builder()
+      end
+
+      config.color_scheme = "Catppuccin Mocha"
+      config.font = wezterm.font "FiraCode Nerd Font"
+      config.font_size = 13
+      config.hide_mouse_cursor_when_typing = false
+
+	  config.window_decorations = "NONE"
+	  config.window_padding = {
+	  	left = 0,
+	  	right = 0,
+	  	top = 0,
+	  	bottom = 0,
+	  }
+	  config.use_fancy_tab_bar = false
+	  config.hide_tab_bar_if_only_one_tab = true
+
+      return config
+  	'';
   };
 
   programs.gh = {
@@ -212,7 +271,7 @@ in
         name = "bass";
         src = pkgs.fetchzip {
           url = "https://github.com/edc/bass/archive/master.zip";
-          sha256 = "3mFlFiqGfQ+GfNshwKfhQ39AuNMdt8Nv2Vgb7bBV7L4=";
+          sha256 = "h6NM7BMFnFgyGL0rwiUq8UPYEDpnivhMjfHQJua06N8=";
         };
       }
     ];
@@ -283,7 +342,7 @@ in
         error_symbol = "[󰘧](red bold)";
       };
       cmake.format = "[$symbol($version)]($style) ";
-      cmd_duration.format = "[⏱ $symbol$duration]($style) ";
+      cmd_duration.format = "[ $symbol$duration]($style) ";
       cobol.format = "[$symbol($version)]($style) ";
       conda = {
         symbol = " ";
@@ -576,6 +635,15 @@ in
     x11 = {
       enable = true;
       defaultCursor = "Catppuccin-Mocha-Mauve-Cursors";
+    };
+  };
+
+  qt = {
+  	enable = true;
+  	platformTheme = "qtct";
+  	style = {
+      name = "kvantum-dark";
+      package = pkgs.libsForQt5.qtstyleplugin-kvantum;
     };
   };
 

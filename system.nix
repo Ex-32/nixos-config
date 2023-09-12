@@ -12,11 +12,7 @@
   # enable experimental flake support
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
  
-  hardware.opengl = {
-    enable = true;
-    # needed for some 32-bit games
-    driSupport32Bit = true;
-  };
+  hardware.opengl.enable = true;
 
   # bootloader
   #boot.loader.systemd-boot = {
@@ -33,6 +29,8 @@
 	device = "nodev";
   	efiSupport = true;
   	enableCryptodisk = true;
+  	font = "${pkgs.spleen}/share/fonts/misc/spleen-16x32.otf";
+  	fontSize = 32;
   };
   boot.tmp.useTmpfs = true;
 
@@ -60,19 +58,27 @@
 #    ];
   };
 
-  systemd.coredump.extraConfig = "Storage=none";
-
-  # networking
-  networking.hostName = "nixbook"; 
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
+  systemd = {
+    coredump.extraConfig = "Storage=none";
+    user.services.polkit-agent = {
+      description = "user polkit agent";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+      	Type = "simple";
+      	ExecStart = "${pkgs.mate.mate-polkit}/libexec/polkit-mate-authentication-agent-1";
+      	Restart = "on-failure";
+      	RestartSec = 1;
+      	RestartStopSec = 10;
+      };
+    };
   };
 
-  # Set your time zone.
-  time.timeZone = "America/Chicago";
+  networking.hostName = "nixbook"; 
+  networking.networkmanager.enable = true;
 
-  # Select internationalization properties.
+  time.timeZone = "America/Chicago";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
@@ -120,7 +126,7 @@
 
     CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nvidia/ComputeCache";
 
-    PATH = "$XDG_BIN_HOME:$PATH:$CARGO_HOME/bin:$GOPATH/bin";
+    PATH = "$HOME/.local/bin:$HOME/.local/share/cargo/bin:$HOME./local/share/go/bin";
   };
 
   # services.getty.extraArgs = [ "--noclear" ];
@@ -151,6 +157,7 @@
     gparted
     htop
     lsd
+    mate.mate-polkit
     micro
     neofetch
     neovim
@@ -163,7 +170,7 @@
   ];
 
   environment.shellAliases = {
-    l = "lsd -lAh --date relative";
+    l = "lsd -lAh --no-symlink --date relative";
     ll = "lsd -lAh";
     ls = null;
     nix-fish = "nix-shell --command 'fish'";
@@ -189,6 +196,11 @@
   	openFirewall = true;
   };
 
+  fonts.enableDefaultFonts = true;
+  # fonts.enableDefaultPackages = true;
+
+  services.fprintd.enable = true;
+  security.pam.services.login.fprintAuth = false;
   security.pam.services.swaylock.text = ''
     # PAM configuration file for the swaylock screen locker. 
     # By default, it includes the 'login' configuration file 
@@ -204,7 +216,7 @@
     enable = true;
     wireplumber.enable = true;
     alsa.enable = true;
-    alsa.support32Bit = true;
+    #alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
   };
