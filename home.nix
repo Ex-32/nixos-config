@@ -21,16 +21,16 @@ in
   xdg.userDirs = let
     home = config.home.homeDirectory;
   in {
-  	enable = true;
-  	createDirectories = true;
-  	desktop = null;
-  	documents = "${home}/documents";
-  	download = "${home}/downloads";
-  	music = "${home}/documents/music";
-  	pictures = "${home}/documents/pictures";
-  	publicShare = null;
-  	templates = null;
-  	videos = "${home}/documents/videos";
+      enable = true;
+      createDirectories = true;
+      desktop = null;
+      documents = "${home}/documents";
+      download = "${home}/downloads";
+      music = "${home}/documents/music";
+      pictures = "${home}/documents/pictures";
+      publicShare = null;
+      templates = null;
+      videos = "${home}/documents/videos";
   };
 
   home.packages = with pkgs; [
@@ -116,19 +116,19 @@ in
         "XF86AudioNext" = "exec playerctl next";
         "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
         "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
-	  };
-	  input."*" = {
-		natural_scroll = "enabled";
-		pointer_accel = "0.7";
-		click_method = "clickfinger";
-	  };
-	  bars = [];
-	};
+      };
+      input."*" = {
+        natural_scroll = "enabled";
+        pointer_accel = "0.7";
+        click_method = "clickfinger";
+      };
+      bars = [];
+    };
   };
 
   programs.waybar = {
-  	enable = true;
-  	systemd.enable = true;
+      enable = true;
+      systemd.enable = true;
   };
 
   programs.swaylock = {
@@ -195,8 +195,8 @@ in
   };
 
   programs.wezterm = {
-  	enable = true;
-  	extraConfig = ''
+      enable = true;
+      extraConfig = ''
       local config = {}
       if wezterm.config_builder then
         config = wezterm.config_builder()
@@ -207,18 +207,18 @@ in
       config.font_size = 13
       config.hide_mouse_cursor_when_typing = false
 
-	  config.window_decorations = "NONE"
-	  config.window_padding = {
-	  	left = 0,
-	  	right = 0,
-	  	top = 0,
-	  	bottom = 0,
-	  }
-	  config.use_fancy_tab_bar = false
-	  config.hide_tab_bar_if_only_one_tab = true
+      config.window_decorations = "NONE"
+      config.window_padding = {
+          left = 0,
+          right = 0,
+          top = 0,
+          bottom = 0,
+      }
+      config.use_fancy_tab_bar = false
+      config.hide_tab_bar_if_only_one_tab = true
 
       return config
-  	'';
+      '';
   };
 
   programs.gh = {
@@ -639,9 +639,9 @@ in
   };
 
   qt = {
-  	enable = true;
-  	platformTheme = "qtct";
-  	style = {
+      enable = true;
+      platformTheme = "gnome";
+      style = {
       name = "kvantum-dark";
       package = pkgs.libsForQt5.qtstyleplugin-kvantum;
     };

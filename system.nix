@@ -21,16 +21,16 @@
   #  consoleMode = "max";
   #};
   boot.loader.efi = {
-  	canTouchEfiVariables = true;
+      canTouchEfiVariables = true;
     efiSysMountPoint = "/boot/efi";
   };
   boot.loader.grub = {
-  	enable = true;
-	device = "nodev";
-  	efiSupport = true;
-  	enableCryptodisk = true;
-  	font = "${pkgs.spleen}/share/fonts/misc/spleen-16x32.otf";
-  	fontSize = 32;
+      enable = true;
+    device = "nodev";
+      efiSupport = true;
+      enableCryptodisk = true;
+      font = "${pkgs.spleen}/share/fonts/misc/spleen-16x32.otf";
+      fontSize = 32;
   };
   boot.tmp.useTmpfs = true;
 
@@ -66,11 +66,11 @@
       wants = [ "graphical-session.target" ];
       after = [ "graphical-session.target" ];
       serviceConfig = {
-      	Type = "simple";
-      	ExecStart = "${pkgs.mate.mate-polkit}/libexec/polkit-mate-authentication-agent-1";
-      	Restart = "on-failure";
-      	RestartSec = 1;
-      	RestartStopSec = 10;
+          Type = "simple";
+          ExecStart = "${pkgs.mate.mate-polkit}/libexec/polkit-mate-authentication-agent-1";
+          Restart = "on-failure";
+          RestartSec = 1;
+          RestartStopSec = 10;
       };
     };
   };
@@ -191,9 +191,9 @@
     startWhenNeeded = true;
   };
   services.avahi = {
-  	enable = true;
-  	nssmdns = true;
-  	openFirewall = true;
+      enable = true;
+      nssmdns = true;
+      openFirewall = true;
   };
 
   fonts.enableDefaultFonts = true;
@@ -223,10 +223,10 @@
 
   # Enable the OpenSSH daemon.
   services.openssh = {
-  	enable = false;
-  	ports = [ 3932 ];
-  	startWhenNeeded = true;
-  	settings.PermitRootLogin = "no";
+      enable = false;
+      ports = [ 3932 ];
+      startWhenNeeded = true;
+      settings.PermitRootLogin = "no";
   };
 
   # enable locate serivce w/ plocate

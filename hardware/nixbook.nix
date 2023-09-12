@@ -9,12 +9,12 @@
     ];
 
   boot.blacklistedKernelModules = [
-  	"hid_sensor_hub	"
+      "hid_sensor_hub    "
   ];
   boot.kernelParams = [
-  	"mem_sleep_default=deep"
-  	"vsyscall=none"
-  	"consoleblank=60"
+      "mem_sleep_default=deep"
+      "vsyscall=none"
+      "consoleblank=60"
   ];
 
 
@@ -27,8 +27,8 @@
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
       options = [
-      	"subvol=/@"
-      	"compress=zstd"
+          "subvol=/@"
+          "compress=zstd"
       ];
     };
 
@@ -38,15 +38,15 @@
   };
 
   boot.initrd.secrets = {
-  	"/crypto_keyfile.bin" = "/root/secrets/crypto_keyfile.bin";
+      "/crypto_keyfile.bin" = "/root/secrets/crypto_keyfile.bin";
   };
 
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
       options = [
-      	"subvol=/@home"
-      	"compress=zstd"
+          "subvol=/@home"
+          "compress=zstd"
       ];
     };
 
@@ -54,8 +54,8 @@
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
       options = [
-      	"subvol=/@logs"
-      	"compress=zstd"
+          "subvol=/@logs"
+          "compress=zstd"
       ];
     };
 
@@ -63,8 +63,8 @@
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
       options = [
-      	"subvol=/@nix"
-      	"compress=zstd"
+          "subvol=/@nix"
+          "compress=zstd"
       ];
     };
 
@@ -72,8 +72,8 @@
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
       options = [
-      	"subvol=/"
-      	"compress=zstd"
+          "subvol=/"
+          "compress=zstd"
       ];
     };
 
