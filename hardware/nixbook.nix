@@ -23,15 +23,6 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/@"
-          "compress=zstd"
-      ];
-    };
-
   boot.initrd.luks.devices."cryptdisk" = {
     device = "/dev/disk/by-uuid/6ddff834-5606-48b9-a485-32dd6bdd6b79";
     keyFile = "/crypto_keyfile.bin";
@@ -41,12 +32,24 @@
       "/crypto_keyfile.bin" = "/root/secrets/crypto_keyfile.bin";
   };
 
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+          "subvol=/@"
+          "compress=zstd"
+          "noatime"
+      ];
+    };
+
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
       options = [
           "subvol=/@home"
           "compress=zstd"
+          "noatime"
+          "nosuid"
       ];
     };
 
@@ -56,6 +59,10 @@
       options = [
           "subvol=/@logs"
           "compress=zstd"
+          "noatime"
+          "nosuid"
+          "nodev"
+          "noexec"
       ];
     };
 
@@ -65,6 +72,33 @@
       options = [
           "subvol=/@nix"
           "compress=zstd"
+          "noatime"
+      ];
+    };
+
+  fileSystems."/.snapshots" =
+    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+          "subvol=/@snapper-root"
+          "compress=zstd"
+          "noatime"
+          "nosuid"
+          "nodev"
+          "noexec"
+      ];
+    };
+
+  fileSystems."/home/.snapshots" =
+    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+          "subvol=/@snapper-home"
+          "compress=zstd"
+          "noatime"
+          "nosuid"
+          "nodev"
+          "noexec"
       ];
     };
 
@@ -74,13 +108,48 @@
       options = [
           "subvol=/"
           "compress=zstd"
+          "noatime"
+          "nosuid"
+          "nodev"
+          "noexec"
       ];
     };
 
   fileSystems."/boot/efi" =
     { device = "/dev/disk/by-uuid/18A2-E6E3";
       fsType = "vfat";
+      options = [
+        "noatime"
+        "nosuid"
+        "nodev"
+        "noexec"
+      ];
     };
+
+  services.thermald.enable = true;
+  services.tlp = {
+    enable = true;
+    settings = {
+      MEM_SLEEP_ON_AC = "deep";
+      MEM_SLEEP_ON_BAT = "deep";
+    };
+  };
+
+  services.snapper.cleanupInterval = "1h";
+  services.snapper.configs = {
+    root = {
+      SUBVOLUME = "/";
+      ALLOW_GROUPS = [ "wheel" ];
+      TIMELINE_CREATE = true;
+      TIMELINE_CLEANUP = true;
+    };
+    home = {
+      SUBVOLUME = "/home";
+      ALLOW_GROUPS = [ "wheel" ];
+      TIMELINE_CREATE = true;
+      TIMELINE_CLEANUP = true;
+    };
+  };
 
   swapDevices = [ ];
 

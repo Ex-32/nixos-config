@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, nixpkgs, ... }:
+{ config, pkgs, lib, nixpkgs, ... }:
 
 {
 
@@ -97,6 +97,7 @@
     LESSHISTFILE = "-";
     MICRO_TRUECOLOR = "1";
     GHCUP_USE_XDG_DIRS = "1";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
   };
 
   environment.sessionVariables = {
@@ -156,6 +157,7 @@
     git
     gparted
     htop
+    killall
     lsd
     mate.mate-polkit
     micro
@@ -234,8 +236,21 @@
     enable = true;
     locate = pkgs.plocate;
     interval = "hourly";
+    prunePaths = lib.mkOptionDefault [
+      "/mnt/fsroot/"
+      "/.snapshots/"
+      "/home/.snapshots/"
+    ];
     # stop warning about updatedb running as root (required for plocate)
     localuser = null;
+  };
+
+  # dbus service for disk control
+  services.udisks2.enable = true;
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
   };
 
   # firewall config

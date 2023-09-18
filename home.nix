@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-let
+{ config, pkgs, lib, ... }: let
   flake-compat = builtins.fetchTarball {
     url = "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
     sha256 = "1prd9b1xx8c0sfwnyzkspplh30m613j42l1k789s521f4kv4c2z2";
@@ -12,8 +11,7 @@ let
       };
     }).defaultNix;
   spicePkgs = spicetify-nix.packages.${pkgs.system}.default;
-in
-{
+in {
   imports = [ spicetify-nix.homeManagerModule ];
 
   manual.manpages.enable = false;
@@ -21,23 +19,22 @@ in
   xdg.userDirs = let
     home = config.home.homeDirectory;
   in {
-      enable = true;
-      createDirectories = true;
-      desktop = null;
-      documents = "${home}/documents";
-      download = "${home}/downloads";
-      music = "${home}/documents/music";
-      pictures = "${home}/documents/pictures";
-      publicShare = null;
-      templates = null;
-      videos = "${home}/documents/videos";
+    enable = true;
+    createDirectories = true;
+    desktop = null;
+    documents = "${home}/documents";
+    download = "${home}/downloads";
+    music = "${home}/documents/music";
+    pictures = "${home}/documents/pictures";
+    publicShare = null;
+    templates = null;
+    videos = "${home}/documents/videos";
   };
 
   home.packages = with pkgs; [
     _1password-gui
     bacon
     brightnessctl
-    cargo
     cargo-audit
     cargo-cache
     cargo-edit
@@ -51,10 +48,12 @@ in
     })
     clang
     clippy
+    dconf # needed for home-manager gtk theme config
     discord
-    dconf # needed by home-manager gtk config
+    distrobox
     easyeffects
     gh
+    ghidra
     gimp-with-plugins
     (nerdfonts.override {
       fonts = [
@@ -62,32 +61,104 @@ in
         "NerdFontsSymbolsOnly"
       ];
     })
+    grim
     nomacs
-    obs-studio
     obsidian
     onlyoffice-bin
     playerctl
-    prismlauncher
     rofi-wayland
     rust-analyzer
     rustfmt
+    slurp
     starship
     swayidle
     texlab
     texlive.combined.scheme-medium
     vivaldi
     xdg-utils
+    xorg.xhost
     zathura
     zoxide
   ];
 
   wayland.windowManager.sway = {
     enable = true;
+    extraConfigEarly = ''
+      set $rosewater #f5e0dc
+      set $flamingo  #f2cdcd
+      set $pink      #f5c2e7
+      set $mauve     #cba6f7
+      set $red       #f38ba8
+      set $maroon    #eba0ac
+      set $peach     #fab387
+      set $green     #a6e3a1
+      set $teal      #94e2d5
+      set $sky       #89dceb
+      set $sapphire  #74c7ec
+      set $blue      #89b4fa
+      set $lavender  #b4befe
+      set $text      #cdd6f4
+      set $subtext1  #bac2de
+      set $subtext0  #a6adc8
+      set $overlay2  #9399b2
+      set $overlay1  #7f849c
+      set $overlay0  #6c7086
+      set $surface2  #585b70
+      set $surface1  #45475a
+      set $surface0  #313244
+      set $base      #1e1e2e
+      set $mantle    #181825
+      set $crust     #11111b  
+    ''; # catppuccin-mocha colors
     config = rec {
       modifier = "Mod4";
       terminal = "wezterm";
-      gaps.inner = 10;
-      output."*".scale = "1";
+      gaps = {
+        inner = 5;
+        outer = 0;
+      };
+      colors = {
+        focused = {
+          border = "$mauve";
+          background = "$base";
+          text = "$text";
+          indicator = "$mauve";
+          childBorder = "$mauve";
+        };
+        focusedInactive = {
+          border = "$overlay0";
+          background = "$base";
+          text = "$text";
+          indicator = "$mauve";
+          childBorder = "$overlay0";
+        };
+        unfocused = {
+          border = "$overlay0";
+          background = "$base";
+          text = "$text";
+          indicator = "$mauve";
+          childBorder = "$overlay0";
+        };
+        urgent = {
+          border = "$red";
+          background = "$base";
+          text = "$red";
+          indicator = "$overlay0";
+          childBorder = "$red";
+        };
+        placeholder = {
+          border = "$overlay0";
+          background = "$base";
+          text = "$text";
+          indicator = "$overlay0";
+          childBorder = "$overlay0";
+        };
+      };
+      output."*" = {
+        scale = "1";
+        # TODO replace this with proper flake config 
+        background = "nixos-wallpaper.png fill";
+      };
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
         conf = config.wayland.windowManager.sway.config;
@@ -116,6 +187,9 @@ in
         "XF86AudioNext" = "exec playerctl next";
         "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
         "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
+        "${mod}+Print" = "exec sh -c 'grim - | wl-copy'";
+        "${mod}+Shift+Print" = "exec sh -c 'slurp | grim -g - - | wl-copy'";
+        "${mod}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO make this more better
       };
       input."*" = {
         natural_scroll = "enabled";
@@ -123,12 +197,19 @@ in
         click_method = "clickfinger";
       };
       bars = [];
+      startup = [
+        { command = "xhost +SI:localuser:root"; always = true; }
+      ];
+      window = {
+        titlebar = false;
+        border = 0;
+      };
     };
   };
 
   programs.waybar = {
-      enable = true;
-      systemd.enable = true;
+    enable = true;
+    systemd.enable = true;
   };
 
   programs.swaylock = {
@@ -194,9 +275,34 @@ in
     ];
   };
 
+  services.mako = {
+    enable = true;
+    font = "Raleway 13";
+    defaultTimeout = 5000;
+    anchor = "bottom-right";
+    width = 400;
+    height = 400;
+    backgroundColor = "#1e1e2e";
+    textColor = "#cdd6f4";
+    borderColor = "#cba6f7";
+    progressColor = "#313244";
+    extraConfig = ''
+      [urgency=high]
+      border-color=#f38ba8
+
+      [urgency=low]
+      border-color=#a6e3a1
+    '';
+  };
+
+  services.udiskie = {
+    enable = true;
+    automount = false;
+  };
+
   programs.wezterm = {
-      enable = true;
-      extraConfig = ''
+    enable = true;
+    extraConfig = ''
       local config = {}
       if wezterm.config_builder then
         config = wezterm.config_builder()
@@ -206,7 +312,7 @@ in
       config.font = wezterm.font "FiraCode Nerd Font"
       config.font_size = 13
       config.hide_mouse_cursor_when_typing = false
-
+      config.window_background_opacity = 0.7
       config.window_decorations = "NONE"
       config.window_padding = {
           left = 0,
@@ -218,7 +324,7 @@ in
       config.hide_tab_bar_if_only_one_tab = true
 
       return config
-      '';
+    '';
   };
 
   programs.gh = {
@@ -248,12 +354,12 @@ in
       leak.body = ''
         fish -c "$argv &> /dev/null &"
       '';
-      plasma.body = ''
-        cd; or return 1
-        clear; or return 1
-        set -gx DESKTOP_SESSION plasma
-        exec startx (which startplasma-x11) &>/dev/null
-      '';
+      # plasma.body = ''
+      #   cd; or return 1
+      #   clear; or return 1
+      #   set -gx DESKTOP_SESSION plasma
+      #   exec startx (which startplasma-x11) &>/dev/null
+      # '';
       onExit = {
         onEvent = "fish_exit";
         body = "clear";
