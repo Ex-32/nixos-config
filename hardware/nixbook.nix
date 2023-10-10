@@ -23,6 +23,9 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  # fix warning do to state version change
+  boot.swraid.enable = false;
+
   boot.initrd.luks.devices."cryptdisk" = {
     device = "/dev/disk/by-uuid/6ddff834-5606-48b9-a485-32dd6bdd6b79";
     keyFile = "/crypto_keyfile.bin";
@@ -76,19 +79,6 @@
       ];
     };
 
-  fileSystems."/.snapshots" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/@snapper-root"
-          "compress=zstd"
-          "noatime"
-          "nosuid"
-          "nodev"
-          "noexec"
-      ];
-    };
-
   fileSystems."/home/.snapshots" =
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
@@ -136,19 +126,11 @@
   };
 
   services.snapper.cleanupInterval = "1h";
-  services.snapper.configs = {
-    root = {
-      SUBVOLUME = "/";
-      ALLOW_GROUPS = [ "wheel" ];
-      TIMELINE_CREATE = true;
-      TIMELINE_CLEANUP = true;
-    };
-    home = {
-      SUBVOLUME = "/home";
-      ALLOW_GROUPS = [ "wheel" ];
-      TIMELINE_CREATE = true;
-      TIMELINE_CLEANUP = true;
-    };
+  services.snapper.configs.home = {
+    SUBVOLUME = "/home";
+    ALLOW_GROUPS = [ "wheel" ];
+    TIMELINE_CREATE = true;
+    TIMELINE_CLEANUP = true;
   };
 
   swapDevices = [ ];

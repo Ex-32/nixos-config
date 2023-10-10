@@ -1,20 +1,5 @@
-{ config, pkgs, lib, ... }: let
-  flake-compat = builtins.fetchTarball {
-    url = "https://github.com/edolstra/flake-compat/archive/master.tar.gz";
-    sha256 = "1prd9b1xx8c0sfwnyzkspplh30m613j42l1k789s521f4kv4c2z2";
-  };
-  spicetify-nix =
-    (import flake-compat {
-      src = builtins.fetchTarball {
-        url = "https://github.com/the-argus/spicetify-nix/archive/master.zip";
-        sha256 = "0szlf5264kvyqz3rm27jjh7kbxldz078939267c9rpin45dadyiv";
-      };
-    }).defaultNix;
-  spicePkgs = spicetify-nix.packages.${pkgs.system}.default;
+{ config, pkgs, lib, spicetify-nix, ... }: let
 in {
-  imports = [ spicetify-nix.homeManagerModule ];
-
-  manual.manpages.enable = false;
 
   xdg.userDirs = let
     home = config.home.homeDirectory;
@@ -35,6 +20,7 @@ in {
     _1password-gui
     bacon
     brightnessctl
+    cargo
     cargo-audit
     cargo-cache
     cargo-edit
@@ -48,12 +34,11 @@ in {
     })
     clang
     clippy
-    dconf # needed for home-manager gtk theme config
     discord
     distrobox
-    easyeffects
+    emacs
+    firefox-devedition
     gh
-    ghidra
     gimp-with-plugins
     (nerdfonts.override {
       fonts = [
@@ -61,21 +46,27 @@ in {
         "NerdFontsSymbolsOnly"
       ];
     })
+    godot_4
     grim
+    home-manager
+    ncspot
+    nixd
     nomacs
     obsidian
     onlyoffice-bin
     playerctl
+    ripgrep
     rofi-wayland
     rust-analyzer
     rustfmt
+    signal-desktop
     slurp
     starship
     swayidle
     texlab
     texlive.combined.scheme-medium
-    vivaldi
     xdg-utils
+    wl-clipboard
     xorg.xhost
     zathura
     zoxide
@@ -191,10 +182,16 @@ in {
         "${mod}+Shift+Print" = "exec sh -c 'slurp | grim -g - - | wl-copy'";
         "${mod}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO make this more better
       };
-      input."*" = {
-        natural_scroll = "enabled";
-        pointer_accel = "0.7";
-        click_method = "clickfinger";
+      input = {
+        "type:touchpad" = {
+          dwt = "disabled";
+          natural_scroll = "enabled";
+          click_method = "clickfinger";
+        };
+        "*" = {
+          pointer_accel = "0.7";
+          xkb_options = "compose:ralt";
+        };
       };
       bars = [];
       startup = [
@@ -210,7 +207,248 @@ in {
   programs.waybar = {
     enable = true;
     systemd.enable = true;
+    settings = [{
+      "layer" = "top";
+      "position" = "top";
+      "modules-left" = [
+        "sway/mode"
+        "sway/workspaces"
+        "custom/right-arrow-dark"
+        "custom/right-arrow-light"
+        "tray"
+        "custom/right-arrow-dark"
+      ];
+      "modules-center" = [
+        "custom/left-arrow-dark"
+        "clock#1"
+        "custom/left-arrow-light"
+        "custom/left-arrow-dark"
+        "sway/window"
+        "custom/right-arrow-dark"
+        "custom/right-arrow-light"
+        "clock#2"
+        "custom/right-arrow-dark"
+      ];
+      "modules-right" = [
+        "custom/left-arrow-dark"
+        "wireplumber"
+        "custom/left-arrow-light"
+        "custom/left-arrow-dark"
+        "memory"
+        "custom/left-arrow-light"
+        "custom/left-arrow-dark"
+        "cpu"
+        "custom/left-arrow-light"
+        "custom/left-arrow-dark"
+        "battery"
+        "custom/left-arrow-light"
+        "custom/left-arrow-dark"
+        "disk"
+      ];
+
+      "custom/left-arrow-dark" = {
+        "format" = "";
+        "tooltip" = false;
+      };
+      "custom/left-arrow-light" = {
+        "format" = "";
+        "tooltip" = false;
+      };
+      "custom/right-arrow-dark" = {
+        "format" = "";
+        "tooltip" = false;
+      };
+      "custom/right-arrow-light" = {
+        "format" = "";
+        "tooltip" = false;
+      };
+
+      "sway/workspaces" = {
+        "disable-scroll" = true;
+        "format" = "{name}";
+      };
+
+      "clock#1" = {
+        "format" = "{:%m/%d}";
+        "tooltip" = false;
+      };
+      "clock#2" = {
+        "format" = "{:%H:%M}";
+        "tooltip" = false;
+      };
+      "clock#3" ={
+        "format" = "{:%m-%d}";
+        "tooltip" = false;
+      };
+      "wireplumber" = {
+        "format" = "{icon} {volume:2}%";
+        "format-muted" = "󰖁 {volume}%";
+        "format-icons" = [
+          "󰕿"
+          "󰖀"
+          "󰕾"
+          "󰕾"
+        ];
+        "scroll-step" = 5;
+        "on-click" = "pamixer -t";
+        "on-click-right" = "pavucontrol";
+      };
+      "memory" = {
+        "interval" = 5;
+        "format" = "󰍛 {used}GiB";
+      };
+      "cpu" = {
+        "interval" = 5;
+        "format" = "󰘚 {usage}%";
+      };
+      "battery" = {
+        "states" = {
+          "good" = 100;
+          "warning" = 30;
+          "critical" = 15;
+        };
+        "format" = "{icon}  {capacity}%";
+        "format-icons" = [
+          ""
+          ""
+          ""
+          ""
+          ""
+        ];
+      };
+      "disk" = {
+        "interval" = 5;
+        "format" = " {percentage_used:2}%";
+        "path" = "/mnt/fsroot";
+      };
+      "tray" = {
+        "icon-size" = 24;
+      };
+      "sway/window" = {
+        "max-length" = 50;
+      };
+    }];
+    style = ''
+      @define-color base   #1e1e2e;
+      @define-color mantle #181825;
+      @define-color crust  #11111b;
+
+      @define-color text     #cdd6f4;
+      @define-color subtext0 #a6adc8;
+      @define-color subtext1 #bac2de;
+
+      @define-color surface0 #313244;
+      @define-color surface1 #45475a;
+      @define-color surface2 #585b70;
+
+      @define-color overlay0 #6c7086;
+      @define-color overlay1 #7f849c;
+      @define-color overlay2 #9399b2;
+
+      @define-color blue      #89b4fa;
+      @define-color lavender  #b4befe;
+      @define-color sapphire  #74c7ec;
+      @define-color sky       #89dceb;
+      @define-color teal      #94e2d5;
+      @define-color green     #a6e3a1;
+      @define-color yellow    #f9e2af;
+      @define-color peach     #fab387;
+      @define-color maroon    #eba0ac;
+      @define-color red       #f38ba8;
+      @define-color mauve     #cba6f7;
+      @define-color pink      #f5c2e7;
+      @define-color flamingo  #f2cdcd;
+      @define-color rosewater #f5e0dc;
+
+      * {
+        font-size: 20px;
+        font-family: 'FiraCode Nerd Font', monospace;
+      }
+
+      window#waybar {
+        background: @crust;
+        color: @text;
+      }
+
+      #custom-right-arrow-dark,
+      #custom-left-arrow-dark {
+        color: @base;
+      }
+      #custom-right-arrow-light,
+      #custom-left-arrow-light {
+        color: @crust;
+        background: @base;
+      }
+
+      #workspaces,
+      #mode,
+      #clock.1,
+      #clock.2,
+      #window,
+      #wireplumber,
+      #memory,
+      #cpu,
+      #battery,
+      #disk,
+      #tray {
+        background: @base;
+      }
+
+      #mode {
+         color: @red;
+      }
+      #workspaces button {
+        padding: 0 2px;
+        color: @text;
+      }
+      #workspaces button.focused {
+        color: @mauve;
+      }
+      #workspaces button:hover {
+        box-shadow: inherit;
+        text-shadow: inherit;
+      }
+      #workspaces button:hover {
+        background: @base;
+        border: @base;
+      }
+
+      #wireplumber {
+        color: @sapphire;
+      }
+      #wireplumber.muted {
+        color: @surface1;
+      }
+      #memory {
+        color: @blue;
+      }
+      #cpu {
+        color: @lavender;
+      }
+      #battery.good {
+        color: @green;
+      }
+      #battery.warning {
+        color: @yellow;
+      }
+      #battery.critical {
+        color: @red;
+      }
+      #disk {
+        color: @peach;
+      }
+
+      #clock,
+      #wireplumber,
+      #memory,
+      #cpu,
+      #battery,
+      #disk {
+        padding: 0 10px;
+      }
+    '';
   };
+  services.network-manager-applet.enable = true;
 
   programs.swaylock = {
     enable = true;
@@ -310,15 +548,16 @@ in {
 
       config.color_scheme = "Catppuccin Mocha"
       config.font = wezterm.font "FiraCode Nerd Font"
-      config.font_size = 13
+      config.font_size = 14
+      config.default_cursor_style = "SteadyBar"
       config.hide_mouse_cursor_when_typing = false
       config.window_background_opacity = 0.7
       config.window_decorations = "NONE"
       config.window_padding = {
-          left = 0,
-          right = 0,
-          top = 0,
-          bottom = 0,
+        left = 0,
+        right = 0,
+        top = 0,
+        bottom = 0,
       }
       config.use_fancy_tab_bar = false
       config.hide_tab_bar_if_only_one_tab = true
@@ -327,9 +566,28 @@ in {
     '';
   };
 
+  programs.tmux = {
+    enable = true;
+    clock24 = true;
+    mouse = true;
+    sensibleOnTop = true;
+    keyMode = "vi";
+    shortcut = "Space";
+    baseIndex = 1;
+    plugins = with pkgs.tmuxPlugins; [
+      catppuccin
+      vim-tmux-navigator
+      yank
+    ];
+    extraConfig = ''
+      # use 24-bit color if supported
+      set-option -sa terminal-overrides ",xterm*:Tc"
+    '';
+  };
+
   programs.gh = {
     enable = true;
-    enableGitCredentialHelper = true;
+    gitCredentialHelper.enable = true;
   };
 
   programs.git = {
@@ -354,12 +612,6 @@ in {
       leak.body = ''
         fish -c "$argv &> /dev/null &"
       '';
-      # plasma.body = ''
-      #   cd; or return 1
-      #   clear; or return 1
-      #   set -gx DESKTOP_SESSION plasma
-      #   exec startx (which startplasma-x11) &>/dev/null
-      # '';
       onExit = {
         onEvent = "fish_exit";
         body = "clear";
@@ -390,18 +642,18 @@ in {
       add_newline = false;
       palette = "catppuccin-mocha";
       format = lib.concatStrings [
-        "$os" "$username" "$hostname" "$jobs" "$directory" "$fossil_branch"
-        "$git_branch" "$git_commit" "$git_state" "$git_metrics" "$git_status"
-        "$hg_branch" "$fill" "$shlvl" "$singularity" "$kubernetes" "$vcsh"
-        "$pijul_channel" "$docker_context" "$package" "$c" "$cmake" "$cobol"
-        "$daml" "$dart" "$deno" "$dotnet" "$elixir" "$elm" "$erlang" "$fennel"
-        "$golang" "$guix_shell" "$haskell" "$haxe" "$helm" "$java" "$julia"
-        "$kotlin" "$gradle" "$lua" "$nim" "$nodejs" "$ocaml" "$opa" "$perl"
-        "$php" "$pulumi" "$purescript" "$python" "$raku" "$rlang" "$red" "$ruby"
-        "$scala" "$swift" "$terraform" "$vlang" "$vagrant" "$zig" "$buf"
-        "$nix_shell" "$conda" "$meson" "$spack" "$aws" "$gcloud" "$openstack"
-        "$azure" "$env_var" "$crystal" "$container" "$memory_usage" "$battery"
-        "$sudo" "$cmd_duration" "$time" "$line_break" "$character"
+        "$nix_shell" "$username" "$hostname" "$jobs" "$directory"
+        "$fossil_branch" "$git_branch" "$git_commit" "$git_state" "$git_metrics"
+        "$git_status" "$hg_branch" "$fill" "$shlvl" "$singularity" "$kubernetes"
+        "$vcsh" "$pijul_channel" "$docker_context" "$package" "$c" "$cmake"
+        "$cobol" "$daml" "$dart" "$deno" "$dotnet" "$elixir" "$elm" "$erlang"
+        "$fennel" "$golang" "$guix_shell" "$haskell" "$haxe" "$helm" "$java"
+        "$julia" "$kotlin" "$gradle" "$lua" "$nim" "$nodejs" "$ocaml" "$opa"
+        "$perl" "$php" "$pulumi" "$purescript" "$python" "$raku" "$rlang" "$red"
+        "$ruby" "$scala" "$swift" "$terraform" "$vlang" "$vagrant" "$zig" "$buf"
+        "$conda" "$meson" "$spack" "$aws" "$gcloud" "$openstack" "$azure"
+        "$env_var" "$crystal" "$container" "$memory_usage" "$battery" "$sudo"
+        "$cmd_duration" "$time" "$shell" "$line_break" "$os" "$character"
       ];
       right_format = "$status";
       continuation_prompt = "▶▶ ";
@@ -467,7 +719,7 @@ in {
       deno.format = "[$symbol($version)]($style) ";
       directory = {
         truncation_length = -1;
-        read_only = " ";
+        read_only = " 󰌾";
         read_only_style = "red dimmed";
       };
       docker_context = {
@@ -548,21 +800,22 @@ in {
         format = "[$symbol($version)]($style) ";
       };
       memory_usage = {
-        symbol = " ";
+        symbol = "󰍛 ";
         style = "red bold";
         format = "$symbol[$ram_pct]($style) ";
         threshold = 75;
         disabled = false;
       };
       meson = {
-        symbol = "喝 ";
+        symbol = "󰔷 ";
         format = "[$symbol$project]($style) ";
       };
       nim = {
-        symbol = " ";
+        symbol = "󰆥 ";
         format = "[$symbol($version)]($style) ";
       };
       nix_shell = {
+        heuristic = true;
         symbol = " ";
         format = "[$symbol$state( \($name\))]($style) ";
       };
@@ -589,10 +842,10 @@ in {
           EndeavourOS = " ";
           Fedora = "[ ](#3c6eb4)";
           FreeBSD = "[ ](#AB2B28)";
-          Garuda = "﯑ ";
+          Garuda = "󰛓 ";
           Gentoo = "[ ](#61538D)";
-          HardenedBSD = "ﲊ ";
-          Illumos = " ";
+          HardenedBSD = "󰞌 ";
+          Illumos = "󰈸 ";
           Linux = " ";
           Mabox = " ";
           Macos = " ";
@@ -602,9 +855,9 @@ in {
           Mint = " ";
           NetBSD = " ";
           NixOS = " ";
-          OpenBSD = " ";
+          OpenBSD = "󰈺 ";
           openSUSE = " ";
-          OracleLinux = " ";
+          OracleLinux = "󰌷 ";
           Pop = " ";
           Raspbian = "[ ](#c51a4a)";
           Redhat = " ";
@@ -614,17 +867,17 @@ in {
           SUSE = " ";
           Ubuntu = "[ ](#E95420)";
           Unknown = " ";
-          Windows = " ";
+          Windows = "󰍲 ";
         };
       };
       package = {
-        symbol = " ";
+        symbol = "󰏗 ";
         format = "[$symbol$version]($style) ";
       };
       perl.format = "[$symbol($version)]($style) ";
       php.format = "[$symbol($version)]($style) ";
       pijul_channel = {
-        symbol = "🪺 ";
+        symbol = " ";
         format = "[$symbol$channel]($style) ";
       };
       pulumi.format = "[$symbol$stack]($style) ";
@@ -636,7 +889,7 @@ in {
       raku.format = "[$symbol($version-$vm_version)]($style) ";
       red.format = "[$symbol($version)]($style) ";
       rlang = {
-        symbol = "ﳒ";
+        symbol = "󰟔 ";
         format = "[$symbol($version)]($style) ";
       };
       ruby = {
@@ -669,7 +922,7 @@ in {
       status = {
         symbol = "✘ ";
         sigint_symbol = "󱞨 ";
-        not_executable_symbol = "🛇 ";
+        not_executable_symbol = " ";
         not_found_symbol = "󰍉 ";
         signal_symbol = "󱐋 ";
         map_symbol = true;
@@ -693,16 +946,8 @@ in {
   programs.zoxide.enable = true;
   programs.direnv.enable = true;
 
-  programs.spicetify = {
+  dconf = {
     enable = true;
-    theme = spicePkgs.themes.catppuccin-mocha;
-    colorScheme = "mauve";
-    enabledExtensions = with spicePkgs.extensions; [
-      autoSkipVideo
-      autoSkipExplicit
-      shuffle
-      hidePodcasts
-    ];
   };
 
   gtk = {
@@ -734,23 +979,72 @@ in {
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
   };
 
-  home.pointerCursor = {
-    name = "Catppuccin-Mocha-Mauve-Cursors";
-    package = pkgs.catppuccin-cursors;
-    size = 48;
-    x11 = {
-      enable = true;
-      defaultCursor = "Catppuccin-Mocha-Mauve-Cursors";
-    };
-  };
+  # home.pointerCursor = {
+  #   name = "Catppuccin-Mocha-Mauve-Cursors";
+  #   package = pkgs.catppuccin-cursors;
+  #   size = 48;
+  #   x11 = {
+  #     enable = true;
+  #     defaultCursor = "Catppuccin-Mocha-Mauve-Cursors";
+  #   };
+  # };
 
   qt = {
-      enable = true;
-      platformTheme = "gnome";
-      style = {
+    enable = true;
+    platformTheme = "gnome";
+    style = {
       name = "kvantum-dark";
       package = pkgs.libsForQt5.qtstyleplugin-kvantum;
     };
+  };
+
+  home.file = {
+    ".config/python3/startup.py".text = ''
+      # borrowed from https://unix.stackexchange.com/a/704612
+
+      # Enable custom ~/.python_history location on Python interactive console
+      # Set PYTHONSTARTUP to this file on ~/.profile or similar for this to work
+      # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONSTARTUP
+      # https://docs.python.org/3/library/readline.html#example
+      # https://github.com/python/cpython/blob/main/Lib/site.py @ enablerlcompleter()
+      # https://unix.stackexchange.com/a/675631/4919
+
+      import atexit
+      import os
+      import readline
+      import time
+
+
+      def write_history(path):
+          import os
+          import readline
+          try:
+              os.makedirs(os.path.dirname(path), mode=0o700, exist_ok=True)
+              readline.write_history_file(path)
+          except OSError:
+              pass
+
+
+      history = os.path.join(os.environ.get('XDG_CACHE_HOME') or
+                            os.path.expanduser('~/.cache'),
+                            'python_history')
+      try:
+          readline.read_history_file(history)
+      except FileNotFoundError:
+          pass
+
+      # Prevents creation of default history if custom is empty
+      if readline.get_current_history_length() == 0:
+          readline.add_history(f'# History created at {time.asctime()}')
+
+      atexit.register(write_history, history)
+      del (atexit, os, readline, time, history, write_history)
+    '';
+    ".config/npm/npmrc".text = ''
+      prefix=''${XDG_DATA_HOME}/npm
+      cache=''${XDG_CACHE_HOME}/npm
+      init-module=''${XDG_CONFIG_HOME}/npm/config/npm-init.js
+    '';
   };
 
   programs.home-manager.enable = true;
