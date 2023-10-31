@@ -2,12 +2,18 @@
 
 {
 
+  # vial udev rule
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+  '';
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # enable experimental flake support
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
- 
+  nix.settings.use-xdg-base-directories = true;
+
   hardware.opengl.enable = true;
 
   programs.steam = {
@@ -47,6 +53,7 @@
     micro
     neofetch
     neovim
+    ripgrep
     scc
     tmux
     unzip
@@ -60,9 +67,9 @@
     startWhenNeeded = true;
   };
   services.avahi = {
-      enable = true;
-      nssmdns = true;
-      openFirewall = true;
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
   };
 
   fonts.enableDefaultPackages = true;
@@ -89,7 +96,7 @@
   # enable locate serivce w/ plocate
   services.locate = {
     enable = true;
-    locate = pkgs.plocate;
+    package = pkgs.plocate;
     interval = "hourly";
     prunePaths = lib.mkOptionDefault [
       "/mnt/fsroot/"

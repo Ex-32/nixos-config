@@ -43,6 +43,7 @@
           ./system/sound.nix
           ./system/users.nix
           ./system/polkit.nix
+          ./system/appimage-binfmt.nix
           ./system.nix
           home-manager.nixosModules.home-manager
           {

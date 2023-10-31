@@ -32,17 +32,23 @@
     RBENV_ROOT = "$XDG_DATA_HOME/rbenv";
     GNUPGHOME = "$XDG_DATA_HOME/gnugp";
     WINEPREFIX = "$XDG_DATA_HOME/wine";
+    # ANDROID_HOME = "$XDG_DATA_HOME/android"; # didn't work :(
+    GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
  
     PYTHONSTARTUP = "$XDG_CONFIG_HOME/python3/startup.py";
     GTK_RC_FILES = "$XDG_CONFIG_HOME/gtk-1.0/gtkrc";
     GTK_RC2_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
     # DOCKER_CONFIG = "$XDG_CONFIG_HOME/docker"; # this can cause some issues with distrobox + podman
-    _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java";
+    # _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"; # conceptually good, but causes fuckery
     NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
 
     CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nvidia/ComputeCache";
 
-    PATH = "$HOME/.local/bin:$HOME/.local/share/cargo/bin:$HOME./local/share/go/bin";
+    PATH = [
+      "$HOME/.local/bin" 
+      "$HOME/.local/share/cargo/bin"
+      "$HOME/.local/share/go/bin"
+    ];
   };
 
   environment.shellAliases = {

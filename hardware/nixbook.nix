@@ -9,12 +9,12 @@
     ];
 
   boot.blacklistedKernelModules = [
-      "hid_sensor_hub    "
+    "hid_sensor_hub"
   ];
   boot.kernelParams = [
-      "mem_sleep_default=deep"
-      "vsyscall=none"
-      "consoleblank=60"
+    "mem_sleep_default=deep"
+    "vsyscall=none"
+    "consoleblank=60"
   ];
 
 
@@ -79,19 +79,6 @@
       ];
     };
 
-  fileSystems."/home/.snapshots" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/@snapper-home"
-          "compress=zstd"
-          "noatime"
-          "nosuid"
-          "nodev"
-          "noexec"
-      ];
-    };
-
   fileSystems."/mnt/fsroot" =
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
@@ -123,14 +110,6 @@
       MEM_SLEEP_ON_AC = "deep";
       MEM_SLEEP_ON_BAT = "deep";
     };
-  };
-
-  services.snapper.cleanupInterval = "1h";
-  services.snapper.configs.home = {
-    SUBVOLUME = "/home";
-    ALLOW_GROUPS = [ "wheel" ];
-    TIMELINE_CREATE = true;
-    TIMELINE_CLEANUP = true;
   };
 
   swapDevices = [ ];
