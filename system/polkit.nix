@@ -8,11 +8,11 @@
     wants = [ "graphical-session.target" ];
     after = [ "graphical-session.target" ];
     serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.mate.mate-polkit}/libexec/polkit-mate-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        RestartStopSec = 10;
+      Type = "simple";
+      ExecStart = "${pkgs.mate.mate-polkit}/libexec/polkit-mate-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      RestartStopSec = 10;
     };
   };
 }

@@ -76,12 +76,7 @@
 
   services.fprintd.enable = true;
   security.pam.services.login.fprintAuth = false;
-  security.pam.services.swaylock.text = ''
-    # PAM configuration file for the swaylock screen locker. 
-    # By default, it includes the 'login' configuration file 
-    # (see /etc/pam.d/login)
-    auth include login
-  '';
+  security.pam.services.swaylock.fprintAuth = false;
 
   programs.dconf.enable = true;
 
@@ -108,11 +103,6 @@
 
   # dbus service for disk control
   services.udisks2.enable = true;
-
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

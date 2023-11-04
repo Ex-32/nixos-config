@@ -38,11 +38,10 @@ in {
       variant = "Mocha";
       accent  = "Mauve";
     })
-    clang
-    clippy
+    # clang
+    # clippy
     comma
     discord
-    distrobox
     firefox-devedition
     gh
     (nerdfonts.override {
@@ -57,7 +56,6 @@ in {
     ncspot
     nixd
     nodejs
-    nomacs
     onlyoffice-bin
     playerctl
     rofi-wayland
@@ -71,6 +69,7 @@ in {
     texlive.combined.scheme-medium
     xdg-utils
     wl-clipboard
+    wl-mirror
     xorg.xhost
     zathura
   ];
