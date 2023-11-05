@@ -8,13 +8,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    # nix-wallpaper = {
-    #   url = "github:lunik1/nix-wallpaper";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    nix-wallpaper = {
+      url = "github:lunik1/nix-wallpaper";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations = {
       # "nixos-pc" = nixpkgs.lib.nixosSystem {
       #   system = "x86_64-linux";
@@ -34,17 +34,21 @@
       "nixbook" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          nixos-hardware.nixosModules.framework-13th-gen-intel
+          inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
           ./hardware/nixbook.nix
+          ./system/base.nix
           ./system/grub.nix
           ./system/console.nix
           ./system/shell.nix
           ./system/network.nix
           ./system/sound.nix
           ./system/users.nix
-          ./system/polkit.nix
+          ./system/auth.nix
           ./system/appimage-binfmt.nix
-          ./system.nix
+          ./system/locale.nix
+          ./system/printing.nix
+          ./system/steam.nix
+          ./system/vial.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

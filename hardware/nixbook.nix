@@ -102,7 +102,9 @@
         "noexec"
       ];
     };
-
+ 
+  boot.tmp.useTmpfs = true;
+  services.fprintd.enable = true;
   services.thermald.enable = true;
   services.tlp = {
     enable = true;

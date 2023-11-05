@@ -1,6 +1,9 @@
 { config, pkgs, lib, nixpkgs, ... }:
 
 {
+  security.pam.services.login.fprintAuth = false;
+  security.pam.services.swaylock.fprintAuth = false;
+
   environment.systemPackages = with pkgs; [ mate.mate-polkit ];
   systemd.user.services.polkit-agent = {
     description = "user polkit agent";
