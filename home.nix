@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }@inputs: let
+{ config, pkgs, lib, inputs, ... }: let
 in {
 
   xdg.userDirs = let
@@ -52,6 +52,7 @@ in {
     obs-studio
     onlyoffice-bin
     playerctl
+    rclone
     rofi-wayland
     signal-desktop
     slurp
@@ -288,10 +289,17 @@ in {
         };
         background = "$crust";
       };
-      output."*" = {
+      output."*" = let
+        wallpaper-pkg = inputs.nix-wallpaper.packages."x86_64-linux".default.override {
+          preset = "catppuccin-mocha-rainbow";
+          width = 3840;
+          height = 2160;
+          logoSize = 42;
+          backgroundColor = "#11111b";
+        };
+      in {
         scale = "1";
-        # TODO replace this with proper flake config 
-        background = "nixos-wallpaper.png fill";
+        background = "${wallpaper-pkg}/share/wallpapers/nixos-wallpaper.png fill";
       };
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
