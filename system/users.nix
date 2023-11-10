@@ -4,7 +4,7 @@
   users.users.jenna = {
     isNormalUser = true;
     description = "Jenna Fligor";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "lp" "dialout" ];
     shell = pkgs.fish;
   };
 }

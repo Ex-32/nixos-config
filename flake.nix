@@ -49,6 +49,7 @@
           ./system/printing.nix
           ./system/steam.nix
           ./system/vial.nix
+          ./system/desktop.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

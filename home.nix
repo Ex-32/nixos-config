@@ -43,11 +43,13 @@ in {
     godot_4
     gparted
     grim
+    lazygit
     home-manager
     ncspot
     neovim
     nixd
     nodejs
+    obs-studio
     onlyoffice-bin
     playerctl
     rofi-wayland
@@ -56,11 +58,11 @@ in {
     starship
     swayidle
     system-config-printer
-    texlab
-    texlive.combined.scheme-medium
+    texlive.combined.scheme-full
     xdg-utils
     wl-clipboard
     wl-mirror
+    xdg-desktop-portal-wlr
     xorg.xhost
     zathura
   ];
@@ -384,6 +386,9 @@ in {
         "custom/left-arrow-dark"
         "cpu"
         "custom/left-arrow-light"
+        # "custom/left-arrow-dark"
+        # "custom/ps"
+        # "custom/left-arrow-light"
         "custom/left-arrow-dark"
         "battery"
         "custom/left-arrow-light"
@@ -479,6 +484,12 @@ in {
           "deactivated" = "󰾪";
         };
       };
+      "custom/ps" = {
+        "format" = "{icon} {}";
+        "format-icons" = " ";
+        "exec" = "ps aux --no-headers | wc -l";
+        "interval" = 60;
+      };
     }];
     style = ''
       @define-color base   #1e1e2e;
@@ -540,7 +551,7 @@ in {
       #wireplumber,
       #memory,
       #cpu,
-      #battery,
+      #battery, 
       #disk,
       #tray,
       #idle_inhibitor {
@@ -1127,7 +1138,10 @@ in {
   };
 
   programs.zoxide.enable = true;
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
   dconf = {
     enable = true;
