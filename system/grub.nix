@@ -26,14 +26,13 @@
         hash = "sha256-/bSolCta8GCZ4lP0u5NVqYQ9Y3ZooYCNdTwORNvR7M0=";
       };
       nativeBuildInputs = with pkgs; [
-        gnused
         grub2
         spleen
       ];
-      patchPhase = ''
-        sed -i -E 's/"Unifont Regular 16"/"Spleen 16x32 Regular 32"/g' ${path}/theme.txt
-        sed -i -E 's/left = 50%-240/left = 20%/' ${path}/theme.txt
-        sed -i -E 's/width = 480/width = 60%/' ${path}/theme.txt
+      prePatch = ''
+        substituteInPlace ${path}/theme.txt --replace "Unifont Regular 16" "Spleen 16x32 Regular 32"
+        substituteInPlace  ${path}/theme.txt --replace "left = 50%-240" "left = 20%"
+        substituteInPlace ${path}/theme.txt --replace "width = 480" "width = 60%"
       '';
       buildPhase = ''
         grub-mkfont --size 32 ${pkgs.spleen}/share/fonts/misc/spleen-16x32.otf -o ${path}/font.pf2

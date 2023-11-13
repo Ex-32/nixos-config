@@ -16,21 +16,20 @@
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations = {
-      # "nixos-pc" = nixpkgs.lib.nixosSystem {
-      #   system = "x86_64-linux";
-      #   modules = [
-      #     ./hardware/nixos-pc.nix
-      #     ./system.nix
-      #     home-manager.nixosModules.home-manager
-      #     {
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-      #       home-manager.users.jenna = import ./home.nix;
-      #       # Optionally, use home-manager.extraSpecialArgs to pass
-      #       # arguments to home.nix
-      #     }
-      #   ];
-      # };
+      "nixos-pc" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hardware/nixos-pc.nix
+          ./system/base.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.jenna = import ./home.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+          }
+        ];
+      };
       "nixbook" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -54,7 +53,35 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.jenna = import ./home.nix;
+            home-manager.users.jenna = { config, pkgs, lib, inputs, ... }:
+            {
+              imports = [
+                ./user/base.nix
+                ./user/sway.nix
+                ./user/fish.nix
+                ./user/neovim.nix
+                ./user/emacs.nix
+                ./user/git.nix
+                ./user/latex.nix
+                ./user/python.nix
+                ./user/wezterm.nix
+                ./user/xdg.nix
+              ];
+              home.packages = with pkgs; [
+                _1password-gui
+                android-studio
+                arduino
+                comma
+                discord
+                firefox-devedition
+                godot_4
+                gparted
+                obs-studio
+                onlyoffice-bin
+                rclone
+                signal-desktop
+              ];
+            };
             home-manager.extraSpecialArgs = { inherit inputs; };
           }
         ];
