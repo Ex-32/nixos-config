@@ -32,16 +32,18 @@
   };
 
   boot.initrd.secrets = {
-      "/crypto_keyfile.bin" = "/root/secrets/crypto_keyfile.bin";
+      "/crypto_keyfile.bin" = "/nix/secrets/crypto_keyfile.bin";
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
+    { device = "none";
+      fsType = "tmpfs";
       options = [
-          "subvol=/@"
-          "compress=zstd"
+          "size=1G"
+          "mode=755"
           "noatime"
+          "nosuid"
+          "noexec"
       ];
     };
 
@@ -84,6 +86,19 @@
       fsType = "btrfs";
       options = [
           "subvol=/"
+          "compress=zstd"
+          "noatime"
+          "nosuid"
+          "nodev"
+          "noexec"
+      ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+          "subvol=/@boot"
           "compress=zstd"
           "noatime"
           "nosuid"

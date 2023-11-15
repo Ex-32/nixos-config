@@ -9,6 +9,20 @@
   nix.settings.use-xdg-base-directories = true;
 
   systemd.coredump.extraConfig = "Storage=none";
+  security.sudo.execWheelOnly = true;
+
+  environment.persistence."/nix/persist" = {
+    directories = [
+      "/etc/nixos"
+      "/var/lib/nixos"
+      "/var/lib/bluetooth"
+      "/etc/NetworkManager/system-connections"
+      "/var/lib/fprint"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     btdu
@@ -17,6 +31,7 @@
     file
     fzf
     git
+    git-crypt
     htop
     man-pages
     micro

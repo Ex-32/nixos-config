@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    impermanence.url = "github:nix-community/impermanence";
     home-manager = { 
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,23 +17,24 @@
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations = {
-      "nixos-pc" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hardware/nixos-pc.nix
-          ./system/base.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.jenna = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-          }
-        ];
-      };
+      # "nixos-pc" = nixpkgs.lib.nixosSystem {
+      #   system = "x86_64-linux";
+      #   modules = [
+      #     ./hardware/nixos-pc.nix
+      #     ./system/base.nix
+      #     home-manager.nixosModules.home-manager
+      #     {
+      #       home-manager.useGlobalPkgs = true;
+      #       home-manager.useUserPackages = true;
+      #       home-manager.users.jenna = import ./home.nix;
+      #       home-manager.extraSpecialArgs = { inherit inputs; };
+      #     }
+      #   ];
+      # };
       "nixbook" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          inputs.impermanence.nixosModule
           inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
           ./hardware/nixbook.nix
           ./system/base.nix
