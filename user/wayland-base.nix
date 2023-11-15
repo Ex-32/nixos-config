@@ -8,6 +8,7 @@
     rofi-wayland
     slurp
     wl-clipboard
+    xdg-desktop-portal-wlr
   ];
 
   services.mako = {
