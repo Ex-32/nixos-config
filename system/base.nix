@@ -1,4 +1,4 @@
-{ config, pkgs, lib, nixpkgs, ... }:
+{ config, pkgs, lib, nixpkgs, inputs, ... }:
 
 {
   # Allow unfree packages
@@ -15,8 +15,7 @@
     directories = [
       "/etc/nixos"
       "/var/lib/nixos"
-      "/var/lib/bluetooth"
-      "/etc/NetworkManager/system-connections"
+      # "/var/lib/bluetooth"
       "/var/lib/fprint"
     ];
     files = [
@@ -29,14 +28,12 @@
     compsize
     curl
     file
-    fzf
     git
     git-crypt
     htop
     man-pages
     micro
     neofetch
-    ripgrep
     tmux
     unzip
     wget

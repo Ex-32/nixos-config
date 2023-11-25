@@ -10,9 +10,6 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  hardware.nvidia.modesetting.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   fileSystems."/" = { 
     device = "/dev/disk/by-uuid/43bf7935-ca90-4d0d-8d60-3c19ca8d5584";
     fsType = "btrfs";

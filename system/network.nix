@@ -1,8 +1,12 @@
 { config, pkgs, lib, nixpkgs, ... }:
 
 {
-  networking.hostName = "nixbook"; 
   networking.networkmanager.enable = true;
+  environment.persistence."/nix/persist" = {
+    directories = [
+      "/etc/NetworkManager/system-connections"
+    ];
+  };
 
   # firewall config
   networking.firewall.enable = true;

@@ -1,7 +1,11 @@
 { config, pkgs, lib, nixpkgs, ... }:
 
 {
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    useBabelfish = true;
+  };
+
   environment.shells = with pkgs; [
     fish
   ];
@@ -12,6 +16,11 @@
     MICRO_TRUECOLOR = "1";
     GHCUP_USE_XDG_DIRS = "1";
     _JAVA_AWT_WM_NONREPARENTING = "1";
+    FZF_DEFAULT_OPTS = builtins.concatStringsSep " " [
+      "--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8"
+      "--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc"
+      "--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+    ];
   };
 
   environment.sessionVariables = {
@@ -55,7 +64,6 @@
     l = "lsd -lAh --no-symlink --date relative";
     ll = "lsd -lAh";
     ls = null;
-    # nix-fish = "nix-shell --command 'fish'"; # outdated with the `nix shell' command
     sc = "sudo systemctl";
     scu = "systemctl --user";
     jc = "journalctl";
@@ -65,10 +73,15 @@
     "......" = "cd ../../../../..";
     "......." = "cd ../../../../../..";
     "........" = "cd ../../../../../../..";
+    "........." = "cd ../../../../../../../..";
+    ".........." = "cd ../../../../../../../../..";
   };
 
   environment.systemPackages = with pkgs; [
     lsd
     bat
+    fzf
+    ripgrep
+    trash-cli
   ];
 }
