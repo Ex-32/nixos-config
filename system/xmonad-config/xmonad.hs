@@ -4,10 +4,10 @@ import XMonad
 main :: IO ()
 main = do
   xmonad $ def
-    { terminal    = term
-    , modMask     = mod
+    { terminal    = myTerm
+    , modMask     = myMod
     , borderWidth = 3
     }
 
-term = "wezterm"
-mod = mod4Mask
+myTerm = "wezterm"
+myMod = mod4Mask
