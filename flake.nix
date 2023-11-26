@@ -66,6 +66,7 @@
               users.jenna = { config, pkgs, lib, inputs, ... }: {
                 imports = [
                   ./user/base.nix
+                  ./user/xmonad.nix
                   ./user/fish.nix
                   ./user/neovim.nix
                   ./user/git.nix
