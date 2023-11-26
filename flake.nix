@@ -63,10 +63,25 @@
               extraSpecialArgs = { inherit inputs; };
               users.jenna = { config, pkgs, lib, inputs, ... }: {
                 import = [
-
+                  ./user/base.nix
+                  ./user/sway.nix
+                  ./user/fish.nix
+                  ./user/neovim.nix
+                  ./user/git.nix
+                  ./user/python.nix
+                  ./user/wezterm.nix
+                  ./user/xdg.nix
+                  ./user/spotify.nix
                 ];
                 home.packages = with pkgs; [
-
+                  inputs.blahaj.packages.${pkgs.system}.default
+                  _1password-gui
+                  comma
+                  discord
+                  firefox-devedition
+                  gparted
+                  signal-desktop
+                  tridactyl-native
                 ];
               };
             };
