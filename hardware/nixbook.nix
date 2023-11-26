@@ -23,7 +23,7 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  # fix warning do to state version change
+  # fix warning do to stateVersion change
   boot.swraid.enable = false;
 
   boot.initrd.luks.devices."cryptdisk" = {
@@ -43,6 +43,7 @@
           "mode=755"
           "noatime"
           "nosuid"
+          "nodev"
           "noexec"
       ];
     };
@@ -55,6 +56,7 @@
           "compress=zstd"
           "noatime"
           "nosuid"
+          "nodev"
       ];
     };
 
@@ -120,8 +122,12 @@
  
   swapDevices = [ ];
 
-  boot.tmp.useTmpfs = true;
   services.fprintd.enable = true;
+  environment.persistence."/nix/persist".directories = [
+    "/var/lib/fprint"
+  ];
+  
+  # fan/power optimization for laptop
   services.thermald.enable = true;
   services.tlp = {
     enable = true;

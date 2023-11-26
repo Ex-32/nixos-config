@@ -83,5 +83,6 @@
     fzf
     ripgrep
     trash-cli
+    du-dust
   ];
 }

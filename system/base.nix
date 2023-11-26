@@ -15,8 +15,7 @@
     directories = [
       "/etc/nixos"
       "/var/lib/nixos"
-      # "/var/lib/bluetooth"
-      "/var/lib/fprint"
+      # "/var/lib/bluetooth" # add this to system/bluetooth.nix if/when it exists
     ];
     files = [
       "/etc/machine-id"
@@ -36,6 +35,7 @@
     neofetch
     tmux
     unzip
+    vmtouch
     wget
     zip
   ];

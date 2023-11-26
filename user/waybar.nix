@@ -5,6 +5,14 @@
     ./nerdfont.nix
   ];
 
+  home.file.".config/waybar/bin/custom-ps.sh" = {
+    text = ''
+      #!/bin/sh
+      ps aux --no-headers | wc -l
+    '';
+    executable = true;
+  };
+
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -21,7 +29,12 @@
         "custom/right-arrow-light"
         "idle_inhibitor"
         "custom/right-arrow-dark"
-
+        "custom/right-arrow-light"
+        "wireplumber"
+        "custom/right-arrow-dark"
+        "custom/right-arrow-light"
+        "backlight"
+        "custom/right-arrow-dark"
       ];
       "modules-center" = [
         "custom/left-arrow-dark"
@@ -36,19 +49,16 @@
       ];
       "modules-right" = [
         "custom/left-arrow-dark"
-        "wireplumber"
+        "battery"
         "custom/left-arrow-light"
         "custom/left-arrow-dark"
-        "memory"
+        "custom/ps"
         "custom/left-arrow-light"
         "custom/left-arrow-dark"
         "cpu"
         "custom/left-arrow-light"
-        # "custom/left-arrow-dark"
-        # "custom/ps"
-        # "custom/left-arrow-light"
         "custom/left-arrow-dark"
-        "battery"
+        "memory"
         "custom/left-arrow-light"
         "custom/left-arrow-dark"
         "disk"
@@ -100,6 +110,16 @@
         "scroll-step" = 5;
         "on-click" = "pamixer -t";
         "on-click-right" = "pavucontrol";
+        "reverse-scrolling" = 1;
+      };
+      "backlight" = {
+        "format" = "{icon} {percent}%";
+        "format-icons" = [
+          "󰃞"
+          "󰃟"
+          "󰃝"
+          "󰃠"
+        ];
       };
       "memory" = {
         "interval" = 5;
@@ -144,8 +164,8 @@
       };
       "custom/ps" = {
         "format" = "{icon} {}";
-        "format-icons" = " ";
-        "exec" = "ps aux --no-headers | wc -l";
+        "format-icons" = "";
+        "exec" = "~/.config/waybar/bin/custom-ps.sh";
         "interval" = 60;
       };
     }];
@@ -207,12 +227,14 @@
       #clock.2,
       #window,
       #wireplumber,
+      #backlight,
       #memory,
       #cpu,
       #battery, 
       #disk,
       #tray,
-      #idle_inhibitor {
+      #idle_inhibitor,
+      #custom-ps {
         background: @base;
       }
 
@@ -260,22 +282,30 @@
       #disk {
         color: @peach;
       }
+      #backlight {
+        color: @rosewater;
+      }
+      #custom-ps {
+        color: @pink;
+      }
 
       #clock,
       #wireplumber,
+      #backlight,
       #memory,
       #cpu,
       #battery,
-      #disk {
-        padding: 0 10px;
+      #disk,
+      #custom-ps {
+        padding: 0px 10px;
       }
 
       #tray {
-        padding: 0 0 0 6;
+        padding: 0px 0px 0px 6px;
       }
 
       #idle_inhibitor {
-        padding: 0 14 0 10;
+        padding: 0px 14px 0px 10px;
       }
       #idle_inhibitor.activated {
         color: @red;
