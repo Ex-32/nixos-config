@@ -44,6 +44,7 @@
 
           # system configuration
           ./system/base.nix
+          ./system/grub.nix
           ./system/console.nix
           ./system/ssh.nix
           ./system/shell.nix
@@ -53,6 +54,7 @@
           ./system/sound.nix
           ./system/locale.nix
           ./system/appimage-binfmt.nix
+          ./system/ecryptfs.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
@@ -62,9 +64,8 @@
               useUserPackages = true;
               extraSpecialArgs = { inherit inputs; };
               users.jenna = { config, pkgs, lib, inputs, ... }: {
-                import = [
+                imports = [
                   ./user/base.nix
-                  ./user/sway.nix
                   ./user/fish.nix
                   ./user/neovim.nix
                   ./user/git.nix

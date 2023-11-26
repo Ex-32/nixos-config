@@ -35,6 +35,9 @@
       "/crypto_keyfile.bin" = "/nix/secrets/crypto_keyfile.bin";
   };
 
+  # this needs to be set even though / is a tmpfs because /tmp can't be noexec
+  boot.tmp.useTmpfs = true;
+
   fileSystems."/" =
     { device = "none";
       fsType = "tmpfs";
