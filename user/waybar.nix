@@ -8,7 +8,8 @@
   home.file.".config/waybar/bin/custom-ps.sh" = {
     text = ''
       #!/bin/sh
-      ps aux --no-headers | wc -l
+      ${pkgs.procps}/bin/ps --ppid 2 -p 2 --deselect --no-headers | \
+        ${pkgs.coreutils}/bin/wc -l 
     '';
     executable = true;
   };
@@ -166,7 +167,7 @@
         "format" = "{icon} {}";
         "format-icons" = "";
         "exec" = "~/.config/waybar/bin/custom-ps.sh";
-        "interval" = 60;
+        "interval" = 20;
       };
     }];
     style = ''

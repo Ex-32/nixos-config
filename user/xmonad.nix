@@ -1,10 +1,8 @@
-{ config, pkgs, lib, nixpkgs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
-  services.xserver = {
+  xsession = {
     enable = true;
-    autorun = false;
-    displayManager.startx.enable = true;
     windowManager.xmonad = {
       enable = true;
       enableContribAndExtras = true;

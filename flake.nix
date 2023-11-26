@@ -56,9 +56,6 @@
           ./system/appimage-binfmt.nix
           ./system/ecryptfs.nix
 
-          # GUI configuration
-          ./system/xmonad.nix
-
           # home-manager configuration
           home-manager.nixosModules.home-manager
           {
@@ -69,6 +66,7 @@
               users.jenna = { config, pkgs, lib, inputs, ... }: {
                 imports = [
                   ./user/base.nix
+                  ./user/xmonad.nix
                   ./user/fish.nix
                   ./user/neovim.nix
                   ./user/git.nix
