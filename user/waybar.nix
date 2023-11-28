@@ -64,7 +64,6 @@
         "custom/left-arrow-dark"
         "disk"
       ];
-
       "custom/left-arrow-dark" = {
         "format" = "";
         "tooltip" = false;
@@ -81,16 +80,14 @@
         "format" = "";
         "tooltip" = false;
       };
-
       "sway/workspaces" = {
         "disable-scroll" = true;
         "format" = "{name}";
       };
-
       "clock#1" = {
         "format" = "{:%m/%d}";
         "tooltip" = false;
-  };
+      };
       "clock#2" = {
         "format" = "{:%H:%M}";
         "tooltip" = false;
