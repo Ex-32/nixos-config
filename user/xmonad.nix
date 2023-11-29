@@ -1,12 +1,15 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  xsession = {
+  imports = [
+    ./x11-base.nix
+    ./wezterm.nix
+    ./gtk.nix
+    ./qt.nix
+  ];
+  xsession.windowManager.xmonad = {
     enable = true;
-    windowManager.xmonad = {
-      enable = true;
-      enableContribAndExtras = true;
-      config = builtins.readFile ./xmonad-config/xmonad.hs;
-    };
+    enableContribAndExtras = true;
+    config = ./xmonad-config/xmonad.hs;
   };
 }

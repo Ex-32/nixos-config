@@ -55,6 +55,7 @@
           ./system/locale.nix
           ./system/appimage-binfmt.nix
           ./system/ecryptfs.nix
+          ./system/x11.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
@@ -67,6 +68,7 @@
                 imports = [
                   ./user/base.nix
                   ./user/xmonad.nix
+                  ./user/picom.nix
                   ./user/fish.nix
                   ./user/neovim.nix
                   ./user/git.nix
