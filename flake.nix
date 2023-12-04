@@ -43,18 +43,18 @@
           ./hardware/nvidia.nix
 
           # system configuration
-          ./system/base.nix
-          ./system/grub.nix
-          ./system/console.nix
-          ./system/ssh.nix
-          ./system/shell.nix
-          ./system/users.nix
-          ./system/network.nix
-          ./system/desktop.nix
-          ./system/sound.nix
-          ./system/locale.nix
           ./system/appimage-binfmt.nix
+          ./system/base.nix
+          ./system/console.nix
+          ./system/desktop.nix
           ./system/ecryptfs.nix
+          ./system/grub.nix
+          ./system/locale.nix
+          ./system/network.nix
+          ./system/shell.nix
+          ./system/sound.nix
+          ./system/ssh.nix
+          ./system/users.nix
           ./system/x11.nix
 
           # home-manager configuration
@@ -67,15 +67,15 @@
               users.jenna = { config, pkgs, lib, inputs, ... }: {
                 imports = [
                   ./user/base.nix
-                  ./user/xmonad.nix
-                  ./user/picom.nix
                   ./user/fish.nix
-                  ./user/neovim.nix
                   ./user/git.nix
+                  ./user/neovim.nix
+                  ./user/picom.nix
                   ./user/python.nix
+                  ./user/spotify.nix
                   ./user/wezterm.nix
                   ./user/xdg.nix
-                  ./user/spotify.nix
+                  ./user/xmonad.nix
                 ];
                 home.packages = with pkgs; [
                   inputs.blahaj.packages.${pkgs.system}.default
@@ -107,21 +107,22 @@
           # hardware configuration
           inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
           ./hardware/nixbook.nix
+          ./hardware/grub-patch.nix
 
           # system configuration
+          ./system/appimage-binfmt.nix
+          ./system/auth.nix
           ./system/base.nix 
-          ./system/grub.nix
           ./system/console.nix
-          ./system/shell.nix
+          ./system/desktop.nix
+          ./system/grub.nix
+          ./system/locale.nix
           ./system/network.nix
+          ./system/printing.nix
+          ./system/shell.nix
           ./system/sound.nix
           ./system/users.nix
-          ./system/auth.nix
-          ./system/appimage-binfmt.nix
-          ./system/locale.nix
-          ./system/printing.nix
           ./system/vial.nix
-          ./system/desktop.nix
 
           # home-manager configuration 
           home-manager.nixosModules.home-manager
@@ -132,30 +133,29 @@
               extraSpecialArgs = { inherit inputs; };
               users.jenna = { config, pkgs, lib, inputs, ... }: {
                 imports = [
+                  inputs.impermanence.nixosModules.home-manager.impermanence
+
                   ./user/base.nix
-                  ./user/sway.nix
                   ./user/fish.nix
-                  ./user/neovim.nix
                   ./user/git.nix
                   ./user/latex.nix
+                  ./user/neovim.nix
                   ./user/python.nix
+                  ./user/spotify.nix
+                  ./user/sway.nix
                   ./user/wezterm.nix
                   ./user/xdg.nix
-                  # ./user/firefox.nix
-                  ./user/spotify.nix
                 ];
                 home.packages = with pkgs; [
                   inputs.blahaj.packages.${pkgs.system}.default
                   _1password-gui
-                  android-studio
-                  arduino
                   comma
                   discord
                   firefox-devedition
-                  godot_4
                   gparted
                   obs-studio
                   onlyoffice-bin
+                  rawtherapee
                   rclone
                   signal-desktop
                   tridactyl-native

@@ -11,10 +11,11 @@
   systemd.coredump.extraConfig = "Storage=none";
   security.sudo.execWheelOnly = true;
 
-  environment.persistence."/nix/persist" = {
+  environment.persistence."/persist" = {
     directories = [
       "/etc/nixos"
       "/var/lib/nixos"
+      "/var/log"
       # "/var/lib/bluetooth" # add this to system/bluetooth.nix if/when it exists
     ];
     files = [
@@ -29,13 +30,10 @@
     file
     git
     git-crypt
-    htop
+    lsof
     man-pages
     micro
-    neofetch
-    tmux
     unzip
-    vmtouch
     wget
     zip
   ];

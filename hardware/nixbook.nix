@@ -6,6 +6,7 @@
 {
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
+      ./grub-patch.nix
     ];
 
   boot.blacklistedKernelModules = [
@@ -63,19 +64,6 @@
       ];
     };
 
-  fileSystems."/var/log" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/@logs"
-          "compress=zstd"
-          "noatime"
-          "nosuid"
-          "nodev"
-          "noexec"
-      ];
-    };
-
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
       fsType = "btrfs";
@@ -84,6 +72,19 @@
           "compress=zstd"
           "noatime"
       ];
+    };
+
+  fileSystems."/persist" =
+    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+          "subvol=/@nix-persist"
+          "compress=zstd"
+          "noatime"
+          "nosuid"
+          "nodev"
+      ];
+      neededForBoot = true;
     };
 
   fileSystems."/mnt/fsroot" =
@@ -126,7 +127,7 @@
   swapDevices = [ ];
 
   services.fprintd.enable = true;
-  environment.persistence."/nix/persist".directories = [
+  environment.persistence."/persist".directories = [
     "/var/lib/fprint"
   ];
   

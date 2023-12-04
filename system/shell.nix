@@ -78,11 +78,15 @@
   };
 
   environment.systemPackages = with pkgs; [
-    lsd
     bat
-    fzf
-    ripgrep
-    trash-cli
     du-dust
+    fzf
+    htop
+    lsd
+    neofetch
+    pridecat
+    ripgrep
+    tmux
+    trash-cli
   ];
 }

@@ -2,7 +2,7 @@
 
 {
   networking.networkmanager.enable = true;
-  environment.persistence."/nix/persist" = {
+  environment.persistence."/persist" = {
     directories = [
       "/etc/NetworkManager/system-connections"
     ];
