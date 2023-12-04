@@ -6,6 +6,6 @@
     description = "Jenna Fligor";
     extraGroups = [ "networkmanager" "wheel" "video" "lp" "dialout" ];
     shell = pkgs.fish;
-    initialHashedPassword = import ./passwd/jenna;
+    initialHashedPassword = import ../secrets/passwd/jenna;
   };
 }

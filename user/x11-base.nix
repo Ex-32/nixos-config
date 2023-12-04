@@ -6,6 +6,7 @@
     brightnessctl
     playerctl
     rofi
+    scrot
     tdrop
     xclip
   ];

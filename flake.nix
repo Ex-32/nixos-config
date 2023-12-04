@@ -56,6 +56,7 @@
           ./system/ssh.nix
           ./system/users.nix
           ./system/x11.nix
+          ./system/vial.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
@@ -67,6 +68,7 @@
               users.jenna = { config, pkgs, lib, inputs, ... }: {
                 imports = [
                   ./user/base.nix
+                  ./user/xmonad.nix
                   ./user/fish.nix
                   ./user/git.nix
                   ./user/neovim.nix

@@ -42,15 +42,8 @@
       options = [
         "compress=zstd"
         "subvol=@nix"
-      ];
-    };
-
-  fileSystems."/var/log" =
-    { device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
-      fsType = "btrfs";
-      options = [
-        "compress=zstd"
-        "subvol=@nix-logs" 
+        "noatime"
+        "nodev"
       ];
     };
 
@@ -59,7 +52,10 @@
       fsType = "btrfs";
       options = [
         "compress=zstd"
-        "subvol=@nix-home" 
+        "subvol=@nix-home"
+        "noatime"
+        "nosuid"
+        "nodev"
       ];
     };
  
@@ -68,7 +64,24 @@
       fsType = "btrfs";
       options = [ 
         "compress=zstd"
-        "subvol=@nix-boot" 
+        "subvol=@nix-boot"
+        "noatime"
+        "nosuid"
+        "nodev"
+        "noexec" 
+      ];
+    };
+
+  fileSystems."/mnt/fsroot" =
+    { device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
+      fsType = "btrfs";
+      options = [ 
+        "compress=zstd"
+        "subvol=/"
+        "noatime"
+        "nosuid"
+        "nodev"
+        "noexec" 
       ];
     };
 
@@ -86,6 +99,19 @@
   swapDevices =
     [ { device = "/dev/disk/by-uuid/f18767e1-f510-42e1-b2fb-8ea4ffd21329"; }
     ];
+
+  services.ddclient = {
+    enable = true;
+    interval = "1h";
+    use = "web, web=svc.joker.com/nic/checkip";
+    server = "svc.joker.com/nic/update?";
+    protocol = "dyndns2";
+    username = (builtins.readFile ../secrets/ddclient/nixos-pc/login);
+    passwordFile = "/etc/nixos/secrets/ddclient/nixos-pc/password";
+    domains = import ../secrets/ddclient/nixos-pc/domains;
+    ssl = true;
+  };
+
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

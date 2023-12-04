@@ -4,9 +4,14 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # enable experimental flake support
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.use-xdg-base-directories = true;
+  nix.settings = {
+    # enable experimental flake support
+    experimental-features = [ "nix-command" "flakes" ];
+    # xdg my beloved
+    use-xdg-base-directories = true;
+    # nix for the big cheese only
+    allowed-users = lib.mkForce [ "@wheel" ];
+  };
 
   systemd.coredump.extraConfig = "Storage=none";
   security.sudo.execWheelOnly = true;
