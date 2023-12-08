@@ -57,6 +57,7 @@
           ./system/users.nix
           ./system/vial.nix
           ./system/x11.nix
+          ./system/printing.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
@@ -68,10 +69,10 @@
               users.jenna = { config, pkgs, lib, inputs, ... }: {
                 imports = [
                   ./user/base.nix
-                  ./user/xmonad.nix
                   ./user/fish.nix
                   ./user/git.nix
                   ./user/neovim.nix
+                  ./user/nix-index.nix
                   ./user/picom.nix
                   ./user/python.nix
                   ./user/spotify.nix
@@ -141,6 +142,7 @@
                   ./user/git.nix
                   ./user/latex.nix
                   ./user/neovim.nix
+                  ./user/nix-index.nix
                   ./user/python.nix
                   ./user/spotify.nix
                   ./user/sway.nix

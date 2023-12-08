@@ -47,6 +47,19 @@
       ];
     };
 
+  fileSystems."/persist" =
+    { device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
+      fsType = "btrfs";
+      options = [
+          "subvol=/@nix-persist"
+          "compress=zstd"
+          "noatime"
+          "nosuid"
+          "nodev"
+      ];
+      neededForBoot = true;
+    };
+
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
       fsType = "btrfs";

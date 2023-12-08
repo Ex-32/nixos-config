@@ -3,14 +3,15 @@
 {
   services.printing = {
     enable = true;
-    # startWhenNeeded = true;
-    # drivers = with pkgs; [
-    #   gutenprint
-    #   gutenprintBin
-    #   hplip
-    #   hplipWithPlugin
-    #   brlaser
-    # ];
+    startWhenNeeded = true;
+    drivers = with pkgs; [
+      brlaser
+      cnijfilter2
+      gutenprint
+      gutenprintBin
+      hplip
+      hplipWithPlugin
+    ];
   };
   services.avahi = {
     enable = true;
