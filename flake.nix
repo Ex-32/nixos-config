@@ -49,15 +49,16 @@
           ./system/desktop.nix
           ./system/ecryptfs.nix
           ./system/grub.nix
+          ./system/impermanence.nix
           ./system/locale.nix
           ./system/network.nix
+          ./system/printing.nix
           ./system/shell.nix
           ./system/sound.nix
           ./system/ssh.nix
           ./system/users.nix
           ./system/vial.nix
           ./system/x11.nix
-          ./system/printing.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager

@@ -23,19 +23,6 @@
   # this needs to be set even though / is a tmpfs because /tmp can't be noexec
   boot.tmp.useTmpfs = true;
   
-  fileSystems."/" =
-    { device = "none";
-      fsType = "tmpfs";
-      options = [
-        "size=1G"
-        "mode=755"
-        "noatime"
-        "nosuid"
-        "nodev"
-        "noexec"
-      ];
-    };
-
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
       fsType = "btrfs";
