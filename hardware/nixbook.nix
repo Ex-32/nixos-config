@@ -18,7 +18,6 @@
     "consoleblank=60"
   ];
 
-
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
@@ -33,36 +32,20 @@
   };
 
   boot.initrd.secrets = {
-      "/crypto_keyfile.bin" = "/nix/secrets/crypto_keyfile.bin";
+    "/crypto_keyfile.bin" = "/persist/secrets/crypto_keyfile.bin";
   };
 
-  # this needs to be set even though / is a tmpfs because /tmp can't be noexec
-  boot.tmp.useTmpfs = true;
-
-  fileSystems."/" =
-    { device = "none";
-      fsType = "tmpfs";
-      options = [
-          "size=1G"
-          "mode=755"
-          "noatime"
-          "nosuid"
-          "nodev"
-          "noexec"
-      ];
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/@home"
-          "compress=zstd"
-          "noatime"
-          "nosuid"
-          "nodev"
-      ];
-    };
+   fileSystems."/home" =
+     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+       fsType = "btrfs";
+       options = [
+           "subvol=/@home"
+           "compress=zstd"
+           "noatime"
+           "nosuid"
+           "nodev"
+       ];
+     };
 
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";

@@ -15,7 +15,7 @@
 
       config.color_scheme = "Catppuccin Mocha"
       config.font = wezterm.font "FiraCode Nerd Font"
-      config.font_size = 14
+      config.font_size = 15
       config.default_cursor_style = "SteadyBar"
       config.hide_mouse_cursor_when_typing = false
       config.window_background_opacity = 0.7

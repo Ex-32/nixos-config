@@ -2,18 +2,19 @@
 
 {
   imports = [
-    ./wayland-base.nix
-    ./swaylock.nix
-    ./swayidle.nix
-    ./waybar.nix
-    ./systray.nix
     ./gtk.nix
+    ./mako.nix
     ./qt.nix
+    ./swayidle.nix
+    ./swaylock.nix
+    ./systray.nix
+    ./waybar.nix
   ];
 
   home.packages = with pkgs; [
+    wl-clipboard
     wl-mirror
-    xorg.xhost
+    xdg-desktop-portal-wlr
   ];
 
   wayland.windowManager.sway = {
@@ -102,16 +103,13 @@
         scale = "1";
         background = "${wallpaper-pkg}/share/wallpapers/nixos-wallpaper.png fill";
       };
-      keybindings = let
-        mod = config.wayland.windowManager.sway.config.modifier;
-        conf = config.wayland.windowManager.sway.config;
-      in lib.mkOptionDefault {
-        "${mod}+Shift+q" = null;
-        "${mod}+Return" = null;
-        "${mod}+c" = "kill";
-        "${mod}+q" = "exec ${conf.terminal}";
-        "${mod}+d" = ''
-          exec rofi \
+      keybindings = lib.mkOptionDefault {
+        "${modifier}+Shift+q" = null;
+        "${modifier}+Return" = null;
+        "${modifier}+c" = "kill";
+        "${modifier}+q" = "exec ${terminal}";
+        "${modifier}+d" = ''
+          exec ${pkgs.rofi-wayland}/bin/rofi \
             -show drun \
             -modi drun \
             -scroll-method 0 \
@@ -121,18 +119,18 @@
             -terminal wezterm \
             -theme ~/.config/rofi/config/launcher.rasi
         '';
-        "${mod}+Semicolon" = "exec swaylock";
-        "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-        "XF86AudioRaiseVolume" = "exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
-        "XF86AudioPrev" = "exec playerctl previous";
-        "XF86AudioPlay" = "exec playerctl play-pause";
-        "XF86AudioNext" = "exec playerctl next";
-        "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
-        "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
-        "${mod}+Print" = "exec sh -c 'grim - | wl-copy'";
-        "${mod}+Shift+Print" = "exec sh -c 'slurp | grim -g - - | wl-copy'";
-        "${mod}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO make this more better
+        "${modifier}+Semicolon" = "exec ${pkgs.swaylock}/bin/swaylock";
+        "XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        "XF86AudioLowerVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+        "XF86AudioRaiseVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
+        "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+        "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+        "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
+        "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
+        "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
+        "${modifier}+Print" = "exec sh -c '${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy'";
+        "${modifier}+Shift+Print" = "exec sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy'";
+        "${modifier}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO make this more better
       };
       input = {
         "type:touchpad" = {
@@ -147,7 +145,10 @@
       };
       bars = [];
       startup = [
-        { command = "xhost +SI:localuser:root"; always = true; }
+        { 
+          command = ''"${pkgs.xorg.xhost}/bin/xhost +SI:localuser:root"''; 
+          always = true; 
+        }
       ];
       window = {
         titlebar = false;

@@ -1,16 +1,6 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  home.packages = with pkgs; [
-    brightnessctl
-    grim
-    playerctl
-    rofi-wayland
-    slurp
-    wl-clipboard
-    xdg-desktop-portal-wlr
-  ];
-
   services.mako = {
     enable = true;
     font = "Raleway 13";

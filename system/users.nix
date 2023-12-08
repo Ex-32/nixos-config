@@ -3,6 +3,7 @@
 {
   users.users.jenna = {
     isNormalUser = true;
+    uid = 1000;
     description = "Jenna Fligor";
     extraGroups = [ "networkmanager" "wheel" "video" "lp" "dialout" ];
     shell = pkgs.fish;

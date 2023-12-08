@@ -55,8 +55,8 @@
           ./system/sound.nix
           ./system/ssh.nix
           ./system/users.nix
-          ./system/x11.nix
           ./system/vial.nix
+          ./system/x11.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
@@ -118,6 +118,7 @@
           ./system/console.nix
           ./system/desktop.nix
           ./system/grub.nix
+          ./system/impermanence.nix
           ./system/locale.nix
           ./system/network.nix
           ./system/printing.nix
@@ -135,8 +136,6 @@
               extraSpecialArgs = { inherit inputs; };
               users.jenna = { config, pkgs, lib, inputs, ... }: {
                 imports = [
-                  inputs.impermanence.nixosModules.home-manager.impermanence
-
                   ./user/base.nix
                   ./user/fish.nix
                   ./user/git.nix
@@ -153,6 +152,7 @@
                   _1password-gui
                   comma
                   discord
+                  endless-sky
                   firefox-devedition
                   gparted
                   obs-studio
