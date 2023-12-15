@@ -19,33 +19,6 @@
 
   wayland.windowManager.sway = {
     enable = true;
-    extraConfigEarly = ''
-      set $rosewater #f5e0dc
-      set $flamingo  #f2cdcd
-      set $pink      #f5c2e7
-      set $mauve     #cba6f7
-      set $red       #f38ba8
-      set $maroon    #eba0ac
-      set $peach     #fab387
-      set $green     #a6e3a1
-      set $teal      #94e2d5
-      set $sky       #89dceb
-      set $sapphire  #74c7ec
-      set $blue      #89b4fa
-      set $lavender  #b4befe
-      set $text      #cdd6f4
-      set $subtext1  #bac2de
-      set $subtext0  #a6adc8
-      set $overlay2  #9399b2
-      set $overlay1  #7f849c
-      set $overlay0  #6c7086
-      set $surface2  #585b70
-      set $surface1  #45475a
-      set $surface0  #313244
-      set $base      #1e1e2e
-      set $mantle    #181825
-      set $crust     #11111b  
-    ''; # catppuccin-mocha colors
     config = rec {
       modifier = "Mod4";
       terminal = "wezterm";
@@ -53,46 +26,72 @@
         inner = 0;
         outer = 0;
       };
-      colors = {
+      colors = let
+        rosewater = "#f5e0dc";
+        flamingo  = "#f2cdcd";
+        pink      = "#f5c2e7";
+        mauve     = "#cba6f7";
+        red       = "#f38ba8";
+        maroon    = "#eba0ac";
+        peach     = "#fab387";
+        green     = "#a6e3a1";
+        teal      = "#94e2d5";
+        sky       = "#89dceb";
+        sapphire  = "#74c7ec";
+        blue      = "#89b4fa";
+        lavender  = "#b4befe";
+        text      = "#cdd6f4";
+        subtext1  = "#bac2de";
+        subtext0  = "#a6adc8";
+        overlay2  = "#9399b2";
+        overlay1  = "#7f849c";
+        overlay0  = "#6c7086";
+        surface2  = "#585b70";
+        surface1  = "#45475a";
+        surface0  = "#313244";
+        base      = "#1e1e2e";
+        mantle    = "#181825";
+        crust     = "#11111b";
+      in {
         focused = {
-          border = "$mauve";
-          background = "$base";
-          text = "$text";
-          indicator = "$mauve";
-          childBorder = "$mauve";
+          border = "${mauve}";
+          background = "${base}";
+          text = "${text}";
+          indicator = "${mauve}";
+          childBorder = "${mauve}";
         };
         focusedInactive = {
-          border = "$overlay0";
-          background = "$base";
-          text = "$text";
-          indicator = "$mauve";
-          childBorder = "$overlay0";
+          border = "${overlay0}";
+          background = "${base}";
+          text = "${text}";
+          indicator = "${mauve}";
+          childBorder = "${overlay0}";
         };
         unfocused = {
-          border = "$overlay0";
-          background = "$base";
-          text = "$text";
-          indicator = "$mauve";
-          childBorder = "$overlay0";
+          border = "${overlay0}";
+          background = "${base}";
+          text = "${text}";
+          indicator = "${mauve}";
+          childBorder = "${overlay0}";
         };
         urgent = {
-          border = "$red";
-          background = "$base";
-          text = "$red";
-          indicator = "$overlay0";
-          childBorder = "$red";
+          border = "${red}";
+          background = "${base}";
+          text = "${red}";
+          indicator = "${overlay0}";
+          childBorder = "${red}";
         };
         placeholder = {
-          border = "$overlay0";
-          background = "$base";
-          text = "$text";
-          indicator = "$overlay0";
-          childBorder = "$overlay0";
+          border = "${overlay0}";
+          background = "${base}";
+          text = "${text}";
+          indicator = "${overlay0}";
+          childBorder = "${overlay0}";
         };
-        background = "$crust";
+        background = "${crust}";
       };
       output."*" = let
-        wallpaper-pkg = inputs.nix-wallpaper.packages."x86_64-linux".default.override {
+        wallpaper-pkg = inputs.nix-wallpaper.packages."${pkgs.system}".default.override {
           preset = "catppuccin-mocha-rainbow";
           width = 3840;
           height = 2160;
@@ -130,7 +129,7 @@
         "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
         "${modifier}+Print" = "exec sh -c '${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy'";
         "${modifier}+Shift+Print" = "exec sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy'";
-        "${modifier}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO make this more better
+        "${modifier}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO: make this more better
       };
       input = {
         "type:touchpad" = {
