@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     impermanence.url = "github:nix-community/impermanence";
-    home-manager = { 
+    home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -76,23 +76,30 @@
                   ./user/base.nix
                   ./user/fish.nix
                   ./user/git.nix
+                  ./user/i3.nix
                   ./user/neovim.nix
                   ./user/nix-index.nix
+                  ./user/obs-studio.nix
                   ./user/picom.nix
                   ./user/python.nix
                   ./user/spotify.nix
                   ./user/wezterm.nix
                   ./user/xdg.nix
-                  ./user/xmonad.nix
                 ];
                 home.packages = with pkgs; [
                   inputs.blahaj.packages.${pkgs.system}.default
                   _1password-gui
                   comma
                   discord
+                  element-desktop
                   firefox-devedition
                   gparted
+                  inkscape
+                  onlyoffice-bin
+                  rawtherapee
                   signal-desktop
+                  slack
+                  superTuxKart
                   tridactyl-native
                 ];
               };
@@ -120,7 +127,7 @@
           # system configuration
           ./system/appimage-binfmt.nix
           ./system/auth.nix
-          ./system/base.nix 
+          ./system/base.nix
           ./system/console.nix
           ./system/desktop.nix
           ./system/grub.nix
@@ -133,7 +140,7 @@
           ./system/users.nix
           ./system/vial.nix
 
-          # home-manager configuration 
+          # home-manager configuration
           home-manager.nixosModules.home-manager
           {
             home-manager = {
