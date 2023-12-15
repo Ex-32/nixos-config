@@ -22,6 +22,10 @@
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # nix-doom-emacs = {
+    #   url = "github:nix-community/nix-doom-emacs";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
@@ -149,20 +153,24 @@
                   ./user/sway.nix
                   ./user/wezterm.nix
                   ./user/xdg.nix
+                  ./user/obs-studio.nix
                 ];
                 home.packages = with pkgs; [
                   inputs.blahaj.packages.${pkgs.system}.default
                   _1password-gui
                   comma
                   discord
+                  element-desktop
                   endless-sky
                   firefox-devedition
                   gparted
-                  obs-studio
+                  inkscape
                   onlyoffice-bin
                   rawtherapee
                   rclone
                   signal-desktop
+                  slack
+                  superTuxKart
                   tridactyl-native
                 ];
               };
