@@ -11,7 +11,7 @@
 
   programs.doom-emacs = {
     enable = true;
-    doomPrivateDir = ./emacs;
+    doomPrivateDir = ../config/emacs;
     doomPackageDir = pkgs.stdenv.mkDerivation {
       name = "doom-without-config";
       src = builtins.path {

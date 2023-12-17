@@ -118,8 +118,8 @@
             -drun-match-fields all \
             -drun-display-format "{name}" \
             -no-drun-show-actions \
-            -terminal wezterm \
-            -theme ~/.config/rofi/config/launcher.rasi
+            -terminal ${terminal} \
+            -theme config
         '';
         "${modifier}+semicolon" = "exec --no-startup-id ${pkgs.i3}/bin/i3-nagbar -t warning -m 'no lockscreeen configured'";
         "XF86AudioMute" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -177,4 +177,6 @@
       ];
     };
   };
+
+  home.file.".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
 }
