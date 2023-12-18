@@ -8,6 +8,10 @@
   programs.gh = {
     enable = true;
     gitCredentialHelper.enable = true;
+    # HACK: this is a *very* hacky fix for HM issue #4744
+    settings = {
+      version = 1;
+    };
   };
 
   programs.git = {
