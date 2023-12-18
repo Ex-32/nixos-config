@@ -1,6 +1,5 @@
 
 -- Set <space> as the leader key
--- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -231,7 +230,6 @@ require('lazy').setup({
 
   {
     -- utility plugin for (un)commenting lines/blocks
-    -- TODO: change keybinding to '<C+/>'
     'numToStr/Comment.nvim',
     opts = {}
   },
@@ -271,6 +269,12 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  {
+    -- show context at top of buffer
+    "nvim-treesitter/nvim-treesitter-context",
+    event = "VeryLazy",
+    opts = {},
+  },
   -- language specific plugins
   -- (these plugins provide extra features that just a language server can't)
   {
@@ -381,51 +385,13 @@ vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
-      'arduino',
-      'bash',
-      'c',
-      'cpp',
-      'css',
-      'csv',
-      'cuda',
-      'diff',
-      'dockerfile',
-      'fish',
-      'git_config',
-      'git_rebase',
-      'gitattributes',
-      'gitcommit',
-      'gitignore',
-      'go',
-      'gomod',
-      'haskell',
-      'html',
-      'javascript',
-      'json',
-      'jsonc',
-      'latex',
-      'linkerscript',
-      'lua',
-      'make',
-      'markdown',
-      'nasm',
-      'nix',
-      'org',
-      'passwd',
-      'python',
-      'rust',
-      'scss',
-      'sql',
-      'ssh_config',
-      'toml',
-      'tsx',
-      'typescript',
-      'udev',
-      'vim',
-      'vimdoc',
-      'xml',
-      'yuck',
-      'zig',
+      'arduino', 'bash', 'c', 'cpp', 'css', 'csv', 'cuda', 'diff',
+      'dockerfile', 'fish', 'git_config', 'git_rebase', 'gitattributes',
+      'gitcommit', 'gitignore', 'go', 'gomod', 'haskell', 'html', 'javascript',
+      'json', 'jsonc', 'latex', 'linkerscript', 'lua', 'make', 'markdown',
+      'nasm', 'nix', 'org', 'passwd', 'python', 'rust', 'scss', 'sql',
+      'ssh_config', 'toml', 'tsx', 'typescript', 'udev', 'vim', 'vimdoc',
+      'xml', 'yuck', 'zig',
     },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -598,9 +564,9 @@ local servers = {
       Lua = {
         workspace = { checkThirdParty = false },
         telemetry = { enable = false },
-        -- diagnostics = {
-        --   disable = { 'missing-fields' },
-        -- },
+        diagnostics = {
+          disable = { 'missing-fields' },
+        },
       },
     },
   },
