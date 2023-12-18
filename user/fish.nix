@@ -23,6 +23,12 @@
       leak.body = ''
         fish -c "$argv &> /dev/null &"
       '';
+      ns.body = ''
+        for arg in $argv
+          set -fa pkgs "nixpkgs#$arg"
+        end
+        nix shell $pkgs
+      '';
       onExit = {
         onEvent = "fish_exit";
         body = "clear";

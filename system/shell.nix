@@ -75,6 +75,8 @@
     "........" = "cd ../../../../../../..";
     "........." = "cd ../../../../../../../..";
     ".........." = "cd ../../../../../../../../..";
+    nrs = "sudo nixos-rebuild switch";
+    nrb = "sudo nixos-rebuild boot";
   };
 
   environment.systemPackages = with pkgs; [
