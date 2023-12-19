@@ -92,6 +92,7 @@
                   comma
                   discord
                   element-desktop
+                  ffmpeg
                   firefox-devedition
                   gparted
                   inkscape
@@ -101,6 +102,7 @@
                   slack
                   superTuxKart
                   tridactyl-native
+                  vlc
                 ];
               };
             };
