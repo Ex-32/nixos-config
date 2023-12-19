@@ -203,6 +203,15 @@ require('lazy').setup({
   },
 
   {
+    'dgagn/diagflow.nvim',
+    event = 'LspAttach',
+    opts = {
+      scope = "line",
+      show_sign = true,
+    },
+  },
+
+  {
     -- a soothing pastel theme for the high-spirited!
     "catppuccin/nvim",
     name = "catppuccin",
@@ -332,11 +341,11 @@ require('lazy').setup({
 
 vim.o.hlsearch = true           -- highlight on search
 vim.wo.number = true            -- line numbers by default
-vim.o.mouse = 'a'               -- enable mouse mode
-vim.o.clipboard = 'unnamedplus' -- sync clipboard between OS and neovim
+vim.o.mouse = "a"               -- enable mouse mode
+vim.o.clipboard = "unnamedplus" -- sync clipboard between OS and neovim
 vim.o.breakindent = true        -- enable break indent
 vim.o.undofile = true           -- save undo history
-vim.wo.signcolumn = 'yes'       -- enable gutter with stuff like git flags
+vim.wo.signcolumn = "yes"       -- enable gutter with stuff like git flags
 vim.o.spelllang = "en_us,cjk"   -- set spellcheck language
 vim.o.spellsuggest = "best,5"   -- set spellcheck suggestion options
 vim.o.spell = true              -- enable spellcheck
@@ -344,6 +353,7 @@ vim.o.colorcolumn = "80"        -- add ruler at 80 columns
 vim.o.termguicolors = true      -- enable 255 terminal colors
 vim.o.wrap = true               -- soft wrap lines that are too long to display
 vim.o.linebreak = true          -- try to break long lines at word boundaries
+vim.o.shiftwidth = 4            -- tab == 4 spaces
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
@@ -352,7 +362,7 @@ vim.o.smartcase = true
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = "menuone,noselect"
 
 -- disable spellcheck and line numbers on terminal windows
 vim.api.nvim_create_autocmd("TermOpen", {
@@ -598,6 +608,19 @@ for key, value in pairs(servers) do
     root_dir = (value or {}).root_dir,
   })
 end
+
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+vim.diagnostic.config({
+  update_in_insert = true,
+  underline = true,
+})
+
+local uwu = 23
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
