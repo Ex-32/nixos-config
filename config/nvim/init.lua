@@ -1,4 +1,3 @@
-
 -- Set <space> as the leader key
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
@@ -35,9 +34,7 @@ require('lazy').setup({
   {
     "nmac427/guess-indent.nvim",
     lazy = false,
-    config = function (_, opts)
-      require("guess-indent").setup(opts)
-    end
+    opts = {},
   },
 
   {
@@ -45,7 +42,16 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Useful status updates for LSP
-      { 'j-hui/fidget.nvim', opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        opts = {
+          notification = {
+            window = {
+              winblend = 0, -- transparent background for notification window
+            },
+          },
+        },
+      },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -111,7 +117,7 @@ require('lazy').setup({
 
   {
     -- Useful plugin to show you pending keybinds.
-  'folke/which-key.nvim',
+    'folke/which-key.nvim',
     opts = {}
   },
 
@@ -188,6 +194,12 @@ require('lazy').setup({
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
       end,
     },
+  },
+
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {},
   },
 
   {
@@ -289,7 +301,7 @@ require('lazy').setup({
     },
     ft = "rust",
     opts = {
-        tools = {
+      tools = {
         inlay_hints = {
           other_hints_prefix = "󰆧 ",
         },
@@ -298,7 +310,7 @@ require('lazy').setup({
   },
   {
     "saecki/crates.nvim",
-    ft = {"rust", "toml"},
+    ft = { "rust", "toml" },
     config = function(_, opts)
       local crates = require("crates")
       crates.setup(opts)
@@ -328,7 +340,7 @@ vim.wo.signcolumn = 'yes'       -- enable gutter with stuff like git flags
 vim.o.spelllang = "en_us,cjk"   -- set spellcheck language
 vim.o.spellsuggest = "best,5"   -- set spellcheck suggestion options
 vim.o.spell = true              -- enable spellcheck
-vim.o.colorcolumn = "80"        -- add ruler at 80 columns 
+vim.o.colorcolumn = "80"        -- add ruler at 80 columns
 vim.o.termguicolors = true      -- enable 255 terminal colors
 vim.o.wrap = true               -- soft wrap lines that are too long to display
 vim.o.linebreak = true          -- try to break long lines at word boundaries
