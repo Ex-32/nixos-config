@@ -9,6 +9,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nur.url = "github:nix-community/NUR";
+    nix-alien.url = "github:thiagokokada/nix-alien";
     nix-wallpaper = {
       url = "github:lunik1/nix-wallpaper";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,7 +19,6 @@
       url = "github:sioodmy/blahaj";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nur.url = "github:nix-community/NUR";
     spicetify-nix = {
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,6 +33,7 @@
     nixosConfigurations = {
       "nixos-pc" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           { networking.hostName = "nixos-pc"; }
 
@@ -47,6 +49,7 @@
           ./hardware/nvidia.nix
 
           # system configuration
+          ./system/nix-alien.nix
           ./system/appimage-binfmt.nix
           ./system/base.nix
           ./system/console.nix
