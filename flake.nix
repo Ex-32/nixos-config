@@ -2,31 +2,31 @@
   description = "NixOS configuration";
 
   inputs = {
+    # unstable is my middle name B)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # it's stored in the aether 
     impermanence.url = "github:nix-community/impermanence";
+    # dotfile maid 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # laptops am i right...
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # like the AUR, but flakier
     nur.url = "github:nix-community/NUR";
+    # we come in peace
     nix-alien.url = "github:thiagokokada/nix-alien";
+    # alias ls='neofetch'
     nix-wallpaper = {
       url = "github:lunik1/nix-wallpaper";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    blahaj = {
-      url = "github:sioodmy/blahaj";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # spotify, but flakier
     spicetify-nix = {
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nix-doom-emacs = {
-    #   url = "github:nix-community/nix-doom-emacs";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 
   outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
@@ -37,19 +37,17 @@
         modules = [
           { networking.hostName = "nixos-pc"; }
 
-          # impermanence setup
-          inputs.impermanence.nixosModule
-
           # NUR overlay setup
-          inputs.nur.nixosModules.nur
-          { nixpkgs.overlays = [ inputs.nur.overlay ]; }
+          { 
+            imports = [ inputs.nur.nixosModules.nur ];
+            nixpkgs.overlays = [ inputs.nur.overlay ]; 
+          }
 
           # hardware configuration
           ./hardware/nixos-pc.nix
           ./hardware/nvidia.nix
 
           # system configuration
-          ./system/nix-alien.nix
           ./system/appimage-binfmt.nix
           ./system/base.nix
           ./system/console.nix
@@ -59,6 +57,7 @@
           ./system/impermanence.nix
           ./system/locale.nix
           ./system/network.nix
+          ./system/nix-alien.nix
           ./system/printing.nix
           ./system/shell.nix
           ./system/sound.nix
@@ -90,16 +89,17 @@
                   ./user/xdg.nix
                 ];
                 home.packages = with pkgs; [
-                  inputs.blahaj.packages.${pkgs.system}.default
                   _1password-gui
                   comma
                   discord
                   element-desktop
+                  endless-sky
                   ffmpeg
                   firefox-devedition
                   gparted
                   inkscape
                   onlyoffice-bin
+                  prismlauncher
                   rawtherapee
                   signal-desktop
                   slack
@@ -114,20 +114,19 @@
       };
       "nixbook" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           { networking.hostName = "nixbook"; }
 
-          # impermanence setup
-          inputs.impermanence.nixosModule
-
           # NUR overlay setup
-          inputs.nur.nixosModules.nur
-          { nixpkgs.overlays = [ inputs.nur.overlay ]; }
+          { 
+            imports = [ inputs.nur.nixosModules.nur ];
+            nixpkgs.overlays = [ inputs.nur.overlay ]; 
+          }
 
           # hardware configuration
           inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
           ./hardware/nixbook.nix
-          ./hardware/grub-patch.nix
 
           # system configuration
           ./system/appimage-binfmt.nix
@@ -168,7 +167,6 @@
                   ./user/obs-studio.nix
                 ];
                 home.packages = with pkgs; [
-                  inputs.blahaj.packages.${pkgs.system}.default
                   _1password-gui
                   comma
                   discord

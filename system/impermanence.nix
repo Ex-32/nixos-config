@@ -1,13 +1,18 @@
-{ config, pkgs, lib, nixpkgs, ... }:
+{ inputs, config, pkgs, lib, nixpkgs, ... }:
 
-{
+{ 
+  imports = [ inputs.impermanence.nixosModule ];
+  
   environment.persistence."/persist" = {
     directories = [
       "/etc/nixos"
       "/var/lib/nixos"
       "/var/log"
-      # "/var/lib/bluetooth" # add this to system/bluetooth.nix if/when it exists
-    ];
+    ] ++ (if config.networking.networkmanager.enable then 
+      [ "/etc/NetworkManager/system-connections" ] else [])
+      ++ (if config.hardware.bluetooth.enable then
+      [ "/var/lib/bluetooth" ] else []);
+
     files = [
       "/etc/machine-id"
     ];

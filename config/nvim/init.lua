@@ -26,6 +26,14 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
 
   {
+    "willothy/flatten.nvim",
+    opts = {},
+    -- Ensure that it runs first to minimize delay when opening file from terminal
+    lazy = false,
+    priority = 1001,
+  },
+
+  {
     -- utility plugin for seamless vim-tmux interop
     "christoomey/vim-tmux-navigator",
     lazy = false,
@@ -54,7 +62,17 @@ require('lazy').setup({
       },
 
       -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
+      {
+        "folke/neodev.nvim",
+        opts = {
+          override = function(root_dir, library)
+            if root_dir:find("/etc/nixos", 1, true) == 1 then
+              library.enabled = true
+              library.plugins = true
+            end
+          end
+        },
+      },
     },
   },
 
@@ -208,6 +226,11 @@ require('lazy').setup({
     opts = {
       scope = "line",
       show_sign = true,
+      render_event = {
+        "DiagnosticChanged",
+        "CursorMoved",
+        "CursorMovedI",
+      },
     },
   },
 
@@ -238,6 +261,26 @@ require('lazy').setup({
         section_separators = '',
       },
     },
+  },
+
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    after = "catppuccin/nvim";
+    opts = {},
+  },
+
+  {
+    "willothy/nvim-cokeline",
+    dependencies = {
+      "nvim-lua/plenary.nvim",        -- Required for v0.4.0+
+      "kyazdani42/nvim-web-devicons", -- If you want devicons
+    },
+    opts = {},
   },
 
   {
@@ -340,7 +383,8 @@ require('lazy').setup({
 -- [[ Setting options ]]
 
 vim.o.hlsearch = true           -- highlight on search
-vim.wo.number = true            -- line numbers by default
+-- vim.wo.number = true            -- line numbers by default
+vim.o.relativenumber = true     -- relative line numbers
 vim.o.mouse = "a"               -- enable mouse mode
 vim.o.clipboard = "unnamedplus" -- sync clipboard between OS and neovim
 vim.o.breakindent = true        -- enable break indent
@@ -539,16 +583,6 @@ require('which-key').register({
   ['<leader>'] = { name = 'VISUAL <leader>' },
   ['<leader>h'] = { 'Git [H]unk' },
 }, { mode = 'v' })
-
--- Setup neovim lua configuration
-require("neodev").setup({
-  override = function(root_dir, library)
-    if root_dir:find("/etc/nixos", 1, true) == 1 then
-      library.enabled = true
-      library.plugins = true
-    end
-  end,
-})
 
 local lspconfig = require('lspconfig')
 local servers = {
