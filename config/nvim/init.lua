@@ -40,6 +40,13 @@ require('lazy').setup({
   },
 
   {
+    -- utility plugin for seamless vim-wezterm mux iterop
+    "willothy/wezterm.nvim",
+    lazy = false,
+    opts = {},
+  },
+
+  {
     "nmac427/guess-indent.nvim",
     lazy = false,
     opts = {},
@@ -383,7 +390,6 @@ require('lazy').setup({
 -- [[ Setting options ]]
 
 vim.o.hlsearch = true           -- highlight on search
--- vim.wo.number = true            -- line numbers by default
 vim.o.relativenumber = true     -- relative line numbers
 vim.o.mouse = "a"               -- enable mouse mode
 vim.o.clipboard = "unnamedplus" -- sync clipboard between OS and neovim
@@ -412,7 +418,7 @@ vim.o.completeopt = "menuone,noselect"
 vim.api.nvim_create_autocmd("TermOpen", {
   callback = function()
     vim.opt_local.spell = false
-    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
   end
 })
 
