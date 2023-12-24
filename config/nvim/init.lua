@@ -212,8 +212,8 @@ require('lazy').setup({
         end, { desc = 'git diff against last commit' })
 
         -- Toggles
-        map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
-        map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
+        map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = '[T]oggle git [B]lame line' })
+        map('n', '<leader>td', gs.toggle_deleted, { desc = '[T]oggle git show [D]eleted' })
 
         -- Text object
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
@@ -331,6 +331,21 @@ require('lazy').setup({
     },
   },
 
+
+
+  {
+    "ziontee113/icon-picker.nvim",
+    opts = {
+      disable_legacy_command = true,
+    },
+    dependencies = {
+      {
+        "stevearc/dressing.nvim",
+        opts = {},
+      }
+    },
+  },
+
   {
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
@@ -346,6 +361,7 @@ require('lazy').setup({
     event = "VeryLazy",
     opts = {},
   },
+
   -- language specific plugins
   -- (these plugins provide extra features that just a language server can't)
   {
@@ -582,6 +598,7 @@ require('which-key').register {
   ['<leader>f'] = { name = '[F]ind', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  ['<leader>s'] = { name = '[S]ymbol', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
@@ -752,7 +769,7 @@ local mappings = {
   },
   n = {
     ["<space>"] = { "<Nop>", nil, { silent = true } },
-    ["<leader>s"] = { "<cmd> set spell! <CR>", "Toggle Spellcheck" },
+    ["<leader>ts"] = { "<cmd> set spell! <CR>", "[T]oggle [S]pellcheck" },
     ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
     ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
@@ -763,6 +780,10 @@ local mappings = {
       end,
       "Toggle comment",
     },
+
+    -- icon picker mappings
+    ["<leader>si"] = { "<cmd> IconPickerNormal <CR>", "[S]ymbol [I]nsert" },
+    ["<leader>sy"] = { "<cmd> IconPickerYank <CR>", "[S]ymbol [Y]ank" },
 
     -- Diagnostic keymaps
     ["[d"] = { vim.diagnostic.goto_prev, "Go to previous diagnostic message" },
