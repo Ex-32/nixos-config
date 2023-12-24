@@ -234,9 +234,12 @@ require('lazy').setup({
       scope = "line",
       show_sign = true,
       render_event = {
-        "DiagnosticChanged",
+        "BufEnter",
+        "CursorHold",
         "CursorMoved",
         "CursorMovedI",
+        "DiagnosticChanged",
+        "InsertLeave",
       },
     },
   },
@@ -284,8 +287,8 @@ require('lazy').setup({
   {
     "willothy/nvim-cokeline",
     dependencies = {
-      "nvim-lua/plenary.nvim",        -- Required for v0.4.0+
-      "kyazdani42/nvim-web-devicons", -- If you want devicons
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons",
     },
     opts = {},
   },
@@ -293,8 +296,6 @@ require('lazy').setup({
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help ibl`
     main = 'ibl',
     opts = {},
   },
@@ -331,8 +332,6 @@ require('lazy').setup({
     },
   },
 
-
-
   {
     "ziontee113/icon-picker.nvim",
     opts = {
@@ -364,10 +363,13 @@ require('lazy').setup({
 
   -- language specific plugins
   -- (these plugins provide extra features that just a language server can't)
+  ---- haskell
   {
     "mrcjkb/haskell-tools.nvim",
     ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
   },
+
+  ---- rust
   {
     "simrat39/rust-tools.nvim",
     dependencies = {
@@ -406,6 +408,7 @@ require('lazy').setup({
 -- [[ Setting options ]]
 
 vim.o.hlsearch = true           -- highlight on search
+vim.o.number = true             -- enable line number
 vim.o.relativenumber = true     -- relative line numbers
 vim.o.mouse = "a"               -- enable mouse mode
 vim.o.clipboard = "unnamedplus" -- sync clipboard between OS and neovim
@@ -676,8 +679,6 @@ vim.diagnostic.config({
   update_in_insert = true,
   underline = true,
 })
-
-local uwu = 23
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
