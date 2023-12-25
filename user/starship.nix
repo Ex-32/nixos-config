@@ -143,7 +143,7 @@
         format = "[$symbol$branch]($style) ";
       };
       hostname = {
-        ssh_symbol = " ";
+        ssh_symbol = "  ";
         ssh_only = true;
         format = "@[$hostname$ssh_symbol]($style) ";
         style = "yellow bold";
