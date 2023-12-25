@@ -290,7 +290,9 @@ require('lazy').setup({
       "nvim-lua/plenary.nvim",
       "kyazdani42/nvim-web-devicons",
     },
-    opts = {},
+    opts = {
+      show_if_buffers_are_at_least = 2,
+    },
   },
 
   {
@@ -438,6 +440,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
   callback = function()
     vim.opt_local.spell = false
     vim.opt_local.relativenumber = false
+    vim.opt_local.number = false
   end
 })
 
