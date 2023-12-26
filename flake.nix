@@ -124,7 +124,6 @@
           }
 
           # hardware configuration
-          inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
           ./hardware/nixbook.nix
 
           # system configuration
