@@ -142,6 +142,7 @@
           ./system/sound.nix
           ./system/users.nix
           ./system/vial.nix
+          ./system/kernel-latest.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
