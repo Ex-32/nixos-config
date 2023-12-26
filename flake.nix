@@ -64,6 +64,7 @@
           ./system/users.nix
           ./system/vial.nix
           ./system/x11.nix
+          ./system/kernel-latest.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
