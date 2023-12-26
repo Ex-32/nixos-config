@@ -45,7 +45,6 @@
 
           # hardware configuration
           ./hardware/nixos-pc.nix
-          ./hardware/nvidia.nix
 
           # system configuration
           ./system/appimage-binfmt.nix
