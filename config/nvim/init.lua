@@ -348,6 +348,11 @@ require('lazy').setup({
   },
 
   {
+    "akinsho/toggleterm.nvim",
+    opts = {},
+  },
+
+  {
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
