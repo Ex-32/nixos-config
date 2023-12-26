@@ -172,6 +172,7 @@
                   discord
                   element-desktop
                   endless-sky
+                  ffmpeg
                   firefox-devedition
                   gparted
                   inkscape
@@ -182,6 +183,7 @@
                   slack
                   superTuxKart
                   tridactyl-native
+                  vlc
                 ];
               };
             };
