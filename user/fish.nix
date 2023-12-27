@@ -16,9 +16,6 @@
     shellInit = ''
       set -g fish_greeting
     '';
-    shellAliases = {
-        cd = "z";
-    };
     functions = {
       leak.body = ''
         fish -c "$argv &> /dev/null &"
