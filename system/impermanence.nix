@@ -11,7 +11,9 @@
     ] ++ (if config.networking.networkmanager.enable then 
       [ "/etc/NetworkManager/system-connections" ] else [])
       ++ (if config.hardware.bluetooth.enable then
-      [ "/var/lib/bluetooth" ] else []);
+      [ "/var/lib/bluetooth" ] else [])
+      ++ (if config.virtualisation.libvirtd.enable then
+      [ "/var/lib/libvirt" ] else []);
 
     files = [
       "/etc/machine-id"

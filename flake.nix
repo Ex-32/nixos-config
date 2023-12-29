@@ -48,12 +48,14 @@
 
           # system configuration
           ./system/appimage-binfmt.nix
+          ./system/auth.nix
           ./system/base.nix
           ./system/console.nix
           ./system/desktop.nix
           ./system/ecryptfs.nix
           ./system/grub.nix
           ./system/impermanence.nix
+          ./system/kernel-latest.nix
           ./system/locale.nix
           ./system/network.nix
           ./system/nix-alien.nix
@@ -63,8 +65,8 @@
           ./system/ssh.nix
           ./system/users.nix
           ./system/vial.nix
+          ./system/virt-manager.nix
           ./system/x11.nix
-          ./system/kernel-latest.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
