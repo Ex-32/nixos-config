@@ -9,6 +9,7 @@
     enable = true;
     device = "nodev";
     efiSupport = true;
+    useOSProber = true;
     enableCryptodisk = true;
     splashImage = null;
     font = "${pkgs.spleen}/share/fonts/misc/spleen-16x32.otf";
