@@ -52,6 +52,7 @@
           ./system/base.nix
           ./system/console.nix
           ./system/desktop.nix
+          ./system/distrobox.nix
           ./system/ecryptfs.nix
           ./system/grub.nix
           ./system/impermanence.nix

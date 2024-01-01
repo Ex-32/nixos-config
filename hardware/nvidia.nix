@@ -10,4 +10,6 @@
   hardware.nvidia = {
     modesetting.enable = true;
   };
+
+  virtualisation.podman.enableNvidia = true;
 }
