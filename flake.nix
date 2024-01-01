@@ -65,7 +65,6 @@
           ./system/ssh.nix
           ./system/users.nix
           ./system/vial.nix
-          ./system/virt-manager.nix
           ./system/x11.nix
 
           # home-manager configuration
