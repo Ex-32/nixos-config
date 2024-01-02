@@ -135,8 +135,10 @@
           ./system/base.nix
           ./system/console.nix
           ./system/desktop.nix
+          ./system/distrobox.nix
           ./system/grub.nix
           ./system/impermanence.nix
+          ./system/kernel-latest.nix
           ./system/locale.nix
           ./system/network.nix
           ./system/printing.nix
@@ -144,7 +146,6 @@
           ./system/sound.nix
           ./system/users.nix
           ./system/vial.nix
-          ./system/kernel-latest.nix
 
           # home-manager configuration
           home-manager.nixosModules.home-manager
