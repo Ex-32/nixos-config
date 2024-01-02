@@ -177,9 +177,11 @@
                   endless-sky
                   ffmpeg
                   firefox-devedition
+                  gimp
                   gparted
                   inkscape
                   onlyoffice-bin
+                  prismlauncher
                   rawtherapee
                   rclone
                   signal-desktop
