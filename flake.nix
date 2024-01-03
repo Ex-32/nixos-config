@@ -37,12 +37,6 @@
         modules = [
           { networking.hostName = "nixos-pc"; }
 
-          # NUR overlay setup
-          { 
-            imports = [ inputs.nur.nixosModules.nur ];
-            nixpkgs.overlays = [ inputs.nur.overlay ]; 
-          }
-
           # hardware configuration
           ./hardware/nixos-pc.nix
 
@@ -69,47 +63,41 @@
           ./system/x11.nix
 
           # home-manager configuration
-          home-manager.nixosModules.home-manager
           {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
-              users.jenna = { config, pkgs, lib, inputs, ... }: {
-                imports = [
-                  ./user/base.nix
-                  ./user/fish.nix
-                  ./user/git.nix
-                  ./user/i3.nix
-                  ./user/neovim.nix
-                  ./user/nix-index.nix
-                  ./user/obs-studio.nix
-                  ./user/picom.nix
-                  ./user/python.nix
-                  ./user/spotify.nix
-                  ./user/wezterm.nix
-                  ./user/xdg.nix
-                ];
-                home.packages = with pkgs; [
-                  _1password-gui
-                  comma
-                  discord
-                  element-desktop
-                  endless-sky
-                  ffmpeg
-                  firefox-devedition
-                  gparted
-                  inkscape
-                  onlyoffice-bin
-                  prismlauncher
-                  rawtherapee
-                  signal-desktop
-                  slack
-                  superTuxKart
-                  tridactyl-native
-                  vlc
-                ];
-              };
+            home-manager.users.jenna = { config, pkgs, lib, inputs, ... }: {
+              imports = [
+                ./user/base.nix
+                ./user/fish.nix
+                ./user/git.nix
+                ./user/i3.nix
+                ./user/neovim.nix
+                ./user/nix-index.nix
+                ./user/obs-studio.nix
+                ./user/picom.nix
+                ./user/python.nix
+                ./user/spotify.nix
+                ./user/wezterm.nix
+                ./user/xdg.nix
+              ];
+              home.packages = with pkgs; [
+                _1password-gui
+                comma
+                discord
+                element-desktop
+                endless-sky
+                ffmpeg
+                firefox-devedition
+                gparted
+                inkscape
+                onlyoffice-bin
+                prismlauncher
+                rawtherapee
+                signal-desktop
+                slack
+                superTuxKart
+                tridactyl-native
+                vlc
+              ];
             };
           }
         ];
@@ -119,12 +107,6 @@
         specialArgs = { inherit inputs; };
         modules = [
           { networking.hostName = "nixbook"; }
-
-          # NUR overlay setup
-          { 
-            imports = [ inputs.nur.nixosModules.nur ];
-            nixpkgs.overlays = [ inputs.nur.overlay ]; 
-          }
 
           # hardware configuration
           ./hardware/nixbook.nix
@@ -148,49 +130,43 @@
           ./system/vial.nix
 
           # home-manager configuration
-          home-manager.nixosModules.home-manager
           {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
-              users.jenna = { config, pkgs, lib, inputs, ... }: {
-                imports = [
-                  ./user/base.nix
-                  ./user/fish.nix
-                  ./user/git.nix
-                  ./user/latex.nix
-                  ./user/neovim.nix
-                  ./user/nix-index.nix
-                  ./user/python.nix
-                  ./user/spotify.nix
-                  ./user/sway.nix
-                  ./user/wezterm.nix
-                  ./user/xdg.nix
-                  ./user/obs-studio.nix
-                ];
-                home.packages = with pkgs; [
-                  _1password-gui
-                  comma
-                  discord
-                  element-desktop
-                  endless-sky
-                  ffmpeg
-                  firefox-devedition
-                  gimp
-                  gparted
-                  inkscape
-                  onlyoffice-bin
-                  prismlauncher
-                  rawtherapee
-                  rclone
-                  signal-desktop
-                  slack
-                  superTuxKart
-                  tridactyl-native
-                  vlc
-                ];
-              };
+            home-manager.users.jenna = { config, pkgs, lib, inputs, ... }: {
+              imports = [
+                ./user/base.nix
+                ./user/fish.nix
+                ./user/git.nix
+                ./user/latex.nix
+                ./user/neovim.nix
+                ./user/nix-index.nix
+                ./user/python.nix
+                ./user/spotify.nix
+                ./user/sway.nix
+                ./user/wezterm.nix
+                ./user/xdg.nix
+                ./user/obs-studio.nix
+              ];
+              home.packages = with pkgs; [
+                _1password-gui
+                comma
+                discord
+                element-desktop
+                endless-sky
+                ffmpeg
+                firefox-devedition
+                gimp
+                gparted
+                inkscape
+                onlyoffice-bin
+                prismlauncher
+                rawtherapee
+                rclone
+                signal-desktop
+                slack
+                superTuxKart
+                tridactyl-native
+                vlc
+              ];
             };
           }
         ];

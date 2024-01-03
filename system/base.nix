@@ -4,6 +4,11 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    inputs.nur.nixosModules.nur
+  ];
+
   nix.settings = {
     # enable experimental flake support
     experimental-features = [ "nix-command" "flakes" ];
@@ -12,6 +17,8 @@
     # nix for the big cheese only
     allowed-users = lib.mkForce [ "@wheel" ];
   };
+
+  nixpkgs.overlays = [ inputs.nur.overlay ];
 
   systemd.coredump.extraConfig = "Storage=none";
   security.sudo.execWheelOnly = true;
@@ -30,6 +37,12 @@
     wget
     zip
   ];
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs; };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
