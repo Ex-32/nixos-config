@@ -1,6 +1,6 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, osConfig, ... }:
 
 {
   programs.home-manager.enable = true;
-  home.stateVersion = "23.11";
+  home.stateVersion = osConfig.system.stateVersion;
 }
