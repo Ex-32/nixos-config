@@ -25,8 +25,5 @@
     ];
   };
 
-  services.getty = {
-    helpLine = lib.mkForce "";
-    extraArgs = [ "--noclear" ];
-  };
+  services.getty.helpLine = lib.mkForce "";
 }
