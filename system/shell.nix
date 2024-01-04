@@ -14,7 +14,6 @@
     EDITOR = "nvim";
     LESSHISTFILE = "-";
     MICRO_TRUECOLOR = "1";
-    GHCUP_USE_XDG_DIRS = "1";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     FZF_DEFAULT_OPTS = builtins.concatStringsSep " " [
       "--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8"
@@ -29,11 +28,7 @@
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
 
-    # XDG_BIN_HOME not officially part of the standard:
-    XDG_BIN_HOME = "$HOME/.local/bin";
-
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
-    xserverauthfile = "$XAUTHORITY";
 
     CARGO_HOME = "$XDG_DATA_HOME/cargo";
     RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
@@ -41,7 +36,6 @@
     RBENV_ROOT = "$XDG_DATA_HOME/rbenv";
     GNUPGHOME = "$XDG_DATA_HOME/gnugp";
     WINEPREFIX = "$XDG_DATA_HOME/wine";
-    # ANDROID_HOME = "$XDG_DATA_HOME/android"; # didn't work :(
     GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
  
     PYTHONSTARTUP = "$XDG_CONFIG_HOME/python3/startup.py";
@@ -54,7 +48,6 @@
     CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nvidia/ComputeCache";
 
     PATH = [
-      "$HOME/.local/bin" 
       "$HOME/.local/share/cargo/bin"
       "$HOME/.local/share/go/bin"
     ];
