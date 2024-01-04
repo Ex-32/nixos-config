@@ -9,7 +9,6 @@
       cnijfilter2
       gutenprint
       gutenprintBin
-      hplip
       hplipWithPlugin
     ];
   };
