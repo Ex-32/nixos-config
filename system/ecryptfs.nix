@@ -1,7 +1,10 @@
 { config, pkgs, lib, nixpkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [ ecryptfs ];
+  # this automatically decrypts and mounts a home directory encrypted with
+  # ecryptfs on login, which is my only use-case for ecryptfs (for general
+  # encrypted directories gocryptfs is more stable and easier to use)
   security.pam.enableEcryptfs = true;
+  environment.systemPackages = with pkgs; [ ecryptfs ];
   boot.kernelModules = [ "ecryptfs" ];
 }

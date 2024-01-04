@@ -12,8 +12,14 @@
     useOSProber = true;
     enableCryptodisk = true;
     splashImage = null;
+
+    # i'm honestly not sure if this is doing anything since i defined a custom
+    # theme, but since the spleen packages is being used in that theme anyways,
+    # it's not pulling in any additional packages, so if it ain't broke...
     font = "${pkgs.spleen}/share/fonts/misc/spleen-16x32.otf";
     fontSize = 32;
+
+    # the catppuccin grub theme isn't packaged by nixpkgs... so i did it myself
     theme = let
       path = "src/catppuccin-mocha-grub-theme";
     in pkgs.stdenv.mkDerivation rec {
@@ -29,6 +35,9 @@
         grub2
         spleen
       ];
+      # this is some rather hacky find 'n replace to change the font and to use
+      # relative sizes for the menu options (the original didn't scale to 4k
+      # very well)
       prePatch = ''
         substituteInPlace ${path}/theme.txt --replace "Unifont Regular 16" "Spleen 16x32 Regular 32"
         substituteInPlace  ${path}/theme.txt --replace "left = 50%-240" "left = 20%"

@@ -7,6 +7,9 @@
     description = "Jenna Fligor";
     extraGroups = [ "networkmanager" "wheel" "video" "lp" "dialout" ];
     shell = pkgs.fish;
+
+    # it must be initalHashedPassword, and not hashedPassword, because
+    # impermanence means /etc/passwd exists on a ramdisk
     initialHashedPassword = import ../secrets/passwd/jenna;
   };
 }

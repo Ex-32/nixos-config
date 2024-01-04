@@ -2,9 +2,20 @@
 
 {
   console = {
+    # this performs tty configuration in the initrd, enabled mostly for
+    # aesthetic purposes (so the font gets set asap)
     earlySetup = true;
+
+    # this installs and sets the tty consolefont to the spleen font with a size
+    # of 16x32, this will look very big on a low-res display, but looks very
+    # nice on most modern displays
     packages = with pkgs; [ spleen ];
     font = "spleen-16x32";
+
+    # this sets the tty colors to colors from the catppuccin theme, this is
+    # done through some exceptionally long kernel arguments, so commenting out
+    # this block may make the kernel arguments more readable for debugging with
+    # only aesthetic consequences
     colors = [
       "11111b" # crust
       "f38ba8" # red
@@ -25,5 +36,7 @@
     ];
   };
 
+  # this disables the tty login help line about the nixos manual for a
+  # cleaner login prompt
   services.getty.helpLine = lib.mkForce "";
 }

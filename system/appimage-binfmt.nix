@@ -1,6 +1,8 @@
 { config, pkgs, lib, nixpkgs, ... }:
 
 {
+  # this registers a kernel binfmt for appimage files that runs them with
+  # `appimage-run` so that they work correctly on nixos
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
