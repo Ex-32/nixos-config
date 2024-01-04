@@ -58,6 +58,7 @@
           ./system/shell.nix
           ./system/sound.nix
           ./system/ssh.nix
+          ./system/steam.nix
           ./system/users.nix
           ./system/vial.nix
           ./system/x11.nix
