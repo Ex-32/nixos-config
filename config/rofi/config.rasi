@@ -1,3 +1,8 @@
+/* this config is based on
+ * https://github.com/catppuccin/rofi/tree/main/deathemonic
+ * specifically the "launcher" script, consolidated into a single config
+ */
+
 configuration {
     show-icons:                     true;
     display-drun: 		            "";
