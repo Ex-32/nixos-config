@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./shell-base.nix
     ./tmux.nix
     ./starship.nix
   ];
@@ -40,5 +39,11 @@
         };
       }
     ];
+  };
+
+  programs.zoxide.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
   };
 }
