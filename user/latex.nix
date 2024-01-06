@@ -8,7 +8,7 @@
   ];
 
   home.file.".config/latexmk/latexmkrc".text = ''
-      $pdf_previewer = 'zathura';
-      $latexmk = 'latexmk -interaction=nonstopmode';
+    $pdf_previewer = 'zathura';
+    $latexmk = 'latexmk -interaction=nonstopmode';
   '';
 }
