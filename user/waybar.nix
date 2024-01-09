@@ -6,7 +6,7 @@
   ];
 
   home.file.".config/waybar/bin/custom-ps.sh" = {
-    text = ''
+    text = /*bash*/ ''
       #!/bin/sh
       ${pkgs.procps}/bin/ps --ppid 2 -p 2 --deselect --no-headers | \
         ${pkgs.coreutils}/bin/wc -l 
@@ -167,7 +167,7 @@
         "interval" = 20;
       };
     }];
-    style = ''
+    style = /*css*/ ''
       @define-color base   #1e1e2e;
       @define-color mantle #181825;
       @define-color crust  #11111b;

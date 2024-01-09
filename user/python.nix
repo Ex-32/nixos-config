@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  home.file.".config/python3/startup.py".text = ''
+  home.file.".config/python3/startup.py".text = /*python*/ ''
     # borrowed from https://unix.stackexchange.com/a/704612
 
     # Enable custom ~/.python_history location on Python interactive console

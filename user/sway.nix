@@ -159,7 +159,7 @@
   home.file = {
     ".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
     ".config/sway/bin/dropterm.sh" = {
-      text = ''
+      text = /*bash*/ ''
         #!/bin/sh
         TERM_PIDFILE="''${XDG_RUNTIME_DIR:-~}/dropdown.pid"
         TERM_PID="$(cat "$TERM_PIDFILE")"

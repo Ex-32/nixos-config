@@ -12,14 +12,14 @@
 
   programs.fish = {
     enable = true;
-    shellInit = ''
+    shellInit = /*fish*/ ''
       set -g fish_greeting
     '';
     functions = {
-      leak.body = ''
+      leak.body = /*fish*/ ''
         fish -c "$argv &> /dev/null &"
       '';
-      ns.body = ''
+      ns.body = /*fish*/ ''
         for arg in $argv
           set -fa pkgs "nixpkgs#$arg"
         end

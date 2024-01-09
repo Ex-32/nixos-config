@@ -12,7 +12,7 @@
     textColor = "#cdd6f4";
     borderColor = "#cba6f7";
     progressColor = "#313244";
-    extraConfig = ''
+    extraConfig = /*toml*/ ''
       [urgency=high]
       border-color=#f38ba8
 
