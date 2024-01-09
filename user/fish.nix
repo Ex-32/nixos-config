@@ -15,6 +15,9 @@
     shellInit = /*fish*/ ''
       set -g fish_greeting
     '';
+    interactiveShellInit = /*fish*/ ''
+      fish_vi_key_bindings
+    '';
     functions = {
       leak.body = /*fish*/ ''
         fish -c "$argv &> /dev/null &"
