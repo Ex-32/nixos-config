@@ -145,6 +145,7 @@
               ];
               home.packages = with pkgs; [
                 _1password-gui
+                gocryptfs
                 gparted
                 onlyoffice-bin
                 rclone
