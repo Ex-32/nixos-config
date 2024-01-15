@@ -2,13 +2,13 @@
 
 {
   imports = [
-    ./wayland-base.nix
-    ./swaylock.nix
-    ./swayidle.nix
-    ./waybar.nix
-    ./systray.nix
     ./gtk.nix
     ./qt.nix
+    ./swayidle.nix
+    ./swaylock.nix
+    ./systray.nix
+    ./waybar.nix
+    ./wezterm.nix
   ];
 
   wayland.windowManager.hyprland = {
@@ -16,6 +16,7 @@
     systemd.enable = true;
     settings = {
       "$mod" = "SUPER";
+      "$term" = "wezterm";
       general = {
         gaps_in = 3;
         gaps_out = 6;
@@ -98,15 +99,15 @@
         "$mod SHIFT, 8, movetoworkspace, 8"
         "$mod SHIFT, 9, movetoworkspace, 9"
 
-        "$mod, q, exec, wezterm"
-        "$mod, d, exec, sh -c 'pkill rofi || exec ~/.config/rofi/bin/launcher'"
+        "$mod, q, exec, $term"
+        ''$mod, d, exec, ${pkgs.rofi-wayland}/bin/rofi -show drun -modi drun -scroll-method 0 -drun-match-fields all -drun-display-format "{name}" -no-drun-show-actions -terminal $term -theme config''
         "$mod, Semicolon, exec, swaylock"
-        "$mod, Print, exec, sh -c 'grim - | wl-copy'"
-        "$mod SHIFT, Print, exec, sh -c 'slurp | grim -g - - | wl-copy'"
+        "$mod, Print, exec, sh -c '${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy'"
+        "$mod SHIFT, Print, exec, sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy'"
 
-        ", XF86AudioPrev, exec, playerctl previous"
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioNext, exec, playerctl next"
+        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
+        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
 
         "$mod, c, killactive"
         "$mod, Tab, togglespecialworkspace"
@@ -135,14 +136,14 @@
       ];
       # keybinds that'll repeat if held
       binde = [
-        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
-        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-        ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+        ", XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%-"
+        ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%+"
       ];
       # keybinds that can be invoked even while locked
       bindl = [
-        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
       ];
       # mouse bindings
       bindm = [
@@ -150,11 +151,15 @@
         "$mod, mouse:273, resizewindow"
       ];
       exec = [
-        "xhost +SI:localuser:root"
+        "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:root"
       ];
       exec-once = [
         "[workspace special] wezterm start --always-new-process sh -c 'while :; do $SHELL; hyprctl dispatch togglespecialworkspace; clear; done'"
       ];
     };
+  };
+
+  home.file = {
+    ".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
   };
 }
