@@ -68,6 +68,7 @@
             home-manager.users.jenna = { config, pkgs, lib, inputs, ... }: {
               imports = [
                 ./user/base.nix
+                ./user/firefox.nix
                 ./user/fish.nix
                 ./user/git.nix
                 ./user/i3.nix
@@ -87,10 +88,8 @@
               home.packages = with pkgs; [
                 _1password-gui
                 comma
-                firefox-devedition
                 gparted
                 onlyoffice-bin
-                tridactyl-native
               ];
             };
           }
@@ -139,6 +138,7 @@
                 ./user/sway.nix
                 ./user/wezterm.nix
                 ./user/xdg.nix
+                ./user/firefox.nix
 
                 ./user/apps/games.nix
                 ./user/apps/media.nix
@@ -147,11 +147,9 @@
               home.packages = with pkgs; [
                 _1password-gui
                 comma
-                firefox-devedition
                 gparted
                 onlyoffice-bin
                 rclone
-                tridactyl-native
               ];
             };
           }

@@ -1,12 +1,19 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  # imports = [
-  #   inputs.nur.hmModules.nur
-  # ];
+  imports = [
+    inputs.nur.hmModules.nur
+  ];
 
+  home.packages = with pkgs; [
+    firefox-devedition
+    tridactyl-native
+  ];
+
+  # TODO: figure out why enabling this causes firefox to throw a missing
+  # profile error and fix it so firefox can be configured declaratively
   programs.firefox = {
-    enable = true;
+    enable = false;
     package = pkgs.firefox-devedition;
     enableGnomeExtensions = false;
     policies = {
@@ -30,15 +37,25 @@
     profiles = {
       me = {
         id = 0;
-        name = "me";
+        # name = "me";
         extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-          ublock-origin
-          privacy-badger
           clearurls
           decentraleyes
-          duckduckgo-privacy-essentials
-          languagetool
           disconnect
+          duckduckgo-privacy-essentials
+          facebook-container
+          languagetool
+          multi-account-containers
+          onepassword-password-manager
+          privacy-badger
+          return-youtube-dislikes
+          sponsorblock
+          stylus
+          tab-reloader
+          tampermonkey
+          tridactyl
+          ublock-origin
+          youtube-nonstop
         ];
         search = {
           force = true;
