@@ -79,25 +79,18 @@
                 ./user/spotify.nix
                 ./user/wezterm.nix
                 ./user/xdg.nix
+
+                ./user/apps/games.nix
+                ./user/apps/media.nix
+                ./user/apps/socials.nix
               ];
               home.packages = with pkgs; [
                 _1password-gui
                 comma
-                discord
-                element-desktop
-                endless-sky
-                ffmpeg
                 firefox-devedition
                 gparted
-                inkscape
                 onlyoffice-bin
-                prismlauncher
-                rawtherapee
-                signal-desktop
-                slack
-                superTuxKart
                 tridactyl-native
-                vlc
               ];
             };
           }
@@ -140,33 +133,25 @@
                 ./user/latex.nix
                 ./user/neovim.nix
                 ./user/nix-index.nix
+                ./user/obs-studio.nix
                 ./user/python.nix
                 ./user/spotify.nix
                 ./user/sway.nix
                 ./user/wezterm.nix
                 ./user/xdg.nix
-                ./user/obs-studio.nix
+
+                ./user/apps/games.nix
+                ./user/apps/media.nix
+                ./user/apps/socials.nix
               ];
               home.packages = with pkgs; [
                 _1password-gui
                 comma
-                discord
-                element-desktop
-                endless-sky
-                ffmpeg
                 firefox-devedition
-                gimp
                 gparted
-                inkscape
                 onlyoffice-bin
-                prismlauncher
-                rawtherapee
                 rclone
-                signal-desktop
-                slack
-                superTuxKart
                 tridactyl-native
-                vlc
               ];
             };
           }
