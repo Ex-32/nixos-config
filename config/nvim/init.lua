@@ -251,7 +251,7 @@ require('lazy').setup({
     priority = 1000,
     opts = {
       flavor = "mocha",
-      transparent_background = false,
+      transparent_background = true,
       show_end_of_buffer = true,
     },
 
