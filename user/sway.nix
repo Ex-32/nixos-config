@@ -19,11 +19,12 @@
 
   wayland.windowManager.sway = {
     enable = true;
+    package = pkgs.swayfx;
     config = rec {
       modifier = "Mod4";
       terminal = "wezterm";
       gaps = {
-        inner = 0;
+        inner = 8;
         outer = 0;
       };
       colors = let
@@ -148,12 +149,23 @@
           command = ''"${pkgs.xorg.xhost}/bin/xhost +SI:localuser:root"''; 
           always = true; 
         }
+        {
+          command = ''${pkgs.brightnessctl}/bin/brightnessctl set 75%'';
+        }
       ];
       window = {
         titlebar = false;
         border = 1;
       };
     };
+    # this config is specific to swayfx
+    extraConfig = ''
+      blur enable
+      blur_xray disable
+      blur_radius 2
+      shadows enable
+      default_dim_inactive 0.3
+    '';
   };
 
   home.file = {
