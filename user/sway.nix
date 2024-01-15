@@ -161,7 +161,7 @@
     ".config/sway/bin/dropterm.sh" = {
       text = /*bash*/ ''
         #!/bin/sh
-        TERM_PIDFILE="''${XDG_RUNTIME_DIR:-~}/dropdown.pid"
+        TERM_PIDFILE="''${XDG_RUNTIME_DIR}/dropdown.pid"
         TERM_PID="$(cat "$TERM_PIDFILE")"
         if swaymsg "[ pid=$TERM_PID ] scratchpad show"; then
             # If multi-monitor configuration: resize on each monitor
@@ -170,7 +170,14 @@
             wezterm start --always-new-process &
             TERM_PID="$!"
             echo "$TERM_PID" > "$TERM_PIDFILE"
-            swaymsg "for_window [ pid=$TERM_PID ] 'border pixel 1 ; floating enable ; resize set 90ppt 90ppt ; move position 5ppt 5ppt ; move to scratchpad ; scratchpad show'"
+            swaymsg "for_window [ pid=$TERM_PID ] '${lib.strings.concatStrings [
+              "border pixel 1;"
+              "floating enable;"
+              "resize set 90ppt 90ppt;"
+              "move position 5ppt 5ppt;"
+              "move to scratchpad;"
+              "scratchpad show"
+            ]}'"
             trap 'kill $(jobs -p); rm -f "$TERM_PIDFILE"' EXIT
             wait "$TERM_PID"
         fi
