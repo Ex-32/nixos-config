@@ -87,7 +87,6 @@
               ];
               home.packages = with pkgs; [
                 _1password-gui
-                comma
                 gparted
                 onlyoffice-bin
               ];
@@ -146,7 +145,6 @@
               ];
               home.packages = with pkgs; [
                 _1password-gui
-                comma
                 gparted
                 onlyoffice-bin
                 rclone

@@ -7,4 +7,5 @@
     enableFishIntegration = config.programs.fish.enable;
     enableZshIntegration = config.programs.zsh.enable;
   };
+  home.packages = [ pkgs.comma ];
 }
