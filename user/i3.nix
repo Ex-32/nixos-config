@@ -3,9 +3,9 @@
 {
   imports = [
     ./gtk.nix
-    ./qt.nix
-    ./systray.nix
     ./picom.nix
+    ./qt.nix
+    ./tint2.nix
   ];
 
   home.packages = with pkgs; [

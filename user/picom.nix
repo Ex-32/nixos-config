@@ -9,6 +9,7 @@
     shadowExclude = [
       "window_type *= 'menu'"
       "name ~= 'Firefox$'"
+      "name ~= 'tint2$'"
     ];
   };
 }
