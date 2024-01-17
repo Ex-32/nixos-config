@@ -3,6 +3,7 @@
 {
   imports = [
     ./nerdfont.nix
+    ./systray.nix
   ];
 
   home.file.".config/waybar/bin/custom-ps.sh" = {

@@ -7,7 +7,6 @@
     ./qt.nix
     ./swayidle.nix
     ./swaylock.nix
-    ./systray.nix
     ./waybar.nix
   ];
 
