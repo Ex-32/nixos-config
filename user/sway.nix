@@ -13,12 +13,37 @@
   home.packages = with pkgs; [
     wl-clipboard
     wl-mirror
+    xdg-desktop-portal
     xdg-desktop-portal-wlr
+    xdg-desktop-portal-gtk
   ];
 
-  wayland.windowManager.sway = {
+  wayland.windowManager.sway = let
+    # currently, there is some friction between sway and gtk:
+    # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
+    # the suggested way to set gtk settings is with gsettings
+    # for gsettings to work, we need to tell it where the schemas are
+    # using the XDG_DATA_DIR environment variable
+    # run at the end of sway config
+    configure-gtk = pkgs.writeTextFile {
+      name = "configure-gtk";
+      destination = "/bin/configure-gtk";
+      executable = true;
+      text = let
+        gesttings = "${pkgs.glib}/bin/gsettings";
+        schema = pkgs.gsettings-desktop-schemas;
+        datadir = "${schema}/share/gsettings-schemas/${schema.name}";
+      in /*bash*/ ''
+        export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
+        gnome_schema=org.gnome.desktop.interface
+        ${gesttings} set $gnome_schema gtk-theme "${config.gtk.theme.name}"
+        ${gesttings} set $gnome_schema cursor-theme "${config.gtk.cursorTheme.name}"
+      '';
+    };
+  in  {
     enable = true;
     package = pkgs.swayfx;
+    wrapperFeatures.gtk = true;
     config = rec {
       modifier = "Mod4";
       terminal = "wezterm";
@@ -90,6 +115,9 @@
         };
         background = "${crust}";
       };
+      seat."*" = { 
+        xcursor_theme = "${config.home.pointerCursor.name} ${toString config.home.pointerCursor.size}";
+      };
       output."*" = let
         wallpaper-pkg = inputs.nix-wallpaper.packages."${pkgs.system}".default.override {
           preset = "catppuccin-mocha-rainbow";
@@ -102,12 +130,17 @@
         scale = "1";
         background = "${wallpaper-pkg}/share/wallpapers/nixos-wallpaper.png fill";
       };
-      keybindings = lib.mkOptionDefault {
-        "${modifier}+Shift+q" = null;
-        "${modifier}+Return" = null;
-        "${modifier}+c" = "kill";
-        "${modifier}+q" = "exec ${terminal}";
-        "${modifier}+d" = ''
+      keybindings = let
+        mod = "${modifier}";
+        playerctl = "${pkgs.playerctl}/bin/playerctl";
+        wpctl = "${pkgs.wireplumber}/bin/wpctl";
+        brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+      in lib.mkOptionDefault {
+        "${mod}+Shift+q" = null;
+        "${mod}+Return" = null;
+        "${mod}+c" = "kill";
+        "${mod}+q" = "exec ${terminal}";
+        "${mod}+d" = ''
           exec ${pkgs.rofi-wayland}/bin/rofi \
             -show drun \
             -modi drun \
@@ -118,18 +151,18 @@
             -terminal ${terminal} \
             -theme config
         '';
-        "${modifier}+Semicolon" = "exec ${pkgs.swaylock}/bin/swaylock";
-        "XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        "XF86AudioLowerVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-        "XF86AudioRaiseVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
-        "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
-        "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
-        "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
-        "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
-        "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
-        "${modifier}+Print" = "exec sh -c '${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy'";
-        "${modifier}+Shift+Print" = "exec sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy'";
-        "${modifier}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO: make this more better
+        "${mod}+Semicolon" = "exec ${pkgs.swaylock-effects}/bin/swaylock";
+        "XF86AudioMute" = "exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        "XF86AudioLowerVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+        "XF86AudioRaiseVolume" = "exec ${wpctl}/bin/wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
+        "XF86AudioPrev" = "exec ${playerctl} previous";
+        "XF86AudioPlay" = "exec ${playerctl} play-pause";
+        "XF86AudioNext" = "exec ${playerctl} next";
+        "XF86MonBrightnessDown" = "exec ${brightnessctl} set 5%-";
+        "XF86MonBrightnessUp" = "exec ${brightnessctl} set 5%+";
+        "${mod}+Print" = "exec sh -c '${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy'";
+        "${mod}+Shift+Print" = "exec sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy'";
+        "${mod}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO: make this more better
       };
       input = {
         "type:touchpad" = {
@@ -150,6 +183,9 @@
         }
         {
           command = ''${pkgs.brightnessctl}/bin/brightnessctl set 75%'';
+        }
+        {
+          command = ''${configure-gtk}/bin/configure-gtk'';
         }
       ];
       window = {

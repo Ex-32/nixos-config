@@ -1,6 +1,7 @@
-{ config, pkgs, lib, inputs, ... }:
-
-{
+{ config, pkgs, lib, inputs, ... } : let
+  cursor-size = 48;
+  cursor-name = "Catppuccin-Mocha-Mauve-Cursors";
+in {
   dconf.enable = true;
   gtk = {
     enable = true;
@@ -24,20 +25,23 @@
       name = "Papirus-Dark";
     };
     cursorTheme = {
-      package = pkgs.catppuccin-cursors;
-      name = "Catppuccin-Mocha-Mauve-Cursors";
-      size = 48;
+      package = pkgs.catppuccin-cursors.mochaMauve;
+      name = cursor-name;
+      size = cursor-size;
     };
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
   };
   
-  # home.pointerCursor = {
-  #   name = "Catppuccin-Mocha-Mauve-Cursors";
-  #   package = pkgs.catppuccin-cursors;
-  #   size = 48;
-  #   x11 = {
-  #     enable = true;
-  #     defaultCursor = "Catppuccin-Mocha-Mauve-Cursors";
-  #   };
-  # };
+  home.pointerCursor = {
+    package = pkgs.catppuccin-cursors.mochaMauve;
+    name = cursor-name;
+    size = cursor-size;
+    gtk.enable = true;
+  };
+  
+  # HACK: disables the creation of the legacy ~/.icons directory by manually 
+  # disabling the files created by the home-manager module, a better solution
+  # would be a way to blacklist any key in home.file starting with ".icons"
+  home.file.".icons/default/index.theme".enable = false;
+  home.file.".icons/${config.home.pointerCursor.name}".enable = false;
 }
