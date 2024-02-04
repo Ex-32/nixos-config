@@ -4,9 +4,9 @@
   inputs = {
     # unstable is my middle name B)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # it's stored in the aether 
+    # it's stored in the aether
     impermanence.url = "github:nix-community/impermanence";
-    # dotfile maid 
+    # dotfile maid
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
