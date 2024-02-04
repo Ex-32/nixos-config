@@ -368,12 +368,6 @@ require('lazy').setup({
     opts = {},
   },
 
-  {
-    "https://codeberg.org/esensar/nvim-dev-container",
-    cond = vim.fn.isdirectory(".devcontainer") ~= 0,
-    opts = {},
-  },
-
   -- language specific plugins
   -- (these plugins provide extra features that just a language server can't)
   ---- haskell
