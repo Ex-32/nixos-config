@@ -150,6 +150,11 @@
                 gparted
                 onlyoffice-bin
                 rclone
+
+                # TODO: setup libreoffice more elegantly
+                libreoffice-qt
+                hunspell
+                hunspellDicts.en_US-large
               ];
             };
           }
