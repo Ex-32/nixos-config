@@ -14,8 +14,8 @@
 
     # this sets the tty colors to colors from the catppuccin theme, this is
     # done through some exceptionally long kernel arguments, so commenting out
-    # this block may make the kernel arguments more readable for debugging with
-    # only aesthetic consequences
+    # this block may make the kernel arguments more readable for debugging,
+    # with only aesthetic consequences
     colors = [
       "11111b" # crust
       "f38ba8" # red

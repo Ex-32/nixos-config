@@ -11,7 +11,13 @@
     isNormalUser = true;
     uid = 1000;
     description = "Jenna Fligor";
-    extraGroups = [ "networkmanager" "wheel" "video" "lp" "dialout" ];
+    extraGroups = [
+      "networkmanager" # networking privileges
+      "wheel"          # general admin (sudo) privileges
+      "video"          # raw video device access
+      "lp"             # printing privileges
+      "dialout"        # raw serial device access
+    ];
     shell = pkgs.fish;
 
     # it must be initalHashedPassword, and not hashedPassword, because

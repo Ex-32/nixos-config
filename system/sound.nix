@@ -3,11 +3,12 @@
 {
   sound.enable = true;
 
-  # i'm using pipewire-pulse to handle pipewire clients, but faster
+  # i'm using pipewire-pulse to handle pipewire clients and having both enabled
+  # causes weird behavior because they'll fight to connect to pulse clients
   hardware.pulseaudio.enable = false;
 
   # using rtkit to run pipewire in real-time mode significantly reduces audio
-  # jitter or lag
+  # jitter/lag
   security.rtkit.enable = true;
 
   # one audio stack to rule them all, one audio stack to find them; one audio

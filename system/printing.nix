@@ -5,7 +5,7 @@
     enable = true;
     startWhenNeeded = true;
 
-    # printer drivers *must* be put here, just adding them to
+    # NOTE: printer drivers *must* be put here, just adding them to
     # environment.systemPackages doesn't make them available to to CUPS
     drivers = with pkgs; [
       brlaser

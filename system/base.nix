@@ -26,6 +26,7 @@
     allowed-users = lib.mkForce [ "@wheel" ];
   };
 
+  # this makes NUR packages available under pkgs.nur.repos.repoName.packageName
   nixpkgs.overlays = [ inputs.nur.overlay ];
 
   # this stops systemd from keeping coredump images of every crashed program,
