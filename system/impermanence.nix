@@ -42,7 +42,7 @@
     device = "none";
     fsType = "tmpfs";
     options = [
-      "size=1G"
+      "size=100M"
       "mode=755"
       "noatime"
       "nosuid"
