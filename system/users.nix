@@ -20,6 +20,9 @@
     ];
     shell = pkgs.fish;
 
+    # without this any form of rootless containerization will fail
+    autoSubUidGidRange = true;
+
     # it must be initalHashedPassword, and not hashedPassword, because
     # impermanence means /etc/passwd exists on a ramdisk
     initialHashedPassword = import ../secrets/passwd/jenna;
