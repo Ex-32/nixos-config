@@ -16,7 +16,6 @@ in {
       trashbin
       playlistIntersection
       skipStats
-      genre
     ];
   };
 }
