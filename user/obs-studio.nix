@@ -5,7 +5,8 @@
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
       wlrobs
-      obs-backgroundremoval
+      # FIXME: currently broken, re-add later
+      # obs-backgroundremoval
       obs-pipewire-audio-capture
     ];
   };
