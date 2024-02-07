@@ -141,6 +141,7 @@
                 ./user/xdg.nix
 
                 ./user/apps/games.nix
+                ./user/apps/libreoffice.nix
                 ./user/apps/media.nix
                 ./user/apps/socials.nix
               ];
@@ -150,11 +151,6 @@
                 gparted
                 onlyoffice-bin
                 rclone
-
-                # TODO: setup libreoffice more elegantly
-                libreoffice-qt
-                hunspell
-                hunspellDicts.en_US-large
               ];
             };
           }
