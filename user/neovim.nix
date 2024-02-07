@@ -24,6 +24,15 @@
       ruff
       shellcheck
     ];
+
+    # symlinkJoin can't handle symlinked dirs and nodePackages
+    # symlinks ./bin -> ./lib/node_modules/.bin/.
+    postBuild = ''
+      for f in $out/lib/node_modules/.bin/*; do
+         path="$(readlink --canonicalize-missing "$f")"
+         ln -s "$path" "$out/bin/$(basename $f)"
+      done
+    '';
   };
 
   nvim-with-deps = pkgs.symlinkJoin {
