@@ -7,6 +7,7 @@
   # TODO: switch to explicit package enabling using allowUnfreePredicate
   nixpkgs.config.allowUnfree = true;
 
+  # import home-manager and the NUR's base nixos modules
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.nur.nixosModules.nur
@@ -36,8 +37,8 @@
   systemd.coredump.extraConfig = "Storage=none";
 
   # this disallows use of the `sudo` command by any non-admin user, given
-  # sudo's power and historical exploits, this reduces system attack surface
-  # area
+  # sudo's power and historical exploits, this helps reduce system attack
+  # surface area
   security.sudo.execWheelOnly = true;
 
   # these are packages that i consider absolutely essential for a basic system
@@ -52,7 +53,7 @@
     git       # since this config is in git, git is a absolute necessity
     git-crypt # transparent encryption of files in git on push, used by this config for secrets like password hashes
     lsof
-    man-pages # core linux man pages aren't in the default package set
+    man-pages
     micro     # a fancier version of the nano editor, with a save-with-sudo feature
     unzip
     wget
