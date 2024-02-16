@@ -60,6 +60,13 @@
     zip
   ];
 
+  # sets the $EDITOR variable to "micro" by default; use of mkOverride means
+  # other modules can override it easily (using mkDefault would cause a
+  # collision with the default value of "nano", but i still want it to
+  # effectively be a default value, so instead of priority 1000 it's set to
+  # priority 999)
+  environment.variables.EDITOR = lib.mkOverride 999 "micro";
+
   # this is boilerplate config to allow home-manager and nixos to interface a
   # little more elegantly, we also pass `inputs` as an argument to home-manager
   # modules, so that we can access home-manager specific flake inputs like

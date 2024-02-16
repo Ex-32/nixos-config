@@ -15,10 +15,6 @@
   ];
 
   environment.variables = {
-    # set default editor
-    #  FIXME: implicit dependency on neovim
-    EDITOR = "nvim";
-
     # disable the less history file
     LESSHISTFILE = "-";
 

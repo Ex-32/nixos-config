@@ -46,5 +46,6 @@
   };
 in {
   home.packages = [ nvim-with-deps ];
+  home.sessionVariables.EDITOR = "nvim";
   home.file.".config/nvim/init.lua".source = ../config/nvim/init.lua;
 }
