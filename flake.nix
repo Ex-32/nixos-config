@@ -122,6 +122,14 @@
           ./system/users.nix
           ./system/vial.nix
 
+          # FIXME: currently obsidian fails to build without this, but i'd
+          # prefer not to have insecure packages as part of my global state
+          {
+            nixpkgs.config.permittedInsecurePackages = [
+              "electron-25.9.0"
+            ];
+          }
+
           # home-manager configuration
           {
             home-manager.users.jenna = { pkgs, ... }: {
