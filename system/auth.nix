@@ -11,7 +11,6 @@
   # this installs and enables a systemd user service for the mate polkit agent
   # (the mate agent was chosen because it works well with fprint, properly
   # follows the system themes, and doesn't have weird graphical glitches)
-  environment.systemPackages = with pkgs; [ mate.mate-polkit ];
   systemd.user.services.polkit-agent = {
     description = "user polkit agent";
     wantedBy = [ "graphical-session.target" ];
