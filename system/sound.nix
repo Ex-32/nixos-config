@@ -5,7 +5,7 @@
 
   # i'm using pipewire-pulse to handle pipewire clients and having both enabled
   # causes weird behavior because they'll fight to connect to pulse clients
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = lib.mkForce false;
 
   # using rtkit to run pipewire in realtime mode significantly reduces audio
   # jitter/lag
