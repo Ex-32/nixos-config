@@ -34,6 +34,13 @@
       "--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc"
       "--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
     ];
+
+    # this tells electron applications to use a native wayland backend if
+    # available, as best i can tell it has no adverse effects on X11 based
+    # systems, so i've just set it to always be enabled
+    # NOTE: this **does** break vscode and derivatives, this variable should be
+    # unset to launch vscode or it will crash on start
+    NIXOS_OZONE_WL = "1";
   };
 
   environment.sessionVariables = {
