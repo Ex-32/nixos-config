@@ -56,7 +56,7 @@
     GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
 
     # NOTE: using _JAVA_OPTIONS to set the userRoot location and prevent the
-    # creation of ~/.java can break poorly designed programs with hardcoded
+    # creation of ~/.java can break poorly designed programs that hardcode
     # paths and so should *not* be set
     PYTHONSTARTUP = "$XDG_CONFIG_HOME/python3/startup.py";
     GTK_RC_FILES = "$XDG_CONFIG_HOME/gtk-1.0/gtkrc";
