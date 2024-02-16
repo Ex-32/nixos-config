@@ -6,15 +6,14 @@
   ];
 
   home.packages = with pkgs; [
-    firefox-devedition
     tridactyl-native
   ];
 
   # TODO: figure out why enabling this causes firefox to throw a missing
   # profile error and fix it so firefox can be configured declaratively
   programs.firefox = {
-    enable = false;
-    package = pkgs.firefox-devedition;
+    enable = true;
+    package = pkgs.firefox;
     enableGnomeExtensions = false;
     policies = {
       DefaultDownloadDirectory = "${config.home.homeDirectory}/downloads";

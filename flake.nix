@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # laptops am i right...
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     # like the AUR, but flakier
     nur.url = "github:nix-community/NUR";
     # we come in peace
@@ -65,30 +65,30 @@
 
           # home-manager configuration
           {
-            home-manager.users.jenna = { config, pkgs, lib, inputs, ... }: {
+            home-manager.users.jenna = { pkgs, ... }: {
               imports = [
                 ./user/base.nix
-                ./user/firefox.nix
                 ./user/fish.nix
                 ./user/git.nix
                 ./user/i3.nix
                 ./user/neovim.nix
                 ./user/nix-index.nix
-                ./user/obs-studio.nix
                 ./user/picom.nix
                 ./user/python.nix
-                ./user/spotify.nix
                 ./user/wezterm.nix
                 ./user/xdg.nix
 
                 ./user/apps/games.nix
+                ./user/apps/floorp.nix
                 ./user/apps/media.nix
+                ./user/apps/obs-studio.nix
+                ./user/apps/productivity.nix
                 ./user/apps/socials.nix
+                ./user/apps/spotify.nix
               ];
               home.packages = with pkgs; [
                 _1password-gui
                 gparted
-                onlyoffice-bin
               ];
             };
           }
@@ -124,32 +124,30 @@
 
           # home-manager configuration
           {
-            home-manager.users.jenna = { config, pkgs, lib, inputs, ... }: {
+            home-manager.users.jenna = { pkgs, ... }: {
               imports = [
                 ./user/base.nix
-                ./user/firefox.nix
                 ./user/fish.nix
                 ./user/git.nix
                 ./user/latex.nix
                 ./user/neovim.nix
                 ./user/nix-index.nix
-                ./user/obs-studio.nix
                 ./user/python.nix
-                ./user/spotify.nix
                 ./user/sway.nix
                 ./user/wezterm.nix
                 ./user/xdg.nix
 
                 ./user/apps/games.nix
-                ./user/apps/libreoffice.nix
                 ./user/apps/media.nix
+                ./user/apps/productivity.nix
                 ./user/apps/socials.nix
+                ./user/apps/spotify.nix
+                ./user/apps/obs-studio.nix
+                ./user/apps/floorp.nix
               ];
               home.packages = with pkgs; [
                 _1password-gui
-                gocryptfs
                 gparted
-                onlyoffice-bin
                 rclone
               ];
             };

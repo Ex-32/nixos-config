@@ -21,5 +21,9 @@
   };
 
 in {
-  home.packages = [ libreoffice-with-deps ];
+  home.packages = with pkgs; [
+    # libreoffice-with-deps
+    obsidian
+    onlyoffice-bin
+  ];
 }
