@@ -7,7 +7,7 @@
   # causes weird behavior because they'll fight to connect to pulse clients
   hardware.pulseaudio.enable = false;
 
-  # using rtkit to run pipewire in real-time mode significantly reduces audio
+  # using rtkit to run pipewire in realtime mode significantly reduces audio
   # jitter/lag
   security.rtkit.enable = true;
 

@@ -5,7 +5,7 @@
     enable = true;
     autorun = false;
 
-    # my prefered login method is a tty, so i use startx to start X-based
+    # my preferred login method is a tty, so i use startx to start X-based
     # graphical sessions
     displayManager.startx.enable = true;
 

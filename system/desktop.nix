@@ -1,7 +1,7 @@
 { config, pkgs, lib, nixpkgs, ... }:
 
 {
-  # graphical enviroments tend to get lost without openGL, this tells nixos to
+  # graphical environments tend to get lost without OpenGL, this tells nixos to
   # figure out what kind of hardware it's on an install the appropriate driver
   hardware.opengl.enable = true;
 

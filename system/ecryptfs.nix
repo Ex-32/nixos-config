@@ -5,6 +5,6 @@
   # ecryptfs on login, which is my only use-case for ecryptfs (for general
   # encrypted directories gocryptfs is more stable and easier to use)
   security.pam.enableEcryptfs = true;
-  environment.systemPackages = with pkgs; [ ecryptfs ];
+  environment.systemPackages = [ pkgs.ecryptfs ];
   boot.kernelModules = [ "ecryptfs" ];
 }
