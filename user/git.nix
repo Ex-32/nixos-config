@@ -22,7 +22,7 @@
 
   programs.git = {
     enable = true;
-    userName = "Ex-32";
+    userName = "Jenna Fligor";
     userEmail = "jenna@fligor.net";
     extraConfig = {
       init.defaultBranch = "main";
