@@ -17,6 +17,7 @@
       nodePackages.typescript-language-server
       texlab
       # sources ({null,none}-ls)
+      alejandra
       clang-tools # (clang-format)
       mypy
       nodePackages.eslint
