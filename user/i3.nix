@@ -1,6 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   imports = [
     ./gtk.nix
     ./picom.nix
@@ -24,30 +28,30 @@
       };
       colors = let
         rosewater = "#f5e0dc";
-        flamingo  = "#f2cdcd";
-        pink      = "#f5c2e7";
-        mauve     = "#cba6f7";
-        red       = "#f38ba8";
-        maroon    = "#eba0ac";
-        peach     = "#fab387";
-        green     = "#a6e3a1";
-        teal      = "#94e2d5";
-        sky       = "#89dceb";
-        sapphire  = "#74c7ec";
-        blue      = "#89b4fa";
-        lavender  = "#b4befe";
-        text      = "#cdd6f4";
-        subtext1  = "#bac2de";
-        subtext0  = "#a6adc8";
-        overlay2  = "#9399b2";
-        overlay1  = "#7f849c";
-        overlay0  = "#6c7086";
-        surface2  = "#585b70";
-        surface1  = "#45475a";
-        surface0  = "#313244";
-        base      = "#1e1e2e";
-        mantle    = "#181825";
-        crust     = "#11111b";
+        flamingo = "#f2cdcd";
+        pink = "#f5c2e7";
+        mauve = "#cba6f7";
+        red = "#f38ba8";
+        maroon = "#eba0ac";
+        peach = "#fab387";
+        green = "#a6e3a1";
+        teal = "#94e2d5";
+        sky = "#89dceb";
+        sapphire = "#74c7ec";
+        blue = "#89b4fa";
+        lavender = "#b4befe";
+        text = "#cdd6f4";
+        subtext1 = "#bac2de";
+        subtext0 = "#a6adc8";
+        overlay2 = "#9399b2";
+        overlay1 = "#7f849c";
+        overlay0 = "#6c7086";
+        surface2 = "#585b70";
+        surface1 = "#45475a";
+        surface0 = "#313244";
+        base = "#1e1e2e";
+        mantle = "#181825";
+        crust = "#11111b";
       in {
         focused = {
           border = "${mauve}";
@@ -87,22 +91,22 @@
         background = "${crust}";
       };
       keybindings = lib.mkOptionDefault {
-        "${modifier}+h"           = "focus left";
-        "${modifier}+j"           = "focus down";
-        "${modifier}+k"           = "focus up";
-        "${modifier}+l"           = "focus right";
-        "${modifier}+Left"        = "focus left";
-        "${modifier}+Down"        = "focus down";
-        "${modifier}+Up"          = "focus up";
-        "${modifier}+Right"       = "focus right";
+        "${modifier}+h" = "focus left";
+        "${modifier}+j" = "focus down";
+        "${modifier}+k" = "focus up";
+        "${modifier}+l" = "focus right";
+        "${modifier}+Left" = "focus left";
+        "${modifier}+Down" = "focus down";
+        "${modifier}+Up" = "focus up";
+        "${modifier}+Right" = "focus right";
 
-        "${modifier}+Shift+h"     = "move left";
-        "${modifier}+Shift+j"     = "move down";
-        "${modifier}+Shift+k"     = "move up";
-        "${modifier}+Shift+l"     = "move right";
-        "${modifier}+Shift+Left"  = "move left";
-        "${modifier}+Shift+Down"  = "move down";
-        "${modifier}+Shift+Up"    = "move up";
+        "${modifier}+Shift+h" = "move left";
+        "${modifier}+Shift+j" = "move down";
+        "${modifier}+Shift+k" = "move up";
+        "${modifier}+Shift+l" = "move right";
+        "${modifier}+Shift+Left" = "move left";
+        "${modifier}+Shift+Down" = "move down";
+        "${modifier}+Shift+Up" = "move up";
         "${modifier}+Shift+Right" = "move right";
 
         "${modifier}+Shift+q" = null;
@@ -148,7 +152,7 @@
         "${modifier}+r" = "mode default";
       };
       bars = [];
-      startup =  let
+      startup = let
         wallpaper-pkg = inputs.nix-wallpaper.packages."${pkgs.system}".default.override {
           preset = "catppuccin-mocha-rainbow";
           width = 3840;
@@ -173,7 +177,7 @@
         border = 1;
       };
       floating.criteria = [
-        { class = "^floating$"; }
+        {class = "^floating$";}
       ];
     };
   };

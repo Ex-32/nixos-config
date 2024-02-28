@@ -1,6 +1,10 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
   # because of impermanence, /etc/passwd and /etc/group are created from
   # scratch on each boot and then cease to exist on poweroff, so any changes
   # made wouldn't persist across boots, so it's best to just disallow it to
@@ -13,10 +17,10 @@
     description = "Jenna Fligor";
     extraGroups = [
       "networkmanager" # networking privileges
-      "wheel"          # general admin (sudo) privileges
-      "video"          # raw video device access
-      "lp"             # printing privileges
-      "dialout"        # raw serial device access
+      "wheel" # general admin (sudo) privileges
+      "video" # raw video device access
+      "lp" # printing privileges
+      "dialout" # raw serial device access
     ];
     shell = pkgs.fish;
 

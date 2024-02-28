@@ -1,6 +1,10 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
   programs.fish = {
     enable = true;
     # babelfish is a modern, more performant replacement for foreign-env which
@@ -83,7 +87,6 @@
   };
 
   environment.shellAliases = {
-
     l = "lsd -lAh --no-symlink --date relative";
     ll = "lsd -lAh";
     ls = null; # this disables nixos's default alias for ls
@@ -107,15 +110,15 @@
 
   # misc shell utilities for interactive shell use
   environment.systemPackages = with pkgs; [
-    bat       # a modern cat clone with line numbers and syntax highlighting
-    du-dust   # a modern du replacement designed for interactive use
-    fzf       # fuzzy search the filesystem for files/directories
-    htop      # the best way to monitor processes this side of the solar system
-    lsd       # a modern ls clone with features like icons and relative time
-    neofetch  # show off in style
-    pridecat  # a silly cat clone with a sense of pride
-    ripgrep   # grep the filesystem crazy fast
-    tmux      # terminals all the way down
+    bat # a modern cat clone with line numbers and syntax highlighting
+    du-dust # a modern du replacement designed for interactive use
+    fzf # fuzzy search the filesystem for files/directories
+    htop # the best way to monitor processes this side of the solar system
+    lsd # a modern ls clone with features like icons and relative time
+    neofetch # show off in style
+    pridecat # a silly cat clone with a sense of pride
+    ripgrep # grep the filesystem crazy fast
+    tmux # terminals all the way down
     trash-cli # fuck i didn't mean to delete that...
   ];
 }

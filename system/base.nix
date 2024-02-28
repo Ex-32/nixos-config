@@ -1,6 +1,11 @@
-{ config, pkgs, lib, nixpkgs, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  inputs,
+  ...
+}: {
   # don't get me wrong...   i prefer to use FOSS software, but what i prefer
   # even more is that my system actually fucking works, as such, i consider
   # this a "concession to practicality"
@@ -17,18 +22,18 @@
     # enable experimental flake support, since this system config is flake
     # if these options were removed the resultant system would be unable to
     # build a new version of itself (without special intervention)
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = ["nix-command" "flakes"];
     # $HOME dotfile clutter is one of my personal pet-peeves, this helps reduce
     # it by storing nix's files in xdg compliant locations
     use-xdg-base-directories = true;
     # this disallows use of nix by non-admin user, since `nix shell` can
     # download and execute arbitrary programs, this helps reduce system attack
     # surface area
-    allowed-users = lib.mkForce [ "@wheel" ];
+    allowed-users = lib.mkForce ["@wheel"];
   };
 
   # this makes NUR packages available under pkgs.nur.repos.repoName.packageName
-  nixpkgs.overlays = [ inputs.nur.overlay ];
+  nixpkgs.overlays = [inputs.nur.overlay];
 
   # this stops systemd from keeping coredump images of every crashed program,
   # firstly because doing so presents a security risk (the program could've
@@ -46,15 +51,15 @@
   # default on most pre-made distros, while others are more exotic and have
   # explanatory comments
   environment.systemPackages = with pkgs; [
-    btdu      # a btrfs specific version of ncdu that handles deduplication and transparent compression correctly
-    compsize  # tool for checking btrfs transparent compression and disk usage
+    btdu # a btrfs specific version of ncdu that handles deduplication and transparent compression correctly
+    compsize # tool for checking btrfs transparent compression and disk usage
     curl
     file
-    git       # since this config is in git, git is a absolute necessity
+    git # since this config is in git, git is a absolute necessity
     git-crypt # transparent encryption of files in git on push, used by this config for secrets like password hashes
     lsof
     man-pages
-    micro     # a fancier version of the nano editor, with a save-with-sudo feature
+    micro # a fancier version of the nano editor, with a save-with-sudo feature
     unzip
     wget
     zip
@@ -74,7 +79,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {inherit inputs;};
   };
 
   # This value determines the NixOS release from which the default

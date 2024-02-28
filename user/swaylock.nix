@@ -1,6 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   programs.swaylock = {
     enable = true;
     package = pkgs.swaylock-effects;
@@ -39,5 +43,4 @@
       font = "Raleway";
     };
   };
-
 }

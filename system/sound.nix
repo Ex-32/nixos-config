@@ -1,6 +1,10 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
   sound.enable = true;
 
   # i'm using pipewire-pulse to handle pipewire clients and having both enabled

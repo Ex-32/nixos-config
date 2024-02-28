@@ -1,6 +1,10 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
   # this disables the use of fprint (fingerprint auth) on tty login and
   # swaylock, the goal here is to require the typed password to unlock the
   # machine, and use the fingerprint only for privilege escalation requests
@@ -13,9 +17,9 @@
   # follows the system themes, and doesn't have weird graphical glitches)
   systemd.user.services.polkit-agent = {
     description = "user polkit agent";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
+    wantedBy = ["graphical-session.target"];
+    wants = ["graphical-session.target"];
+    after = ["graphical-session.target"];
     serviceConfig = {
       Type = "simple";
       ExecStart = "${pkgs.mate.mate-polkit}/libexec/polkit-mate-authentication-agent-1";

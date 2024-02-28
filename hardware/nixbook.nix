@@ -1,11 +1,16 @@
-{ inputs, config, lib, pkgs, modulesPath, ... }:
-
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-      inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
-      ./grub-patch.nix
-    ];
+  inputs,
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}: {
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
+    ./grub-patch.nix
+  ];
 
   boot.blacklistedKernelModules = [
     "hid_sensor_hub"
@@ -16,10 +21,10 @@
     "consoleblank=60"
   ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-intel"];
+  boot.extraModulePackages = [];
 
   # fix warning do to stateVersion change
   boot.swraid.enable = false;
@@ -33,86 +38,86 @@
     "/crypto_keyfile.bin" = "/persist/secrets/crypto_keyfile.bin";
   };
 
-   fileSystems."/home" =
-     { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-       fsType = "btrfs";
-       options = [
-           "subvol=/@home"
-           "compress=zstd"
-           "noatime"
-           "nosuid"
-           "nodev"
-       ];
-     };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+    fsType = "btrfs";
+    options = [
+      "subvol=/@home"
+      "compress=zstd"
+      "noatime"
+      "nosuid"
+      "nodev"
+    ];
+  };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/@nix"
-          "compress=zstd"
-          "noatime"
-      ];
-    };
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+    fsType = "btrfs";
+    options = [
+      "subvol=/@nix"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
 
-  fileSystems."/persist" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/@nix-persist"
-          "compress=zstd"
-          "noatime"
-          "nosuid"
-          "nodev"
-          "noexec"
-      ];
-      neededForBoot = true;
-    };
+  fileSystems."/persist" = {
+    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+    fsType = "btrfs";
+    options = [
+      "subvol=/@nix-persist"
+      "compress=zstd"
+      "noatime"
+      "nosuid"
+      "nodev"
+      "noexec"
+    ];
+    neededForBoot = true;
+  };
 
-  fileSystems."/mnt/fsroot" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/"
-          "compress=zstd"
-          "noatime"
-          "nosuid"
-          "nodev"
-          "noexec"
-      ];
-    };
+  fileSystems."/mnt/fsroot" = {
+    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+    fsType = "btrfs";
+    options = [
+      "subvol=/"
+      "compress=zstd"
+      "noatime"
+      "nosuid"
+      "nodev"
+      "noexec"
+    ];
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-          "subvol=/@boot"
-          "compress=zstd"
-          "noatime"
-          "nosuid"
-          "nodev"
-          "noexec"
-      ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+    fsType = "btrfs";
+    options = [
+      "subvol=/@boot"
+      "compress=zstd"
+      "noatime"
+      "nosuid"
+      "nodev"
+      "noexec"
+    ];
+  };
 
-  fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/18A2-E6E3";
-      fsType = "vfat";
-      options = [
-        "noatime"
-        "nosuid"
-        "nodev"
-        "noexec"
-      ];
-    };
- 
-  swapDevices = [ ];
+  fileSystems."/boot/efi" = {
+    device = "/dev/disk/by-uuid/18A2-E6E3";
+    fsType = "vfat";
+    options = [
+      "noatime"
+      "nosuid"
+      "nodev"
+      "noexec"
+    ];
+  };
+
+  swapDevices = [];
 
   services.fprintd.enable = true;
   environment.persistence."/persist".directories = [
     "/var/lib/fprint"
   ];
-  
+
   # fan/power optimization for laptop
   services.thermald.enable = true;
   services.tlp = {

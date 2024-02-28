@@ -29,13 +29,18 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  }: {
     nixosConfigurations = {
       "nixos-pc" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {inherit inputs;};
         modules = [
-          { networking.hostName = "nixos-pc"; }
+          {networking.hostName = "nixos-pc";}
 
           # hardware configuration
           ./hardware/nixos-pc.nix
@@ -65,7 +70,7 @@
 
           # home-manager configuration
           {
-            home-manager.users.jenna = { pkgs, ... }: {
+            home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./user/base.nix
                 ./user/fish.nix
@@ -96,9 +101,9 @@
       };
       "nixbook" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {inherit inputs;};
         modules = [
-          { networking.hostName = "nixbook"; }
+          {networking.hostName = "nixbook";}
 
           # hardware configuration
           ./hardware/nixbook.nix
@@ -134,7 +139,7 @@
 
           # home-manager configuration
           {
-            home-manager.users.jenna = { pkgs, ... }: {
+            home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./user/base.nix
                 ./user/fish.nix

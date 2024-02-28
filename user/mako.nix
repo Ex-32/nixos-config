@@ -1,6 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   services.mako = {
     enable = true;
     font = "Raleway 13";
@@ -12,12 +16,16 @@
     textColor = "#cdd6f4";
     borderColor = "#cba6f7";
     progressColor = "#313244";
-    extraConfig = /*toml*/ ''
-      [urgency=high]
-      border-color=#f38ba8
+    extraConfig =
+      /*
+      toml
+      */
+      ''
+        [urgency=high]
+        border-color=#f38ba8
 
-      [urgency=low]
-      border-color=#a6e3a1
-    '';
+        [urgency=low]
+        border-color=#a6e3a1
+      '';
   };
 }

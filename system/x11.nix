@@ -1,6 +1,10 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
   services.xserver = {
     enable = true;
     autorun = false;

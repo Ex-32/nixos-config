@@ -1,12 +1,18 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
   nixpkgs.overlays = [
     (final: prev: {
       grub2 = prev.grub2.overrideAttrs (old: {
-        patches = (old.patches or []) ++ [
-          ./grub-cryptodisk-prompt.patch
-        ];
+        patches =
+          (old.patches or [])
+          ++ [
+            ./grub-cryptodisk-prompt.patch
+          ];
       });
     })
   ];

@@ -1,6 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   programs.starship = {
     enable = true;
     # enableTransience = true;
@@ -8,18 +12,86 @@
       add_newline = false;
       palette = "catppuccin-mocha";
       format = lib.concatStrings [
-        "$nix_shell" "$username" "$hostname" "$jobs" "$directory"
-        "$fossil_branch" "$git_branch" "$git_commit" "$git_state" "$git_metrics"
-        "$git_status" "$hg_branch" "$fill" "$shlvl" "$singularity" "$kubernetes"
-        "$vcsh" "$pijul_channel" "$docker_context" "$package" "$c" "$cmake"
-        "$cobol" "$daml" "$dart" "$deno" "$dotnet" "$elixir" "$elm" "$erlang"
-        "$fennel" "$golang" "$guix_shell" "$haskell" "$haxe" "$helm" "$java"
-        "$julia" "$kotlin" "$gradle" "$lua" "$nim" "$nodejs" "$ocaml" "$opa"
-        "$perl" "$php" "$pulumi" "$purescript" "$python" "$raku" "$rlang" "$red"
-        "$ruby" "$scala" "$swift" "$terraform" "$vlang" "$vagrant" "$zig" "$buf"
-        "$conda" "$meson" "$spack" "$aws" "$gcloud" "$openstack" "$azure"
-        "$env_var" "$crystal" "$container" "$memory_usage" "$battery" "$sudo"
-        "$cmd_duration" "$time" "$shell" "$line_break" "$os" "$character"
+        "$nix_shell"
+        "$username"
+        "$hostname"
+        "$jobs"
+        "$directory"
+        "$fossil_branch"
+        "$git_branch"
+        "$git_commit"
+        "$git_state"
+        "$git_metrics"
+        "$git_status"
+        "$hg_branch"
+        "$fill"
+        "$shlvl"
+        "$singularity"
+        "$kubernetes"
+        "$vcsh"
+        "$pijul_channel"
+        "$docker_context"
+        "$package"
+        "$c"
+        "$cmake"
+        "$cobol"
+        "$daml"
+        "$dart"
+        "$deno"
+        "$dotnet"
+        "$elixir"
+        "$elm"
+        "$erlang"
+        "$fennel"
+        "$golang"
+        "$guix_shell"
+        "$haskell"
+        "$haxe"
+        "$helm"
+        "$java"
+        "$julia"
+        "$kotlin"
+        "$gradle"
+        "$lua"
+        "$nim"
+        "$nodejs"
+        "$ocaml"
+        "$opa"
+        "$perl"
+        "$php"
+        "$pulumi"
+        "$purescript"
+        "$python"
+        "$raku"
+        "$rlang"
+        "$red"
+        "$ruby"
+        "$scala"
+        "$swift"
+        "$terraform"
+        "$vlang"
+        "$vagrant"
+        "$zig"
+        "$buf"
+        "$conda"
+        "$meson"
+        "$spack"
+        "$aws"
+        "$gcloud"
+        "$openstack"
+        "$azure"
+        "$env_var"
+        "$crystal"
+        "$container"
+        "$memory_usage"
+        "$battery"
+        "$sudo"
+        "$cmd_duration"
+        "$time"
+        "$shell"
+        "$line_break"
+        "$os"
+        "$character"
       ];
       right_format = "$status";
       continuation_prompt = "▶▶ ";
@@ -271,7 +343,7 @@
         symbol = "";
         format = "[$symbol($version)]($style) ";
       };
-      rust  = {
+      rust = {
         symbol = "";
         format = "[$symbol($version)]($style) ";
       };

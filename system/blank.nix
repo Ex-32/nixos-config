@@ -1,5 +1,8 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
-
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
 }

@@ -1,13 +1,16 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   imports = [
-   ./x11-base.nix
+    ./x11-base.nix
   ];
   services.xscreensaver = {
     enable = true;
     settings = {
-    
     };
   };
 }

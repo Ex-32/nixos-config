@@ -1,6 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [

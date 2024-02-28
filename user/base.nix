@@ -1,6 +1,11 @@
-{ config, pkgs, lib, inputs, osConfig, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  osConfig,
+  ...
+}: {
   programs.home-manager.enable = true;
 
   # there's probably a more correct way to do this, but since $MANPATH gets set

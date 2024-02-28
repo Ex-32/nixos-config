@@ -1,10 +1,14 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   home.packages = [
     (pkgs.catppuccin-kvantum.override {
       variant = "Mocha";
-      accent  = "Mauve";
+      accent = "Mauve";
     })
   ];
 

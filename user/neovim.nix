@@ -1,11 +1,17 @@
-{ config, pkgs, lib, inputs, ... }: let
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: let
   nvim-deps = pkgs.symlinkJoin {
     name = "nvim-deps";
     paths = with pkgs; [
       # plugin dependencies
-      cargo         # rust-tools
-      clang         # nvim-treesitter (and others)
-      gnumake       # telescope-fzf-native
+      cargo # rust-tools
+      clang # nvim-treesitter (and others)
+      gnumake # telescope-fzf-native
       rust-analyzer # rust-tools
       # language servers (lspconfig)
       clang-tools # (clangd)
@@ -38,15 +44,15 @@
 
   nvim-with-deps = pkgs.symlinkJoin {
     name = "nvim-with-lsps";
-    paths = [ pkgs.neovim-unwrapped ];
-    buildInputs = [ pkgs.makeWrapper ];
+    paths = [pkgs.neovim-unwrapped];
+    buildInputs = [pkgs.makeWrapper];
     postBuild = ''
       wrapProgram $out/bin/nvim \
         --suffix PATH : ${nvim-deps}/bin
     '';
   };
 in {
-  home.packages = [ nvim-with-deps ];
+  home.packages = [nvim-with-deps];
   home.sessionVariables.EDITOR = "nvim";
   home.file.".config/nvim/init.lua".source = ../config/nvim/init.lua;
 }

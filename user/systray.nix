@@ -1,6 +1,11 @@
-{ config, pkgs, lib, inputs, osConfig, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  osConfig,
+  ...
+}: {
   services.udiskie = {
     enable = true;
     automount = false;

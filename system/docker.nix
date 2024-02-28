@@ -1,6 +1,10 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
   # enabled docker in rootless mode; traditionally docker runs as a
   # root-privileged daemon, the major drawback of this is that any form of
   # container management required root access, while this can be circumvented

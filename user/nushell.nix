@@ -1,6 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   programs.nushell = {
     enable = true;
     extraConfig = ''
@@ -13,14 +17,14 @@
           algorithm: "prefix"    # prefix or fuzzy
           external: {
             # set to false to prevent nushell looking into $env.PATH to find more suggestions
-            enable: true 
+            enable: true
             # set to lower can improve completion performance at the cost of omitting some options
-            max_results: 100 
+            max_results: 100
           }
         }
       }
-      def l [arg: string = "."] { 
-        ls -al $arg | select mode user group size modified type name | sort-by name 
+      def l [arg: string = "."] {
+        ls -al $arg | select mode user group size modified type name | sort-by name
       }
       def ll [arg: string = "."] {
         ls -al $arg | select mode user group size modified type name target | sort-by name

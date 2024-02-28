@@ -1,6 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   imports = [
     ./systray.nix
     ./nerdfont.nix
@@ -165,7 +169,7 @@
       systray_icon_size = 22
       systray_icon_asb = 100 0 0
       systray_monitor = 1
-      systray_name_filter = 
+      systray_name_filter =
 
       #-------------------------------------
       # Launcher
@@ -187,43 +191,43 @@
       #-------------------------------------
       # Clock
       time1_format = %H:%M
-      time2_format = 
+      time2_format =
       time1_font = FiraCode Nerd Font 12
-      time1_timezone = 
-      time2_timezone = 
-      time2_font = 
+      time1_timezone =
+      time2_timezone =
+      time2_font =
       clock_font_color = #eeeeee 100
       clock_padding = 1 0
       clock_background_id = 0
-      clock_tooltip = 
-      clock_tooltip_timezone = 
-      clock_lclick_command = 
-      clock_rclick_command = 
-      clock_mclick_command = 
-      clock_uwheel_command = 
-      clock_dwheel_command = 
+      clock_tooltip =
+      clock_tooltip_timezone =
+      clock_lclick_command =
+      clock_rclick_command =
+      clock_mclick_command =
+      clock_uwheel_command =
+      clock_dwheel_command =
 
       #-------------------------------------
       # Battery
       battery_tooltip = 1
       battery_low_status = 10
       battery_low_cmd = xmessage 'tint2: Battery low!'
-      battery_full_cmd = 
+      battery_full_cmd =
       bat1_font = sans 8
       bat2_font = sans 6
       battery_font_color = #eeeeee 100
-      bat1_format = 
-      bat2_format = 
+      bat1_format =
+      bat2_format =
       battery_padding = 1 0
       battery_background_id = 0
       battery_hide = 101
-      battery_lclick_command = 
-      battery_rclick_command = 
-      battery_mclick_command = 
-      battery_uwheel_command = 
-      battery_dwheel_command = 
-      ac_connected_cmd = 
-      ac_disconnected_cmd = 
+      battery_lclick_command =
+      battery_rclick_command =
+      battery_mclick_command =
+      battery_uwheel_command =
+      battery_dwheel_command =
+      ac_connected_cmd =
+      ac_disconnected_cmd =
 
       #-------------------------------------
       # Tooltip

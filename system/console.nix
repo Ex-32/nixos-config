@@ -1,6 +1,10 @@
-{ config, pkgs, lib, nixpkgs, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  nixpkgs,
+  ...
+}: {
   console = {
     # this performs tty configuration in the initrd, enabled mostly for
     # aesthetic purposes (so the font gets set asap)
@@ -9,7 +13,7 @@
     # this installs and sets the tty consolefont to the spleen font with a size
     # of 16x32, this will look very big on a low-res display, but looks very
     # nice on most modern displays
-    packages = with pkgs; [ spleen ];
+    packages = with pkgs; [spleen];
     font = "spleen-16x32";
 
     # this sets the tty colors to colors from the catppuccin theme, this is
