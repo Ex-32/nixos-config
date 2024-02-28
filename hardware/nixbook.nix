@@ -64,6 +64,7 @@
           "noatime"
           "nosuid"
           "nodev"
+          "noexec"
       ];
       neededForBoot = true;
     };

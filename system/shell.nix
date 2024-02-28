@@ -12,7 +12,6 @@
 
   environment.shells = with pkgs; [
     fish
-    nushell
   ];
 
   environment.variables = {
