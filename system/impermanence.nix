@@ -19,6 +19,9 @@
       # libvirtd's VM image store
     ] ++ (if config.networking.networkmanager.enable then 
       [ "/etc/NetworkManager/system-connections" ] else [])
+      ++ (if config.networking.wireless.iwd.enable ||
+             config.networking.networkmanager.wifi.backend == "iwd" then
+      [ "/var/lib/iwd" ] else [])
       ++ (if config.hardware.bluetooth.enable then
       [ "/var/lib/bluetooth" ] else [])
       ++ (if config.virtualisation.libvirtd.enable then
