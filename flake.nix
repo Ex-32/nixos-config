@@ -117,6 +117,7 @@
           ./system/kernel-latest.nix
           ./system/locale.nix
           ./system/network.nix
+          ./system/nix-alien.nix
           ./system/printing.nix
           ./system/shell.nix
           ./system/sound.nix
