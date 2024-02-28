@@ -107,6 +107,7 @@
           ./system/appimage-binfmt.nix
           ./system/auth.nix
           ./system/base.nix
+          ./system/bluetooth.nix
           ./system/console.nix
           ./system/desktop.nix
           ./system/distrobox.nix
