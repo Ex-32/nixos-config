@@ -54,7 +54,7 @@
     wrapperFeatures.gtk = true;
     config = rec {
       modifier = "Mod4";
-      terminal = "wezterm";
+      terminal = "kitty";
       gaps = {
         inner = 8;
         outer = 0;
@@ -227,7 +227,7 @@
               # If multi-monitor configuration: resize on each monitor
               swaymsg "[ pid=$TERM_PID ] resize set 90ppt 90ppt, move position 5ppt 5ppt"
           else
-              wezterm start --always-new-process &
+              kitty &
               TERM_PID="$!"
               echo "$TERM_PID" > "$TERM_PIDFILE"
               swaymsg "for_window [ pid=$TERM_PID ] '${lib.strings.concatStrings [

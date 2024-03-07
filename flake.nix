@@ -138,12 +138,12 @@
                 ./user/base.nix
                 ./user/fish.nix
                 ./user/git.nix
+                ./user/kitty.nix
                 ./user/latex.nix
                 ./user/neovim.nix
                 ./user/nix-index.nix
                 ./user/python.nix
                 ./user/sway.nix
-                ./user/wezterm.nix
                 ./user/xdg.nix
 
                 ./user/apps/games.nix

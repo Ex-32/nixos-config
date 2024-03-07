@@ -21,7 +21,7 @@
     enable = true;
     config = rec {
       modifier = "Mod4";
-      terminal = "${pkgs.wezterm}/bin/wezterm";
+      terminal = "kitty";
       gaps = {
         inner = 10;
         outer = 0;

@@ -403,6 +403,12 @@ require('lazy').setup({
     end
   },
 
+  --- kitty config script
+  {
+    "fladson/vim-kitty",
+    ft = { "kitty", "kitty.conf" };
+  },
+
   {
     -- silly goofy plugin to enable discord rich presence integration
     "andweeb/presence.nvim",
