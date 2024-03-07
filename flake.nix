@@ -2,27 +2,21 @@
   description = "NixOS configuration";
 
   inputs = {
-    # unstable is my middle name B)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # it's stored in the aether
-    impermanence.url = "github:nix-community/impermanence";
-    # dotfile maid
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # laptops am i right...
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
-    # like the AUR, but flakier
+
     nur.url = "github:nix-community/NUR";
-    # we come in peace
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    impermanence.url = "github:nix-community/impermanence";
     nix-alien.url = "github:thiagokokada/nix-alien";
-    # alias ls='neofetch'
+
     nix-wallpaper = {
       url = "github:lunik1/nix-wallpaper";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # spotify, but flakier
     spicetify-nix = {
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
