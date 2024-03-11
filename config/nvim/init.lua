@@ -34,19 +34,6 @@ require('lazy').setup({
   },
 
   {
-    -- utility plugin for seamless vim-tmux interop
-    "christoomey/vim-tmux-navigator",
-    lazy = false,
-  },
-
-  {
-    -- utility plugin for seamless vim-wezterm mux iterop
-    "willothy/wezterm.nvim",
-    lazy = false,
-    opts = {},
-  },
-
-  {
     "nmac427/guess-indent.nvim",
     lazy = false,
     opts = {},
@@ -226,23 +213,6 @@ require('lazy').setup({
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
-  },
-
-  {
-    'dgagn/diagflow.nvim',
-    event = 'LspAttach',
-    opts = {
-      scope = "line",
-      show_sign = true,
-      render_event = {
-        "BufEnter",
-        "CursorHold",
-        "CursorMoved",
-        "CursorMovedI",
-        "DiagnosticChanged",
-        "InsertLeave",
-      },
-    },
   },
 
   {
