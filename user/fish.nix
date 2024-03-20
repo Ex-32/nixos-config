@@ -34,6 +34,25 @@
         set -g fish_cursor_visual block
       '';
     functions = {
+      i.body =
+        /*
+        fish
+        */
+        ''
+          if test -z "$argv"
+            i .
+          else
+            for arg in $argv
+              if test -d $arg
+                lsd -lAh --date relative --no-symlink $arg
+              else if file --mime-encoding (realpath $arg) | grep 'binary$' &> /dev/null
+                file $arg
+              else
+                bat --paging never $arg
+              end
+            end
+          end
+        '';
       leak.body =
         /*
         fish
