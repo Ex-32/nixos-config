@@ -145,6 +145,7 @@
                 ./user/python.nix
                 ./user/sway.nix
                 ./user/xdg.nix
+                ./user/yazi.nix
 
                 ./user/apps/games.nix
                 ./user/apps/media.nix
