@@ -5,14 +5,9 @@
   inputs,
   ...
 }: {
-  home.packages = with pkgs; [
-    texlive.combined.scheme-full
-    texlab
-    zathura
-  ];
-
+  home.packages = [pkgs.texlive.combined.scheme-full];
   home.file.".config/latexmk/latexmkrc".text = ''
-    $pdf_previewer = 'zathura';
+    $pdf_previewer = '${pkgs.zathura}/bin/zathura';
     $latexmk = 'latexmk -interaction=nonstopmode';
   '';
 }

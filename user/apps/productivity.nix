@@ -29,5 +29,6 @@ in {
     # libreoffice-with-deps
     obsidian
     onlyoffice-bin
+    zathura
   ];
 }
