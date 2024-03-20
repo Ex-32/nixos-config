@@ -12,7 +12,9 @@
       add_newline = false;
       palette = "catppuccin-mocha";
       format = lib.concatStrings [
+        "$os"
         "$nix_shell"
+        "$shlvl"
         "$username"
         "$hostname"
         "$jobs"
@@ -25,7 +27,6 @@
         "$git_status"
         "$hg_branch"
         "$fill"
-        "$shlvl"
         "$singularity"
         "$kubernetes"
         "$vcsh"
@@ -90,7 +91,6 @@
         "$time"
         "$shell"
         "$line_break"
-        "$os"
         "$character"
       ];
       right_format = "$status";
@@ -262,6 +262,7 @@
         heuristic = true;
         symbol = " ";
         format = "[$symbol$state( \($name\))]($style) ";
+        disabled = true;
       };
       nodejs = {
         symbol = " ";
@@ -274,7 +275,8 @@
       opa.format = "[$symbol($version)]($style) ";
       openstack.format = "[$symbol$cloud(\($project\))]($style) ";
       os = {
-        disabled = true;
+        disabled = false;
+        format = "[$symbol]($style) ";
         symbols = {
           Alpaquita = " ";
           Alpine = " ";
@@ -301,7 +303,7 @@
           MidnightBSD = " ";
           Mint = " ";
           NetBSD = " ";
-          NixOS = " ";
+          NixOS = "[ ](#7EBAE4)";
           OpenBSD = "󰈺 ";
           openSUSE = " ";
           OracleLinux = "󰌷 ";
@@ -360,6 +362,11 @@
         tcsh_indicator = "tcsh";
         xonsh_indicator = "xonsh";
         unknown_indicator = "UNKNOWN SHELL";
+        disabled = false;
+      };
+      shlvl = {
+        symbol = "󰧾 ";
+        threshold = 2;
         disabled = false;
       };
       spack = {
