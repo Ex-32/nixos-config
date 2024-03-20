@@ -15,7 +15,6 @@
     baseIndex = 1;
     plugins = with pkgs.tmuxPlugins; [
       catppuccin
-      vim-tmux-navigator
       yank
     ];
     extraConfig = ''
