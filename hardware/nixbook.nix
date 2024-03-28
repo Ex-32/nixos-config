@@ -29,86 +29,84 @@
   # fix warning do to stateVersion change
   boot.swraid.enable = false;
 
-  boot.initrd.luks.devices."cryptdisk" = {
-    device = "/dev/disk/by-uuid/6ddff834-5606-48b9-a485-32dd6bdd6b79";
-    keyFile = "/crypto_keyfile.bin";
+  boot.initrd = {
+    luks.devices."cryptdisk" = {
+      device = "/dev/disk/by-uuid/6ddff834-5606-48b9-a485-32dd6bdd6b79";
+      keyFile = "/crypto_keyfile.bin";
+    };
+    secrets = {
+      "/crypto_keyfile.bin" = "/persist/secrets/crypto_keyfile.bin";
+    };
   };
 
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = "/persist/secrets/crypto_keyfile.bin";
-  };
-
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-    fsType = "btrfs";
-    options = [
-      "subvol=/@home"
-      "compress=zstd"
-      "noatime"
-      "nosuid"
-      "nodev"
-    ];
-  };
-
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-    fsType = "btrfs";
-    options = [
-      "subvol=/@nix"
-      "compress=zstd"
-      "noatime"
-    ];
-  };
-
-  fileSystems."/persist" = {
-    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-    fsType = "btrfs";
-    options = [
-      "subvol=/@nix-persist"
-      "compress=zstd"
-      "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
-    ];
-    neededForBoot = true;
-  };
-
-  fileSystems."/mnt/fsroot" = {
-    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-    fsType = "btrfs";
-    options = [
-      "subvol=/"
-      "compress=zstd"
-      "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
-    ];
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-    fsType = "btrfs";
-    options = [
-      "subvol=/@boot"
-      "compress=zstd"
-      "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
-    ];
-  };
-
-  fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-uuid/18A2-E6E3";
-    fsType = "vfat";
-    options = [
-      "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
-    ];
+  fileSystems = {
+    "/home" = {
+      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+        "subvol=/@home"
+        "compress=zstd"
+        "noatime"
+        "nosuid"
+        "nodev"
+      ];
+    };
+    "/nix" = {
+      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+        "subvol=/@nix"
+        "compress=zstd"
+        "noatime"
+      ];
+    };
+    "/persist" = {
+      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+        "subvol=/@nix-persist"
+        "compress=zstd"
+        "noatime"
+        "nosuid"
+        "nodev"
+        "noexec"
+      ];
+      neededForBoot = true;
+    };
+    "/mnt/fsroot" = {
+      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+        "subvol=/"
+        "compress=zstd"
+        "noatime"
+        "nosuid"
+        "nodev"
+        "noexec"
+      ];
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
+      fsType = "btrfs";
+      options = [
+        "subvol=/@boot"
+        "compress=zstd"
+        "noatime"
+        "nosuid"
+        "nodev"
+        "noexec"
+      ];
+    };
+    "/boot/efi" = {
+      device = "/dev/disk/by-uuid/18A2-E6E3";
+      fsType = "vfat";
+      options = [
+        "noatime"
+        "nosuid"
+        "nodev"
+        "noexec"
+      ];
+    };
   };
 
   swapDevices = [];
