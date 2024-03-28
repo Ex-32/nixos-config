@@ -45,6 +45,11 @@
         if config.virtualisation.libvirtd.enable
         then ["/var/lib/libvirt"]
         else []
+      )
+      ++ (
+        if config.services.fprintd.enable
+        then ["/var/lib/fprint"]
+        else []
       );
 
     files = [

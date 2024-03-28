@@ -114,9 +114,6 @@
   swapDevices = [];
 
   services.fprintd.enable = true;
-  environment.persistence."/persist".directories = [
-    "/var/lib/fprint"
-  ];
 
   # fan/power optimization for laptop
   services.thermald.enable = true;
