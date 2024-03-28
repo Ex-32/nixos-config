@@ -144,10 +144,12 @@
                 ./user/nix-index.nix
                 ./user/python.nix
                 ./user/sway.nix
+                ./user/syncthing.nix
                 ./user/xdg.nix
                 ./user/yazi.nix
 
                 ./user/apps/floorp.nix
+                ./user/apps/fun.nix
                 ./user/apps/games.nix
                 ./user/apps/media.nix
                 ./user/apps/obs-studio.nix
