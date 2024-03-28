@@ -77,8 +77,8 @@
                 ./user/wezterm.nix
                 ./user/xdg.nix
 
-                ./user/apps/games.nix
                 ./user/apps/floorp.nix
+                ./user/apps/games.nix
                 ./user/apps/media.nix
                 ./user/apps/obs-studio.nix
                 ./user/apps/productivity.nix
@@ -147,13 +147,13 @@
                 ./user/xdg.nix
                 ./user/yazi.nix
 
+                ./user/apps/floorp.nix
                 ./user/apps/games.nix
                 ./user/apps/media.nix
+                ./user/apps/obs-studio.nix
                 ./user/apps/productivity.nix
                 ./user/apps/socials.nix
                 ./user/apps/spotify.nix
-                ./user/apps/obs-studio.nix
-                ./user/apps/floorp.nix
               ];
               home.packages = with pkgs; [
                 _1password-gui
