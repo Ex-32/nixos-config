@@ -11,6 +11,7 @@
       wlrobs
       obs-backgroundremoval
       obs-pipewire-audio-capture
+      input-overlay
     ];
   };
 }
