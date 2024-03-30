@@ -160,6 +160,7 @@
               -terminal ${terminal} \
               -theme config
           '';
+          "${mod}+Shift+s" = "sticky toggle";
           "${mod}+Semicolon" = "exec ${pkgs.swaylock-effects}/bin/swaylock";
           "XF86AudioMute" = "exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
           "XF86AudioLowerVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-";
