@@ -36,7 +36,10 @@ require('lazy').setup({
   {
     "nmac427/guess-indent.nvim",
     lazy = false,
-    opts = {},
+    opts = {
+      auto_cmd = true,
+      override_editorconfig = false,
+    },
   },
 
   {
@@ -101,10 +104,7 @@ require('lazy').setup({
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       return {
         sources = {
-          null_ls.builtins.code_actions.shellcheck,
-          null_ls.builtins.diagnostics.eslint,
           null_ls.builtins.diagnostics.mypy,
-          null_ls.builtins.diagnostics.ruff,
           null_ls.builtins.formatting.alejandra,
           null_ls.builtins.formatting.clang_format,
           null_ls.builtins.formatting.prettier,
@@ -213,6 +213,14 @@ require('lazy').setup({
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
+  },
+
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function(_, _)
+      require("lsp_lines").setup()
+      -- vim.diagnostic.config({ virtual_text = false })
+    end,
   },
 
   {
@@ -597,18 +605,27 @@ require('which-key').register({
 
 local lspconfig = require('lspconfig')
 local servers = {
+  arduino_language_server = {},
+  bashls = {},
   clangd = {
     on_attach = function(client, buffer)
       client.capabilities.signatureHelpProvider = false
       on_attach(client, buffer)
     end
   },
-  texlab = {},
-  nixd = {},
-  tsserver = {},
   cmake = {
     filetypes = { "cmake", "CMakeLists.txt" },
   },
+  eslint = {
+    on_attach = function(client, buffer)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = buffer,
+        command = "EslintFixAll",
+      })
+      on_attach(client, buffer)
+    end,
+  },
+  fortls = {},
   gopls = {
     cmd = { "gopls" },
     filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -622,10 +639,7 @@ local servers = {
       },
     },
   },
-  pyright = {
-    filetypes = { "python" },
-    root_dir = lspconfig.util.root_pattern(".venv", ".git"),
-  },
+  hls = {},
   lua_ls = {
     settings = {
       Lua = {
@@ -637,6 +651,13 @@ local servers = {
       },
     },
   },
+  nixd = {},
+  pyright = {
+    filetypes = { "python" },
+    root_dir = lspconfig.util.root_pattern(".venv", ".git"),
+  },
+  texlab = {},
+  tsserver = {},
 }
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers

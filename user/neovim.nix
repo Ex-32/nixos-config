@@ -13,23 +13,27 @@
       clang # nvim-treesitter (and others)
       gnumake # telescope-fzf-native
       rust-analyzer # rust-tools
+      tree-sitter # nvim-treesitter
+      nodejs # nvim-treesitter
       # language servers (lspconfig)
+      arduino-language-server
       clang-tools # (clangd)
       cmake-language-server
+      fortls
       gopls
+      haskell-language-server
       lua-language-server
       nixd
+      nodePackages.bash-language-server
       nodePackages.pyright
       nodePackages.typescript-language-server
       texlab
+      vscode-langservers-extracted
       # sources ({null,none}-ls)
       alejandra
       clang-tools # (clang-format)
       mypy
-      nodePackages.eslint
       nodePackages.prettier
-      ruff
-      shellcheck
     ];
 
     # symlinkJoin can't handle symlinked dirs and nodePackages
