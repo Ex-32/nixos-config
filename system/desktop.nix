@@ -13,6 +13,10 @@
   # there's a decent serif, sans-serif, and monospace font installed for
   # well... everything
   fonts.enableDefaultPackages = true;
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+  ];
 
   # many gtk applications don't behave properly unless they can query dconf for
   # settings, so regardless of windowing environment it's good to have it
