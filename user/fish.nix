@@ -23,7 +23,9 @@
       ''
         set -g fish_greeting
       '';
-    interactiveShellInit =
+    interactiveShellInit = let
+      pokemon-colorscripts = pkgs.nur.repos.Ex-32.pokemon-colorscripts;
+    in
       /*
       fish
       */
@@ -32,6 +34,7 @@
         set -g fish_cursor_insert line
         set -g fish_cursor_replace_one underscore
         set -g fish_cursor_visual block
+        ${pokemon-colorscripts}/bin/pokemon-colorscripts --random
       '';
     functions = {
       i.body =
