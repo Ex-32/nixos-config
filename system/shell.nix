@@ -55,6 +55,13 @@
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
 
+    XDG_DATA_DIRS = with pkgs;
+      lib.concatStrings [
+        "${gsettings-desktop-schemas}/share/gsettings-schemas/${gsettings-desktop-schemas.name}:"
+        "${gtk3}/share/gsettings-schemas/${gtk3.name}:"
+        "$XDG_DATA_DIRS"
+      ];
+
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
     CARGO_HOME = "$XDG_DATA_HOME/cargo";

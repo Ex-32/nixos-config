@@ -18,6 +18,7 @@
   # settings, so regardless of windowing environment it's good to have it
   # enabled
   programs.dconf.enable = true;
+  environment.systemPackages = [pkgs.gnome.adwaita-icon-theme];
 
   # unprivileged access to disks is a pain in the ass without udisks so, so
   # it's always worth having in a graphical system where you'll be logged in as

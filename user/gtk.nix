@@ -8,7 +8,11 @@
   cursor-size = 48;
   cursor-name = "Catppuccin-Mocha-Mauve-Cursors";
 in {
-  dconf.enable = true;
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  };
+
   gtk = {
     enable = true;
     theme = {
