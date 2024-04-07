@@ -120,6 +120,7 @@
           ./system/printing.nix
           ./system/shell.nix
           ./system/sound.nix
+          ./system/steam.nix
           ./system/users.nix
           ./system/vial.nix
 
