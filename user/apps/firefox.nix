@@ -11,13 +11,14 @@
 
   home.packages = with pkgs; [
     tridactyl-native
+    firefox-devedition
   ];
 
   # TODO: figure out why enabling this causes firefox to throw a missing
   # profile error and fix it so firefox can be configured declaratively
   programs.firefox = {
-    enable = true;
-    package = pkgs.firefox;
+    enable = false;
+    package = pkgs.firefox-devedition;
     enableGnomeExtensions = false;
     policies = {
       DefaultDownloadDirectory = "${config.home.homeDirectory}/downloads";
@@ -37,96 +38,94 @@
         Highlights = false;
       };
     };
-    profiles = {
-      me = {
-        id = 0;
-        # name = "me";
-        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-          clearurls
-          decentraleyes
-          disconnect
-          duckduckgo-privacy-essentials
-          facebook-container
-          languagetool
-          multi-account-containers
-          onepassword-password-manager
-          privacy-badger
-          return-youtube-dislikes
-          sponsorblock
-          stylus
-          tab-reloader
-          tampermonkey
-          tridactyl
-          ublock-origin
-          youtube-nonstop
-        ];
-        search = {
-          force = true;
-          default = "DuckDuckGo";
-          privateDefault = "DuckDuckGo";
-          engines = {
-            "Nix Packages" = {
-              urls = [
-                {
-                  template = "https://search.nixos.org/packages";
-                  params = [
-                    {
-                      name = "channel";
-                      value = "unstable";
-                    }
-                    {
-                      name = "query";
-                      value = "{searchTerms}";
-                    }
-                  ];
-                }
-              ];
-              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-              definedAliases = ["@np"];
-            };
-            "Nix Options" = {
-              urls = [
-                {
-                  template = "https://search.nixos.org/options";
-                  params = [
-                    {
-                      name = "channel";
-                      value = "unstable";
-                    }
-                    {
-                      name = "query";
-                      value = "{searchTerms}";
-                    }
-                  ];
-                }
-              ];
-              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-              definedAliases = ["@no"];
-            };
-            "Home Manager Options" = {
-              urls = [
-                {
-                  template = "https://mipmip.github.io/home-manager-option-search/";
-                  params = [
-                    {
-                      name = "query";
-                      value = "{searchTerms}";
-                    }
-                  ];
-                }
-              ];
-              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-              definedAliases = ["@hm"];
-            };
-            "Google".metaData.hidden = true;
-            "Amazon.com".metaData.hidden = true;
-            "Bing".metaData.hidden = true;
-            "eBay".metaData.hidden = true;
+    profiles.default = {
+      id = 0;
+      name = "default";
+      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        clearurls
+        decentraleyes
+        disconnect
+        duckduckgo-privacy-essentials
+        facebook-container
+        languagetool
+        multi-account-containers
+        onepassword-password-manager
+        privacy-badger
+        return-youtube-dislikes
+        sponsorblock
+        stylus
+        tab-reloader
+        tampermonkey
+        tridactyl
+        ublock-origin
+        youtube-nonstop
+      ];
+      search = {
+        force = true;
+        default = "DuckDuckGo";
+        privateDefault = "DuckDuckGo";
+        engines = {
+          "Nix Packages" = {
+            urls = [
+              {
+                template = "https://search.nixos.org/packages";
+                params = [
+                  {
+                    name = "channel";
+                    value = "unstable";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@np"];
           };
+          "Nix Options" = {
+            urls = [
+              {
+                template = "https://search.nixos.org/options";
+                params = [
+                  {
+                    name = "channel";
+                    value = "unstable";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@no"];
+          };
+          "Home Manager Options" = {
+            urls = [
+              {
+                template = "https://home-manager-options.extranix.com/";
+                params = [
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@hm"];
+          };
+          "Google".metaData.hidden = true;
+          "Amazon.com".metaData.hidden = true;
+          "Bing".metaData.hidden = true;
+          "eBay".metaData.hidden = true;
         };
-        settings = {
-          "browser.aboutConfig.showWarning" = false;
-        };
+      };
+      settings = {
+        "browser.aboutConfig.showWarning" = false;
       };
     };
   };
