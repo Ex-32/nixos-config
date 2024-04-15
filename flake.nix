@@ -111,6 +111,7 @@
           ./system/desktop.nix
           ./system/distrobox.nix
           ./system/docker.nix
+          ./system/flipperzero.nix
           ./system/grub.nix
           ./system/impermanence.nix
           ./system/kernel-latest.nix
