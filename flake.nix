@@ -142,7 +142,7 @@
                 ./user/xdg.nix
                 ./user/yazi.nix
 
-                ./user/apps/floorp.nix
+                ./user/apps/firefox.nix
                 ./user/apps/fun.nix
                 ./user/apps/games.nix
                 ./user/apps/media.nix
