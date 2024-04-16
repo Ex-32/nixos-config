@@ -37,53 +37,53 @@
           {networking.hostName = "nixos-pc";}
 
           # hardware configuration
-          ./hardware/nixos-pc.nix
+          ./systems/nixos-pc.nix
 
           # system configuration
-          ./system/appimage-binfmt.nix
-          ./system/auth.nix
-          ./system/base.nix
-          ./system/console.nix
-          ./system/desktop.nix
-          ./system/distrobox.nix
-          ./system/ecryptfs.nix
-          ./system/grub.nix
-          ./system/impermanence.nix
-          ./system/kernel-latest.nix
-          ./system/locale.nix
-          ./system/network.nix
-          ./system/nix-alien.nix
-          ./system/printing.nix
-          ./system/shell.nix
-          ./system/sound.nix
-          ./system/ssh.nix
-          ./system/steam.nix
-          ./system/users.nix
-          ./system/vial.nix
-          ./system/x11.nix
+          ./lib/appimage-binfmt.nix
+          ./lib/auth.nix
+          ./lib/base.nix
+          ./lib/console.nix
+          ./lib/desktop.nix
+          ./lib/distrobox.nix
+          ./lib/ecryptfs.nix
+          ./lib/grub.nix
+          ./lib/impermanence.nix
+          ./lib/kernel-latest.nix
+          ./lib/locale.nix
+          ./lib/network.nix
+          ./lib/nix-alien.nix
+          ./lib/printing.nix
+          ./lib/shell.nix
+          ./lib/sound.nix
+          ./lib/ssh.nix
+          ./lib/steam.nix
+          ./lib/users.nix
+          ./lib/vial.nix
+          ./lib/x11.nix
 
           # home-manager configuration
           {
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
-                ./user/base.nix
-                ./user/fish.nix
-                ./user/git.nix
-                ./user/i3.nix
-                ./user/neovim.nix
-                ./user/nix-index.nix
-                ./user/picom.nix
-                ./user/python.nix
-                ./user/wezterm.nix
-                ./user/xdg.nix
+                ./home-manager/base.nix
+                ./home-manager/fish.nix
+                ./home-manager/git.nix
+                ./home-manager/i3.nix
+                ./home-manager/neovim.nix
+                ./home-manager/nix-index.nix
+                ./home-manager/picom.nix
+                ./home-manager/python.nix
+                ./home-manager/wezterm.nix
+                ./home-manager/xdg.nix
 
-                ./user/apps/floorp.nix
-                ./user/apps/games.nix
-                ./user/apps/media.nix
-                ./user/apps/obs-studio.nix
-                ./user/apps/productivity.nix
-                ./user/apps/socials.nix
-                ./user/apps/spotify.nix
+                ./home-manager/apps/floorp.nix
+                ./home-manager/apps/games.nix
+                ./home-manager/apps/media.nix
+                ./home-manager/apps/obs-studio.nix
+                ./home-manager/apps/productivity.nix
+                ./home-manager/apps/socials.nix
+                ./home-manager/apps/spotify.nix
               ];
               home.packages = with pkgs; [
                 _1password-gui
@@ -100,56 +100,56 @@
           {networking.hostName = "nixbook";}
 
           # hardware configuration
-          ./hardware/nixbook.nix
+          ./systems/nixbook.nix
 
           # system configuration
-          ./system/appimage-binfmt.nix
-          ./system/auth.nix
-          ./system/base.nix
-          ./system/bluetooth.nix
-          ./system/console.nix
-          ./system/desktop.nix
-          ./system/distrobox.nix
-          ./system/docker.nix
-          ./system/flipperzero.nix
-          ./system/grub.nix
-          ./system/impermanence.nix
-          ./system/kernel-latest.nix
-          ./system/locale.nix
-          ./system/network.nix
-          ./system/nix-alien.nix
-          ./system/printing.nix
-          ./system/shell.nix
-          ./system/sound.nix
-          ./system/steam.nix
-          ./system/users.nix
-          ./system/vial.nix
+          ./lib/appimage-binfmt.nix
+          ./lib/auth.nix
+          ./lib/base.nix
+          ./lib/bluetooth.nix
+          ./lib/console.nix
+          ./lib/desktop.nix
+          ./lib/distrobox.nix
+          ./lib/docker.nix
+          ./lib/flipperzero.nix
+          ./lib/grub.nix
+          ./lib/impermanence.nix
+          ./lib/kernel-latest.nix
+          ./lib/locale.nix
+          ./lib/network.nix
+          ./lib/nix-alien.nix
+          ./lib/printing.nix
+          ./lib/shell.nix
+          ./lib/sound.nix
+          ./lib/steam.nix
+          ./lib/users.nix
+          ./lib/vial.nix
 
           # home-manager configuration
           {
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
-                ./user/base.nix
-                ./user/fish.nix
-                ./user/git.nix
-                ./user/kitty.nix
-                ./user/latex.nix
-                ./user/neovim.nix
-                ./user/nix-index.nix
-                ./user/python.nix
-                ./user/sway.nix
-                ./user/syncthing.nix
-                ./user/xdg.nix
-                ./user/yazi.nix
+                ./home-manager/base.nix
+                ./home-manager/fish.nix
+                ./home-manager/git.nix
+                ./home-manager/kitty.nix
+                ./home-manager/latex.nix
+                ./home-manager/neovim.nix
+                ./home-manager/nix-index.nix
+                ./home-manager/python.nix
+                ./home-manager/sway.nix
+                ./home-manager/syncthing.nix
+                ./home-manager/xdg.nix
+                ./home-manager/yazi.nix
 
-                ./user/apps/firefox.nix
-                ./user/apps/fun.nix
-                ./user/apps/games.nix
-                ./user/apps/media.nix
-                ./user/apps/obs-studio.nix
-                ./user/apps/productivity.nix
-                ./user/apps/socials.nix
-                ./user/apps/spotify.nix
+                ./home-manager/apps/firefox.nix
+                ./home-manager/apps/fun.nix
+                ./home-manager/apps/games.nix
+                ./home-manager/apps/media.nix
+                ./home-manager/apps/obs-studio.nix
+                ./home-manager/apps/productivity.nix
+                ./home-manager/apps/socials.nix
+                ./home-manager/apps/spotify.nix
               ];
               home.packages = with pkgs; [
                 _1password-gui
