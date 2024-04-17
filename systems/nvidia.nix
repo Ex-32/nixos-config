@@ -15,5 +15,5 @@
     modesetting.enable = true;
   };
 
-  virtualisation.podman.enableNvidia = true;
+  virtualisation.containers.cdi.dynamic.nvidia.enable = true;
 }
