@@ -10,6 +10,7 @@
     ./picom.nix
     ./qt.nix
     ./tint2.nix
+    ./kitty.nix
   ];
 
   home.packages = with pkgs; [
@@ -136,7 +137,7 @@
         "XF86MonBrightnessUp" = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
         "${modifier}+Print" = "exec --no-startup-id sh -c '${pkgs.scrot}/bin/scrot - | ${pkgs.xclip}/bin/xclip -selection clipboard -target image/png -i'";
         "${modifier}+Shift+Print" = "--release exec --no-startup-id sh -c '${pkgs.scrot}/bin/scrot -s - | ${pkgs.xclip}/bin/xclip -selection clipboard -target image/png -i'";
-        "${modifier}+Tab" = "exec --no-startup-id ${pkgs.tdrop}/bin/tdrop -h 82% -w 88% -x 6% -y 9% wezterm start --always-new-process --class floating";
+        "${modifier}+Tab" = "exec --no-startup-id ${pkgs.tdrop}/bin/tdrop -h 82% -w 88% -x 6% -y 9% ${terminal} --class floating";
       };
       modes.resize = {
         "Left" = "resize shrink width 10 px or 10 ppt";

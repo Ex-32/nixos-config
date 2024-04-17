@@ -61,6 +61,7 @@
           ./lib/users.nix
           ./lib/vial.nix
           ./lib/x11.nix
+          ./lib/flipperzero.nix
 
           # home-manager configuration
           {
@@ -74,10 +75,12 @@
                 ./home-manager/nix-index.nix
                 ./home-manager/picom.nix
                 ./home-manager/python.nix
-                ./home-manager/wezterm.nix
                 ./home-manager/xdg.nix
+                ./home-manager/kitty.nix
+                ./home-manager/syncthing.nix
+                ./home-manager/yazi.nix
 
-                ./home-manager/apps/floorp.nix
+                ./home-manager/apps/firefox.nix
                 ./home-manager/apps/games.nix
                 ./home-manager/apps/media.nix
                 ./home-manager/apps/obs-studio.nix
