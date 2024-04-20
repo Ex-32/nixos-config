@@ -107,7 +107,7 @@
     use = "web, web=svc.joker.com/nic/checkip";
     server = "svc.joker.com/nic/update?";
     protocol = "dyndns2";
-    username = builtins.readFile ../secrets/ddclient/nixos-pc/login;
+    username = import ../secrets/ddclient/nixos-pc/login;
     passwordFile = "/etc/nixos/secrets/ddclient/nixos-pc/password";
     domains = import ../secrets/ddclient/nixos-pc/domains;
     ssl = true;
