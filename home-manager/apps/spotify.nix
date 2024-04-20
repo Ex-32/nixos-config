@@ -9,6 +9,8 @@
 in {
   imports = [inputs.spicetify-nix.homeManagerModule];
 
+  allowedUnfree = ["spotify"];
+
   programs.spicetify = {
     enable = true;
     theme = spicePkgs.themes.catppuccin;

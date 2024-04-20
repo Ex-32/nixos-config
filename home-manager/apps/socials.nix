@@ -5,6 +5,11 @@
   inputs,
   ...
 }: {
+  allowedUnfree = [
+    "discord"
+    "slack"
+  ];
+
   home.packages = with pkgs; [
     discord
     element-desktop

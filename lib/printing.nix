@@ -5,6 +5,11 @@
   nixpkgs,
   ...
 }: {
+  allowedUnfree = [
+    "cnijfilter2"
+    "hplip"
+  ];
+
   services.printing = {
     enable = true;
     startWhenNeeded = true;

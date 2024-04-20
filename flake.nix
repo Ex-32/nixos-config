@@ -88,6 +88,7 @@
                 ./home-manager/apps/socials.nix
                 ./home-manager/apps/spotify.nix
               ];
+              allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
                 gparted
@@ -154,6 +155,7 @@
                 ./home-manager/apps/socials.nix
                 ./home-manager/apps/spotify.nix
               ];
+              allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
                 gparted

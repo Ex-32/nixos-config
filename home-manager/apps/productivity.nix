@@ -25,6 +25,8 @@
     '';
   };
 in {
+  allowedUnfree = ["obsidian"];
+
   home.packages = with pkgs; [
     # libreoffice-with-deps
     obsidian

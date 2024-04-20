@@ -5,6 +5,10 @@
   nixpkgs,
   ...
 }: {
+  allowedUnfree = [
+    "pridecat" # licensed under permissive **non-commercial** license
+  ];
+
   programs.fish = {
     enable = true;
     # babelfish is a modern, more performant replacement for foreign-env which
