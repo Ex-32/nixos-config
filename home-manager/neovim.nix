@@ -22,6 +22,7 @@
       fortls
       gopls
       haskell-language-server
+      kotlin-language-server
       lua-language-server
       nixd
       nodePackages.bash-language-server
