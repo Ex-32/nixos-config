@@ -28,7 +28,7 @@ in {
   allowedUnfree = ["obsidian"];
 
   home.packages = with pkgs; [
-    # libreoffice-with-deps
+    libreoffice-with-deps
     obsidian
     onlyoffice-bin
     zathura
