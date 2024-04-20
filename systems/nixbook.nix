@@ -7,7 +7,6 @@
   ...
 }: {
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
     inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
     ./grub-patch.nix
   ];

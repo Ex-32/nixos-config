@@ -6,8 +6,7 @@
   ...
 }: {
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    ./nvidia.nix
+    ../lib/nvidia.nix
   ];
 
   boot.kernelParams = [

@@ -5,6 +5,11 @@
   nixpkgs,
   ...
 }: {
+  allowedUnfree = [
+    "nvidia-x11"
+    "nvidia-settings"
+  ];
+
   hardware.opengl = {
     enable = true;
     driSupport = true;
