@@ -102,6 +102,8 @@
     ll = "lsd -lAh";
     ls = null; # this disables nixos's default alias for ls
 
+    py = "nix shell nixpkgs#python3 --command python3";
+
     sc = "sudo systemctl";
     scu = "systemctl --user";
     jc = "journalctl";
