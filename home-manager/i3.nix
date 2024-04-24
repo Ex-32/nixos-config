@@ -19,6 +19,14 @@
 
   xsession = {
     enable = true;
+    initExtra =
+      /*
+      sh
+      */
+      ''
+        # HACK: reset SHLVL variable for graphical environemnet
+        export SHLVL=0
+      '';
     windowManager.i3 = {
       enable = true;
       config = rec {
