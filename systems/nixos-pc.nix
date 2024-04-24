@@ -9,6 +9,8 @@
     ../lib/nvidia.nix
   ];
 
+  hardware.enableRedistributableFirmware = true;
+
   boot.kernelParams = [
     "vsyscall=none"
     "consoleblank=60"
