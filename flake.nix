@@ -68,25 +68,24 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
+                ./home-manager/firefox.nix
                 ./home-manager/fish.nix
+                ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/i3.nix
+                ./home-manager/kitty.nix
+                ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
+                ./home-manager/obs-studio.nix
                 ./home-manager/picom.nix
+                ./home-manager/productivity.nix
                 ./home-manager/python.nix
-                ./home-manager/xdg.nix
-                ./home-manager/kitty.nix
+                ./home-manager/socials.nix
+                ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
+                ./home-manager/xdg.nix
                 ./home-manager/yazi.nix
-
-                ./home-manager/apps/firefox.nix
-                ./home-manager/apps/games.nix
-                ./home-manager/apps/media.nix
-                ./home-manager/apps/obs-studio.nix
-                ./home-manager/apps/productivity.nix
-                ./home-manager/apps/socials.nix
-                ./home-manager/apps/spotify.nix
               ];
               local.lutris.enable = true;
               allowedUnfree = ["1password"];
@@ -135,26 +134,25 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
+                ./home-manager/firefox.nix
                 ./home-manager/fish.nix
+                ./home-manager/fun.nix
+                ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/kitty.nix
                 ./home-manager/latex.nix
+                ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
+                ./home-manager/obs-studio.nix
+                ./home-manager/productivity.nix
                 ./home-manager/python.nix
+                ./home-manager/socials.nix
+                ./home-manager/spotify.nix
                 ./home-manager/sway.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/yazi.nix
-
-                ./home-manager/apps/firefox.nix
-                ./home-manager/apps/fun.nix
-                ./home-manager/apps/games.nix
-                ./home-manager/apps/media.nix
-                ./home-manager/apps/obs-studio.nix
-                ./home-manager/apps/productivity.nix
-                ./home-manager/apps/socials.nix
-                ./home-manager/apps/spotify.nix
               ];
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
