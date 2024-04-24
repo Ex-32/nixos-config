@@ -16,9 +16,6 @@
     driSupport32Bit = true;
   };
   services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia = {
-    modesetting.enable = true;
-  };
-
+  hardware.nvidia.modesetting.enable = true;
   virtualisation.containers.cdi.dynamic.nvidia.enable = true;
 }

@@ -39,8 +39,7 @@
 
       # Pending https://github.com/NixOS/nixpkgs/issues/55674
       config.allowUnfreePredicate = pkg:
-        builtins.elem (lib.getName pkg)
-        (config.allowedUnfree
+        builtins.elem (lib.getName pkg) (config.allowedUnfree
           ++ (builtins.foldl' (acc: user: acc ++ user.allowedUnfree) []
             (lib.attrsets.attrValues config.home-manager.users)));
     };
