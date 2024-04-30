@@ -11,6 +11,8 @@
     ./grub-patch.nix
   ];
 
+  hardware.enableRedistributableFirmware = true;
+
   boot.blacklistedKernelModules = [
     "hid_sensor_hub"
   ];
