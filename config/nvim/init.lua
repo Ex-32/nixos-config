@@ -150,7 +150,7 @@ require('lazy').setup({
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function(_, _)
       require("lsp_lines").setup()
-      -- vim.diagnostic.config({ virtual_text = false })
+      vim.diagnostic.config({ virtual_text = false })
     end,
   },
 
@@ -172,13 +172,20 @@ require('lazy').setup({
   },
 
   {
+    -- highlight color codes in that color
+    "brenoprata10/nvim-highlight-colors",
+    opts = {
+      enable_named_colors = false,
+    },
+  },
+
+  {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     opts = {
       options = {
-        icons_enabled = false,
-        component_separators = '|',
-        section_separators = '',
+        globalstatus = true,
+        icons_enabled = true,
       },
     },
   },
@@ -190,7 +197,7 @@ require('lazy').setup({
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
-    after = "catppuccin/nvim";
+    after = "catppuccin/nvim",
     opts = {},
   },
 
@@ -315,7 +322,7 @@ require('lazy').setup({
   --- kitty config script
   {
     "fladson/vim-kitty",
-    ft = { "kitty", "kitty.conf" };
+    ft = { "kitty", "kitty.conf" },
   },
 
   {
@@ -400,13 +407,14 @@ vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
-      'arduino', 'bash', 'c', 'cpp', 'css', 'csv', 'cuda', 'diff',
-      'dockerfile', 'fish', 'git_config', 'git_rebase', 'gitattributes',
-      'gitcommit', 'gitignore', 'go', 'gomod', 'haskell', 'html', 'javascript',
-      'json', 'jsonc', 'latex', 'linkerscript', 'lua', 'make', 'markdown',
-      'nasm', 'nix', 'org', 'passwd', 'python', 'rust', 'scss', 'sql',
-      'ssh_config', 'toml', 'tsx', 'typescript', 'udev', 'vim', 'vimdoc',
-      'xml', 'yuck', 'zig',
+      'arduino', 'asm', 'bash', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'csv',
+      'cuda', 'diff', 'dockerfile', 'fish', 'fortran', 'git_config',
+      'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'gomod',
+      'haskell', 'html', 'java', 'javascript', 'json', 'jsonc', 'latex',
+      'linkerscript', 'lua', 'make', 'markdown', 'markdown_inline', 'nasm',
+      'nix', 'org', 'passwd', 'python', 'ruby', 'rust', 'scss', 'sql',
+      'ssh_config', 'tmux', 'toml', 'tsx', 'typescript', 'udev', 'verilog',
+      'vim', 'vimdoc', 'xml', 'yaml', 'yuck', 'zathurarc', 'zig',
     },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -471,53 +479,89 @@ vim.defer_fn(function()
 end, 0)
 
 -- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
-  local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
-    end
+-- since LSPs usually take a while to spin up anyway, there's no reason to not delay the initialization of the LSP interface until after the first render
+vim.defer_fn(function()
+  -- lspconfig object
+  local lspconfig = require('lspconfig')
 
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+  -- LSP servers to be loaded
+  local servers = {
+    arduino_language_server = {},
+    bashls = {},
+    clangd = {
+      on_attach = function(client, _)
+        client.capabilities.signatureHelpProvider = false
+      end
+    },
+    cmake = {
+      filetypes = { "cmake", "CMakeLists.txt" },
+    },
+    eslint = {
+      on_attach = function(_, buffer)
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = buffer,
+          command = "EslintFixAll",
+        })
+      end,
+    },
+    fortls = {},
+    gopls = {
+      cmd = { "gopls" },
+      filetypes = { "go", "gomod", "gowork", "gotmpl" },
+      root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+      settings = {
+        gopls = {
+          completeUnimported = true,
+          analyses = {
+            unusedparams = true,
+          },
+        },
+      },
+    },
+    hls = {},
+    kotlin_language_server = {},
+    lua_ls = {
+      settings = {
+        Lua = {
+          workspace = { checkThirdParty = false },
+          telemetry = { enable = false },
+          diagnostics = {
+            disable = { 'missing-fields' },
+          },
+        },
+      },
+    },
+    nixd = {},
+    pyright = {
+      filetypes = { "python" },
+      root_dir = lspconfig.util.root_pattern(".venv", ".git"),
+    },
+    texlab = {},
+    tsserver = {},
+  }
+
+
+  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+  local capabilities = require('cmp_nvim_lsp').default_capabilities(
+    vim.lsp.protocol.make_client_capabilities()
+  )
+
+  -- actually register/configure the LSPs
+  for key, value in pairs(servers) do
+    lspconfig[key].setup({
+      capabilities = (value.capabilities or capabilities),
+      on_attach = (value.on_attach or function() end),
+      cmd = (value or {}).cmd,
+      settings = (value or {}).settings,
+      filetypes = (value or {}).filetypes,
+      root_dir = (value or {}).root_dir,
+    })
   end
-
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
-  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-  nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-  -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('J', vim.lsp.buf.signature_help, 'Signature Documentation')
-
-  -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, '[W]orkspace [L]ist Folders')
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
-end
+end, 0)
 
 -- document existing key chains
 require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+  ['<leader>l'] = { name = '[L]SP', _ = 'which_key_ignore' },
   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
   ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
@@ -533,79 +577,6 @@ require('which-key').register({
   ['<leader>'] = { name = 'VISUAL <leader>' },
   ['<leader>h'] = { 'Git [H]unk' },
 }, { mode = 'v' })
-
-local lspconfig = require('lspconfig')
-local servers = {
-  arduino_language_server = {},
-  bashls = {},
-  clangd = {
-    on_attach = function(client, buffer)
-      client.capabilities.signatureHelpProvider = false
-      on_attach(client, buffer)
-    end
-  },
-  cmake = {
-    filetypes = { "cmake", "CMakeLists.txt" },
-  },
-  eslint = {
-    on_attach = function(client, buffer)
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = buffer,
-        command = "EslintFixAll",
-      })
-      on_attach(client, buffer)
-    end,
-  },
-  fortls = {},
-  gopls = {
-    cmd = { "gopls" },
-    filetypes = { "go", "gomod", "gowork", "gotmpl" },
-    root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
-    settings = {
-      gopls = {
-        completeUnimported = true,
-        analyses = {
-          unusedparams = true,
-        },
-      },
-    },
-  },
-  hls = {},
-  kotlin_language_server = {},
-  lua_ls = {
-    settings = {
-      Lua = {
-        workspace = { checkThirdParty = false },
-        telemetry = { enable = false },
-        diagnostics = {
-          disable = { 'missing-fields' },
-        },
-      },
-    },
-  },
-  nixd = {},
-  pyright = {
-    filetypes = { "python" },
-    root_dir = lspconfig.util.root_pattern(".venv", ".git"),
-  },
-  texlab = {},
-  tsserver = {},
-}
-
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-for key, value in pairs(servers) do
-  lspconfig[key].setup({
-    capabilities = (value.capabilities or capabilities),
-    on_attach = (value.on_attach or on_attach),
-    cmd = (value or {}).cmd,
-    settings = (value or {}).settings,
-    filetypes = (value or {}).filetypes,
-    root_dir = (value or {}).root_dir,
-  })
-end
 
 local signs = { Error = "", Warn = "", Hint = "", Info = "" }
 for type, icon in pairs(signs) do
@@ -763,6 +734,25 @@ local mappings = {
       end,
       "[F]ind by [G]rep on Git Root",
     },
+
+    -- LSP mappings
+    ["K"] = { vim.lsp.buf.hover, "Hover Documentation" },
+    ["J"] = { vim.lsp.buf.signature_help, "Signature Documentation" },
+
+    ["<leader>lr"] = { vim.lsp.buf.rename, "[L]SP: [R]ename" },
+    ["<leader>lc"] = { vim.lsp.buf.code_action, "[L]SP: [C]ode Action" },
+    ["<leader>ld"] = { require('telescope.builtin').lsp_definitions, "[L]SP: Goto [D]efinition" },
+    ["<leader>lf"] = { require('telescope.builtin').lsp_references, "[L]SP: Goto Re[F]erences" },
+    ["<leader>li"] = { require('telescope.builtin').lsp_implementations, "[L]SP: Goto [I]mplementations" },
+    ["<leader>lt"] = { require('telescope.builtin').lsp_type_definitions, "[L]SP: [T]ype Definition" },
+    ["<leader>lD"] = { vim.lsp.buf.declaration, "[L]SP: Goto [D]eclaration" },
+    ["<leader>lo"] = { vim.lsp.buf.format, "[L]SP: F[O]rmat" },
+
+    -- LSP workspace mappings
+    ["<leader>ws"] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, "[L]SP: [W]orkspace [S]ymbols" },
+    ["<leader>wa"] = { vim.lsp.buf.add_workspace_folder, "[L]SP: [W]orkspace [A]dd Folder" },
+    ["<leader>wr"] = { vim.lsp.buf.remove_workspace_folder, "[L]SP: [W]orkspace [R]emove Folder" },
+    ["<leader>wl"] = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders)) end, "[L]SP: [W]orkspace [L]ist Folders" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
