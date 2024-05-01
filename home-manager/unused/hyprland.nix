@@ -8,8 +8,6 @@
   imports = [
     ./gtk.nix
     ./qt.nix
-    ./swayidle.nix
-    ./swaylock.nix
     ./systray.nix
     ./waybar.nix
     ./wezterm.nix

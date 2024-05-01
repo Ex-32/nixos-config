@@ -9,8 +9,6 @@
     ./gtk.nix
     ./mako.nix
     ./qt.nix
-    ./swayidle.nix
-    ./swaylock.nix
     ./waybar.nix
   ];
 
