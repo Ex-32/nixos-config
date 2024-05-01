@@ -5,6 +5,11 @@
   nixpkgs,
   ...
 }: {
+  allowedUnfree = [
+    "corefonts"
+    "xkcd-font"
+  ];
+
   # graphical environments tend to get lost without OpenGL, this tells nixos to
   # figure out what kind of hardware it's on an install the appropriate driver
   hardware.opengl.enable = true;
@@ -14,8 +19,16 @@
   # well... everything
   fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [
+    corefonts
+    # (google-fonts.override {
+    #   fonts = [];
+    # })
     noto-fonts
     noto-fonts-cjk
+    roboto
+    source-sans
+    ubuntu_font_family
+    xkcd-font
   ];
 
   # many gtk applications don't behave properly unless they can query dconf for
