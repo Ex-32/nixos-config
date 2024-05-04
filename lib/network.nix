@@ -7,9 +7,15 @@
 }: {
   # NetworkManager: networking for noobs since 2004
   networking.networkmanager.enable = true;
-  networking.firewall.enable = true;
 
-  # port 57621 TCP/UDP is for spotify-sync
-  # networking.firewall.allowedTCPPorts = [ 57621 ];
-  # networking.firewall.allowedUDPPorts = [ 57621 ];
+  networking.firewall = let
+    allowed = [
+      28785 # super tux kart
+      57621 # spotify sync
+    ];
+  in {
+    enable = true;
+    allowedTCPPorts = allowed;
+    allowedUDPPorts = allowed;
+  };
 }
