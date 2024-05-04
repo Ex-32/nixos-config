@@ -50,7 +50,7 @@
   nvim-with-deps = pkgs.symlinkJoin {
     name = "nvim-with-lsps";
     paths = [pkgs.neovim-unwrapped];
-    buildInputs = [pkgs.makeWrapper];
+    nativeBuildInputs = [pkgs.makeWrapper];
     postBuild = ''
       wrapProgram $out/bin/nvim \
         --suffix PATH : ${nvim-deps}/bin
