@@ -141,6 +141,7 @@
         playerctl = "${pkgs.playerctl}/bin/playerctl";
         wpctl = "${pkgs.wireplumber}/bin/wpctl";
         brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+        wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
       in
         lib.mkOptionDefault {
           "${mod}+Shift+q" = null;
@@ -168,8 +169,9 @@
           "XF86AudioNext" = "exec ${playerctl} next";
           "XF86MonBrightnessDown" = "exec ${brightnessctl} set 5%-";
           "XF86MonBrightnessUp" = "exec ${brightnessctl} set 5%+";
-          "${mod}+Print" = "exec sh -c '${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy'";
-          "${mod}+Shift+Print" = "exec sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy'";
+          "${mod}+Print" = "exec sh -c '${pkgs.grim}/bin/grim - | ${wl-copy}'";
+          "${mod}+Shift+Print" = "exec sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${wl-copy}'";
+          "${mod}+Shift+p" = "exec ${pkgs.hyprpicker}/bin/hyprpicker | ${wl-copy}";
           "${mod}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO: make this more better
         };
       input = {
