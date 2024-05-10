@@ -5,10 +5,6 @@
   nixpkgs,
   ...
 }: {
-  allowedUnfree = [
-    "pridecat" # licensed under permissive **non-commercial** license
-  ];
-
   programs.fish = {
     enable = true;
     # babelfish is a modern, more performant replacement for foreign-env which
@@ -130,8 +126,6 @@
     fzf # fuzzy search the filesystem for files/directories
     htop # the best way to monitor processes this side of the solar system
     lsd # a modern ls clone with features like icons and relative time
-    neofetch # show off in style
-    pridecat # a silly cat clone with a sense of pride
     ripgrep # grep the filesystem crazy fast
     tmux # terminals all the way down
     trash-cli # fuck i didn't mean to delete that...
