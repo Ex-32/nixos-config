@@ -34,7 +34,9 @@
         set -g fish_cursor_insert line
         set -g fish_cursor_replace_one underscore
         set -g fish_cursor_visual block
-        ${pokemon-colorscripts}/bin/pokemon-colorscripts --random
+        if test $SHLVL -le 1
+          ${pokemon-colorscripts}/bin/pokemon-colorscripts --random
+        end
       '';
     functions = {
       i.body =
