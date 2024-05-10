@@ -8,7 +8,7 @@
   imports = [inputs.nix-doom-emacs.hmModule];
 
   home.packages = with pkgs; [
-    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
+    (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
     clang-tools
     gnumake
     haskell-language-server
@@ -53,4 +53,6 @@
     mimeType = ["text/plain"];
     icon = "${config.programs.doom-emacs.package}/share/icons/hicolor/scalable/apps/emacs.svg";
   };
+
+  home.file.".emacs.d/init.el".enable = false;
 }
