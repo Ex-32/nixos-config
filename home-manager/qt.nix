@@ -14,7 +14,7 @@
 
   qt = {
     enable = true;
-    platformTheme = "gnome";
+    platformTheme.name = "adwaita";
     style = {
       name = "kvantum-dark";
       package = pkgs.libsForQt5.qtstyleplugin-kvantum;
