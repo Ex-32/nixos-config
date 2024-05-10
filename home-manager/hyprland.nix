@@ -6,11 +6,10 @@
   ...
 }: {
   imports = [
-    inputs.hyprland.homeManagerModules.default
     ./gtk.nix
     ./qt.nix
     ./systray.nix
-    ./waybar.nix
+    ./waybar-hyprland.nix
     ./kitty.nix
   ];
 
@@ -51,19 +50,15 @@
   in {
     enable = true;
     systemd.enable = true;
-    plugins = [
-      inputs.hy3.packages.${pkgs.system}.hy3
-    ];
     settings = {
       "$mod" = "SUPER";
-      "$term" = "kitty";
       general = {
         gaps_in = 6;
         gaps_out = 12;
         border_size = 4;
         "col.active_border" = "rgb(${mauve}) rgb(${sapphire}) 45deg";
         "col.inactive_border" = "0xff${surface0}";
-        layout = "hy3";
+        layout = "master";
       };
       input = {
         kb_layout = "us";
@@ -108,32 +103,25 @@
         workspace_swipe_min_speed_to_force = 10;
       };
       misc = {
-        force_default_wallpaper = 2;
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
       };
       dwindle = {
         special_scale_factor = 0.9;
       };
       master = {
         special_scale_factor = 0.9;
-      };
-      plugin = {
-        hy3 = {
-          tabs = {
-            height = 4;
-            padding = 6;
-            render_text = false;
-
-            "col.active" = "0xff${mauve}";
-            "col.urgent" = "0xff${red}";
-            "col.inactive" = "0xff${surface1}";
-          };
-        };
+        new_is_master = false;
+        new_on_top = true;
       };
       monitor = [
         ", preferred, auto, 1"
       ];
       # normal keybinds
-      bind = [
+      bind = let
+        playerctl = "${pkgs.playerctl}/bin/playerctl";
+        wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+      in [
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
         "$mod, 3, workspace, 3"
@@ -144,57 +132,55 @@
         "$mod, 8, workspace, 8"
         "$mod, 9, workspace, 9"
 
-        "$mod+SHIFT, 1, hy3:movetoworkspace, 1"
-        "$mod+SHIFT, 2, hy3:movetoworkspace, 2"
-        "$mod+SHIFT, 3, hy3:movetoworkspace, 3"
-        "$mod+SHIFT, 4, hy3:movetoworkspace, 4"
-        "$mod+SHIFT, 5, hy3:movetoworkspace, 5"
-        "$mod+SHIFT, 6, hy3:movetoworkspace, 6"
-        "$mod+SHIFT, 7, hy3:movetoworkspace, 7"
-        "$mod+SHIFT, 8, hy3:movetoworkspace, 8"
-        "$mod+SHIFT, 9, hy3:movetoworkspace, 9"
+        "$mod+SHIFT, 1, movetoworkspace, 1"
+        "$mod+SHIFT, 2, movetoworkspace, 2"
+        "$mod+SHIFT, 3, movetoworkspace, 3"
+        "$mod+SHIFT, 4, movetoworkspace, 4"
+        "$mod+SHIFT, 5, movetoworkspace, 5"
+        "$mod+SHIFT, 6, movetoworkspace, 6"
+        "$mod+SHIFT, 7, movetoworkspace, 7"
+        "$mod+SHIFT, 8, movetoworkspace, 8"
+        "$mod+SHIFT, 9, movetoworkspace, 9"
 
-        "$mod, q, exec, $term"
-        ''$mod, d, exec, ${pkgs.rofi-wayland}/bin/rofi -show drun -modi drun -scroll-method 0 -drun-match-fields all -drun-display-format "{name}" -no-drun-show-actions -terminal $term -theme config''
+        "$mod, q, exec, kitty -1"
+        ''$mod, d, exec, ${pkgs.rofi-wayland}/bin/rofi -show drun -modi drun -scroll-method 0 -drun-match-fields all -drun-display-format "{name}" -no-drun-show-actions -terminal "kitty -1" -theme config''
         "$mod, Semicolon, exec, swaylock"
-        "$mod, Print, exec, sh -c '${pkgs.grim}/bin/grim - | ${pkgs.wl-clipboard}/bin/wl-copy'"
-        "$mod+SHIFT, Print, exec, sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy'"
+        "$mod, Print, exec, ${pkgs.grim}/bin/grim - | ${wl-copy}"
+        "$mod+SHIFT, Print, exec, ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${wl-copy}"
+        "$mod+SHIFT, p, exec, ${pkgs.hyprpicker}/bin/hyprpicker | ${wl-copy}"
+        "$mod+SHIFT, w, exec, ${config.home.homeDirectory}/.config/hypr/bin/wallpaper.sh"
 
-        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
-        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
-        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+        ", XF86AudioPrev, exec, ${playerctl} previous"
+        ", XF86AudioPlay, exec, ${playerctl} play-pause"
+        ", XF86AudioNext, exec, ${playerctl} next"
 
-        "$mod, c, hy3:killactive"
-        "$mod, Tab, togglespecialworkspace"
+        "$mod, c, killactive"
+        "$mod, Tab, exec, ~/.config/hypr/bin/dropterm.sh"
         "$mod+SHIFT, f, togglefloating"
         "$mod, f, fullscreen"
 
-        "$mod, e, hy3:makegroup, h"
-        "$mod, s, hy3:makegroup, v"
-        "$mod, w, hy3:makegroup, tab"
-        "$mod, a, hy3:changefocus, raise"
-        "$mod+SHIFT, a, hy3:changefocus, lower"
-        "$mod, r, hy3:changegroup, opposite"
+        "$mod, left, movefocus, l"
+        "$mod, right, movefocus, r"
+        "$mod, up, movefocus, u"
+        "$mod, down, movefocus, d"
 
-        "$mod, left, hy3:movefocus, l"
-        "$mod, right, hy3:movefocus, r"
-        "$mod, up, hy3:movefocus, u"
-        "$mod, down, hy3:movefocus, d"
+        "$mod, h, movefocus, l"
+        "$mod, j, movefocus, d"
+        "$mod, k, movefocus, u"
+        "$mod, l, movefocus, r"
 
-        "$mod, h, hy3:movefocus, l"
-        "$mod, j, hy3:movefocus, d"
-        "$mod, k, hy3:movefocus, u"
-        "$mod, l, hy3:movefocus, r"
+        "$mod+SHIFT, left, movewindow, l"
+        "$mod+SHIFT, right, movewindow, r"
+        "$mod+SHIFT, up, movewindow, u"
+        "$mod+SHIFT, down, movewindow, d"
 
-        "$mod+SHIFT, left, hy3:movewindow, l, once"
-        "$mod+SHIFT, right, hy3:movewindow, r, once"
-        "$mod+SHIFT, up, hy3:movewindow, u, once"
-        "$mod+SHIFT, down, hy3:movewindow, d, once"
+        "$mod+SHIFT, h, movewindow, l"
+        "$mod+SHIFT, j, movewindow, d"
+        "$mod+SHIFT, k, movewindow, u"
+        "$mod+SHIFT, l, movewindow, r"
 
-        "$mod+SHIFT, h, hy3:movewindow, l, once"
-        "$mod+SHIFT, j, hy3:movewindow, d, once"
-        "$mod+SHIFT, k, hy3:movewindow, u, once"
-        "$mod+SHIFT, l, hy3:movewindow, r, once"
+        "$mod, m, layoutmsg, rollnext"
+        "$mod, n, layoutmsg, rollprev"
       ];
       # keybinds that'll repeat if held
       binde = [
@@ -212,22 +198,189 @@
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
       ];
-      bindn = [
-        ", mouse:272, hy3:focustab, mouse"
-        ", mouse_down, hy3:focustab, l, require_hovered"
-        ", mouse_up, hy3:focustab, r, require_hovered"
-      ];
       exec = [
         "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:root"
       ];
       exec-once = [
-        "[workspace special] $term sh -c 'while :; do $SHELL; hyprctl dispatch togglespecialworkspace; clear; done'"
         "${pkgs.brightnessctl}/bin/brightnessctl set 75%"
       ];
+      windowrule = [
+        "workspace special, ^(dropterm)$"
+      ];
+    };
+  };
+
+  services.swayidle = {
+    enable = true;
+    timeouts = [
+      {
+        timeout = 180;
+        command = "${pkgs.swaylock-effects}/bin/swaylock --grace 20";
+      }
+    ];
+    events = [
+      {
+        event = "before-sleep";
+        command = "${pkgs.swaylock-effects}/bin/swaylock";
+      }
+    ];
+  };
+
+  programs.swaylock = {
+    enable = true;
+    package = pkgs.swaylock-effects;
+    settings = {
+      screenshots = true;
+      clock = true;
+      timestr = "%H:%M:%S";
+      datestr = "%Y-%m-%d";
+      indicator = true;
+      indicator-radius = 350;
+      indicator-thickness = 12;
+      effect-blur = "8x5";
+      ring-color = "cba6f7";
+      ring-clear-color = "fab387";
+      ring-ver-color = "74c7ec";
+      ring-wrong-color = "f38ba8";
+      key-hl-color = "45475a";
+      bs-hl-color = "fab387";
+      line-color = "00000000";
+      line-clear-color = "00000000";
+      line-caps-lock-color = "00000000";
+      line-ver-color = "00000000";
+      line-wrong-color = "00000000";
+      inside-color = "00000000";
+      inside-clear-color = "00000000";
+      inside-caps-lock-color = "00000000";
+      inside-ver-color = "00000000";
+      inside-wrong-color = "00000000";
+      separator-color = "00000000";
+      text-color = "cba6f7";
+      text-clear-color = "fab387";
+      text-caps-lock-color = "f38ba8";
+      text-ver-color = "74c7ec";
+      text-wrong-color = "f38ba8";
+      fade-in = 0.2;
+      font = "Raleway";
     };
   };
 
   home.file = {
     ".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
+    ".config/hypr/bin/dropterm.sh" = {
+      executable = true;
+      text =
+        /*
+        bash
+        */
+        ''
+          #!/bin/sh
+          TERM_FILE="$XDG_RUNTIME_DIR/dropterm.pid"
+          if [ -f "$TERM_FILE" ] ; then
+            hyprctl dispatch togglespecialworkspace
+          else
+            echo $$ > "$TERM_FILE"
+            trap 'rm -f $TERM_FILE' EXIT
+            export SHLVL=0
+            kitty --class dropterm
+          fi
+        '';
+    };
+    ".config/hypr/hyprpaper.conf".text = "splash = true";
+    ".config/hypr/bin/wallpaper.sh" = {
+      executable = true;
+      text = let
+        rand-file = "/dev/urandom";
+        core = "${pkgs.coreutils}/bin";
+      in
+        /*
+        bash
+        */
+        ''
+          #!/bin/sh
+          set -e
+          # FIXME: don't hardcode wallpaper path
+          WALLPAPER_PATH="${config.home.homeDirectory}/documents/pictures/wallpapers/current"
+          if [ ! -d "$WALLPAPER_PATH" ] ; then
+            echo "wallpaper directory '$WALLPAPER_PATH' doesn't exist"
+            exit 1
+          fi
+          rand_pos() {
+            ${core}/printf '0.%02d' $(( $(${core}/od -An -N2 -d ${rand-file}) % 99 + 1 ))
+          }
+          RAND_PAPER="$WALLPAPER_PATH/$(${core}/ls -1 "$WALLPAPER_PATH" |\
+            ${core}/shuf --random-source=${rand-file} -n 1)"
+          ${pkgs.swww}/bin/swww img \
+            --transition-duration 2 \
+            --transition-type grow \
+            --transition-pos "$(rand_pos),$(rand_pos)" \
+            "$RAND_PAPER"
+        '';
+    };
+  };
+
+  systemd.user = {
+    services = {
+      swww-daemon = {
+        Unit = {
+          Description = "swww wallpaper daemon";
+          Wants = ["hyprland-session.target"];
+          After = ["hyprland-session.target"];
+        };
+
+        Service = {
+          Type = "simple";
+          ExecStart = "${pkgs.swww}/bin/swww-daemon";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutSec = "30s";
+        };
+
+        Install = {
+          WantedBy = ["hyprland-session.target"];
+        };
+      };
+      swww = {
+        Unit = {
+          Description = "cycle swww wallpaper";
+          Wants = ["hyprland-session.target"];
+          After = [
+            "hyprland-session.target"
+            "swww-daemon.service"
+          ];
+        };
+
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${config.home.homeDirectory}/.config/hypr/bin/wallpaper.sh";
+        };
+
+        Install = {
+          WantedBy = ["hyprland-session.target"];
+        };
+      };
+    };
+    timers = {
+      swww = {
+        Unit = {
+          Description = "cycle swww wallpaper";
+          Wants = ["hyprland-session.target"];
+          After = [
+            "hyprland-session.target"
+            "swww-daemon.service"
+          ];
+        };
+
+        Timer = {
+          OnUnitActiveSec = "5min";
+          RandomizedDelaySec = "30s";
+          AccuracySec = "30s";
+        };
+
+        Install = {
+          WantedBy = ["hyprland-session.target"];
+        };
+      };
+    };
   };
 }

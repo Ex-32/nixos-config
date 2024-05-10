@@ -29,13 +29,6 @@
         };
       };
     };
-
-    # these two version tags need to be kept in sync
-    hyprland.url = github:hyprwm/Hyprland?ref=v0.39.1;
-    hy3 = {
-      url = github:outfoxxed/hy3?ref=hl0.39.1;
-      inputs.hyprland.follows = "hyprland";
-    };
   };
 
   outputs = inputs @ {
@@ -165,7 +158,6 @@
                 ./home-manager/python.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
-                ./home-manager/sway.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/yazi.nix

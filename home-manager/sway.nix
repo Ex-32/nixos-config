@@ -9,7 +9,7 @@
     ./gtk.nix
     ./mako.nix
     ./qt.nix
-    ./waybar.nix
+    ./waybar-sway.nix
   ];
 
   home.packages = with pkgs; [
