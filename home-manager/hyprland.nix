@@ -11,6 +11,7 @@
     ./systray.nix
     ./waybar-hyprland.nix
     ./kitty.nix
+    ./mako.nix
   ];
 
   home.packages = with pkgs; [
@@ -75,7 +76,8 @@
       decoration = {
         rounding = 10;
         blur = {
-          enabled = false;
+          enabled = true;
+          size = 2;
         };
         drop_shadow = false;
       };
@@ -122,25 +124,35 @@
         playerctl = "${pkgs.playerctl}/bin/playerctl";
         wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
       in [
-        "$mod, 1, workspace, 1"
-        "$mod, 2, workspace, 2"
-        "$mod, 3, workspace, 3"
-        "$mod, 4, workspace, 4"
-        "$mod, 5, workspace, 5"
-        "$mod, 6, workspace, 6"
-        "$mod, 7, workspace, 7"
-        "$mod, 8, workspace, 8"
-        "$mod, 9, workspace, 9"
+        "$mod, 1, focusworkspaceoncurrentmonitor, 1"
+        "$mod, 2, focusworkspaceoncurrentmonitor, 2"
+        "$mod, 3, focusworkspaceoncurrentmonitor, 3"
+        "$mod, 4, focusworkspaceoncurrentmonitor, 4"
+        "$mod, 5, focusworkspaceoncurrentmonitor, 5"
+        "$mod, 6, focusworkspaceoncurrentmonitor, 6"
+        "$mod, 7, focusworkspaceoncurrentmonitor, 7"
+        "$mod, 8, focusworkspaceoncurrentmonitor, 8"
+        "$mod, 9, focusworkspaceoncurrentmonitor, 9"
 
-        "$mod+SHIFT, 1, movetoworkspace, 1"
-        "$mod+SHIFT, 2, movetoworkspace, 2"
-        "$mod+SHIFT, 3, movetoworkspace, 3"
-        "$mod+SHIFT, 4, movetoworkspace, 4"
-        "$mod+SHIFT, 5, movetoworkspace, 5"
-        "$mod+SHIFT, 6, movetoworkspace, 6"
-        "$mod+SHIFT, 7, movetoworkspace, 7"
-        "$mod+SHIFT, 8, movetoworkspace, 8"
-        "$mod+SHIFT, 9, movetoworkspace, 9"
+        "$mod+SHIFT, 1, movetoworkspacesilent, 1"
+        "$mod+SHIFT, 2, movetoworkspacesilent, 2"
+        "$mod+SHIFT, 3, movetoworkspacesilent, 3"
+        "$mod+SHIFT, 4, movetoworkspacesilent, 4"
+        "$mod+SHIFT, 5, movetoworkspacesilent, 5"
+        "$mod+SHIFT, 6, movetoworkspacesilent, 6"
+        "$mod+SHIFT, 7, movetoworkspacesilent, 7"
+        "$mod+SHIFT, 8, movetoworkspacesilent, 8"
+        "$mod+SHIFT, 9, movetoworkspacesilent, 9"
+
+        "$mod+ALT, 1, focusmonitor, 0"
+        "$mod+ALT, 2, focusmonitor, 1"
+        "$mod+ALT, 3, focusmonitor, 2"
+        "$mod+ALT, 4, focusmonitor, 3"
+        "$mod+ALT, 5, focusmonitor, 4"
+        "$mod+ALT, 6, focusmonitor, 5"
+        "$mod+ALT, 7, focusmonitor, 6"
+        "$mod+ALT, 8, focusmonitor, 7"
+        "$mod+ALT, 9, focusmonitor, 8"
 
         "$mod, q, exec, kitty -1"
         ''$mod, d, exec, ${pkgs.rofi-wayland}/bin/rofi -show drun -modi drun -scroll-method 0 -drun-match-fields all -drun-display-format "{name}" -no-drun-show-actions -terminal "kitty -1" -theme config''

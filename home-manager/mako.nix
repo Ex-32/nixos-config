@@ -7,15 +7,17 @@
 }: {
   services.mako = {
     enable = true;
-    font = "Raleway 13";
-    defaultTimeout = 5000;
     anchor = "bottom-right";
-    width = 400;
-    height = 400;
     backgroundColor = "#1e1e2e";
-    textColor = "#cdd6f4";
     borderColor = "#cba6f7";
+    borderRadius = 10;
+    borderSize = 2;
+    defaultTimeout = 5000;
+    font = "Raleway 13";
+    height = 400;
     progressColor = "#313244";
+    textColor = "#cdd6f4";
+    width = 400;
     extraConfig =
       /*
       toml
