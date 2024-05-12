@@ -407,14 +407,13 @@ vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
-      'arduino', 'asm', 'bash', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'csv',
-      'cuda', 'diff', 'dockerfile', 'fish', 'fortran', 'git_config',
-      'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'gomod',
-      'haskell', 'html', 'java', 'javascript', 'json', 'jsonc', 'latex',
-      'linkerscript', 'lua', 'make', 'markdown', 'markdown_inline', 'nasm',
-      'nix', 'org', 'passwd', 'python', 'ruby', 'rust', 'scss', 'sql',
-      'ssh_config', 'tmux', 'toml', 'tsx', 'typescript', 'udev', 'verilog',
-      'vim', 'vimdoc', 'xml', 'yaml', 'yuck', 'zathurarc', 'zig',
+      'arduino', 'bash', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'csv', 'cuda',
+      'diff', 'dockerfile', 'fish', 'fortran', 'git_config', 'git_rebase',
+      'gitattributes', 'gitcommit', 'gitignore', 'go', 'gomod', 'haskell',
+      'html', 'java', 'javascript', 'json', 'jsonc', 'latex', 'linkerscript',
+      'lua', 'make', 'markdown', 'markdown_inline', 'nasm', 'nix', 'org',
+      'passwd', 'python', 'rust', 'scss', 'sql', 'ssh_config', 'toml', 'tsx',
+      'typescript', 'udev', 'verilog', 'vim', 'vimdoc', 'xml', 'yuck', 'zig',
     },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)

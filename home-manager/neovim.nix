@@ -20,6 +20,7 @@
       clang-tools # (clangd)
       cmake-language-server
       fortls
+      ghc # needed by haskell-language-server
       gopls
       haskell-language-server
       kotlin-language-server
