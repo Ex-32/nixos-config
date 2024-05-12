@@ -54,7 +54,6 @@
           ./lib/console.nix
           ./lib/desktop.nix
           ./lib/distrobox.nix
-          ./lib/ecryptfs.nix
           ./lib/grub.nix
           ./lib/impermanence.nix
           ./lib/kernel-latest.nix
