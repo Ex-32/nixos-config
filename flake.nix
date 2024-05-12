@@ -77,17 +77,17 @@
                 ./home-manager/base.nix
                 ./home-manager/firefox.nix
                 ./home-manager/fish.nix
+                ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
-                ./home-manager/i3.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/obs-studio.nix
-                ./home-manager/picom.nix
                 ./home-manager/productivity.nix
                 ./home-manager/python.nix
+                ./home-manager/qtile.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
