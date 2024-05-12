@@ -21,5 +21,7 @@
 
   environment.systemPackages = with pkgs; [
     steamtinkerlaunch
+    winetricks
+    protontricks
   ];
 }

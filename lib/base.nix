@@ -69,6 +69,7 @@
       lsof
       man-pages
       micro # a fancier version of the nano editor, with a save-with-sudo feature
+      unixtools.xxd
       unzip
       wget
       zip

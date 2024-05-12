@@ -102,6 +102,35 @@
     {device = "/dev/disk/by-uuid/f18767e1-f510-42e1-b2fb-8ea4ffd21329";}
   ];
 
+  # non-critical disk mounts
+
+  fileSystems."/mnt/bulk" = {
+    device = "/dev/disk/by-uuid/81d0684c-1711-4b89-9e93-02116205a4ed";
+    fsType = "btrfs";
+    options = [
+      "compress=zstd"
+      "subvol=/"
+      "noatime"
+      "nosuid"
+      "nodev"
+      "noexec"
+      "nofail"
+    ];
+  };
+
+  fileSystems."/home/jenna/documents/games" = {
+    device = "/dev/disk/by-uuid/81d0684c-1711-4b89-9e93-02116205a4ed";
+    fsType = "btrfs";
+    options = [
+      "compress=zstd"
+      "subvol=/@jenna-games"
+      "noatime"
+      "nosuid"
+      "nofail"
+    ];
+  };
+
+
   services.ddclient = {
     enable = true;
     interval = "1h";
