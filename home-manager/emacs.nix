@@ -7,19 +7,47 @@
 }: {
   imports = [inputs.nix-doom-emacs.hmModule];
 
-  home.packages = with pkgs; [
-    (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
-    clang-tools
-    gnumake
-    haskell-language-server
-    nodePackages.bash-language-server
-    vscode-langservers-extracted
-  ];
-
   programs.doom-emacs = let
     config-path = ../config/emacs;
+    emacs-deps = pkgs.symlinkJoin {
+      name = "emacs-deps";
+      paths = with pkgs; [
+        (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
+        clang-tools
+        gnumake
+        haskell-language-server
+        nodePackages.bash-language-server
+        vscode-langservers-extracted
+      ];
+
+      # symlinkJoin can't handle symlinked dirs and nodePackages
+      # symlinks ./bin -> ./lib/node_modules/.bin/.
+      postBuild = ''
+        for f in $out/lib/node_modules/.bin/*; do
+           path="$(readlink --canonicalize-missing "$f")"
+           ln -s "$path" "$out/bin/$(basename $f)"
+        done
+      '';
+    };
+
+    emacs-with-deps = pkgs.symlinkJoin {
+      name = "emacs-with-deps";
+      paths = [pkgs.emacs];
+      nativeBuildInputs = [pkgs.makeWrapper];
+      postBuild = ''
+        wrapProgram $out/bin/emacs \
+          --suffix PATH : ${emacs-deps}/bin
+      '';
+
+      # NOTE: nix-doom-emacs checks this info, so it's being passed through
+      # from the base emacs packages
+      version = pkgs.emacs.version;
+      src = pkgs.emacs.src;
+      meta = pkgs.emacs.meta;
+    };
   in {
     enable = true;
+    emacsPackage = emacs-with-deps;
     doomPrivateDir = pkgs.buildEnv {
       name = "doom-config";
       paths = [
@@ -43,16 +71,16 @@
     };
   };
 
-  services.emacs.enable = true;
-  xdg.desktopEntries.emacs = {
-    name = "Doom Emacs";
-    genericName = "Text Editor";
-    exec = "${config.programs.doom-emacs.package}/bin/emacsclient -c";
-    terminal = false;
-    categories = ["Utility" "TextEditor"];
-    mimeType = ["text/plain"];
-    icon = "${config.programs.doom-emacs.package}/share/icons/hicolor/scalable/apps/emacs.svg";
-  };
+  # services.emacs.enable = true;
+  # xdg.desktopEntries.emacs = {
+  #   name = "Doom Emacs";
+  #   genericName = "Text Editor";
+  #   exec = "${config.programs.doom-emacs.package}/bin/emacsclient -c";
+  #   terminal = false;
+  #   categories = ["Utility" "TextEditor"];
+  #   mimeType = ["text/plain"];
+  #   icon = "${config.programs.doom-emacs.package}/share/icons/hicolor/scalable/apps/emacs.svg";
+  # };
 
   home.file.".emacs.d/init.el".enable = false;
 }

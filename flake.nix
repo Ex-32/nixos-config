@@ -75,6 +75,7 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
+                ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
                 ./home-manager/fish.nix
                 ./home-manager/fun.nix
@@ -141,6 +142,7 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
+                ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
                 ./home-manager/fish.nix
                 ./home-manager/fun.nix
