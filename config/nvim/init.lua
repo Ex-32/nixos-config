@@ -104,7 +104,7 @@ require('lazy').setup({
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       return {
         sources = {
-          null_ls.builtins.diagnostics.mypy,
+          -- null_ls.builtins.diagnostics.mypy,
           null_ls.builtins.formatting.alejandra,
           null_ls.builtins.formatting.clang_format,
           null_ls.builtins.formatting.prettier,
@@ -518,6 +518,7 @@ vim.defer_fn(function()
       },
     },
     hls = {},
+    jedi_language_server = {},
     kotlin_language_server = {},
     lua_ls = {
       settings = {

@@ -1,0 +1,14 @@
+
+# cache/editor artifacts
+.cache
+.direnv
+.vs
+.vscode
+
+# OS/systems artifacts
+desktop.ini
+.[Tt]rash*
+.DS_Store
+
+# nix artifact path
+/result

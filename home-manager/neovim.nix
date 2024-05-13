@@ -29,6 +29,7 @@
       nodePackages.bash-language-server
       nodePackages.pyright
       nodePackages.typescript-language-server
+      python311Packages.jedi-language-server
       texlab
       vscode-langservers-extracted
       # sources ({null,none}-ls)

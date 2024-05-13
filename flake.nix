@@ -175,5 +175,28 @@
         ];
       };
     };
+
+    devShells = let
+      forSystems = nixpkgs.lib.genAttrs [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
+
+      nixpkgsFor = forSystems (system: import nixpkgs {inherit system;});
+    in
+      forSystems (system: let
+        pkgs = nixpkgsFor.${system};
+      in {
+        default = pkgs.mkShell {
+          packages = with pkgs; [
+            (python3.withPackages (py-pkgs:
+              with py-pkgs; [
+                qtile
+              ]))
+          ];
+        };
+      });
   };
 }
