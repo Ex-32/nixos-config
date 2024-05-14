@@ -39,7 +39,6 @@
         src = ../config/qtile/config.py;
 
         # @variables@ to substitute
-        dropterm = "${pkgs.tdrop}/bin/tdrop -h 82% -w 88% -x 6% -y 9% kitty --class floating";
         rofi = lib.strings.concatStringsSep " " [
           "${pkgs.rofi}/bin/rofi"
           "-show drun"
@@ -51,7 +50,8 @@
           "-terminal '${kitty}'"
           "-theme config"
         ];
-        kitty = "${pkgs.kitty}/bin/kitty -1";
+        kitty = "${pkgs.kitty}/bin/kitty";
+        kitty_mono = "${pkgs.kitty}/bin/kitty -1";
         media_next = "${playerctl} next";
         media_play = "${playerctl} play-pause";
         media_prev = "${playerctl} previous";

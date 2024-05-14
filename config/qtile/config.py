@@ -26,7 +26,7 @@
 # SOFTWARE.
 
 from libqtile import bar, layout, qtile, widget
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 # from libqtile.utils import guess_terminal
 
@@ -48,9 +48,6 @@ keys = [
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
-    # Key([mod], "n", lazy.layout.rotate_up(), desc="rotate the window stack up"),
-    # Key([mod], "m", lazy.layout.rotate_down(), desc="rotate the window stack down"),
-
     Key(
         [mod],
         "f",
@@ -62,14 +59,12 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
-    # custom keybinds
     Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "q", lazy.spawn(r"@kitty@"), desc="launch terminal"),
+    Key([mod], "q", lazy.spawn(r"@kitty_mono@"), desc="launch terminal"),
     Key([mod], "d", lazy.spawn(r"@rofi@"), desc="launch application picker"),
-    Key([mod], "Tab", lazy.spawn(r"@dropterm@"), desc="toggle drop-down terminal"),
+    Key([mod], "Tab", lazy.group["scratchpad"].dropdown_toggle('term'), desc="toggle drop-down terminal"),
     Key([mod], "Print", lazy.spawn(r"@screenshot_full@"), desc="take screenshot of whole screen"),
     Key([mod, "shift"], "Print", lazy.spawn(r"@screenshot_select@"), desc="take screenshot of select area"),
-    # Key([mod, "shift"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
 
     Key([], "XF86AudioMute",        lazy.spawn(r"@vol_mute@")),
     Key([], "XF86AudioLowerVolume", lazy.spawn(r"@vol_down@")),
@@ -118,6 +113,10 @@ for i in groups:
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
+
+groups.append(ScratchPad("scratchpad", [
+    DropDown("term", "@kitty@", x=0.06, y=0.09, height=0.82, width=0.88),
+]))
 
 layouts = [
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
