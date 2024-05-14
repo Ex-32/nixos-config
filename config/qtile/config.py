@@ -142,9 +142,9 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="sans",
-    fontsize=12,
-    padding=3,
+    font="FiraCode Nerd Font",
+    fontsize=22,
+    # padding=3,
 )
 extension_defaults = widget_defaults.copy()
 
@@ -152,9 +152,8 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
                 widget.Prompt(),
+                widget.GroupBox(),
                 widget.WindowName(),
                 widget.Chord(
                     chords_colors={
@@ -162,13 +161,10 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                # widget.TextBox("default config", name="default"),
-                # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                widget.Systray(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
+                widget.Systray(
+                    icon_size=32,
+                ),
             ],
             48,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
