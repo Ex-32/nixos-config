@@ -104,7 +104,7 @@ require('lazy').setup({
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       return {
         sources = {
-          -- null_ls.builtins.diagnostics.mypy,
+          null_ls.builtins.diagnostics.mypy,
           null_ls.builtins.formatting.alejandra,
           null_ls.builtins.formatting.clang_format,
           null_ls.builtins.formatting.prettier,
@@ -479,85 +479,77 @@ end, 0)
 
 -- [[ Configure LSP ]]
 -- since LSPs usually take a while to spin up anyway, there's no reason to not delay the initialization of the LSP interface until after the first render
-vim.defer_fn(function()
-  -- lspconfig object
-  local lspconfig = require('lspconfig')
+-- lspconfig object
+local lspconfig = require('lspconfig')
 
-  -- LSP servers to be loaded
-  local servers = {
-    arduino_language_server = {},
-    bashls = {},
-    clangd = {
-      on_attach = function(client, _)
-        client.capabilities.signatureHelpProvider = false
-      end
-    },
-    cmake = {
-      filetypes = { "cmake", "CMakeLists.txt" },
-    },
-    eslint = {
-      on_attach = function(_, buffer)
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          buffer = buffer,
-          command = "EslintFixAll",
-        })
-      end,
-    },
-    fortls = {},
-    gopls = {
-      cmd = { "gopls" },
-      filetypes = { "go", "gomod", "gowork", "gotmpl" },
-      root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
-      settings = {
-        gopls = {
-          completeUnimported = true,
-          analyses = {
-            unusedparams = true,
-          },
+-- LSP servers to be loaded
+local servers = {
+  arduino_language_server = {},
+  bashls = {},
+  clangd = {
+    on_attach = function(client, _)
+      client.capabilities.signatureHelpProvider = false
+    end
+  },
+  cmake = {
+    filetypes = { "cmake", "CMakeLists.txt" },
+  },
+  eslint = {
+    on_attach = function(_, buffer)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = buffer,
+        command = "EslintFixAll",
+      })
+    end,
+  },
+  fortls = {},
+  gopls = {
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+      gopls = {
+        completeUnimported = true,
+        analyses = {
+          unusedparams = true,
         },
       },
     },
-    hls = {},
-    jedi_language_server = {},
-    kotlin_language_server = {},
-    lua_ls = {
-      settings = {
-        Lua = {
-          workspace = { checkThirdParty = false },
-          telemetry = { enable = false },
-          diagnostics = {
-            disable = { 'missing-fields' },
-          },
+  },
+  hls = {},
+  jedi_language_server = {},
+  kotlin_language_server = {},
+  lua_ls = {
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+        diagnostics = {
+          disable = { 'missing-fields' },
         },
       },
     },
-    nixd = {},
-    pyright = {
-      filetypes = { "python" },
-      root_dir = lspconfig.util.root_pattern(".venv", ".git"),
-    },
-    texlab = {},
-    tsserver = {},
-  }
+  },
+  nixd = {},
+  pyright = {
+    filetypes = { "python" },
+    root_dir = lspconfig.util.root_pattern(".venv", ".git"),
+  },
+  texlab = {},
+  tsserver = {},
+}
 
 
-  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-  local capabilities = require('cmp_nvim_lsp').default_capabilities(
-    vim.lsp.protocol.make_client_capabilities()
-  )
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = require('cmp_nvim_lsp').default_capabilities(
+  vim.lsp.protocol.make_client_capabilities()
+)
 
-  -- actually register/configure the LSPs
-  for key, value in pairs(servers) do
-    lspconfig[key].setup({
-      capabilities = (value.capabilities or capabilities),
-      on_attach = (value.on_attach or function() end),
-      cmd = (value or {}).cmd,
-      settings = (value or {}).settings,
-      filetypes = (value or {}).filetypes,
-      root_dir = (value or {}).root_dir,
-    })
-  end
-end, 0)
+-- actually register/configure the LSPs
+for key, value in pairs(servers) do
+  value.capabilities = value.capabilities or capabilities
+  lspconfig[key].setup(value)
+end
 
 -- document existing key chains
 require('which-key').register {

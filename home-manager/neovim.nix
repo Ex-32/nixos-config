@@ -50,7 +50,7 @@
   };
 
   nvim-with-deps = pkgs.symlinkJoin {
-    name = "nvim-with-lsps";
+    name = "nvim-with-deps";
     paths = [pkgs.neovim-unwrapped];
     nativeBuildInputs = [pkgs.makeWrapper];
     postBuild = ''
