@@ -189,7 +189,8 @@
       forSystems (system: let
         pkgs = nixpkgsFor.${system};
       in {
-        default = pkgs.mkShell {
+        # python dependencies for working on the qtile config
+        qtile = pkgs.mkShell {
           packages = with pkgs; [
             (python3.withPackages (py-pkgs:
               with py-pkgs; [
