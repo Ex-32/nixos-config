@@ -12,7 +12,7 @@ import System.Taffybar.Widget
 import System.Taffybar.Widget.Generic.PollingGraph
 
 main :: IO ()
-main = startTaffybar exampleTaffybarConfig
+main = startTaffybar taffyConfig
 
 transparent, yellow1, yellow2, green1, green2, taffyBlue
   :: (Double, Double, Double, Double)
@@ -57,8 +57,8 @@ cpuCallback = do
   (_, systemLoad, totalLoad) <- cpuLoad
   return [totalLoad, systemLoad]
 
-exampleTaffybarConfig :: TaffybarConfig
-exampleTaffybarConfig =
+taffyConfig :: TaffybarConfig
+taffyConfig =
   let myWorkspacesConfig =
         def
         { minIcons = 1

@@ -14,6 +14,7 @@
       "window_type *= 'menu'"
       "name ~= 'Firefox$'"
       "name ~= 'tint2$'"
+      "name ~= 'taffybar$'"
     ];
   };
 }
