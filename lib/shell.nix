@@ -94,7 +94,7 @@
   };
 
   environment.shellAliases = {
-    l = "lsd -lAh --no-symlink --date relative";
+    l = "lsd -lAh --no-symlink --date relative --group-directories-first";
     ll = "lsd -lAh";
     ls = null; # this disables nixos's default alias for ls
 
