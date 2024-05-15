@@ -88,11 +88,11 @@
                 ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
                 ./home-manager/python.nix
-                ./home-manager/qtile.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
+                ./home-manager/xmonad.nix
                 ./home-manager/yazi.nix
               ];
               local.lutris.enable = true;
@@ -189,12 +189,13 @@
       forSystems (system: let
         pkgs = nixpkgsFor.${system};
       in {
-        # python dependencies for working on the qtile config
-        qtile = pkgs.mkShell {
-          packages = with pkgs; [
-            (python3.withPackages (py-pkgs:
-              with py-pkgs; [
-                qtile
+        default = pkgs.mkShell {
+          packages = [
+            (pkgs.haskellPackages.ghcWithPackages (hpkgs:
+              with hpkgs; [
+                xmonad
+                xmonad-contrib
+                taffybar
               ]))
           ];
         };

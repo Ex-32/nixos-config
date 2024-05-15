@@ -22,13 +22,17 @@
       */
       ''
         export SHLVL=0
-        ${pkgs.qtile}/bin/qtile start
+
       '';
     profilePath = ".config/xprofile";
     scriptPath = ".config/xsession";
     windowManager.xmonad = {
       enable = true;
       enableContribAndExtras = true;
+      extraPackages = haskellPackages:
+        with haskellPackages; [
+          taffybar
+        ];
       config = let
         wpctl = "${pkgs.wireplumber}/bin/wpctl";
         playerctl = "${pkgs.playerctl}/bin/playerctl";
@@ -62,6 +66,28 @@
           vol_up = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
           xhost-hack = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:root";
         };
+    };
+  };
+
+  systemd.user.services.taffybar = let
+    taffybar-configured = pkgs.haskellPackages.callCabal2nix "taffybar-configured" ../config/taffybar {};
+  in {
+    Unit = {
+      Description = "taffybar system bar";
+      Wants = ["graphical-session.target"];
+      After = ["graphical-session.target"];
+    };
+
+    Service = {
+      Type = "simple";
+      ExecStart = "${taffybar-configured}/bin/taffybar";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutSec = "30s";
+    };
+
+    Install = {
+      WantedBy = ["graphical-session.target"];
     };
   };
 

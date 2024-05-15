@@ -4,8 +4,7 @@ import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.EwmhDesktops
 
 import XMonad.Util.EZConfig
 import XMonad.Util.Loggers
@@ -16,27 +15,46 @@ import XMonad.Util.Ungrab
 
 import XMonad.Layout.Magnifier
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.Gaps
+import XMonad.Layout.Spacing
+import XMonad.Layout.NoBorders 
 
-import XMonad.Hooks.EwmhDesktops
+import Graphics.X11.ExtraTypes.XF86
+
+import System.Taffybar.Support.PagerHints (pagerHints)
+
 
 
 main :: IO ()
 main = xmonad
+     . docks
      . ewmhFullscreen
      . ewmh
-     =<< statusBar "xmobar" def toggleStrutsKey myConfig
+     . pagerHints
      $ myConfig
 
+
 myConfig = def
-    { modMask    = mod4Mask      -- Rebind Mod to the Super key
-    , layoutHook = myLayout      -- Use custom layouts
-    , manageHook = myManageHook  -- Match on certain windows
+    { modMask     = mod4Mask      -- Rebind Mod to the Super key
+    , layoutHook  = myLayout      -- Use custom layouts
+    , manageHook  = myManageHook  -- Match on certain windows
+    , borderWidth = 4
+    , normalBorderColor = "#313244"
+    , focusedBorderColor = "#cba6f7"
     }
   `additionalKeysP`
-    [ ("M-Print"  , unGrab *> spawn "@screenshot_full@")
-    , ("M-S-Print", unGrab *> spawn "@screenshot_select@")
-    , ("M-d"      , spawn "@rofi@")
-    , ("M-q"      , spawn "@kitty_mono@")
+    [ ("M-c"        , kill)
+    , ("M-S-c"      , return ())
+    , ("M-<Print>"  , unGrab *> spawn "@screenshot_full@")
+    , ("M-S-<Print>", unGrab *> spawn "@screenshot_select@")
+    , ("M-d"        , spawn "@rofi@")
+    , ("M-q"        , spawn "@kitty_mono@")
+    ]
+  `additionalKeys`
+    [ ((0, xF86XK_AudioMute)       , spawn "@vol_mute@")
+    , ((0, xF86XK_AudioLowerVolume), spawn "@vol_down@")
+    , ((0, xF86XK_AudioRaiseVolume), spawn "@vol_up@")
+    , ((0, xF86XK_AudioPrev)       , spawn "@media_prev@")
     ]
 
 myManageHook :: ManageHook
@@ -45,38 +63,13 @@ myManageHook = composeAll
     , isDialog                --> doFloat
     ]
 
-myLayout = tiled ||| Mirror tiled ||| Full ||| threeCol
+myLayout = tiled ||| max
   where
-    threeCol = magnifiercz' 1.3 $ ThreeColMid nmaster delta ratio
-    tiled    = Tall nmaster delta ratio
-    nmaster  = 1      -- Default number of windows in the master pane
-    ratio    = 1/2    -- Default proportion of screen occupied by master pane
-    delta    = 3/100  -- Percent of screen to increment by when resizing panes
+    tiled      = spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True 
+               $ gaps [(U, 60)] 
+               $ Tall nmaster delta ratio
+    max        = noBorders Full
+    nmaster    = 1      -- Default number of windows in the master pane
+    ratio      = 0.618 -- Default proportion of screen occupied by master pane
+    delta      = 2/100  -- Percent of screen to increment by when resizing panes
 
-myXmobarPP :: PP
-myXmobarPP = def
-    { ppSep             = magenta " • "
-    , ppTitleSanitize   = xmobarStrip
-    , ppCurrent         = wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
-    , ppHidden          = white . wrap " " ""
-    , ppHiddenNoWindows = lowWhite . wrap " " ""
-    , ppUrgent          = red . wrap (yellow "!") (yellow "!")
-    , ppOrder           = \[ws, l, _, wins] -> [ws, l, wins]
-    , ppExtras          = [logTitles formatFocused formatUnfocused]
-    }
-  where
-    formatFocused   = wrap (white    "[") (white    "]") . magenta . ppWindow
-    formatUnfocused = wrap (lowWhite "[") (lowWhite "]") . blue    . ppWindow
-
-    -- | Windows should have *some* title, which should not not exceed a
-    -- sane length.
-    ppWindow :: String -> String
-    ppWindow = xmobarRaw . (\w -> if null w then "untitled" else w) . shorten 30
-
-    blue, lowWhite, magenta, red, white, yellow :: String -> String
-    magenta  = xmobarColor "#ff79c6" ""
-    blue     = xmobarColor "#bd93f9" ""
-    white    = xmobarColor "#f8f8f2" ""
-    yellow   = xmobarColor "#f1fa8c" ""
-    red      = xmobarColor "#ff5555" ""
-    lowWhite = xmobarColor "#bbbbbb" ""
