@@ -55,7 +55,6 @@
             "-theme config"
           ];
           kitty = "${pkgs.kitty}/bin/kitty";
-          kitty_mono = "${pkgs.kitty}/bin/kitty -1";
           media_next = "${playerctl} next";
           media_play = "${playerctl} play-pause";
           media_prev = "${playerctl} previous";
