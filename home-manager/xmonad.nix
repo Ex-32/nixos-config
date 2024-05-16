@@ -43,6 +43,7 @@
           src = ../config/xmonad/xmonad.hs;
 
           # @variables@ to substitute
+          change_wallpaper = "${config.home.homeDirectory}/.xmonad/bin/wallpaper.sh";
           rofi = lib.strings.concatStringsSep " " [
             "${pkgs.rofi}/bin/rofi"
             "-show drun"
@@ -63,34 +64,95 @@
           vol_down = "${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-";
           vol_mute = "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
           vol_up = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
-          xhost-hack = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:root";
+          xhost_hack = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:root";
         };
-    };
-  };
-
-  systemd.user.services.taffybar = let
-    taffybar-configured = pkgs.haskellPackages.callCabal2nix "taffybar-configured" ../config/taffybar {};
-  in {
-    Unit = {
-      Description = "taffybar system bar";
-      Wants = ["graphical-session.target"];
-      After = ["graphical-session.target"];
-    };
-
-    Service = {
-      Type = "simple";
-      ExecStart = "${taffybar-configured}/bin/taffybar";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutSec = "30s";
-    };
-
-    Install = {
-      WantedBy = ["graphical-session.target"];
     };
   };
 
   home.file = {
     ".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
+    ".xmonad/bin/wallpaper.sh" = {
+      executable = true;
+      text = let
+        core = "${pkgs.coreutils}/bin";
+      in
+        /*
+        bash
+        */
+        ''
+          #!/bin/sh
+          set -e
+          # FIXME: don't hardcode wallpaper path
+          WALLPAPER_PATH="${config.home.homeDirectory}/documents/pictures/wallpapers/current"
+          if [ ! -d "$WALLPAPER_PATH" ] ; then
+            echo "wallpaper directory '$WALLPAPER_PATH' doesn't exist"
+            exit 1
+          fi
+          RAND_PAPER="$WALLPAPER_PATH/$(${core}/ls -1 "$WALLPAPER_PATH" |\
+            ${core}/shuf --random-source=/dev/urandom -n 1)"
+          ${pkgs.feh}/bin/feh --no-fehbg --bg-fill $RAND_PAPER
+        '';
+    };
+  };
+
+  systemd.user = {
+    services = {
+      taffybar = let
+        taffybar-configured = pkgs.haskellPackages.callCabal2nix "taffybar-configured" ../config/taffybar {};
+      in {
+        Unit = {
+          Description = "taffybar system bar service";
+          Wants = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+
+        Service = {
+          Type = "simple";
+          ExecStart = "${taffybar-configured}/bin/taffybar";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutSec = "30s";
+        };
+
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+      fehbg = {
+        Unit = {
+          Description = "feh wallpaper service";
+          Wants = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${config.home.homeDirectory}/.xmonad/bin/wallpaper.sh";
+        };
+
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+    };
+    timers = {
+      fehbg = {
+        Unit = {
+          Description = "feh wallpaper timer";
+          Wants = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+
+        Timer = {
+          OnUnitActiveSec = "5min";
+          RandomizedDelaySec = "30s";
+          AccuracySec = "30s";
+        };
+
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+    };
   };
 }
