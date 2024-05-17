@@ -2,30 +2,30 @@
   description = "NixOS configuration";
 
   inputs = {
-    nixpkgs.url = github:nixos/nixpkgs/nixos-unstable;
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = github:nix-community/home-manager;
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nur.url = github:nix-community/NUR;
-    nixos-hardware.url = github:NixOS/nixos-hardware;
-    impermanence.url = github:nix-community/impermanence;
-    nix-alien.url = github:thiagokokada/nix-alien;
+    nur.url = "github:nix-community/NUR";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    impermanence.url = "github:nix-community/impermanence";
+    nix-alien.url = "github:thiagokokada/nix-alien";
 
     nix-wallpaper = {
-      url = github:lunik1/nix-wallpaper;
+      url = "github:lunik1/nix-wallpaper";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     spicetify-nix = {
-      url = github:the-argus/spicetify-nix;
+      url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-doom-emacs = {
-      url = github:nix-community/nix-doom-emacs;
+      url = "github:nix-community/nix-doom-emacs";
       inputs = {
         nix-straight = {
-          url = github:codingkoi/nix-straight.el/codingkoi/apply-librephoenixs-fix;
+          url = "github:codingkoi/nix-straight.el/codingkoi/apply-librephoenixs-fix";
         };
       };
     };
