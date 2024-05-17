@@ -15,7 +15,6 @@ import XMonad.Util.Loggers
 import XMonad.Util.NamedScratchpad 
 import XMonad.Util.Ungrab -- NOTE: still needed for versions < 0.18.0
 
-import Graphics.X11.ExtraTypes.XF86
 import System.Taffybar.Support.PagerHints (pagerHints)
 
 main :: IO ()
@@ -37,22 +36,24 @@ myConfig = def
     , focusedBorderColor = "#cba6f7"
     }
   `additionalKeysP`
-    [ ("M-<Print>"  , unGrab *> spawn "@screenshot_full@")
+    -- window management key bindings
+    [ ("M-c"  , kill)
+    , ("M-S-c", return ()) -- disable default key binding
+
+    -- task spawning key bindings
+    , ("M-<Print>"  , unGrab *> spawn "@screenshot_full@")
     , ("M-<Tab>"    , namedScratchpadAction scratchpads "dropterm")
     , ("M-S-<Print>", unGrab *> spawn "@screenshot_select@")
-    , ("M-S-c"      , return ())
-    , ("M-S-w"      , spawn "@change_wallpaper@")
-    , ("M-c"        , kill)
     , ("M-d"        , spawn "@rofi@")
     , ("M-q"        , spawn "@kitty@ -1")
-    ]
-  `additionalKeys`
-    [ ((0, xF86XK_AudioMute)       , spawn "@vol_mute@")
-    , ((0, xF86XK_AudioLowerVolume), spawn "@vol_down@")
-    , ((0, xF86XK_AudioRaiseVolume), spawn "@vol_up@")
-    , ((0, xF86XK_AudioPrev)       , spawn "@media_prev@")
-    , ((0, xF86XK_AudioPlay)       , spawn "@media_play@")
-    , ((0, xF86XK_AudioNext)       , spawn "@media_next@")
+
+    -- media key bindings
+    , ("<XF86AudioMute>"       , spawn "@vol_mute@")
+    , ("<XF86AudioLowerVolume>", spawn "@vol_down@")
+    , ("<XF86AudioRaiseVolume>", spawn "@vol_up@")
+    , ("<XF86AudioPrev>"       , spawn "@media_prev@")
+    , ("<XF86AudioPlay>"       , spawn "@media_play@")
+    , ("<XF86AudioNext>"       , spawn "@media_next@")
     ]
 
 myManageHook :: ManageHook
