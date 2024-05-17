@@ -104,10 +104,13 @@ require('lazy').setup({
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       return {
         sources = {
+          null_ls.builtins.code_actions.statix,
+          null_ls.builtins.diagnostics.deadnix,
           null_ls.builtins.diagnostics.mypy,
           null_ls.builtins.formatting.alejandra,
           null_ls.builtins.formatting.clang_format,
           null_ls.builtins.formatting.prettier,
+
         },
         on_attach = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then

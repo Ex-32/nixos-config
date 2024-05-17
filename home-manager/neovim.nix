@@ -35,8 +35,10 @@
       # sources ({null,none}-ls)
       alejandra
       clang-tools # (clang-format)
+      deadnix
       mypy
       nodePackages.prettier
+      statix
     ];
 
     # symlinkJoin can't handle symlinked dirs and nodePackages
