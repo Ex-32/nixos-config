@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  modulesPath,
   ...
 }: {
   imports = [
@@ -129,7 +128,6 @@
       "nofail"
     ];
   };
-
 
   services.ddclient = {
     enable = true;

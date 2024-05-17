@@ -282,9 +282,7 @@
     ".config/hypr/bin/dropterm.sh" = {
       executable = true;
       text =
-        /*
-        bash
-        */
+        # bash
         ''
           #!/bin/sh
           TERM_FILE="$XDG_RUNTIME_DIR/dropterm.pid"
@@ -305,9 +303,7 @@
         rand-file = "/dev/urandom";
         core = "${pkgs.coreutils}/bin";
       in
-        /*
-        bash
-        */
+        # bash
         ''
           #!/bin/sh
           set -e

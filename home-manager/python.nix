@@ -6,9 +6,7 @@
   ...
 }: {
   home.file.".config/python3/startup.py".text =
-    /*
-    python
-    */
+    # python
     ''
       # borrowed from https://unix.stackexchange.com/a/704612
 

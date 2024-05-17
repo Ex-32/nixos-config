@@ -17,18 +17,14 @@
   programs.fish = {
     enable = true;
     shellInit =
-      /*
-      fish
-      */
+      # fish
       ''
         set -g fish_greeting
       '';
     interactiveShellInit = let
       pokemon-colorscripts = pkgs.nur.repos.Ex-32.pokemon-colorscripts;
     in
-      /*
-      fish
-      */
+      # fish
       ''
         fish_vi_key_bindings
         set -g fish_cursor_insert line
@@ -40,9 +36,7 @@
       '';
     functions = {
       i.body =
-        /*
-        fish
-        */
+        # fish
         ''
           if test -z "$argv"
             i .
@@ -59,16 +53,12 @@
           end
         '';
       leak.body =
-        /*
-        fish
-        */
+        # fish
         ''
           fish -c "$argv &> /dev/null &"
         '';
       ns.body =
-        /*
-        fish
-        */
+        # fish
         ''
           for arg in $argv
             set -fa pkgs "nixpkgs#$arg"

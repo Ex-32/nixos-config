@@ -172,7 +172,7 @@
           "${mod}+Print" = "exec sh -c '${pkgs.grim}/bin/grim - | ${wl-copy}'";
           "${mod}+Shift+Print" = "exec sh -c '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${wl-copy}'";
           "${mod}+Shift+p" = "exec ${pkgs.hyprpicker}/bin/hyprpicker | ${wl-copy}";
-          "${mod}+Tab" = "exec ~/.config/sway/bin/dropterm.sh"; # TODO: make this more better
+          "${mod}+Tab" = "exec ~/.config/sway/bin/dropterm.sh";
         };
       input = {
         "type:touchpad" = {
@@ -272,9 +272,7 @@
     ".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
     ".config/sway/bin/dropterm.sh" = {
       text =
-        /*
-        bash
-        */
+        # bash
         ''
           #!/bin/sh
           TERM_PIDFILE="''${XDG_RUNTIME_DIR}/dropdown.pid"

@@ -7,9 +7,10 @@
 }: {
   imports = [
     ./gtk.nix
-    ./qt.nix
     ./kitty.nix
     ./picom.nix
+    ./qt.nix
+    ./systray.nix
   ];
 
   home.packages = [pkgs.xclip];
@@ -17,12 +18,9 @@
   xsession = {
     enable = true;
     initExtra =
-      /*
-      sh
-      */
+      # bash
       ''
         export SHLVL=0
-
       '';
     profilePath = ".config/xprofile";
     scriptPath = ".config/xsession";
@@ -43,7 +41,6 @@
           src = ../config/xmonad/xmonad.hs;
 
           # @variables@ to substitute
-          change_wallpaper = "${config.home.homeDirectory}/.xmonad/bin/wallpaper.sh";
           rofi = lib.strings.concatStringsSep " " [
             "${pkgs.rofi}/bin/rofi"
             "-show drun"
@@ -76,9 +73,7 @@
       text = let
         core = "${pkgs.coreutils}/bin";
       in
-        /*
-        bash
-        */
+        # bash
         ''
           #!/bin/sh
           set -e

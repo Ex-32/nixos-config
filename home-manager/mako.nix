@@ -19,9 +19,7 @@
     textColor = "#cdd6f4";
     width = 400;
     extraConfig =
-      /*
-      toml
-      */
+      # toml
       ''
         [urgency=high]
         border-color=#f38ba8

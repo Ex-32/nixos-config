@@ -27,10 +27,10 @@
 in {
   allowedUnfree = ["obsidian"];
 
-  home.packages = with pkgs; [
+  home.packages = [
     libreoffice-with-deps
-    obsidian
-    onlyoffice-bin
-    zathura
+    pkgs.obsidian
+    pkgs.onlyoffice-bin
+    pkgs.zathura
   ];
 }

@@ -11,18 +11,18 @@
       # plugin dependencies
       cargo # rust-tools
       clang # nvim-treesitter (and others)
+      ghc # haskell-tools.nvim
       gnumake # telescope-fzf-native
+      haskell-language-server # haskell-tools.nvim
+      nodejs # nvim-treesitter
       rust-analyzer # rust-tools
       tree-sitter # nvim-treesitter
-      nodejs # nvim-treesitter
       # language servers (lspconfig)
       arduino-language-server
       clang-tools # (clangd)
       cmake-language-server
       fortls
-      ghc # needed by haskell-language-server
       gopls
-      haskell-language-server
       kotlin-language-server
       lua-language-server
       nixd

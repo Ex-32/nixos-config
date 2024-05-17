@@ -55,9 +55,12 @@
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
 
-    XDG_DATA_DIRS = with pkgs;
+    XDG_DATA_DIRS = let
+      gtk3 = pkgs.gtk3;
+      gsettings = pkgs.gsettings-desktop-schemas;
+    in
       lib.concatStrings [
-        "${gsettings-desktop-schemas}/share/gsettings-schemas/${gsettings-desktop-schemas.name}:"
+        "${gsettings}/share/gsettings-schemas/${gsettings.name}:"
         "${gtk3}/share/gsettings-schemas/${gtk3.name}:"
         "$XDG_DATA_DIRS"
       ];

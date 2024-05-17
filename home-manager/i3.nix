@@ -20,9 +20,7 @@
   xsession = {
     enable = true;
     initExtra =
-      /*
-      sh
-      */
+      # bash
       ''
         # HACK: reset SHLVL variable for graphical environemnet
         export SHLVL=0
