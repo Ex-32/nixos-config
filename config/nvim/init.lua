@@ -105,7 +105,6 @@ require('lazy').setup({
       return {
         sources = {
           null_ls.builtins.code_actions.statix,
-          null_ls.builtins.diagnostics.deadnix,
           null_ls.builtins.diagnostics.mypy,
           null_ls.builtins.formatting.alejandra,
           null_ls.builtins.formatting.clang_format,
@@ -351,7 +350,7 @@ vim.wo.signcolumn = "yes"       -- enable gutter with stuff like git flags
 vim.o.spelllang = "en_us,cjk"   -- set spellcheck language
 vim.o.spellsuggest = "best,5"   -- set spellcheck suggestion options
 vim.o.spell = true              -- enable spellcheck
-vim.o.colorcolumn = "80"        -- add ruler at 80 columns
+vim.o.colorcolumn = "80,100"        -- add ruler at 80 columns
 vim.o.termguicolors = true      -- enable 255 terminal colors
 vim.o.wrap = true               -- soft wrap lines that are too long to display
 vim.o.linebreak = true          -- try to break long lines at word boundaries
