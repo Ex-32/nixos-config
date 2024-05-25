@@ -32,10 +32,11 @@
           taffybar
         ];
       config = let
-        wpctl = "${pkgs.wireplumber}/bin/wpctl";
-        playerctl = "${pkgs.playerctl}/bin/playerctl";
-        xclip = "${pkgs.xclip}/bin/xclip";
         maim = "${pkgs.maim}/bin/maim";
+        playerctl = "${pkgs.playerctl}/bin/playerctl";
+        wpctl = "${pkgs.wireplumber}/bin/wpctl";
+        xclip = "${pkgs.xclip}/bin/xclip";
+        xorg = pkgs.xorg;
       in
         pkgs.substituteAll rec {
           src = ../config/xmonad/xmonad.hs;
@@ -61,7 +62,8 @@
           vol_down = "${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-";
           vol_mute = "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
           vol_up = "${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
-          xhost_hack = "${pkgs.xorg.xhost}/bin/xhost +SI:localuser:root";
+          xhost_hack = "${xorg.xhost}/bin/xhost +SI:localuser:root";
+          xsetroot_hack = "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr";
         };
     };
   };
