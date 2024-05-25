@@ -289,12 +289,6 @@ require('lazy').setup({
 
   -- language specific plugins
   -- (these plugins provide extra features that just a language server can't)
-  ---- haskell
-  {
-    "mrcjkb/haskell-tools.nvim",
-    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
-  },
-
   ---- rust
   {
     "simrat39/rust-tools.nvim",
@@ -350,7 +344,7 @@ vim.wo.signcolumn = "yes"       -- enable gutter with stuff like git flags
 vim.o.spelllang = "en_us,cjk"   -- set spellcheck language
 vim.o.spellsuggest = "best,5"   -- set spellcheck suggestion options
 vim.o.spell = true              -- enable spellcheck
-vim.o.colorcolumn = "80,100"        -- add ruler at 80 columns
+vim.o.colorcolumn = "80,100"    -- add ruler at 80 columns
 vim.o.termguicolors = true      -- enable 255 terminal colors
 vim.o.wrap = true               -- soft wrap lines that are too long to display
 vim.o.linebreak = true          -- try to break long lines at word boundaries
@@ -515,6 +509,13 @@ local servers = {
         analyses = {
           unusedparams = true,
         },
+      },
+    },
+  },
+  hls = {
+    settings = {
+      haskell = {
+        formattingProvider = "fourmolu",
       },
     },
   },
