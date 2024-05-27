@@ -13,7 +13,10 @@
     ./systray.nix
   ];
 
-  home.packages = [pkgs.xclip];
+  home.packages = with pkgs; [
+    xclip
+    xmonadctl
+  ];
 
   xsession = {
     enable = true;
