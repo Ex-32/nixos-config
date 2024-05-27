@@ -86,6 +86,7 @@
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/obs-studio.nix
+                ./home-manager/photos.nix
                 ./home-manager/productivity.nix
                 ./home-manager/python.nix
                 ./home-manager/socials.nix
