@@ -163,7 +163,7 @@ require('lazy').setup({
     priority = 1000,
     opts = {
       flavor = "mocha",
-      transparent_background = true,
+      transparent_background = false,
       show_end_of_buffer = true,
     },
 
@@ -289,6 +289,25 @@ require('lazy').setup({
 
   -- language specific plugins
   -- (these plugins provide extra features that just a language server can't)
+
+  ---- haskell
+  {
+    "MrcJkb/haskell-tools.nvim",
+    version = "^3",
+    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
+    setup = function(_, _)
+      vim.g.haskell_tools = {
+        hls = {
+          settings = {
+            haskell = {
+              formattingProvider = "fourmolu",
+            },
+          },
+        },
+      }
+    end
+  },
+
   ---- rust
   {
     "simrat39/rust-tools.nvim",
@@ -509,13 +528,6 @@ local servers = {
         analyses = {
           unusedparams = true,
         },
-      },
-    },
-  },
-  hls = {
-    settings = {
-      haskell = {
-        formattingProvider = "fourmolu",
       },
     },
   },
