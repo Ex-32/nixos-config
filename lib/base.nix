@@ -69,11 +69,18 @@
       lsof
       man-pages
       micro # a fancier version of the nano editor, with a save-with-sudo feature
+      nix-output-monitor
+      nix-tree # helper tool for interactive inspection of derivations
       unixtools.xxd
       unzip
       wget
       zip
     ];
+
+    # contrary to popular belief, the goal of nix is not to make things more
+    # difficult, this helper utility can streamline much of the process of
+    # administration a nix system and I recommend it
+    programs.nh.enable = true;
 
     # sets the $EDITOR variable to "micro" by default; use of mkOverride means
     # other modules can override it easily (using mkDefault would cause a

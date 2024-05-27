@@ -107,8 +107,7 @@
     scu = "systemctl --user";
     jc = "journalctl";
 
-    nrs = "sudo nixos-rebuild switch";
-    nrb = "sudo nixos-rebuild boot";
+    nor = "nh os switch -a /etc/nixos";
 
     "..." = "cd ../..";
     "...." = "cd ../../..";
