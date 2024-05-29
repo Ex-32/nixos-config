@@ -7,16 +7,19 @@
 }: {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
-    ./grub-patch.nix
   ];
 
+  # this enables firmware that's distributed as a redistributable binary but
+  # not FOSS, not having this enabled can cause issues with some hardware,
+  # especially wifi cards
   hardware.enableRedistributableFirmware = true;
 
-  boot.blacklistedKernelModules = [
-    "hid_sensor_hub"
-  ];
+  # option from nixos-hardware to load the intel graphics driver in the
+  # initramfs, without this the consolefont will get reset when the driver
+  # loads
+  hardware.intelgpu.loadInInitrd = true;
+
   boot.kernelParams = [
-    "mem_sleep_default=deep"
     "vsyscall=none"
     "consoleblank=60"
   ];
