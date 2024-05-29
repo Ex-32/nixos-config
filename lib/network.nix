@@ -5,6 +5,10 @@
   nixpkgs,
   ...
 }: {
+  environment.systemPackages = with pkgs; [
+    openconnect_openssl
+  ];
+
   # NetworkManager: networking for noobs since 2004
   networking.networkmanager.enable = true;
 
