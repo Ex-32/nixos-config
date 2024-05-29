@@ -63,7 +63,7 @@
           for arg in $argv
             set -fa pkgs "nixpkgs#$arg"
           end
-          nix shell $pkgs
+          ${pkgs.nix-output-monitor}/bin/nom shell $pkgs
         '';
       onExit = {
         onEvent = "fish_exit";
