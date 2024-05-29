@@ -25,7 +25,7 @@ in {
     font = {
       package = pkgs.raleway;
       name = "Raleway";
-      size = 10;
+      size = 14;
     };
     iconTheme = {
       package = pkgs.catppuccin-papirus-folders.override {
