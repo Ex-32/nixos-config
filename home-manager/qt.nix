@@ -5,19 +5,31 @@
   inputs,
   ...
 }: {
-  home.packages = [
-    (pkgs.catppuccin-kvantum.override {
-      variant = "Mocha";
-      accent = "Mauve";
-    })
+  home.packages = with pkgs; [
+    libsForQt5.qtstyleplugin-kvantum
+    qt6Packages.qtstyleplugin-kvantum
   ];
 
   qt = {
     enable = true;
-    platformTheme.name = "adwaita";
+    platformTheme.name = "qtct";
     style = {
-      name = "kvantum-dark";
-      package = pkgs.libsForQt5.qtstyleplugin-kvantum;
+      name = "kvantum";
+      # package = pkgs.libsForQt5.qtstyleplugin-kvantum;
     };
+  };
+
+  xdg.configFile = let
+    theme = pkgs.catppuccin-kvantum.override {
+      variant = "Mocha";
+      accent = "Mauve";
+    };
+  in {
+    "Kvantum/kvantum.kvconfig".text = ''
+      [General]
+      theme=Catppuccin-Mocha-Mauve
+    '';
+
+    "Kvantum/Catppuccin-Mocha-Mauve".source = "${theme}/share/Kvantum/Catppuccin-Mocha-Mauve";
   };
 }
