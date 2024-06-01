@@ -12,7 +12,6 @@
   config = lib.mkMerge [
     {
       home.packages = with pkgs; [
-        endless-sky
         prismlauncher
         superTuxKart
       ];
