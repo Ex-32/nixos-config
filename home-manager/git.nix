@@ -26,7 +26,10 @@
     userEmail = "jenna@fligor.net";
     extraConfig = {
       init.defaultBranch = "main";
-      safe.directory = "/etc/nixos";
+      safe.directory = [
+        "/etc/nixos"
+        "/etc/nixos/.git"
+      ];
     };
   };
 }
