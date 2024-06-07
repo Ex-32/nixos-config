@@ -262,7 +262,7 @@
         heuristic = true;
         symbol = " ";
         format = "[$symbol$state( \($name\))]($style) ";
-        disabled = true;
+        disabled = false;
       };
       nodejs = {
         symbol = " ";
@@ -275,7 +275,7 @@
       opa.format = "[$symbol($version)]($style) ";
       openstack.format = "[$symbol$cloud(\($project\))]($style) ";
       os = {
-        disabled = false;
+        disabled = true;
         format = "[$symbol]($style) ";
         symbols = {
           Alpaquita = " ";

@@ -338,10 +338,16 @@ require('lazy').setup({
     end
   },
 
-  --- kitty config script
+  ---- kitty config script
   {
     "fladson/vim-kitty",
     ft = { "kitty", "kitty.conf" },
+  },
+
+  ---- nushell
+  {
+    "LhKipp/nvim-nu",
+    ft = { "nu" },
   },
 
   {

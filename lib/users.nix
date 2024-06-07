@@ -22,7 +22,7 @@
       "lp" # printing privileges
       "dialout" # raw serial device access
     ];
-    shell = pkgs.fish;
+    shell = pkgs.nushell;
 
     # without this any form of rootless containerization will fail
     autoSubUidGidRange = true;
