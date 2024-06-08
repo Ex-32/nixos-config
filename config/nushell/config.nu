@@ -143,7 +143,7 @@ let light_theme = {
 
 # The default config record. This is where much of your global configuration is setup.
 $env.config = {
-    show_banner: true # true or false to enable or disable the welcome banner at startup
+    show_banner: false # true or false to enable or disable the welcome banner at startup
 
     ls: {
         use_ls_colors: true # use the LS_COLORS environment variable to colorize output
@@ -865,19 +865,31 @@ $env.config = {
     ]
 }
 
-alias nor = nh os switch -a /etc/nixos
-alias py = nix shell 'nixpkgs#python3' --command python3
-
-alias sc = sudo systemctl
-alias scu = systemctl --user
-alias jc = journalctl
-
 def l [path: string = "."] {
     ls -la $path | select type mode user group modified size name | sort-by type
 }
 
 def ll [path: string = "."] {
     ls -la $path | select type mode user group modified size name target | sort-by type
+}
+
+def i [path: string = "."] {
+    match ($path | path type) {
+        dir => { l $path },
+        symlink => { i (realpath $path) },
+        file => {
+            if (
+                file --mime-encoding (realpath $path) |
+                grep 'binary$' |
+                is-empty
+            ) {
+                bat $path
+            } else {
+                file $path
+            }
+        },
+        _ => { file $path },
+    }
 }
 
 def ns [...pkgs: string] {

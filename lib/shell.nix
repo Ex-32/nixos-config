@@ -5,18 +5,18 @@
   nixpkgs,
   ...
 }: {
-  programs.fish = {
-    enable = true;
-    # babelfish is a modern, more performant replacement for foreign-env which
-    # allows capturing environment variable changes from non-fish shells and
-    # propagating them, this setting uses babelfish to load the environment
-    # from files like /etc/profile
-    useBabelfish = true;
-  };
-
-  environment.shells = with pkgs; [
-    fish
-  ];
+  # programs.fish = {
+  #   enable = true;
+  #   # babelfish is a modern, more performant replacement for foreign-env which
+  #   # allows capturing environment variable changes from non-fish shells and
+  #   # propagating them, this setting uses babelfish to load the environment
+  #   # from files like /etc/profile
+  #   useBabelfish = true;
+  # };
+  #
+  # environment.shells = with pkgs; [
+  #   fish
+  # ];
 
   environment.variables = {
     # disable the less history file
@@ -39,8 +39,8 @@
     ];
 
     # this tells electron applications to use a native wayland backend if
-    # available, as best i can tell it has no adverse effects on X11 based
-    # systems, so i've just set it to always be enabled
+    # available, as best i can tell it has no adverse effects on X11 so i've
+    # just set it to always be enabled
     # NOTE: this **does** break vscode and derivatives, this variable should be
     # unset to launch vscode or it will crash on start
     NIXOS_OZONE_WL = "1";
@@ -96,18 +96,14 @@
     ];
   };
 
+  # NOTE: these aren't loaded by nushell and are effectively legacy config from fish
   environment.shellAliases = {
-    l = "lsd -lAh --no-symlink --date relative --group-directories-first";
-    ll = "lsd -lAh";
-    ls = null; # this disables nixos's default alias for ls
-
-    py = "nix shell nixpkgs#python3 --command python3";
-
     sc = "sudo systemctl";
     scu = "systemctl --user";
     jc = "journalctl";
 
     nor = "nh os switch -a /etc/nixos";
+    py = "nix shell nixpkgs#python3 --command python3";
 
     "..." = "cd ../..";
     "...." = "cd ../../..";
@@ -127,7 +123,6 @@
     fselect # and SQL inspired find utility for querying the filesystem
     fzf # fuzzy search the filesystem for files/directories
     htop # the best way to monitor processes this side of the solar system
-    lsd # a modern ls clone with features like icons and relative time
     ripgrep # grep the filesystem crazy fast
     tmux # terminals all the way down
     trash-cli # fuck i didn't mean to delete that...

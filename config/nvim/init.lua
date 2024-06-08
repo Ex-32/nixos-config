@@ -277,9 +277,10 @@ require('lazy').setup({
 
   {
     -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "nushell/tree-sitter-nu",
     },
     build = ':TSUpdate',
   },
@@ -342,12 +343,6 @@ require('lazy').setup({
   {
     "fladson/vim-kitty",
     ft = { "kitty", "kitty.conf" },
-  },
-
-  ---- nushell
-  {
-    "LhKipp/nvim-nu",
-    ft = { "nu" },
   },
 
   {
@@ -436,7 +431,7 @@ vim.defer_fn(function()
       'diff', 'dockerfile', 'fish', 'fortran', 'git_config', 'git_rebase',
       'gitattributes', 'gitcommit', 'gitignore', 'go', 'gomod', 'haskell',
       'html', 'java', 'javascript', 'json', 'jsonc', 'latex', 'linkerscript',
-      'lua', 'make', 'markdown', 'markdown_inline', 'nasm', 'nix', 'org',
+      'lua', 'make', 'markdown', 'markdown_inline', 'nasm', 'nix', 'nu', 'org',
       'passwd', 'python', 'rust', 'scss', 'sql', 'ssh_config', 'toml', 'tsx',
       'typescript', 'udev', 'verilog', 'vim', 'vimdoc', 'xml', 'yuck', 'zig',
     },
