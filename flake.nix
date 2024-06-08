@@ -128,14 +128,12 @@
           ./lib/flipperzero.nix
           ./lib/grub.nix
           ./lib/impermanence.nix
-          ./lib/kernel-latest.nix
           ./lib/locale.nix
           ./lib/network.nix
           ./lib/nix-alien.nix
           ./lib/printing.nix
           ./lib/shell.nix
           ./lib/sound.nix
-          ./lib/steam.nix
           ./lib/users.nix
           ./lib/vial.nix
 
@@ -146,14 +144,13 @@
                 ./home-manager/base.nix
                 ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
-                ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/kitty.nix
-                ./home-manager/latex.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
+                ./home-manager/nushell.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
@@ -168,8 +165,8 @@
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
+                keepassxc
                 gparted
-                elvish
                 rclone
               ];
             };
