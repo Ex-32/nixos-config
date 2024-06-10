@@ -126,7 +126,6 @@
           ./lib/distrobox.nix
           ./lib/docker.nix
           ./lib/flipperzero.nix
-          ./lib/grub.nix
           ./lib/impermanence.nix
           ./lib/locale.nix
           ./lib/network.nix
@@ -149,6 +148,7 @@
                 ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/hyprland.nix
+                ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix

@@ -5,39 +5,34 @@
   inputs,
   ...
 }: {
-  home.persistence."/persist/safe${config.home.homeDirectory}" = {
-    directories = [
-      {
-        directory = ".local/share/gnupg";
-        mode = "0700";
-      }
-      {
-        directory = ".ssh";
-        mode = "0700";
-      }
-      {
-        directory = ".local/share/keyrings";
-        mode = "0700";
-      }
+  imports = [inputs.impermanence.nixosModules.home-manager.impermanence];
 
+  home.persistence."/persist/safe/home/${config.home.username}" = {
+    directories = [
       ".local/state"
 
-      ".local/share/nvim"
       ".local/share/direnv"
       ".local/share/doom"
+      ".local/share/gnupg"
+      ".local/share/keyrings"
+      ".local/share/nheko"
+      ".local/share/nvim"
       ".local/share/wine"
+      ".local/share/zoxide"
 
       ".config/1Password"
+      ".config/RawTherapee"
+      ".config/Signal"
+      ".config/Slack"
       ".config/discord"
+      ".config/htop"
       ".config/keepassxc"
       ".config/nheko"
       ".config/obsidian"
-      ".config/Signal"
-      ".config/Slack"
       ".config/spotify"
-      ".config/RawTherapee"
 
       ".mozilla"
+      ".ssh"
       "documents"
       "src"
     ];
@@ -47,7 +42,7 @@
     ];
   };
 
-  home.persistence."/persist/cache${config.home.homeDirectory}" = {
+  home.persistence."/persist/volatile/cache/${config.home.username}" = {
     directories = [
       ".cache"
     ];
