@@ -77,6 +77,7 @@
                 ./home-manager/base.nix
                 ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
+                ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
@@ -84,7 +85,6 @@
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
-                ./home-manager/nushell.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/photos.nix
                 ./home-manager/productivity.nix
@@ -144,13 +144,14 @@
                 ./home-manager/base.nix
                 ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
+                ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
+                ./home-manager/hyprland.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
-                ./home-manager/nushell.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
@@ -160,7 +161,6 @@
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/yazi.nix
-                ./home-manager/hyprland.nix
               ];
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [

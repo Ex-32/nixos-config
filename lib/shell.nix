@@ -5,20 +5,20 @@
   nixpkgs,
   ...
 }: {
-  # programs.fish = {
-  #   enable = true;
-  #   # babelfish is a modern, more performant replacement for foreign-env which
-  #   # allows capturing environment variable changes from non-fish shells and
-  #   # propagating them, this setting uses babelfish to load the environment
-  #   # from files like /etc/profile
-  #   useBabelfish = true;
-  # };
-  #
-  # environment.shells = with pkgs; [
-  #   fish
-  # ];
+  programs.fish = {
+    enable = true;
+    # babelfish is a modern, more performant replacement for foreign-env which
+    # allows capturing environment variable changes from non-fish shells and
+    # propagating them, this setting uses babelfish to load the environment
+    # from files like /etc/profile
+    useBabelfish = true;
+  };
 
-  environment.variables = {
+  environment.shells = with pkgs; [
+    fish
+  ];
+
+  environment.variables = rec {
     # disable the less history file
     LESSHISTFILE = "-";
 
@@ -44,26 +44,13 @@
     # NOTE: this **does** break vscode and derivatives, this variable should be
     # unset to launch vscode or it will crash on start
     NIXOS_OZONE_WL = "1";
-  };
-
-  environment.sessionVariables = {
-    # these are the default xdg locations, but some improperly designed
-    # programs only use xdg locations if they're explicitly defined, and it
-    # provides an easy way to reference them in other variable declarations
-    XDG_CACHE_HOME = "$HOME/.cache";
-    XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    XDG_STATE_HOME = "$HOME/.local/state";
 
     XDG_DATA_DIRS = let
-      gtk3 = pkgs.gtk3;
       gsettings = pkgs.gsettings-desktop-schemas;
-    in
-      lib.concatStrings [
-        "${gsettings}/share/gsettings-schemas/${gsettings.name}:"
-        "${gtk3}/share/gsettings-schemas/${gtk3.name}:"
-        "$XDG_DATA_DIRS"
-      ];
+    in [
+      "${gsettings}/share/gsettings-schemas/${gsettings.name}"
+      "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
+    ];
 
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
@@ -126,5 +113,6 @@
     ripgrep # grep the filesystem crazy fast
     tmux # terminals all the way down
     trash-cli # fuck i didn't mean to delete that...
+    lsd # modern ls clone with more colors and relative modtime
   ];
 }

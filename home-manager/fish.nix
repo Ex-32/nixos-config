@@ -81,9 +81,18 @@
     ];
   };
 
+  programs.carapace.enable = true;
   programs.zoxide.enable = true;
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+  services.pueue = {
+    enable = true;
+    settings = {
+      daemon = {
+        default_parallel_tasks = 65535;
+      };
+    };
   };
 }
