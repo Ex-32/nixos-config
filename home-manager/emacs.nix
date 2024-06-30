@@ -14,9 +14,16 @@
       paths = with pkgs; [
         (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
         clang-tools
+        ghc # needed for hls
         gnumake
+        gopls
         haskell-language-server
+        lua-language-server
         nodePackages.bash-language-server
+        pandoc
+        pyright
+        rust-analyzer
+        texlab
         vscode-langservers-extracted
       ];
 
