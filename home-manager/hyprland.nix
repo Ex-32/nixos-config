@@ -113,7 +113,7 @@
       };
       master = {
         special_scale_factor = 0.9;
-        new_is_master = false;
+        new_is_master = true;
         new_on_top = true;
         mfact = 0.618;
       };

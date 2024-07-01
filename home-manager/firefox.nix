@@ -5,19 +5,22 @@
   inputs,
   ...
 }: {
+  allowedUnfree = [
+    "languagetool"
+    "onepassword-password-manager"
+    "tampermonkey"
+  ];
+
   imports = [
     inputs.nur.hmModules.nur
   ];
 
   home.packages = with pkgs; [
     tridactyl-native
-    firefox-devedition
   ];
 
-  # TODO: figure out why enabling this causes firefox to throw a missing
-  # profile error and fix it so firefox can be configured declaratively
   programs.firefox = {
-    enable = false;
+    enable = true;
     package = pkgs.firefox-devedition;
     enableGnomeExtensions = false;
     policies = {
@@ -47,11 +50,12 @@
         disconnect
         duckduckgo-privacy-essentials
         facebook-container
+        firefox-color
         languagetool
-        multi-account-containers
         onepassword-password-manager
         privacy-badger
         return-youtube-dislikes
+        sidebery
         sponsorblock
         stylus
         tab-reloader
@@ -60,6 +64,33 @@
         ublock-origin
         youtube-nonstop
       ];
+      containers = {
+        personal = {
+          id = 3;
+          name = "Personal";
+          icon = "fingerprint"; 
+          color = "purple";
+        };
+        parkland = {
+          id = 2;
+          name = "Parkland";
+          icon = "tree";
+          color = "green";
+        };
+        uiuc = {
+          id =  1;
+          name = "UIUC";
+          icon = "tree";
+          color = "orange";
+        };
+        facebook = {
+          id = 0;
+          name = "Facebook";
+          icon = "fence";
+          color = "blue";
+        };
+      };
+      containersForce = true;
       search = {
         force = true;
         default = "DuckDuckGo";
@@ -126,7 +157,39 @@
       };
       settings = {
         "browser.aboutConfig.showWarning" = false;
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "browser.gesture.swipe.left" = "";
+        "browser.gesture.swipe.right" = "";
+        "layout.css.devPixelsPerPx" = 1.1;
       };
+      userChrome = ''
+        #TabsToolbar {
+          visibility: collapse;
+        }
+      '';
+    };
+  };
+
+  xdg.desktopEntries = let
+    firefox = "firefox-devedition";
+  in  {
+    ${firefox} = {
+      name = "Firefox";
+      exec = "${firefox} -P default %U";
+      icon = "${firefox}";
+      startupNotify = true;
+      terminal = false;
+      genericName = "Web Browser";
+      categories = [ "Network" "WebBrowser" ];
+    };
+    firefox-profile-manager = {
+      name = "Firefox Profile Manager";
+      exec = "${firefox} -ProfileManager";
+      icon = "${firefox}";
+      startupNotify = true;
+      terminal = false;
+      genericName = "Web Browser";
+      categories = [ "Network" "WebBrowser" ];
     };
   };
 }

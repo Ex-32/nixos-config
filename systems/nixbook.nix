@@ -1,10 +1,16 @@
 {
-  inputs,
   config,
+  inputs,
   lib,
   pkgs,
+  modulesPath,
   ...
-}: {
+}: let
+  devs = {
+    boot = "/dev/disk/by-uuid/22D7-AF2F";
+    swap = "/dev/disk/by-uuid/526548fc-b325-4443-8c6e-f132ebf4e190";
+  };
+in {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
   ];
@@ -13,11 +19,6 @@
   # not FOSS, not having this enabled can cause issues with some hardware,
   # especially wifi cards
   hardware.enableRedistributableFirmware = true;
-
-  # option from nixos-hardware to load the intel graphics driver in the
-  # initramfs, without this the consolefont will get reset when the driver
-  # loads
-  hardware.intelgpu.loadInInitrd = true;
 
   boot.kernelParams = [
     "vsyscall=none"
@@ -29,90 +30,50 @@
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
-  # fix warning do to stateVersion change
-  boot.swraid.enable = false;
+  networking.hostId = "452fa516";
+  boot.zfs.package = pkgs.zfs_unstable;
 
-  boot.initrd = {
-    luks.devices."cryptdisk" = {
-      device = "/dev/disk/by-uuid/6ddff834-5606-48b9-a485-32dd6bdd6b79";
-      keyFile = "/crypto_keyfile.bin";
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot";
     };
-    secrets = {
-      "/crypto_keyfile.bin" = "/persist/secrets/crypto_keyfile.bin";
+
+    systemd-boot = {
+      memtest86.enable = true;
+      extraFiles = {
+        "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
+      };
+      extraEntries = {
+        "z-00-efi-shell.conf" = ''
+          title EFI Shell
+          efi /efi/shell/shell.efi
+        '';
+      };
     };
   };
 
-  fileSystems = {
-    "/home" = {
-      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-        "subvol=/@home"
-        "compress=zstd"
-        "noatime"
-        "nosuid"
-        "nodev"
-      ];
-    };
-    "/nix" = {
-      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-        "subvol=/@nix"
-        "compress=zstd"
-        "noatime"
-      ];
-    };
-    "/persist" = {
-      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-        "subvol=/@nix-persist"
-        "compress=zstd"
-        "noatime"
-        "nosuid"
-        "nodev"
-        "noexec"
-      ];
+  fileSystems = let
+    dataset = subpath: {
+      fsType = "zfs";
+      device = "rpool/encrypt/${subpath}";
       neededForBoot = true;
     };
-    "/mnt/fsroot" = {
-      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-        "subvol=/"
-        "compress=zstd"
-        "noatime"
-        "nosuid"
-        "nodev"
-        "noexec"
-      ];
-    };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/fde120e0-e51e-4d41-8d7f-7edb4bf3b4ef";
-      fsType = "btrfs";
-      options = [
-        "subvol=/@boot"
-        "compress=zstd"
-        "noatime"
-        "nosuid"
-        "nodev"
-        "noexec"
-      ];
-    };
-    "/boot/efi" = {
-      device = "/dev/disk/by-uuid/18A2-E6E3";
-      fsType = "vfat";
-      options = [
-        "noatime"
-        "nosuid"
-        "nodev"
-        "noexec"
-      ];
-    };
+  in {
+    "/boot" = {device = devs.boot;};
+
+    "/nix" = dataset "volatile/nix";
+
+    "/persist/safe/system" = dataset "safe/system";
+    "/persist/safe/home" = dataset "safe/home";
+
+    "/persist/volatile/cache" = dataset "volatile/cache";
   };
 
-  swapDevices = [];
+  swapDevices = [
+    {device = devs.swap;}
+  ];
 
   services.fprintd.enable = true;
 
@@ -152,6 +113,5 @@
   # networking.interfaces.wlp170s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

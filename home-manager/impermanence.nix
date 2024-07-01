@@ -5,39 +5,39 @@
   inputs,
   ...
 }: {
-  home.persistence."/persist/safe${config.home.homeDirectory}" = {
-    directories = [
-      {
-        directory = ".local/share/gnupg";
-        mode = "0700";
-      }
-      {
-        directory = ".ssh";
-        mode = "0700";
-      }
-      {
-        directory = ".local/share/keyrings";
-        mode = "0700";
-      }
+  imports = [inputs.impermanence.nixosModules.home-manager.impermanence];
 
+  home.persistence."/persist/safe/home/${config.home.username}" = {
+    directories = let
+      symlink = path: {
+        directory = path;
+        method = "symlink";
+      };
+    in [
       ".local/state"
 
-      ".local/share/nvim"
-      ".local/share/direnv"
-      ".local/share/doom"
-      ".local/share/wine"
+      (symlink ".local/share/direnv")
+      (symlink ".local/share/doom")
+      (symlink ".local/share/gnupg")
+      (symlink ".local/share/keyrings")
+      (symlink ".local/share/nheko")
+      (symlink ".local/share/nvim")
+      (symlink ".local/share/wine")
+      (symlink ".local/share/zoxide")
 
-      ".config/1Password"
-      ".config/discord"
-      ".config/keepassxc"
-      ".config/nheko"
-      ".config/obsidian"
-      ".config/Signal"
-      ".config/Slack"
-      ".config/spotify"
-      ".config/RawTherapee"
+      (symlink ".config/1Password")
+      (symlink ".config/RawTherapee")
+      (symlink ".config/Signal")
+      (symlink ".config/Slack")
+      (symlink ".config/discord")
+      (symlink ".config/htop")
+      (symlink ".config/keepassxc")
+      (symlink ".config/nheko")
+      (symlink ".config/obsidian")
+      (symlink ".config/spotify")
 
       ".mozilla"
+      ".ssh"
       "documents"
       "src"
     ];
@@ -47,7 +47,7 @@
     ];
   };
 
-  home.persistence."/persist/cache${config.home.homeDirectory}" = {
+  home.persistence."/persist/volatile/cache/${config.home.username}" = {
     directories = [
       ".cache"
     ];

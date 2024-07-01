@@ -28,8 +28,8 @@
         lua-language-server
         nixd
         nodePackages.bash-language-server
-        nodePackages.pyright
         nodePackages.typescript-language-server
+        pyright
         python311Packages.jedi-language-server
         texlab
         vscode-langservers-extracted

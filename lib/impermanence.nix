@@ -12,8 +12,13 @@
   # persistant storage at /persist to the system, any files/directories *not*
   # either in this list, or else mounted from another partition/subvolume (like
   # /home or /nix) will be created on a tmpfs and be lost on poweroff
-  environment.persistence."/persist" = {
-    directories =
+  environment.persistence."/persist/safe/system" = {
+    directories = let
+      mergeIf = predicate: value:
+        if predicate
+        then value
+        else [];
+    in
       [
         "/etc/nixos"
         "/var/lib/nixos"
@@ -24,58 +29,28 @@
         # features are enabled such as NetworkManagers connection data store and
         # libvirtd's VM image store
       ]
+      ++ (mergeIf config.networking.networkmanager.enable ["/etc/NetworkManager/system-connections"])
       ++ (
-        if config.networking.networkmanager.enable
-        then ["/etc/NetworkManager/system-connections"]
-        else []
+        mergeIf (config.networking.wireless.iwd.enable
+          || config.networking.networkmanager.wifi.backend == "iwd") ["/var/lib/iwd"]
       )
-      ++ (
-        if
-          config.networking.wireless.iwd.enable
-          || config.networking.networkmanager.wifi.backend == "iwd"
-        then ["/var/lib/iwd"]
-        else []
-      )
-      ++ (
-        if config.hardware.bluetooth.enable
-        then ["/var/lib/bluetooth"]
-        else []
-      )
-      ++ (
-        if config.virtualisation.libvirtd.enable
-        then ["/var/lib/libvirt"]
-        else []
-      )
-      ++ (
-        if config.services.fprintd.enable
-        then ["/var/lib/fprint"]
-        else []
-      );
+      ++ (mergeIf config.hardware.bluetooth.enable ["/var/lib/bluetooth"])
+      ++ (mergeIf config.virtualisation.libvirtd.enable ["/var/lib/libvirt"])
+      ++ (mergeIf config.services.fprintd.enable ["/var/lib/fprint"]);
 
     files = [
       "/etc/machine-id"
     ];
   };
 
-  # this needs to be set even though / is a tmpfs because /tmp can't be noexec
-  # or nix will throw cryptic build errors if has to build any derivation that
-  # involves executing a binary that was made in-situ rather than from a store
-  # path
-  boot.tmp.useTmpfs = true;
-
-  # since the bulk of the system is stored in the nix store, there's actually
-  # very little in / so a large allocation isn't needed, in fact, my usage
-  # rarely reaches above a couple megabytes
   fileSystems."/" = {
     device = "none";
     fsType = "tmpfs";
     options = [
-      "size=100M"
+      "size=100%"
+      "huge=within_size"
       "mode=755"
       "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
     ];
   };
 }

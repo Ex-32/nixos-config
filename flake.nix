@@ -126,7 +126,6 @@
           ./lib/distrobox.nix
           ./lib/docker.nix
           ./lib/flipperzero.nix
-          ./lib/grub.nix
           ./lib/impermanence.nix
           ./lib/locale.nix
           ./lib/network.nix
@@ -135,7 +134,6 @@
           ./lib/shell.nix
           ./lib/sound.nix
           ./lib/users.nix
-          ./lib/vial.nix
 
           # home-manager configuration
           {
@@ -149,13 +147,14 @@
                 ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/hyprland.nix
+                ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
+                ./home-manager/latex.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
-                ./home-manager/python.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix

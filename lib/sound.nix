@@ -5,7 +5,7 @@
   nixpkgs,
   ...
 }: {
-  sound.enable = true;
+  # sound.enable = true;
 
   # i'm using pipewire-pulse to handle pipewire clients and having both enabled
   # causes weird behavior because they'll fight to connect to pulse clients
