@@ -3,11 +3,19 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  devs = {
+    boot = "/dev/disk/by-uuid/358E-B8BA";
+    swap = "/dev/disk/by-uuid/2ea0ce8d-1355-4ef7-8037-75ddbeeaf613";
+  };
+in {
   imports = [
     ../lib/nvidia.nix
   ];
 
+  # this enables firmware that's distributed as a redistributable binary but
+  # not FOSS, not having this enabled can cause issues with some hardware,
+  # especially wifi cards
   hardware.enableRedistributableFirmware = true;
 
   boot.kernelParams = [
@@ -21,113 +29,50 @@
   boot.extraModulePackages = [];
   boot.swraid.enable = false;
 
-  # this needs to be set even though / is a tmpfs because /tmp can't be noexec
-  boot.tmp.useTmpfs = true;
+  networking.hostId = "6f02efe2";
+  boot.zfs.package = pkgs.zfs_unstable;
 
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
-    fsType = "btrfs";
-    options = [
-      "compress=zstd"
-      "subvol=@nix"
-      "noatime"
-      "nodev"
-    ];
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot";
+    };
+
+    systemd-boot = {
+      memtest86.enable = true;
+      extraFiles = {
+        "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
+      };
+      extraEntries = {
+        "z-00-efi-shell.conf" = ''
+          title EFI Shell
+          efi /efi/shell/shell.efi
+        '';
+      };
+    };
   };
 
-  fileSystems."/persist" = {
-    device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
-    fsType = "btrfs";
-    options = [
-      "subvol=/@nix-persist"
-      "compress=zstd"
-      "noatime"
-      "nosuid"
-      "nodev"
-    ];
-    neededForBoot = true;
-  };
+  fileSystems = let
+    dataset = subpath: {
+      fsType = "zfs";
+      device = "rpool/encrypt/${subpath}";
+      neededForBoot = true;
+    };
+  in {
+    "/boot" = {device = devs.boot;};
 
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
-    fsType = "btrfs";
-    options = [
-      "compress=zstd"
-      "subvol=@nix-home"
-      "noatime"
-      "nosuid"
-      "nodev"
-    ];
-  };
+    "/nix" = dataset "volatile/nix";
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
-    fsType = "btrfs";
-    options = [
-      "compress=zstd"
-      "subvol=@nix-boot"
-      "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
-    ];
-  };
+    "/persist/safe/system" = dataset "safe/system";
+    "/persist/safe/home" = dataset "safe/home";
 
-  fileSystems."/mnt/fsroot" = {
-    device = "/dev/disk/by-uuid/d043f002-e755-4a49-9316-58580bf9ec0a";
-    fsType = "btrfs";
-    options = [
-      "compress=zstd"
-      "subvol=/"
-      "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
-    ];
-  };
-
-  fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-uuid/6347-5502";
-    fsType = "vfat";
-    options = [
-      "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
-    ];
+    "/persist/volatile/cache" = dataset "volatile/cache";
   };
 
   swapDevices = [
-    {device = "/dev/disk/by-uuid/f18767e1-f510-42e1-b2fb-8ea4ffd21329";}
+    {device = devs.swap;}
   ];
-
-  # non-critical disk mounts
-
-  fileSystems."/mnt/bulk" = {
-    device = "/dev/disk/by-uuid/81d0684c-1711-4b89-9e93-02116205a4ed";
-    fsType = "btrfs";
-    options = [
-      "compress=zstd"
-      "subvol=/"
-      "noatime"
-      "nosuid"
-      "nodev"
-      "noexec"
-      "nofail"
-    ];
-  };
-
-  fileSystems."/home/jenna/documents/games" = {
-    device = "/dev/disk/by-uuid/81d0684c-1711-4b89-9e93-02116205a4ed";
-    fsType = "btrfs";
-    options = [
-      "compress=zstd"
-      "subvol=/@jenna-games"
-      "noatime"
-      "nosuid"
-      "nofail"
-    ];
-  };
 
   services.ddclient = {
     enable = true;

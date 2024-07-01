@@ -53,29 +53,26 @@
           ./lib/base.nix
           ./lib/console.nix
           ./lib/desktop.nix
-          ./lib/distrobox.nix
-          ./lib/grub.nix
           ./lib/impermanence.nix
-          ./lib/kernel-latest.nix
+          ./lib/flipperzero.nix
           ./lib/locale.nix
           ./lib/network.nix
-          ./lib/nix-alien.nix
+          # ./lib/nix-alien.nix
           ./lib/printing.nix
           ./lib/shell.nix
           ./lib/sound.nix
           ./lib/ssh.nix
-          ./lib/steam.nix
+          # ./lib/steam.nix
           ./lib/users.nix
-          ./lib/vial.nix
+          # ./lib/vial.nix
           ./lib/x11.nix
-          ./lib/flipperzero.nix
 
           # home-manager configuration
           {
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
-                ./home-manager/emacs.nix
+                # ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
                 ./home-manager/fish.nix
                 ./home-manager/fun.nix
@@ -88,13 +85,11 @@
                 ./home-manager/obs-studio.nix
                 ./home-manager/photos.nix
                 ./home-manager/productivity.nix
-                ./home-manager/python.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/xmonad.nix
-                ./home-manager/yazi.nix
               ];
               local.lutris.enable = true;
               allowedUnfree = ["1password"];
@@ -123,8 +118,6 @@
           ./lib/bluetooth.nix
           ./lib/console.nix
           ./lib/desktop.nix
-          ./lib/distrobox.nix
-          ./lib/docker.nix
           ./lib/flipperzero.nix
           ./lib/impermanence.nix
           ./lib/locale.nix
@@ -159,7 +152,6 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
-                ./home-manager/yazi.nix
               ];
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
