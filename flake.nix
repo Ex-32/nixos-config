@@ -134,7 +134,6 @@
           ./lib/shell.nix
           ./lib/sound.nix
           ./lib/users.nix
-          ./lib/vial.nix
 
           # home-manager configuration
           {
@@ -150,12 +149,12 @@
                 ./home-manager/hyprland.nix
                 ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
+                ./home-manager/latex.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
-                ./home-manager/python.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix

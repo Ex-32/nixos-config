@@ -5,6 +5,7 @@
   inputs,
   ...
 }: {
+  home.sessionVariables.PYTHONSTARTUP = "$XDG_CONFIG_HOME/python3/startup.py";
   home.file.".config/python3/startup.py".text =
     # python
     ''

@@ -45,6 +45,9 @@
     # unset to launch vscode or it will crash on start
     NIXOS_OZONE_WL = "1";
 
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_DATA_HOME = "$HOME/.local/share";
     XDG_DATA_DIRS = let
       gsettings = pkgs.gsettings-desktop-schemas;
     in [
@@ -54,25 +57,24 @@
 
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
-    CARGO_HOME = "$XDG_DATA_HOME/cargo";
-    RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
-    GOPATH = "$XDG_DATA_HOME/go";
-    RBENV_ROOT = "$XDG_DATA_HOME/rbenv";
-    GNUPGHOME = "$XDG_DATA_HOME/gnugp";
-    WINEPREFIX = "$XDG_DATA_HOME/wine";
-    GRADLE_USER_HOME = "$XDG_DATA_HOME/gradle";
+    CARGO_HOME = "${XDG_DATA_HOME}/cargo";
+    RUSTUP_HOME = "${XDG_DATA_HOME}/rustup";
+    GOPATH = "${XDG_DATA_HOME}/go";
+    RBENV_ROOT = "${XDG_DATA_HOME}/rbenv";
+    GNUPGHOME = "${XDG_DATA_HOME}/gnugp";
+    WINEPREFIX = "${XDG_DATA_HOME}/wine";
+    GRADLE_USER_HOME = "${XDG_DATA_HOME}/gradle";
 
     # NOTE: using _JAVA_OPTIONS to set the userRoot location and prevent the
     # creation of ~/.java can break poorly designed programs that hardcode
     # paths and so should *not* be set
-    PYTHONSTARTUP = "$XDG_CONFIG_HOME/python3/startup.py";
-    GTK_RC_FILES = "$XDG_CONFIG_HOME/gtk-1.0/gtkrc";
-    GTK_RC2_FILES = "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
-    NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
+    GTK_RC_FILES = "${XDG_CONFIG_HOME}/gtk-1.0/gtkrc";
+    GTK_RC2_FILES = "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
+    NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
 
     # this sets the location for the cuda compute cache
     # TODO: only enable this environment variable on nvidia systems
-    CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nvidia/ComputeCache";
+    CUDA_CACHE_PATH = "${XDG_CACHE_HOME}/nvidia/ComputeCache";
 
     # programs can be installed from source code using cargo for crates.io and
     # go for pkgs.go.dev, these packages get installed into their own
@@ -85,6 +87,9 @@
 
   # NOTE: these aren't loaded by nushell and are effectively legacy config from fish
   environment.shellAliases = {
+    l = "${pkgs.lsd}/bin/lsd -lA --date relative --no-symlink";
+    ll = "${pkgs.lsd}/bin/lsd -lA";
+
     sc = "sudo systemctl";
     scu = "systemctl --user";
     jc = "journalctl";

@@ -30,7 +30,10 @@
         set -g fish_cursor_insert line
         set -g fish_cursor_replace_one underscore
         set -g fish_cursor_visual block
-        if test $SHLVL -le 1
+        set -l pokemon_terms \
+          "xterm-kitty" \
+          "xterm-256color"
+        if test $SHLVL -le 1 ; and contains $TERM $pokemon_terms
           ${pokemon-colorscripts}/bin/pokemon-colorscripts --random
         end
       '';
@@ -86,13 +89,5 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
-  };
-  services.pueue = {
-    enable = true;
-    settings = {
-      daemon = {
-        default_parallel_tasks = 65535;
-      };
-    };
   };
 }

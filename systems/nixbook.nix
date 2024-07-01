@@ -8,7 +8,7 @@
 }: let
   devs = {
     boot = "/dev/disk/by-uuid/22D7-AF2F";
-    swap = "/dev/disk/by-uuid/d57adcd3-f596-446b-8b10-3fbfcb416100";
+    swap = "/dev/disk/by-uuid/526548fc-b325-4443-8c6e-f132ebf4e190";
   };
 in {
   imports = [
@@ -41,6 +41,7 @@ in {
     };
 
     systemd-boot = {
+      memtest86.enable = true;
       extraFiles = {
         "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
       };
