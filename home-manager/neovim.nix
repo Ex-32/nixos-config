@@ -53,7 +53,7 @@
 
     nvim-with-deps = pkgs.symlinkJoin {
       name = "nvim-with-deps";
-      paths = [pkgs.neovim-unwrapped];
+      paths = [pkgs.neovim];
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''
         wrapProgram $out/bin/nvim \

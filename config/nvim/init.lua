@@ -344,6 +344,18 @@ require('lazy').setup({
     ft = { "kitty", "kitty.conf" },
   },
 
+  ---- markdown
+  {
+    "OXY2DEV/markview.nvim",
+    dependencies = {
+      -- You may not need this if you don't lazy load
+      -- Or if the parsers are in your $RUNTIMEPATH
+      "nvim-treesitter/nvim-treesitter",
+
+      "nvim-tree/nvim-web-devicons"
+    },
+  },
+
   {
     -- silly goofy plugin to enable discord rich presence integration
     "andweeb/presence.nvim",
