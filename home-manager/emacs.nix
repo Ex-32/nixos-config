@@ -8,24 +8,45 @@
   imports = [inputs.nix-doom-emacs.hmModule];
 
   programs.doom-emacs = let
+    # from https://nixos.wiki/wiki/TexLive#Combine_Sets
+    tex = pkgs.texlive.combine {
+      inherit
+        (pkgs.texlive)
+        scheme-basic
+        dvisvgm
+        dvipng # for preview and export as html
+        wrapfig
+        amsmath
+        ulem
+        hyperref
+        capt-of
+        ;
+      #(setq org-latex-compiler "lualatex")
+      #(setq org-preview-latex-default-process 'dvisvgm)
+    };
+
     config-path = ../config/emacs;
     emacs-deps = pkgs.symlinkJoin {
       name = "emacs-deps";
-      paths = with pkgs; [
-        (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
-        clang-tools
-        ghc # needed for hls
-        gnumake
-        gopls
-        haskell-language-server
-        lua-language-server
-        nodePackages.bash-language-server
-        pandoc
-        pyright
-        rust-analyzer
-        texlab
-        vscode-langservers-extracted
-      ];
+      paths =
+        (with pkgs; [
+          (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
+          clang-tools
+          ghc # needed for hls
+          gnumake
+          gopls
+          haskell-language-server
+          lua-language-server
+          nodePackages.bash-language-server
+          pandoc
+          pyright
+          rust-analyzer
+          texlab
+          vscode-langservers-extracted
+        ])
+        ++ [
+          tex
+        ];
 
       # symlinkJoin can't handle symlinked dirs and nodePackages
       # symlinks ./bin -> ./lib/node_modules/.bin/.

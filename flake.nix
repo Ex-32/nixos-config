@@ -142,7 +142,6 @@
                 ./home-manager/hyprland.nix
                 ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
-                ./home-manager/latex.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
