@@ -95,7 +95,7 @@
 
       [Fonts]
       fixed="FiraCode Nerd Font,14,-1,5,50,0,0,0,0,0,Regular"
-      general="Raleway,16,-1,5,50,0,0,0,0,0,Regular"
+      general="Source Sans 3,16,-1,5,50,0,0,0,0,0,Regular"
 
       [Interface]
       activate_item_on_single_click=1

@@ -23,8 +23,8 @@ in {
       name = "Catppuccin-Mocha-Standard-Mauve-Dark";
     };
     font = {
-      package = pkgs.raleway;
-      name = "Raleway";
+      package = pkgs.source-sans;
+      name = "Source Sans 3";
       size = 14;
     };
     iconTheme = {

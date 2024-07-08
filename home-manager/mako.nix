@@ -13,7 +13,7 @@
     borderRadius = 10;
     borderSize = 2;
     defaultTimeout = 5000;
-    font = "Raleway 13";
+    font = "Source Sans 3 13";
     height = 400;
     progressColor = "#313244";
     textColor = "#cdd6f4";

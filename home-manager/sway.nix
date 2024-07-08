@@ -264,7 +264,7 @@
       text-ver-color = "74c7ec";
       text-wrong-color = "f38ba8";
       fade-in = 0.2;
-      font = "Raleway";
+      font = "Source Sans 3";
     };
   };
 
