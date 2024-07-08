@@ -54,8 +54,8 @@
     settings = {
       "$mod" = "SUPER";
       general = {
-        gaps_in = 6;
-        gaps_out = 12;
+        gaps_in = 4;
+        gaps_out = 8;
         border_size = 4;
         "col.active_border" = "rgb(${mauve}) rgb(${sapphire}) 45deg";
         "col.inactive_border" = "0xff${surface0}";
@@ -196,9 +196,36 @@
         "$mod, n, layoutmsg, rollprev"
       ];
       # keybinds that'll repeat if held
-      binde = [
-        ", XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
+      binde = let
+        wpctl = "${pkgs.wireplumber}/bin/wpctl";
+        sed = "${pkgs.gnused}/bin/sed";
+      in [
+        ", XF86AudioLowerVolume, exec, ${pkgs.writeScript "vol-down"
+          # bash
+          ''
+            #!${pkgs.bash}/bin/bash
+            VOL=$(${wpctl} get-volume @DEFAULT_AUDIO_SINK@ | \
+              ${pkgs.gnugrep}/bin/grep -o -E 'Volume: [0-9]{1,2}\.[0-9]{2}' | \
+              ${sed} -E 's/Volume: (([1-9]{1,2})|([0-9]{1,2}))\.([0-9]{2})/\2\4/')
+
+            NEW_VOL=$(${sed} -E 's/([0-9]{0,2})([0-9]{2})/0\1.\2/' <<< $(( ((VOL - 1) / 5) * 5 )))
+
+            ${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ $NEW_VOL
+          ''}"
+        ", XF86AudioRaiseVolume, exec, ${pkgs.writeScript "vol-up"
+          # bash
+          ''
+            #!${pkgs.bash}/bin/bash
+            VOL=$(${wpctl} get-volume @DEFAULT_AUDIO_SINK@ | \
+              ${pkgs.gnugrep}/bin/grep -o -E 'Volume: [0-9]{1,2}\.[0-9]{2}' | \
+              ${sed} -E 's/Volume: (([1-9]{1,2})|([0-9]{1,2}))\.([0-9]{2})/\2\4/')
+
+            NEW_VOL=$(${sed} -E 's/([0-9]{0,2})([0-9]{2})/0\1.\2/' <<< $(( ((VOL + 5) / 5) * 5 )))
+
+            ${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ $NEW_VOL
+          ''}"
+        "SHIFT, XF86AudioLowerVolume, exec, ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 1%-"
+        "SHIFT, XF86AudioRaiseVolume, exec, ${wpctl} set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 1%+"
         ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%-"
         ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%+"
       ];
