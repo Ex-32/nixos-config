@@ -85,7 +85,6 @@
     ];
   };
 
-  # NOTE: these aren't loaded by nushell and are effectively legacy config from fish
   environment.shellAliases = {
     l = "${pkgs.lsd}/bin/lsd -lA --date relative --no-symlink";
     ll = "${pkgs.lsd}/bin/lsd -lA";
