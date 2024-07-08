@@ -13,6 +13,7 @@
 in {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
+    ../lib/zfs.nix
   ];
 
   # this enables firmware that's distributed as a redistributable binary but
@@ -20,38 +21,47 @@ in {
   # especially wifi cards
   hardware.enableRedistributableFirmware = true;
 
-  boot.kernelParams = [
-    "vsyscall=none"
-    "consoleblank=60"
-  ];
-
-  boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
-  boot.extraModulePackages = [];
-
   networking.hostId = "452fa516";
-  boot.zfs.package = pkgs.zfs_unstable;
+  boot = {
+    kernelParams = [
+      "vsyscall=none"
+      "consoleblank=60"
+    ];
+    kernelModules = ["kvm-intel"];
+    extraModulePackages = [];
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot";
+    initrd = {
+      availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
+      kernelModules = [];
     };
 
-    systemd-boot = {
-      memtest86.enable = true;
-      extraFiles = {
-        "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
+    loader = {
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
       };
-      extraEntries = {
-        "z-00-efi-shell.conf" = ''
-          title EFI Shell
-          efi /efi/shell/shell.efi
-        '';
+
+      systemd-boot = {
+        enable = true;
+        memtest86.enable = true;
+        extraFiles = {
+          "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
+        };
+        extraEntries = {
+          "z-00-efi-shell.conf" = ''
+            title EFI Shell
+            efi /efi/shell/shell.efi
+          '';
+        };
       };
     };
+
+    supportedFilesystems = [
+      "exfat"
+      "ntfs"
+      "vfat"
+      "zfs"
+    ];
   };
 
   fileSystems = let
