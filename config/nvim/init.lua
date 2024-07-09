@@ -702,6 +702,7 @@ local mappings = {
   n = {
     ["<space>"] = { "<Nop>", nil, { silent = true } },
     ["<leader>ts"] = { "<cmd> set spell! <CR>", "[T]oggle [S]pellcheck" },
+    ["<leader>tl"] = { require("lsp_lines").toggle, "[T]oggle [L]SP Lines" },
     ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
     ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
