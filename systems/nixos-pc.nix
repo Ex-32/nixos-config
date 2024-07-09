@@ -11,6 +11,7 @@
 in {
   imports = [
     ../lib/nvidia.nix
+    ../lib/zfs.nix
   ];
 
   # this enables firmware that's distributed as a redistributable binary but
@@ -27,19 +28,17 @@ in {
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
-  boot.swraid.enable = false;
 
   networking.hostId = "6f02efe2";
-  boot.zfs.package = pkgs.zfs_unstable;
 
   boot.loader = {
-    systemd-boot.enable = true;
     efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
     };
 
     systemd-boot = {
+      enable = true;
       memtest86.enable = true;
       extraFiles = {
         "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
