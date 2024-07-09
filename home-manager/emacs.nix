@@ -5,6 +5,10 @@
   inputs,
   ...
 }: {
+  allowedUnfree = [
+    "aspell-dict-en-science"
+  ];
+
   imports = [inputs.nix-doom-emacs.hmModule];
 
   programs.doom-emacs = let
