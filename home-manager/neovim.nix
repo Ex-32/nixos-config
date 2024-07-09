@@ -10,11 +10,11 @@
       name = "nvim-deps";
       paths = with pkgs; [
         # plugin dependencies
-        cargo # rust-tools
+        cargo # rustaceanvim
         clang # nvim-treesitter (and others)
         gnumake # telescope-fzf-native
         nodejs # nvim-treesitter
-        rust-analyzer # rust-tools
+        rust-analyzer # rustaceanvim
         tree-sitter # nvim-treesitter
         # language servers (lspconfig)
         arduino-language-server

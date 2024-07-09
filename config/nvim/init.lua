@@ -313,21 +313,21 @@ require('lazy').setup({
   },
 
   ---- rust
-  {
-    "simrat39/rust-tools.nvim",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "hrsh7th/cmp-nvim-lsp",
-    },
-    ft = "rust",
-    opts = {
-      tools = {
-        inlay_hints = {
-          other_hints_prefix = "󰆧 ",
-        },
-      },
-    },
-  },
+  -- {
+  --   "simrat39/rust-tools.nvim",
+  --   dependencies = {
+  --     "neovim/nvim-lspconfig",
+  --     "hrsh7th/cmp-nvim-lsp",
+  --   },
+  --   ft = "rust",
+  --   opts = {
+  --     tools = {
+  --       inlay_hints = {
+  --         other_hints_prefix = "󰆧 ",
+  --       },
+  --     },
+  --   },
+  -- },
   {
     "saecki/crates.nvim",
     ft = { "rust", "toml" },
@@ -336,6 +336,11 @@ require('lazy').setup({
       crates.setup(opts)
       crates.show()
     end
+  },
+  {
+    "mrcjkb/rustaceanvim",
+    -- version = '^4', -- Recommended
+    -- lazy = false, -- This plugin is already lazy
   },
 
   ---- kitty config script
@@ -610,6 +615,7 @@ vim.diagnostic.config({
   update_in_insert = true,
   underline = true,
 })
+vim.lsp.inlay_hint.enable(true)
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -703,6 +709,12 @@ local mappings = {
     ["<space>"] = { "<Nop>", nil, { silent = true } },
     ["<leader>ts"] = { "<cmd> set spell! <CR>", "[T]oggle [S]pellcheck" },
     ["<leader>tl"] = { require("lsp_lines").toggle, "[T]oggle [L]SP Lines" },
+    ["<leader>ti"] = {
+      function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+      end,
+      "[T]oggle [I]nlay Hints"
+    },
     ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
     ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
