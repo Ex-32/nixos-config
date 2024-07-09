@@ -60,10 +60,9 @@
     # default on most pre-made distros, while others are more exotic and have
     # explanatory comments
     environment.systemPackages = with pkgs; [
-      btdu # a btrfs specific version of ncdu that handles deduplication and transparent compression correctly
-      compsize # tool for checking btrfs transparent compression and disk usage
       curl
       file
+      fd
       git # since this config is in git, git is a absolute necessity
       git-crypt # transparent encryption of files in git on push, used by this config for secrets like password hashes
       lsof
