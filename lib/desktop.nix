@@ -10,9 +10,8 @@
     "xkcd-font"
   ];
 
-  # graphical environments tend to get lost without OpenGL, this tells nixos to
-  # figure out what kind of hardware it's on an install the appropriate driver
-  hardware.opengl.enable = true;
+  # i hope you can figure this one out
+  hardware.graphics.enable = true;
 
   # this installs a default set of fonts (opensans and the like) so that
   # there's a decent serif, sans-serif, and monospace font installed for

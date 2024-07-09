@@ -53,18 +53,17 @@
           ./lib/base.nix
           ./lib/console.nix
           ./lib/desktop.nix
-          ./lib/impermanence.nix
           ./lib/flipperzero.nix
+          ./lib/impermanence.nix
           ./lib/locale.nix
           ./lib/network.nix
-          # ./lib/nix-alien.nix
           ./lib/printing.nix
           ./lib/shell.nix
           ./lib/sound.nix
           ./lib/ssh.nix
           # ./lib/steam.nix
           ./lib/users.nix
-          # ./lib/vial.nix
+          ./lib/vial.nix
           ./lib/x11.nix
 
           # home-manager configuration
@@ -72,12 +71,13 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
-                # ./home-manager/emacs.nix
+                ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
                 ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
+                ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix

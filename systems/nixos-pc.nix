@@ -6,7 +6,7 @@
 }: let
   devs = {
     boot = "/dev/disk/by-uuid/358E-B8BA";
-    swap = "/dev/disk/by-uuid/2ea0ce8d-1355-4ef7-8037-75ddbeeaf613";
+    swap = "/dev/disk/by-uuid/5112d5ca-22a5-4f68-a60f-042f2141bffa";
   };
 in {
   imports = [
