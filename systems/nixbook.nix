@@ -87,6 +87,11 @@ in {
 
   services.fprintd.enable = true;
 
+  # HACK: remove when fixed upstream
+  services.fprintd.package = pkgs.fprintd.override {
+    python3 = pkgs.python311;
+  };
+
   # fan/power optimization for laptop
   services.thermald.enable = true;
   services.tlp = {
