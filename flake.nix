@@ -11,7 +11,6 @@
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
-    nix-alien.url = "github:thiagokokada/nix-alien";
 
     nix-wallpaper = {
       url = "github:lunik1/nix-wallpaper";
@@ -122,7 +121,6 @@
           ./lib/impermanence.nix
           ./lib/locale.nix
           ./lib/network.nix
-          ./lib/nix-alien.nix
           ./lib/printing.nix
           ./lib/shell.nix
           ./lib/sound.nix
