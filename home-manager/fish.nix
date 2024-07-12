@@ -68,20 +68,11 @@
           end
           ${pkgs.nix-output-monitor}/bin/nom shell $pkgs
         '';
-      onExit = {
+      __exit_hook = {
         onEvent = "fish_exit";
         body = "clear";
       };
     };
-    plugins = [
-      {
-        name = "bang-bang";
-        src = pkgs.fetchzip {
-          url = "https://github.com/oh-my-fish/plugin-bang-bang/archive/master.zip";
-          sha256 = "oPPCtFN2DPuM//c48SXb4TrFRjJtccg0YPXcAo0Lxq0=";
-        };
-      }
-    ];
   };
 
   programs.carapace.enable = true;
