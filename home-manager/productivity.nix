@@ -29,7 +29,6 @@ in {
 
   home.packages = [
     libreoffice-with-deps
-    pkgs.obsidian
     pkgs.onlyoffice-bin
     pkgs.zathura
   ];
