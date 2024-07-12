@@ -20,13 +20,9 @@
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-doom-emacs = {
-      url = "github:nix-community/nix-doom-emacs";
-      inputs = {
-        nix-straight = {
-          url = "github:codingkoi/nix-straight.el/codingkoi/apply-librephoenixs-fix";
-        };
-      };
+    unstraightened = {
+      url = "github:marienz/nix-doom-emacs-unstraightened";
+      inputs.nixpkgs.follows = "";
     };
   };
 

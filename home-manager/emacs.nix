@@ -9,27 +9,33 @@
     "aspell-dict-en-science"
   ];
 
-  imports = [inputs.nix-doom-emacs.hmModule];
+  imports = [inputs.unstraightened.hmModule];
 
   programs.doom-emacs = let
     # from https://nixos.wiki/wiki/TexLive#Combine_Sets
     tex = pkgs.texlive.combine {
       inherit
         (pkgs.texlive)
-        scheme-basic
-        dvisvgm
-        dvipng # for preview and export as html
-        wrapfig
         amsmath
-        ulem
-        hyperref
         capt-of
+        dvipng # for preview and export as html
+        dvisvgm
+        hyperref
+        scheme-basic
+        ulem
+        wrapfig
         ;
+
+      # additional packages
+      inherit
+        (pkgs.texlive)
+        cancel
+        ;
+
       #(setq org-latex-compiler "lualatex")
       #(setq org-preview-latex-default-process 'dvisvgm)
     };
 
-    config-path = ../config/emacs;
     emacs-deps = pkgs.symlinkJoin {
       name = "emacs-deps";
       paths =
@@ -79,40 +85,11 @@
     };
   in {
     enable = true;
-    emacsPackage = emacs-with-deps;
-    doomPrivateDir = pkgs.buildEnv {
-      name = "doom-config";
-      paths = [
-        config-path
-      ];
-    };
-    doomPackageDir = pkgs.stdenv.mkDerivation {
-      name = "doom-without-config";
-      src = builtins.path {
-        path = config-path;
-        name = "doom-private-dir-filtered";
-        filter = path: type:
-          builtins.elem (baseNameOf path) ["init.el" "packages.el"];
-      };
-      installPhase = ''
-        mkdir $out
-        cp init.el $out
-        cp packages.el $out
-        touch $out/config.el
-      '';
-    };
+    emacs = emacs-with-deps;
+    doomDir = ../config/emacs;
   };
 
-  # services.emacs.enable = true;
-  # xdg.desktopEntries.emacs = {
-  #   name = "Doom Emacs";
-  #   genericName = "Text Editor";
-  #   exec = "${config.programs.doom-emacs.package}/bin/emacsclient -c";
-  #   terminal = false;
-  #   categories = ["Utility" "TextEditor"];
-  #   mimeType = ["text/plain"];
-  #   icon = "${config.programs.doom-emacs.package}/share/icons/hicolor/scalable/apps/emacs.svg";
-  # };
+  services.emacs.enable = true;
 
   home.file.".emacs.d/init.el".enable = false;
 }
