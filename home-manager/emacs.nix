@@ -70,7 +70,7 @@
 
     emacs-with-deps = pkgs.symlinkJoin {
       name = "emacs-with-deps";
-      paths = [pkgs.emacs];
+      paths = assert pkgs.emacs.version == pkgs.emacs29-pgtk.version; [pkgs.emacs29-pgtk];
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''
         wrapProgram $out/bin/emacs \
