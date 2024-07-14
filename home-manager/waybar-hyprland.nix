@@ -210,18 +210,26 @@
         #systemd-failed-units,
         #custom-ps {
           background: @mantle;
+          color: @text;
           margin: 0px 3px 0px 3px;
           min-width: 25px;
           border-radius: 20px;
           padding: 0px 10px 0px 10px;
         }
 
+        #workspaces button {
+          color: @text;
+        }
         #workspaces button.focused,
         #workspaces button.active {
           color: @mauve;
         }
-
+        #workspaces button.urgent {
+          background: @red;
+          color: @mantle;
+        }
         #workspaces button:hover {
+          background: @base;
           color: @sapphire;
         }
 
