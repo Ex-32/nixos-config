@@ -21,10 +21,7 @@
       cnijfilter2
       gutenprint
       gutenprintBin
-      (hplipWithPlugin.override {
-        # HACK: remove this when fixed upstream
-        python3Packages = python311Packages;
-      })
+      hplipWithPlugin
     ];
   };
 
