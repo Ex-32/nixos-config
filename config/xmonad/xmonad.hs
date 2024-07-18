@@ -1,23 +1,21 @@
 module Main (main) where
 
+-- NOTE: Xmonad.Util.Ungrab still needed for versions < 0.18.0
 import System.Exit
-import System.Taffybar.Support.PagerHints (pagerHints)
+import System.Taffybar.Support.PagerHints
 import XMonad
-import XMonad.Hooks.DynamicLog
+import XMonad.Actions.CycleWS qualified as CycleWS
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.Gaps
-import XMonad.Layout.Magnifier
 import XMonad.Layout.NoBorders
-import XMonad.Layout.Renamed (Rename (Replace), renamed)
+import XMonad.Layout.Renamed
 import XMonad.Layout.Spacing
-import XMonad.Layout.ThreeColumns
 import XMonad.StackSet qualified as W
 import XMonad.Util.EZConfig
-import XMonad.Util.Loggers
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.Ungrab -- NOTE: still needed for versions < 0.18.0
+import XMonad.Util.Ungrab
 
 main :: IO ()
 main =
@@ -45,8 +43,8 @@ customConfig =
                , ("M-S-<Tab>", return ())
                , ("M-f", sendMessage NextLayout)
                , ("M-<Print>", unGrab *> spawn "@screenshot_full@")
-               , ("M-<Tab>", namedScratchpadAction scratchpads "dropterm")
                , ("M-S-<Print>", unGrab *> spawn "@screenshot_select@")
+               , ("M-<Tab>", namedScratchpadAction scratchpads "dropterm")
                , ("M-d", spawn "@rofi@")
                , ("M-q", spawn "@kitty@ -1")
                , ("M-S-r", restart "xmonad" True)
@@ -57,6 +55,10 @@ customConfig =
                , ("<XF86AudioPlay>", spawn "@media_play@")
                , ("<XF86AudioNext>", spawn "@media_next@")
                , ("M1-C-<Delete>", io exitSuccess)
+               , ("M-[", CycleWS.prevWS)
+               , ("M-]", CycleWS.nextWS)
+               , ("M-S-[", CycleWS.shiftToPrev)
+               , ("M-S-]", CycleWS.shiftToNext)
                ]
   where
     keys = additionalKeysP
