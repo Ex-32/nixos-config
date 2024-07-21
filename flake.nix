@@ -12,10 +12,10 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
 
-    nix-wallpaper = {
-      url = "github:lunik1/nix-wallpaper";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nix-wallpaper = {
+    #   url = "github:lunik1/nix-wallpaper";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     spicetify-nix = {
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +38,6 @@
         specialArgs = {inherit inputs;};
         modules = [
           {networking.hostName = "nixos-pc";}
-
           # hardware configuration
           ./systems/nixos-pc.nix
 
@@ -102,6 +101,9 @@
         specialArgs = {inherit inputs;};
         modules = [
           {networking.hostName = "nixbook";}
+          ({pkgs, ...}: {
+            environment.binsh = "${pkgs.dash}/bin/dash";
+          })
 
           # hardware configuration
           ./systems/nixbook.nix
@@ -121,6 +123,7 @@
           ./lib/shell.nix
           ./lib/sound.nix
           ./lib/users.nix
+          ./lib/x11.nix
 
           # home-manager configuration
           {
@@ -129,11 +132,9 @@
                 ./home-manager/base.nix
                 ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
-                ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
-                ./home-manager/hyprland.nix
                 ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
@@ -145,6 +146,7 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
+                ./home-manager/xmonad.nix
               ];
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [

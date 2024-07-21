@@ -22,15 +22,31 @@ vim.opt.rtp:prepend(lazypath)
 -- [[ Configure plugins ]]
 require('lazy').setup({
   -- Git related plugins
-  'tpope/vim-fugitive',
-  'tpope/vim-rhubarb',
+  "tpope/vim-fugitive",
+  "tpope/vim-rhubarb",
+
+  "rafcamlet/nvim-luapad",
 
   {
     "willothy/flatten.nvim",
-    opts = {},
     -- Ensure that it runs first to minimize delay when opening file from terminal
     lazy = false,
     priority = 1001,
+  },
+
+  {
+    "scottmckendry/cyberdream.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = true,
+      italic_comments = true,
+      borderless_telescope = true,
+    },
+    config = function(_, opts)
+      require("cyberdream").setup(opts)
+      vim.cmd("colorscheme cyberdream")
+    end,
   },
 
   {
@@ -101,7 +117,6 @@ require('lazy').setup({
     "nvimtools/none-ls.nvim",
     opts = function()
       local null_ls = require('null-ls')
-      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       return {
         sources = {
           null_ls.builtins.code_actions.statix,
@@ -110,21 +125,6 @@ require('lazy').setup({
           null_ls.builtins.formatting.clang_format,
           null_ls.builtins.formatting.prettier,
         },
-        -- on_attach = function(client, bufnr)
-        --   if client.supports_method("textDocument/formatting") then
-        --     vim.api.nvim_clear_autocmds({
-        --       group = augroup,
-        --       buffer = bufnr,
-        --     })
-        --     vim.api.nvim_create_autocmd("BufWritePre", {
-        --       group = augroup,
-        --       buffer = bufnr,
-        --       callback = function()
-        --         vim.lsp.buf.format({ bufnr = bufnr })
-        --       end,
-        --     })
-        --   end
-        -- end
       }
     end
   },
@@ -158,23 +158,6 @@ require('lazy').setup({
       require("lsp_lines").setup()
       vim.diagnostic.config({ virtual_text = false })
     end,
-  },
-
-  {
-    -- a soothing pastel theme for the high-spirited!
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    opts = {
-      flavor = "mocha",
-      transparent_background = false,
-      show_end_of_buffer = true,
-    },
-
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
-    end
   },
 
   {
@@ -228,7 +211,7 @@ require('lazy').setup({
   {
     -- utility plugin for (un)commenting lines/blocks
     'numToStr/Comment.nvim',
-    opts = {}
+    opts = {},
   },
 
   {
@@ -273,7 +256,7 @@ require('lazy').setup({
   {
     "akinsho/toggleterm.nvim",
     opts = {
-      open_mapping = [[<c-\>]],
+      open_mapping = "<c-\\>",
       direction = "float",
       shell = vim.env.SHELL,
     },
@@ -294,6 +277,15 @@ require('lazy').setup({
     "nvim-treesitter/nvim-treesitter-context",
     event = "VeryLazy",
     opts = {},
+  },
+
+  {
+    -- silly goofy plugin to enable discord rich presence integration
+    "andweeb/presence.nvim",
+    event = "VeryLazy",
+    opts = {
+      neovim_image_text = "A hyperextensible Vim-based text editor",
+    }
   },
 
   -- language specific plugins
@@ -318,21 +310,7 @@ require('lazy').setup({
   },
 
   ---- rust
-  -- {
-  --   "simrat39/rust-tools.nvim",
-  --   dependencies = {
-  --     "neovim/nvim-lspconfig",
-  --     "hrsh7th/cmp-nvim-lsp",
-  --   },
-  --   ft = "rust",
-  --   opts = {
-  --     tools = {
-  --       inlay_hints = {
-  --         other_hints_prefix = "󰆧 ",
-  --       },
-  --     },
-  --   },
-  -- },
+  "mrcjkb/rustaceanvim",
   {
     "saecki/crates.nvim",
     ft = { "rust", "toml" },
@@ -341,11 +319,6 @@ require('lazy').setup({
       crates.setup(opts)
       crates.show()
     end
-  },
-  {
-    "mrcjkb/rustaceanvim",
-    -- version = '^4', -- Recommended
-    -- lazy = false, -- This plugin is already lazy
   },
 
   ---- kitty config script
@@ -358,22 +331,13 @@ require('lazy').setup({
   {
     "OXY2DEV/markview.nvim",
     dependencies = {
-      -- You may not need this if you don't lazy load
-      -- Or if the parsers are in your $RUNTIMEPATH
       "nvim-treesitter/nvim-treesitter",
-
       "nvim-tree/nvim-web-devicons"
     },
   },
 
-  {
-    -- silly goofy plugin to enable discord rich presence integration
-    "andweeb/presence.nvim",
-    event = "VeryLazy",
-    opts = {
-      neovim_image_text = "A hyperextensible Vim-based text editor",
-    }
-  },
+  ---- xonsh
+  "meatballs/vim-xonsh",
 }, {})
 
 -- [[ Setting options ]]
@@ -394,6 +358,7 @@ vim.o.termguicolors = true      -- enable 255 terminal colors
 vim.o.wrap = true               -- soft wrap lines that are too long to display
 vim.o.linebreak = true          -- try to break long lines at word boundaries
 vim.o.shiftwidth = 4            -- tab == 4 spaces
+vim.o.conceallevel = 1
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
@@ -439,7 +404,6 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
-
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -519,95 +483,7 @@ vim.defer_fn(function()
 end, 0)
 
 -- [[ Configure LSP ]]
--- since LSPs usually take a while to spin up anyway, there's no reason to not delay the initialization of the LSP interface until after the first render
--- lspconfig object
-local lspconfig = require('lspconfig')
-
--- LSP servers to be loaded
-local servers = {
-  arduino_language_server = {},
-  bashls = {},
-  clangd = {
-    on_attach = function(client, _)
-      client.capabilities.signatureHelpProvider = false
-    end
-  },
-  cmake = {
-    filetypes = { "cmake", "CMakeLists.txt" },
-  },
-  eslint = {
-    on_attach = function(_, buffer)
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = buffer,
-        command = "EslintFixAll",
-      })
-    end,
-  },
-  fortls = {},
-  gopls = {
-    cmd = { "gopls" },
-    filetypes = { "go", "gomod", "gowork", "gotmpl" },
-    root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
-    settings = {
-      gopls = {
-        completeUnimported = true,
-        analyses = {
-          unusedparams = true,
-        },
-      },
-    },
-  },
-  kotlin_language_server = {},
-  lua_ls = {
-    settings = {
-      Lua = {
-        workspace = { checkThirdParty = false },
-        telemetry = { enable = false },
-        diagnostics = {
-          disable = { 'missing-fields' },
-        },
-      },
-    },
-  },
-  nixd = {},
-  pyright = {
-    filetypes = { "python" },
-    root_dir = lspconfig.util.root_pattern(".venv", ".git"),
-  },
-  texlab = {},
-  tsserver = {},
-}
-
-
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = require('cmp_nvim_lsp').default_capabilities(
-  vim.lsp.protocol.make_client_capabilities()
-)
-
--- actually register/configure the LSPs
-for key, value in pairs(servers) do
-  value.capabilities = value.capabilities or capabilities
-  lspconfig[key].setup(value)
-end
-
--- document existing key chains
-require('which-key').register {
-  ['<leader>l'] = { name = '[L]SP', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>f'] = { name = '[F]ind', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]ymbol', _ = 'which_key_ignore' },
-}
--- register which-key VISUAL mode
--- required for visual <leader>hs (hunk stage) to work
-require('which-key').register({
-  ['<leader>'] = { name = 'VISUAL <leader>' },
-  ['<leader>h'] = { 'Git [H]unk' },
-}, { mode = 'v' })
+require('lsp')
 
 local signs = { Error = "", Warn = "", Hint = "", Info = "" }
 for type, icon in pairs(signs) do
@@ -643,7 +519,7 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
+    ['<S-CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
@@ -673,162 +549,7 @@ cmp.setup {
   },
 }
 
--- Telescope live_grep in git root
--- Function to find the git root directory based on the current buffer's path
-local function helper_find_git_root()
-  -- Use the current buffer's path as the starting point for the git search
-  local current_file = vim.api.nvim_buf_get_name(0)
-  local current_dir
-  local cwd = vim.fn.getcwd()
-  -- If the buffer is not associated with a file, return nil
-  if current_file == '' then
-    current_dir = cwd
-  else
-    -- Extract the directory from the current file's path
-    current_dir = vim.fn.fnamemodify(current_file, ':h')
-  end
-
-  -- Find the Git root directory from the current file's path
-  local git_root = vim.fn.systemlist('git -C ' .. vim.fn.escape(current_dir, ' ') .. ' rev-parse --show-toplevel')[1]
-  if vim.v.shell_error ~= 0 then
-    print 'Not a git repository. Searching on current working directory'
-    return cwd
-  end
-  return git_root
-end
-
-local mappings = {
-  i = {
-    -- go to  beginning and end
-    ["<C-b>"] = { "<ESC>^i", "Beginning of line" },
-    ["<C-e>"] = { "<End>", "End of line" },
-
-    -- navigate within insert mode
-    ["<C-h>"] = { "<Left>", "Move left" },
-    ["<C-l>"] = { "<Right>", "Move right" },
-    ["<C-j>"] = { "<Down>", "Move down" },
-    ["<C-k>"] = { "<Up>", "Move up" },
-  },
-  n = {
-    ["<space>"] = { "<Nop>", nil, { silent = true } },
-    ["<leader>ts"] = { "<cmd> set spell! <CR>", "[T]oggle [S]pellcheck" },
-    ["<leader>tl"] = { require("lsp_lines").toggle, "[T]oggle [L]SP Lines" },
-    ["<leader>ti"] = {
-      function()
-        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-      end,
-      "[T]oggle [I]nlay Hints"
-    },
-    ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
-    ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
-    ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
-
-    ["<leader>/"] = {
-      function()
-        require("Comment.api").toggle.linewise.current()
-      end,
-      "Toggle comment",
-    },
-
-    -- icon picker mappings
-    ["<leader>si"] = { "<cmd> IconPickerNormal <CR>", "[S]ymbol [I]nsert" },
-    ["<leader>sy"] = { "<cmd> IconPickerYank <CR>", "[S]ymbol [Y]ank" },
-
-    -- Diagnostic keymaps
-    ["[d"] = { vim.diagnostic.goto_prev, "Go to previous diagnostic message" },
-    ["]d"] = { vim.diagnostic.goto_next, "Go to next diagnostic message" },
-    ["<leader>e"] = { vim.diagnostic.open_float, "Open floating diagnostic message" },
-    ["<leader>q"] = { vim.diagnostic.setloclist, "Open diagnostics list" },
-
-    -- telescope mappings
-    ["<leader>ft"] = { "<cmd> TodoTelescope <CR>", "[F]ind [T]ODO tags" },
-    ["<leader>?"] = { require('telescope.builtin').oldfiles, "[?] Find recently opened files" },
-    ["<leader><space>"] = { require('telescope.builtin').buffers, "[ ] Find existing buffers" },
-    ["<leader>fc"] = { require("telescope.builtin").current_buffer_fuzzy_find, "[F]ind in [C]urrent buffer" },
-    ["<leader>fs"] = { require('telescope.builtin').builtin, "[F]ind [S]elect Telescope" },
-    ["<leader>gf"] = { require('telescope.builtin').git_files, "Find [G]it [F]iles" },
-    ["<leader>ff"] = { require('telescope.builtin').find_files, "[F]ind [F]iles" },
-    ["<leader>fh"] = { require('telescope.builtin').help_tags, "[F]ind [H]elp" },
-    ["<leader>fw"] = { require('telescope.builtin').grep_string, "[F]ind current [W]ord" },
-    ["<leader>fg"] = { require('telescope.builtin').live_grep, "[F]ind by [G]rep" },
-    ["<leader>fd"] = { require('telescope.builtin').diagnostics, "[F]ind in [D]iagnostics" },
-    ["<leader>fr"] = { require('telescope.builtin').resume, "[F]ind [R]esume" },
-    ["<leader>f/"] = {
-      function()
-        require('telescope.builtin').live_grep {
-          grep_open_files = true,
-          prompt_title = 'Live Grep in Open Files',
-        }
-      end,
-      "[F]ind [/] in open files",
-    },
-    ["<leader>fG"] = {
-      function()
-        local git_root = helper_find_git_root()
-        if git_root then
-          require('telescope.builtin').live_grep {
-            search_dirs = { git_root },
-          }
-        end
-      end,
-      "[F]ind by [G]rep on Git Root",
-    },
-
-    -- LSP mappings
-    ["K"] = { vim.lsp.buf.hover, "Hover Documentation" },
-    ["J"] = { vim.lsp.buf.signature_help, "Signature Documentation" },
-
-    ["<leader>lr"] = { vim.lsp.buf.rename, "[L]SP: [R]ename" },
-    ["<leader>lc"] = { vim.lsp.buf.code_action, "[L]SP: [C]ode Action" },
-    ["<leader>ld"] = { require('telescope.builtin').lsp_definitions, "[L]SP: Goto [D]efinition" },
-    ["<leader>lf"] = { require('telescope.builtin').lsp_references, "[L]SP: Goto Re[F]erences" },
-    ["<leader>li"] = { require('telescope.builtin').lsp_implementations, "[L]SP: Goto [I]mplementations" },
-    ["<leader>lt"] = { require('telescope.builtin').lsp_type_definitions, "[L]SP: [T]ype Definition" },
-    ["<leader>lD"] = { vim.lsp.buf.declaration, "[L]SP: Goto [D]eclaration" },
-    ["<leader>lo"] = { vim.lsp.buf.format, "[L]SP: F[O]rmat" },
-
-    -- LSP workspace mappings
-    ["<leader>ws"] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, "[L]SP: [W]orkspace [S]ymbols" },
-    ["<leader>wa"] = { vim.lsp.buf.add_workspace_folder, "[L]SP: [W]orkspace [A]dd Folder" },
-    ["<leader>wr"] = { vim.lsp.buf.remove_workspace_folder, "[L]SP: [W]orkspace [R]emove Folder" },
-    ["<leader>wl"] = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders)) end, "[L]SP: [W]orkspace [L]ist Folders" },
-
-    -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
-    -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
-    -- empty mode is same as using <cmd> :map
-    -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
-    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", { expr = true, silent = true } },
-    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", { expr = true, silent = true } },
-    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", { expr = true, silent = true } },
-    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", { expr = true, silent = true } },
-  },
-  v = {
-    ["<space>"] = { "<Nop>", nil, { silent = true } },
-
-    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", { expr = true, silent = true } },
-    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", { expr = true, silent = true } },
-
-    ["<leader>/"] = {
-      "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-      "Toggle comment",
-    },
-  },
-  x = {
-    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", { expr = true, silent = true } },
-    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", { expr = true, silent = true } },
-    -- Don't copy the replaced text after pasting in visual mode
-    -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
-    ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "Dont copy replaced text", { silent = true } },
-  },
-};
-
-for mode, mode_values in pairs(mappings) do
-  for lhs, rhs in pairs(mode_values) do
-    local opts = rhs[3] or {}
-    opts.desc = opts.desc or rhs[2]
-    vim.keymap.set(mode, lhs, rhs[1], opts)
-  end
-end
+require("keybinds")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

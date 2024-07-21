@@ -23,6 +23,7 @@
       (symlink ".local/share/nheko")
       (symlink ".local/share/nvim")
       (symlink ".local/share/wine")
+      (symlink ".local/share/xonsh")
       (symlink ".local/share/zoxide")
 
       (symlink ".config/1Password")
@@ -33,6 +34,7 @@
       (symlink ".config/htop")
       (symlink ".config/keepassxc")
       (symlink ".config/nheko")
+      (symlink ".config/nvim/spell")
       (symlink ".config/obsidian")
       (symlink ".config/spotify")
 
@@ -40,10 +42,6 @@
       ".ssh"
       "documents"
       "src"
-    ];
-
-    files = [
-      ".local/share/fish/fish_history"
     ];
   };
 

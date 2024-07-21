@@ -21,22 +21,22 @@
       ''
         set -g fish_greeting
       '';
-    interactiveShellInit = let
-      pokemon-colorscripts = pkgs.nur.repos.Ex-32.pokemon-colorscripts;
-    in
-      # fish
-      ''
-        fish_vi_key_bindings
-        set -g fish_cursor_insert line
-        set -g fish_cursor_replace_one underscore
-        set -g fish_cursor_visual block
-        set -l pokemon_terms \
-          "xterm-kitty" \
-          "xterm-256color"
-        if test $SHLVL -le 1 ; and contains $TERM $pokemon_terms
-          ${pokemon-colorscripts}/bin/pokemon-colorscripts --random
-        end
-      '';
+    # interactiveShellInit = let
+    #   pokemon-colorscripts = pkgs.nur.repos.Ex-32.pokemon-colorscripts;
+    # in
+    #   # fish
+    #   ''
+    #     fish_vi_key_bindings
+    #     set -g fish_cursor_insert line
+    #     set -g fish_cursor_replace_one underscore
+    #     set -g fish_cursor_visual block
+    #     set -l pokemon_terms \
+    #       "xterm-kitty" \
+    #       "xterm-256color"
+    #     if test $SHLVL -le 1 ; and contains $TERM $pokemon_terms
+    #       ${pokemon-colorscripts}/bin/pokemon-colorscripts --random
+    #     end
+    #   '';
     functions = {
       i.body =
         # fish

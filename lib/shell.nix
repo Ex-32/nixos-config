@@ -5,18 +5,27 @@
   nixpkgs,
   ...
 }: {
-  programs.fish = {
+  programs.xonsh = {
     enable = true;
-    # babelfish is a modern, more performant replacement for foreign-env which
-    # allows capturing environment variable changes from non-fish shells and
-    # propagating them, this setting uses babelfish to load the environment
-    # from files like /etc/profile
-    useBabelfish = true;
+    package = pkgs.xonsh.wrapper.override {
+      extraPackages = pypkgs:
+        (with pypkgs; [
+          numpy
+        ])
+        ++ [
+          (pypkgs.buildPythonPackage rec {
+            pname = "xonsh-direnv";
+            version = "1.6.2";
+            src = pkgs.fetchFromGitHub {
+              owner = "74th";
+              repo = pname;
+              rev = version;
+              hash = "sha256-bp1mK+YO9htEQcRSD5wJkAZtQKK2t3IOW7Kdc6b8Lb0=";
+            };
+          })
+        ];
+    };
   };
-
-  environment.shells = with pkgs; [
-    fish
-  ];
 
   environment.variables = rec {
     # disable the less history file
@@ -30,20 +39,12 @@
     # written in java to work on wayland and some more exotic X window managers
     _JAVA_AWT_WM_NONREPARENTING = "1";
 
-    # sets fzf's theme to catppuccin
-    # TODO: use a wrapper around fzf to avoid general env pollution
-    FZF_DEFAULT_OPTS = builtins.concatStringsSep " " [
-      "--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8"
-      "--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc"
-      "--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
-    ];
-
     # this tells electron applications to use a native wayland backend if
     # available, as best i can tell it has no adverse effects on X11 so i've
     # just set it to always be enabled
     # NOTE: this **does** break vscode and derivatives, this variable should be
     # unset to launch vscode or it will crash on start
-    NIXOS_OZONE_WL = "1";
+    # NIXOS_OZONE_WL = "1";
 
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_CACHE_HOME = "$HOME/.cache";
@@ -71,6 +72,7 @@
     GTK_RC_FILES = "${XDG_CONFIG_HOME}/gtk-1.0/gtkrc";
     GTK_RC2_FILES = "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
     NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
+    ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
 
     # this sets the location for the cuda compute cache
     # TODO: only enable this environment variable on nvidia systems
@@ -95,6 +97,8 @@
 
     nor = "nh os switch -a /etc/nixos";
     py = "nix shell nixpkgs#python3 --command python3";
+
+    datetime = "date '+%a %Y-%m-%d %H:%M:%S'";
 
     "..." = "cd ../..";
     "...." = "cd ../../..";

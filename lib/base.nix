@@ -84,6 +84,42 @@
     # FIXME: implicit dependency on neovim.nix
     environment.variables.EDITOR = "nvim";
 
+    # lock the computer down to the tty level on suspend, this precludes the
+    # need for any kind of graphical locking, and is managed at the system
+    # level instead of relying on the integrity any given graphical locking
+    # protocol
+    security.pam.services."physlock".fprintAuth = false;
+    services.physlock = {
+      enable = true;
+      muteKernelMessages = true;
+      disableSysRq = true;
+      lockMessage = builtins.concatStringsSep "\\n" [
+        "                                     )"
+        "                            )      ((     ("
+        "                           (        ))     )"
+        "                    )       )      //     ("
+        "               _   (        __    (     ~->>"
+        "        ,-----' |__,_~~___<'__`)-~__--__-~->> <"
+        "        | //  : | -__   ~__ o)____)),__ - '> >-  >"
+        "        | //  : |- \_ \ -\_\ -\ \ \ ~\_  \ ->> - ,  >>"
+        "        | //  : |_~_\ -\__\ \~'\ \ \, \__ . -<-  >>"
+        "        `-----._| `  -__`-- - ~~ -- ` --~> >"
+        "         _/___\_    //)_`//  | ||]"
+        "   _____[_______]_[~~-_ (.L_/  ||"
+        "  [____________________]' `\_,/'/"
+        "    ||| /          |||  ,___,'./"
+        "    ||| \          |||,'______|"
+        "    ||| /          /|| I==||"
+        "    ||| \       __/_||  __||__"
+        "-----||-/------`-._/||-o--o---o---"
+        "  ~~~~~'"
+      ];
+      lockOn = {
+        suspend = true;
+        hibernate = true;
+      };
+    };
+
     # this is boilerplate config to allow home-manager and nixos to interface a
     # little more elegantly, we also pass `inputs` as an argument to home-manager
     # modules, so that we can access home-manager specific flake inputs like

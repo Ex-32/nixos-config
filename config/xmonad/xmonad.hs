@@ -2,9 +2,9 @@ module Main (main) where
 
 -- NOTE: Xmonad.Util.Ungrab still needed for versions < 0.18.0
 import System.Exit
-import System.Taffybar.Support.PagerHints
 import XMonad
 import XMonad.Actions.CycleWS qualified as CycleWS
+import XMonad.Actions.MouseGestures (mouseGesture)
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -15,6 +15,8 @@ import XMonad.Layout.Spacing
 import XMonad.StackSet qualified as W
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
+import XMonad.Util.Run
+import XMonad.Util.SessionStart
 import XMonad.Util.Ungrab
 
 main :: IO ()
@@ -23,7 +25,6 @@ main =
         . docks
         . ewmhFullscreen
         . ewmh
-        . pagerHints
         $ customConfig
 
 customConfig =
@@ -32,8 +33,8 @@ customConfig =
         , layoutHook = customLayoutHook -- Use custom layouts
         , manageHook = customManageHook -- Match on certain windows
         , startupHook = customStartupHook
-        , borderWidth = 4
-        , normalBorderColor = "#313244"
+        , borderWidth = 2
+        , normalBorderColor = "#11111b"
         , focusedBorderColor = "#cba6f7"
         }
         `keys` [ ("M-c", kill)
@@ -42,18 +43,20 @@ customConfig =
                , ("M-S-<Space>", windows W.focusUp)
                , ("M-S-<Tab>", return ())
                , ("M-f", sendMessage NextLayout)
-               , ("M-<Print>", unGrab *> spawn "@screenshot_full@")
-               , ("M-S-<Print>", unGrab *> spawn "@screenshot_select@")
+               , ("M-<Print>", unGrab *> unsafeSpawn "@screenshot_full@")
+               , ("M-S-<Print>", unGrab *> unsafeSpawn "@screenshot_select@")
                , ("M-<Tab>", namedScratchpadAction scratchpads "dropterm")
-               , ("M-d", spawn "@rofi@")
-               , ("M-q", spawn "@kitty@ -1")
+               , ("M-d", unGrab *> unsafeSpawn "@rofi@")
+               , ("M-q", safeSpawn "@kitty@" ["-1"])
                , ("M-S-r", restart "xmonad" True)
-               , ("<XF86AudioMute>", spawn "@vol_mute@")
-               , ("<XF86AudioLowerVolume>", spawn "@vol_down@")
-               , ("<XF86AudioRaiseVolume>", spawn "@vol_up@")
-               , ("<XF86AudioPrev>", spawn "@media_prev@")
-               , ("<XF86AudioPlay>", spawn "@media_play@")
-               , ("<XF86AudioNext>", spawn "@media_next@")
+               , ("<XF86AudioMute>", safeSpawn "@wpctl@" ["set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"])
+               , ("<XF86AudioLowerVolume>", safeSpawn "@vol_down@" [])
+               , ("<XF86AudioRaiseVolume>", safeSpawn "@vol_up@" [])
+               , ("<XF86AudioPrev>", safeSpawn "@playerctl@" ["previous"])
+               , ("<XF86AudioPlay>", safeSpawn "@playerctl@" ["play-pause"])
+               , ("<XF86AudioNext>", safeSpawn "@playerctl@" ["next"])
+               , ("<XF86MonBrightnessDown>", safeSpawn "@brightnessctl@" ["set", "5%-"])
+               , ("<XF86MonBrightnessUp>", safeSpawn "@brightnessctl@" ["set", "5%+"])
                , ("M1-C-<Delete>", io exitSuccess)
                , ("M-[", CycleWS.prevWS)
                , ("M-]", CycleWS.nextWS)
@@ -74,23 +77,21 @@ customManageHook =
 customLayoutHook = tiled ||| max
   where
     nmaster = 1 -- Default number of windows in the master pane
-    ratio = 0.618 -- Default proportion of screen occupied by master pane
+    ratio = phi - 1 -- Default proportion of screen occupied by master pane
     delta = 2 / 100 -- Percent of screen to increment by when resizing panes
 
     -- parent-children-stack window layout
     tiled =
         renamed [Replace "Tiled"] $
-            spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True $
-                gaps [(U, 60)] $ -- gap for taffybar
-                    smartBorders $
-                        Tall nmaster delta ratio
+            smartBorders $
+                Tall nmaster delta $ toRational ratio
 
     -- fullscreen monocule layout
     -- (apparently redundant call to smartBorders is for floating windows)
     max = renamed [Replace "Fullscreen"] $ noBorders $ smartBorders Full
 
 scratchpads =
-    [ NS "dropterm" "@kitty@ --class dropterm" (className =? "dropterm") $
+    [ NS "dropterm" "@kitty@ -o background_opacity=0.7 --class dropterm" (className =? "dropterm") $
         customFloating $
             W.RationalRect 0.06 0.09 0.88 0.82 -- x y w h
     ]
@@ -101,5 +102,13 @@ scratchpads =
 -- xmonad is reloaded, while `spawnOnce` will only run it once
 customStartupHook :: X ()
 customStartupHook = do
-    spawn "@xhost_hack@"
-    spawn "@xsetroot_hack@"
+    safeSpawn "@xhost@" ["+SI:localuser:root"]
+    safeSpawn "@xsetrootk@" ["-cursor_name", "left_ptr"]
+    safeSpawn "@wpctl@" ["set-volume", "@DEFAULT_AUDIO_SOURCE@", "30%"]
+    safeSpawnOnce "@brightnessctl@" ["set", "75%"]
+
+phi :: Double
+phi = (1.0 + sqrt 5.0) / 2
+
+safeSpawnOnce :: FilePath -> [String] -> X ()
+safeSpawnOnce cmd args = doOnce $ safeSpawn cmd args

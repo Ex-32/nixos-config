@@ -17,12 +17,12 @@
     description = "Jenna Fligor";
     extraGroups = [
       "networkmanager" # networking privileges
-      "wheel" # general admin (sudo) privileges
-      "video" # raw video device access
-      "lp" # printing privileges
-      "dialout" # raw serial device access
+      "wheel"          # general admin (sudo) privileges
+      "video"          # raw video device access
+      "lp"             # printing privileges
+      "dialout"        # raw serial device access
     ];
-    shell = pkgs.fish;
+    shell = config.programs.xonsh.package;
 
     # without this any form of rootless containerization will fail
     autoSubUidGidRange = true;

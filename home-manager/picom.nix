@@ -9,7 +9,7 @@
     enable = true;
     backend = "glx";
     vSync = true;
-    shadow = true;
+    shadow = false;
     shadowExclude = [
       "window_type *= 'menu'"
       "name ~= 'Firefox$'"
