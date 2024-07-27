@@ -19,6 +19,13 @@
       ];
     };
   };
+  home.file.".config/gh/hosts.yml".text = ''
+    github.com:
+        git_protocol: https
+        users:
+            Ex-32:
+        user: Ex-32
+  '';
 
   programs.git = {
     enable = true;
