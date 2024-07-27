@@ -76,6 +76,11 @@
       zip
     ];
 
+    boot.binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "riscv64-linux"
+    ];
+
     # contrary to popular belief, the goal of nix is not to make things more
     # difficult, this helper utility can streamline much of the process of
     # administration a nix system and I recommend it

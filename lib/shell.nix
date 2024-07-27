@@ -11,6 +11,7 @@
       extraPackages = pypkgs:
         (with pypkgs; [
           numpy
+          pwntools
         ])
         ++ [
           (pypkgs.buildPythonPackage rec {
@@ -122,5 +123,6 @@
     tmux # terminals all the way down
     trash-cli # fuck i didn't mean to delete that...
     lsd # modern ls clone with more colors and relative modtime
+    zellij # tmux but dramatic
   ];
 }
