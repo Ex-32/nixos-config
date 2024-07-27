@@ -84,6 +84,7 @@
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/xmonad.nix
+                ./home-manager/xonsh.nix
               ];
               local.lutris.enable = true;
               allowedUnfree = ["1password"];
@@ -147,6 +148,7 @@
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/xmonad.nix
+                ./home-manager/xonsh.nix
               ];
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [

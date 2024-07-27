@@ -25,8 +25,6 @@
     '';
   };
 in {
-  allowedUnfree = ["obsidian"];
-
   home.packages = [
     libreoffice-with-deps
     pkgs.onlyoffice-bin
