@@ -4,7 +4,6 @@ module Main (main) where
 import System.Exit
 import XMonad
 import XMonad.Actions.CycleWS qualified as CycleWS
-import XMonad.Actions.MouseGestures (mouseGesture)
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -84,16 +83,20 @@ customLayoutHook = tiled ||| max
     tiled =
         renamed [Replace "Tiled"] $
             smartBorders $
-                Tall nmaster delta $ toRational ratio
+                Tall nmaster delta $
+                    toRational ratio
 
     -- fullscreen monocule layout
     -- (apparently redundant call to smartBorders is for floating windows)
     max = renamed [Replace "Fullscreen"] $ noBorders $ smartBorders Full
 
 scratchpads =
-    [ NS "dropterm" "@kitty@ -o background_opacity=0.7 --class dropterm" (className =? "dropterm") $
-        customFloating $
-            W.RationalRect 0.06 0.09 0.88 0.82 -- x y w h
+    [ NS
+        "dropterm"
+        "@kitty@ -o background_opacity=0.7 --class dropterm"
+        (className =? "dropterm")
+        $ customFloating
+        $ W.RationalRect 0.06 0.09 0.88 0.82 -- x y w h
     ]
 
 -- long running tasks should be started as systemd user services but simple

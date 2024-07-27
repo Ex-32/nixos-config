@@ -43,20 +43,16 @@
       in
         pkgs.substituteAll rec {
           src = ../config/xmonad/xmonad.hs;
-
-
           # @variables@ to substitute
-
-          # packages
-          playerctl = "${pkgs.playerctl}/bin/playerctl";
+          ## packages
           brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+          kitty = "${pkgs.kitty}/bin/kitty";
+          playerctl = "${pkgs.playerctl}/bin/playerctl";
+          wpctl = "${pkgs.wireplumber}/bin/wpctl";
+          xdotool = "${pkgs.xdotool}/bin/xdotool";
           xhost = "${xorg.xhost}/bin/xhost";
           xsetroot = "${xorg.xsetroot}/bin/xsetroot";
-          xdotool = "${pkgs.xdotool}/bin/xdotool";
-          kitty = "${pkgs.kitty}/bin/kitty";
-          wpctl = "${pkgs.wireplumber}/bin/wpctl";
-
-          # scripts
+          ## scripts
           rofi = lib.strings.concatStringsSep " " [
             "${pkgs.rofi}/bin/rofi"
             "-show drun"
