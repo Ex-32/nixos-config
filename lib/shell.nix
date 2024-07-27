@@ -15,12 +15,12 @@
         ++ [
           (pypkgs.buildPythonPackage rec {
             pname = "xonsh-direnv";
-            version = "1.6.2";
+            version = "1.6.3";
             src = pkgs.fetchFromGitHub {
               owner = "74th";
               repo = pname;
               rev = version;
-              hash = "sha256-bp1mK+YO9htEQcRSD5wJkAZtQKK2t3IOW7Kdc6b8Lb0=";
+              hash = "sha256-97c2cuqG0EitDdCM40r2IFOlRMHlKC4cLemJrPcxsZo=";
             };
           })
         ];

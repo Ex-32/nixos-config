@@ -39,7 +39,7 @@
         lib.strings.optionalString config.programs.direnv.enable
         # python
         ''
-          # xontrib load direnv
+          xontrib load direnv
         '';
     };
   };
