@@ -1,22 +1,19 @@
-
 -- document existing key chains
-require('which-key').register {
-  ['<leader>l'] = { name = '[L]SP', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>f'] = { name = '[F]ind', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]ymbol', _ = 'which_key_ignore' },
-}
--- register which-key VISUAL mode
--- required for visual <leader>hs (hunk stage) to work
-require('which-key').register({
-  ['<leader>'] = { name = 'VISUAL <leader>' },
-  ['<leader>h'] = { 'Git [H]unk' },
-}, { mode = 'v' })
+require('which-key').add({
+  { "<leader>l", group = "[L]SP" },
+  { "<leader>d", group = "[D]ocument" },
+  { "<leader>g", group = "[G]it" },
+  { "<leader>h", group = "Git [H]unk" },
+  { "<leader>r", group = "[R]ename" },
+  { "<leader>f", group = "[F]ind" },
+  { "<leader>t", group = "[T]oggle" },
+  { "<leader>w", group = "[W]orkspace" },
+  { "<leader>s", group = "[S]ymbol" },
+  -- register which-key VISUAL mode
+  -- required for visual <leader>hs (hunk stage) to work
+  { "<leader>",  name = "VISUAL <leader>", mode = "v", },
+  { "<leader>h", name = "Git [H]unk",      mode = "v", },
+})
 
 local keybinds = {
   i = {
@@ -43,6 +40,13 @@ local keybinds = {
     ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
     ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
+
+    ["<leader>/"] = {
+      function()
+        require("Comment.api").toggle.linewise.current()
+      end,
+      "Toggle comment",
+    },
 
     -- icon picker mappings
     ["<leader>si"] = { "<cmd> IconPickerNormal <CR>", "[S]ymbol [I]nsert" },
@@ -110,7 +114,7 @@ local keybinds = {
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
     -- empty mode is same as using <cmd> :map
-    -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
+    -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behavior
     ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", { expr = true, silent = true } },
     ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", { expr = true, silent = true } },
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", { expr = true, silent = true } },
