@@ -14,6 +14,9 @@ $PATH = [
     if not ((p"" / path / "xonsh").exists() and (p"" / path).parts[1] == "nix")
 ]
 
+# HACK: https://github.com/xonsh/xonsh/issues/3744
+__xonsh__.commands_cache.threadable_predictors['cat'] = lambda *a, **kw: True
+
 import json
 aliasFile = p"$XDG_CONFIG_HOME/xonsh/aliases.json"
 if aliasFile.exists():
@@ -43,10 +46,13 @@ def prompt_bottom():
     ret += "[ " + $(date '+%a %Y-%m-%d %H:%M') + " ] "
 
     # battery
-    bat = (lambda x: round(sum(x) / len(x)))(
-        [int(x) for x in $(cat /sys/class/power_supply/BAT*/capacity).strip().split("\n")]
-    )
-    ret += f"[ BAT: {bat:02}% ] "
+    bat_cmd = !(cat /sys/class/power_supply/BAT*/capacity)
+    bat_cmd.end()
+    if bat_cmd.returncode == 0:
+        bat = (lambda x: round(sum(x) / len(x)))(
+            [int(x) for x in bat_cmd.strip().split("\n")]
+        )
+        ret += f"[ BAT: {bat:02}% ] "
 
     return ret + (" " * 2048)
 

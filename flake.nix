@@ -12,10 +12,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
 
-    # nix-wallpaper = {
-    #   url = "github:lunik1/nix-wallpaper";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     spicetify-nix = {
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,7 +51,7 @@
           ./lib/shell.nix
           ./lib/sound.nix
           ./lib/ssh.nix
-          # ./lib/steam.nix
+          ./lib/steam.nix
           ./lib/users.nix
           ./lib/vial.nix
           ./lib/x11.nix
@@ -67,7 +63,6 @@
                 ./home-manager/base.nix
                 ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
-                ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
