@@ -22,15 +22,17 @@
         pname = pkgs.steamtinkerlaunch.pname;
         version = pkgs.steamtinkerlaunch.version;
 
-        src = pkgs.steamtinikerlaunch;
+        src = pkgs.steamtinkerlaunch;
 
         outputs = [
           "steamcompattool"
+          "out"
         ];
 
         dontUnpack = true;
         dontBuild = true;
         installPhase = ''
+          echo "steamtinkerlaunch compat tool out" > $out
           mkdir -p $steamcompattool
           ln -s ./bin/steamtinikerlaunch $steamcompattool/steamtinikerlaunch
         '';

@@ -57,6 +57,7 @@ in {
   home.persistence."/persist/volatile/games/${config.home.username}" = {
     directories =
       (optionals osConfig.programs.steam.enable [
+        (symlink ".factorio")
         (symlink ".local/share/Steam")
         (symlink ".local/share/vulkan")
         (symlink ".steam")
