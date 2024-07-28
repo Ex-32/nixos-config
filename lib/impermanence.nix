@@ -5,7 +5,10 @@
   lib,
   nixpkgs,
   ...
-}: {
+}: let
+  optional = lib.lists.optional;
+  optionals = lib.lists.optionals;
+in {
   imports = [inputs.impermanence.nixosModule];
 
   # this defines what files/directories should be bind-mounted from the
@@ -13,12 +16,7 @@
   # either in this list, or else mounted from another partition/subvolume (like
   # /home or /nix) will be created on a tmpfs and be lost on poweroff
   environment.persistence."/persist/safe/system" = {
-    directories = let
-      mergeIf = predicate: value:
-        if predicate
-        then value
-        else [];
-    in
+    directories =
       [
         "/etc/nixos"
         "/var/lib/nixos"
@@ -29,14 +27,14 @@
         # features are enabled such as NetworkManagers connection data store and
         # libvirtd's VM image store
       ]
-      ++ (mergeIf config.networking.networkmanager.enable ["/etc/NetworkManager/system-connections"])
+      ++ (optional config.networking.networkmanager.enable "/etc/NetworkManager/system-connections")
       ++ (
-        mergeIf (config.networking.wireless.iwd.enable
-          || config.networking.networkmanager.wifi.backend == "iwd") ["/var/lib/iwd"]
+        optional (config.networking.wireless.iwd.enable
+          || config.networking.networkmanager.wifi.backend == "iwd") "/var/lib/iwd"
       )
-      ++ (mergeIf config.hardware.bluetooth.enable ["/var/lib/bluetooth"])
-      ++ (mergeIf config.virtualisation.libvirtd.enable ["/var/lib/libvirt"])
-      ++ (mergeIf config.services.fprintd.enable ["/var/lib/fprint"]);
+      ++ (optional config.hardware.bluetooth.enable "/var/lib/bluetooth")
+      ++ (optional config.virtualisation.libvirtd.enable "/var/lib/libvirt")
+      ++ (optional config.services.fprintd.enable "/var/lib/fprint");
 
     files = [
       "/etc/machine-id"

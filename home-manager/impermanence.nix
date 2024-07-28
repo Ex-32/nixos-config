@@ -10,6 +10,8 @@
     directory = path;
     method = "symlink";
   };
+  optional = lib.lists.optional;
+  optionals = lib.lists.optionals;
 in {
   imports = [inputs.impermanence.nixosModules.home-manager.impermanence];
 
@@ -53,11 +55,14 @@ in {
   };
 
   home.persistence."/persist/volatile/games/${config.home.username}" = {
-    directories = [
-      (symlink ".local/share/Steam")
-      (symlink ".local/share/epic-games")
-      (symlink ".local/share/vulkan")
-      (symlink ".steam")
-    ];
+    directories =
+      (optionals osConfig.programs.steam.enable [
+        (symlink ".local/share/Steam")
+        (symlink ".local/share/vulkan")
+        (symlink ".steam")
+      ])
+      ++ (optionals config.local.lutris.enable [
+        (symlink ".local/share/epic-games")
+      ]);
   };
 }

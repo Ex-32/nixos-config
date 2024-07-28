@@ -17,6 +17,25 @@
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+    extraCompatPackages = [
+      (pkgs.stdenvNoCC.mkDerivation {
+        pname = pkgs.steamtinkerlaunch.pname;
+        version = pkgs.steamtinkerlaunch.version;
+
+        src = pkgs.steamtinikerlaunch;
+
+        outputs = [
+          "steamcompattool"
+        ];
+
+        dontUnpack = true;
+        dontBuild = true;
+        installPhase = ''
+          mkdir -p $steamcompattool
+          ln -s ./bin/steamtinikerlaunch $steamcompattool/steamtinikerlaunch
+        '';
+      })
+    ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -24,12 +43,4 @@
     winetricks
     protontricks
   ];
-
-  environment.variables = {
-    STEAM_EXTRA_COMPAT_TOOL_PATHS = "${pkgs.runCommand "steamtinkerlaunch-compat" {} ''
-      mkdir -p $out/SteamTinkerLaunch
-      cd $out/SteamTinkerLaunch
-      ln -s ${pkgs.steamtinkerlaunch}/bin/steamtinkerlaunch
-    ''}";
-  };
 }
