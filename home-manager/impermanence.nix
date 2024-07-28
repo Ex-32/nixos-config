@@ -1,19 +1,20 @@
 {
   config,
+  osConfig,
   pkgs,
   lib,
   inputs,
   ...
-}: {
+}: let
+  symlink = path: {
+    directory = path;
+    method = "symlink";
+  };
+in {
   imports = [inputs.impermanence.nixosModules.home-manager.impermanence];
 
   home.persistence."/persist/safe/home/${config.home.username}" = {
-    directories = let
-      symlink = path: {
-        directory = path;
-        method = "symlink";
-      };
-    in [
+    directories = [
       ".local/state"
 
       (symlink ".local/share/direnv")
@@ -48,6 +49,15 @@
   home.persistence."/persist/volatile/cache/${config.home.username}" = {
     directories = [
       ".cache"
+    ];
+  };
+
+  home.persistence."/persist/volatile/games/${config.home.username}" = {
+    directories = [
+      (symlink ".local/share/Steam")
+      (symlink ".local/share/epic-games")
+      (symlink ".local/share/vulkan")
+      (symlink ".steam")
     ];
   };
 }

@@ -24,4 +24,12 @@
     winetricks
     protontricks
   ];
+
+  environment.variables = {
+    STEAM_EXTRA_COMPAT_TOOL_PATHS = "${pkgs.runCommand "steamtinkerlaunch-compat" {} ''
+      mkdir -p $out/SteamTinkerLaunch
+      cd $out/SteamTinkerLaunch
+      ln -s ${pkgs.steamtinkerlaunch}/bin/steamtinkerlaunch
+    ''}";
+  };
 }

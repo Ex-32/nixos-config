@@ -5,8 +5,8 @@
   ...
 }: let
   devs = {
-    boot = "/dev/disk/by-uuid/358E-B8BA";
-    swap = "/dev/disk/by-uuid/5112d5ca-22a5-4f68-a60f-042f2141bffa";
+    boot = "/dev/disk/by-uuid/F045-9B7A";
+    swap = "/dev/disk/by-uuid/77e77df0-ec36-4bf8-9bb0-a370ed6bd557";
   };
 in {
   imports = [
@@ -67,6 +67,7 @@ in {
     "/persist/safe/home" = dataset "safe/home";
 
     "/persist/volatile/cache" = dataset "volatile/cache";
+    "/persist/volatile/games" = dataset "volatile/games";
   };
 
   swapDevices = [
