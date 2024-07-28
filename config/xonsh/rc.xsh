@@ -50,7 +50,7 @@ def prompt_bottom():
     bat_cmd.end()
     if bat_cmd.returncode == 0:
         bat = (lambda x: round(sum(x) / len(x)))(
-            [int(x) for x in bat_cmd.strip().split("\n")]
+            [int(x) for x in bat_cmd.output.strip().split("\n")]
         )
         ret += f"[ BAT: {bat:02}% ] "
 
