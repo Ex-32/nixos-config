@@ -52,7 +52,7 @@
     config = {
       global = {
         warn_timeout = "-1s";
-        strict_env = true;
+        # strict_env = true;
         hide_env_diff = true;
       };
     };
