@@ -14,7 +14,7 @@
   in {
     enable = true;
     createDirectories = true;
-    desktop = null;
+    desktop = "${home}/documents";
     documents = "${home}/documents";
     download = "${home}/downloads";
     music = "${home}/documents/music";

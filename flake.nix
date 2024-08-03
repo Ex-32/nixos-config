@@ -97,9 +97,6 @@
         specialArgs = {inherit inputs;};
         modules = [
           {networking.hostName = "nixbook";}
-          ({pkgs, ...}: {
-            environment.binsh = "${pkgs.dash}/bin/dash";
-          })
 
           # hardware configuration
           ./systems/nixbook.nix
@@ -118,6 +115,7 @@
           ./lib/printing.nix
           ./lib/shell.nix
           ./lib/sound.nix
+          ./lib/steam.nix
           ./lib/users.nix
           ./lib/x11.nix
 

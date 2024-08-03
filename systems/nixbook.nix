@@ -79,6 +79,7 @@ in {
     "/persist/safe/home" = dataset "safe/home";
 
     "/persist/volatile/cache" = dataset "volatile/cache";
+    "/persist/volatile/games" = dataset "volatile/games";
   };
 
   swapDevices = [
