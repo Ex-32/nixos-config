@@ -126,9 +126,7 @@
     };
 
     # this is boilerplate config to allow home-manager and nixos to interface a
-    # little more elegantly, we also pass `inputs` as an argument to home-manager
-    # modules, so that we can access home-manager specific flake inputs like
-    # spicetify-nix
+    # little more elegantly
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
