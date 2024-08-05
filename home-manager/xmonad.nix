@@ -18,12 +18,6 @@
     xmonadctl
   ];
 
-  nixpkgs.overlays = [
-    (final: prev: {
-      haskellPackages.xmonad = prev.haskellPackages.xmonad_0_18_0;
-    })
-  ];
-
   xsession = {
     enable = true;
     initExtra =
@@ -36,6 +30,9 @@
     windowManager.xmonad = {
       enable = true;
       enableContribAndExtras = true;
+      haskellPackages = pkgs.haskellPackages.extend (self: super: {
+        xmonad = super.xmonad_0_18_0;
+      });
       config = let
         maim = "${pkgs.maim}/bin/maim";
         xclip-png = "${pkgs.xclip}/bin/xclip -selection clipboard -target image/png -i";
@@ -64,9 +61,8 @@
             "-terminal '${kitty}'"
             "-theme config"
           ];
-          screenshot_full = "${maim} | ${xclip-png}"; 
+          screenshot_full = "${maim} | ${xclip-png}";
           screenshot_select = "${maim} -s | ${xclip-png}";
-          vol_mute = "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
           vol_down =
             pkgs.writeScript "vol-down"
             # python
@@ -109,7 +105,6 @@
                 ["${wpctl}", "set-volume", "-l", "1.5", "@DEFAULT_AUDIO_SINK@", str(new_vol)]
               )
             '';
-
         };
     };
   };
