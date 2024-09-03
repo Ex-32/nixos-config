@@ -17,9 +17,6 @@ $PATH = [
 # HACK: https://github.com/xonsh/xonsh/issues/3744
 __xonsh__.commands_cache.threadable_predictors['cat'] = lambda *a, **kw: True
 
-# xonsh doesn't automatically increment $SHLVL
-$SHLVL += 1
-
 import json
 aliasFile = p"$XDG_CONFIG_HOME/xonsh/aliases.json"
 if aliasFile.exists():
@@ -56,9 +53,6 @@ def prompt_bottom():
             [int(x) for x in bat_cmd.output.strip().split("\n")]
         )
         ret += f"[ BAT: {bat:02}% ] "
-
-    if $SHLVL > 1:
-        ret += f"[ SHLVL: {__xonsh__.env['SHLVL']} ] "
 
     return ret + (" " * 2048)
 
