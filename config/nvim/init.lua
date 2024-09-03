@@ -382,7 +382,10 @@ require('lazy').setup({
       },
     },
   },
-  { 'Bilal2453/luvit-meta',     lazy = true },
+  {
+    'Bilal2453/luvit-meta',
+    lazy = true
+  },
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -905,7 +908,7 @@ require('lazy').setup({
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
-    after = "catppuccin/nvim",
+    after = 'folke/tokyonight.nvim',
     opts = {},
   },
 
@@ -971,6 +974,7 @@ require('lazy').setup({
   ---- markdown
   {
     "OXY2DEV/markview.nvim",
+    ft = { "markdown" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons"
