@@ -89,6 +89,8 @@
   };
 
   environment.shellAliases = {
+    ls = null;
+
     l = "${pkgs.lsd}/bin/lsd -lA --date relative --no-symlink";
     ll = "${pkgs.lsd}/bin/lsd -lA";
 
@@ -99,7 +101,7 @@
     nor = "nh os switch -a /etc/nixos";
     py = "nix shell nixpkgs#python3 --command python3";
 
-    datetime = "date '+%a %Y-%m-%d %H:%M:%S'";
+    datetime = "${pkgs.coreutils}/bin/date '+%a %Y-%m-%d %H:%M:%S'";
 
     "..." = "cd ../..";
     "...." = "cd ../../..";

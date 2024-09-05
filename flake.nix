@@ -130,13 +130,13 @@
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
+                ./home-manager/nushell.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
-                ./home-manager/xonsh.nix
               ];
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
