@@ -113,7 +113,6 @@
           ./lib/sound.nix
           ./lib/steam.nix
           ./lib/users.nix
-          ./lib/x11.nix
 
           # home-manager configuration
           {
@@ -125,6 +124,7 @@
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
+                ./home-manager/hyprland.nix
                 ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
@@ -136,7 +136,6 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
-                ./home-manager/xmonad.nix
                 ./home-manager/xonsh.nix
               ];
               allowedUnfree = ["1password"];

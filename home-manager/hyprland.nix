@@ -7,11 +7,11 @@
 }: {
   imports = [
     ./gtk.nix
+    ./kitty.nix
+    ./mako.nix
     ./qt.nix
     ./systray.nix
     ./waybar-hyprland.nix
-    ./kitty.nix
-    ./mako.nix
   ];
 
   home.packages = with pkgs; [
@@ -22,33 +22,7 @@
     xdg-desktop-portal-hyprland
   ];
 
-  wayland.windowManager.hyprland = let
-    rosewater = "f5e0dc";
-    flamingo = "f2cdcd";
-    pink = "f5c2e7";
-    mauve = "cba6f7";
-    red = "f38ba8";
-    maroon = "eba0ac";
-    peach = "fab387";
-    green = "a6e3a1";
-    teal = "94e2d5";
-    sky = "89dceb";
-    sapphire = "74c7ec";
-    blue = "89b4fa";
-    lavender = "b4befe";
-    text = "cdd6f4";
-    subtext1 = "bac2de";
-    subtext0 = "a6adc8";
-    overlay2 = "9399b2";
-    overlay1 = "7f849c";
-    overlay0 = "6c7086";
-    surface2 = "585b70";
-    surface1 = "45475a";
-    surface0 = "313244";
-    base = "1e1e2e";
-    mantle = "181825";
-    crust = "11111b";
-  in {
+  wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
     settings = {
@@ -57,8 +31,8 @@
         gaps_in = 4;
         gaps_out = 8;
         border_size = 4;
-        "col.active_border" = "rgb(${mauve}) rgb(${sapphire}) 45deg";
-        "col.inactive_border" = "0xff${surface0}";
+        "col.active_border" = "rgb(9c00fc) rgb(3106ae) 45deg";
+        "col.inactive_border" = "0xff272725";
         layout = "master";
       };
       input = {
@@ -74,7 +48,7 @@
         sensitivity = 0.6;
       };
       decoration = {
-        rounding = 10;
+        rounding = 0;
         blur = {
           enabled = true;
           size = 2;
@@ -157,7 +131,7 @@
 
         "$mod, q, exec, kitty -1"
         ''$mod, d, exec, ${pkgs.rofi-wayland}/bin/rofi -show drun -modi drun -scroll-method 0 -drun-match-fields all -drun-display-format "{name}" -no-drun-show-actions -terminal "kitty -1" -theme config''
-        "$mod, Semicolon, exec, swaylock"
+        # "$mod, Semicolon, exec, swaylock"
         "$mod, Print, exec, ${pkgs.grim}/bin/grim - | ${wl-copy}"
         "$mod+SHIFT, Print, exec, ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${wl-copy}"
         "$mod+SHIFT, p, exec, ${pkgs.hyprpicker}/bin/hyprpicker | ${wl-copy}"
@@ -227,7 +201,7 @@
             import subprocess
 
             output = subprocess.run(
-              ["${wpctl}", "get-volume", "@DEFAULT_AUDIO_SINK@"], 
+              ["${wpctl}", "get-volume", "@DEFAULT_AUDIO_SINK@"],
               capture_output=True,
             ).stdout
 
@@ -263,22 +237,6 @@
         "workspace special, ^(dropterm)$"
       ];
     };
-  };
-
-  services.swayidle = {
-    enable = true;
-    timeouts = [
-      {
-        timeout = 180;
-        command = "${pkgs.swaylock-effects}/bin/swaylock --grace 20";
-      }
-    ];
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock-effects}/bin/swaylock";
-      }
-    ];
   };
 
   programs.swaylock = {

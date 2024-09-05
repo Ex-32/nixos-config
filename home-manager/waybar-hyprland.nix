@@ -140,40 +140,53 @@
       }
     ];
     style =
-      /*
-      css
-      */
+      # css
       ''
-        @define-color base   #1e1e2e;
-        @define-color mantle #181825;
-        @define-color crust  #11111b;
+        @define-color text #fcfcfc;
 
-        @define-color text     #cdd6f4;
-        @define-color subtext0 #a6adc8;
-        @define-color subtext1 #bac2de;
+        @define-color grey1 #100c00;
+        @define-color grey2 #252726;
+        @define-color grey3 #848484;
+        @define-color grey4 #9e9e91;
 
-        @define-color surface0 #313244;
-        @define-color surface1 #45475a;
-        @define-color surface2 #585b70;
+        @define-color metal1 #4a434a;
+        @define-color metal2 #9a8898;
+        @define-color metal3 #bdadb8;
 
-        @define-color overlay0 #6c7086;
-        @define-color overlay1 #7f849c;
-        @define-color overlay2 #9399b2;
+        @define-color green1 #00b300;
+        @define-color green2 #00d500;
+        @define-color green3 #82d700;
+        @define-color green4 #ace700;
+        @define-color green5 #d6e800;
 
-        @define-color blue      #89b4fa;
-        @define-color lavender  #b4befe;
-        @define-color sapphire  #74c7ec;
-        @define-color sky       #89dceb;
-        @define-color teal      #94e2d5;
-        @define-color green     #a6e3a1;
-        @define-color yellow    #f9e2af;
-        @define-color peach     #fab387;
-        @define-color maroon    #eba0ac;
-        @define-color red       #f38ba8;
-        @define-color mauve     #cba6f7;
-        @define-color pink      #f5c2e7;
-        @define-color flamingo  #f2cdcd;
-        @define-color rosewater #f5e0dc;
+        @define-color pink1 #ff006e;
+        @define-color pink2 #ff2bff;
+        @define-color pink3 #ff6eff;
+        @define-color pink4 #ff85ac;
+        @define-color pink5 #ff9ed9;
+
+        @define-color red1 #9c000e;
+        @define-color red2 #ff1212;
+        @define-color red3 #fe552c;
+        @define-color red4 #fff0bc;
+
+        @define-color blue1 #3105b0;
+        @define-color blue2 #4105fb;
+        @define-color blue3 #7000fc;
+        @define-color blue4 #9c00fc;
+        @define-color blue5 #cd00f0;
+
+        @define-color cyan1 #00b0df;
+        @define-color cyan2 #00bbfe;
+        @define-color cyan3 #01d2fd;
+        @define-color cyan4 #25d0fe;
+        @define-color cyan5 #abf9fd;
+
+        @define-color mil1 #2b2e27;
+        @define-color mil2 #3f423b;
+        @define-color mil3 #6f7567;
+        @define-color mil4 #8f9772;
+        @define-color mil5 #afb48b;
 
         * {
           font-size: 20px;
@@ -184,15 +197,14 @@
 
           box-shadow: none;
           text-shadow: none;
+          background: rgba(0, 0, 0, 0);
         }
 
         window {
-          background: linear-gradient(rgba(30, 30, 46, 0.8), rgba(30, 30, 46, 0));
-          color: @text;
+          background: linear-gradient(rgba(16, 12, 0, 0.8), rgba(16, 12, 0, 0));
         }
 
         window#waybar.empty #window {
-          background: rgba(0, 0, 0, 0);
           color: rgba(0, 0, 0, 0);
         }
 
@@ -209,12 +221,9 @@
         #idle_inhibitor,
         #systemd-failed-units,
         #custom-ps {
-          background: @mantle;
           color: @text;
-          margin: 0px 3px 0px 3px;
+          margin: 0px 8px;
           min-width: 25px;
-          border-radius: 20px;
-          padding: 0px 10px 0px 10px;
         }
 
         #workspaces button {
@@ -222,71 +231,57 @@
         }
         #workspaces button.focused,
         #workspaces button.active {
-          color: @mauve;
+          color: @pink2;
         }
         #workspaces button.urgent {
-          background: @red;
-          color: @mantle;
+          color: @pink1;
         }
         #workspaces button:hover {
-          background: @base;
-          color: @sapphire;
+          color: @pink3;
         }
 
         #idle_inhibitor {
-          padding: 0px 13px 0px 10px;
+          color: @grey3;
         }
-
         #idle_inhibitor.activated {
-          background: @red;
-          color: @mantle;
+          color: @pink1;
         }
 
         #systemd-failed-units {
-          background: @red;
-          color: @mantle;
+          color: @red2;
         }
 
         #wireplumber {
-          background: @sky;
-          color: @mantle;
+          color: @cyan2;
         }
         #wireplumber.muted {
-          background: @mantle;
-          color: @text;
+          color: @grey3;
         }
 
         #backlight {
-          background: @rosewater;
-          color: @mantle;
+          color: @red4;
         }
 
-        #battery {
-          color: @mantle;
-        }
         #battery.good {
-          background: @green;
+          color: @green2;
         }
         #battery.warning {
-          background: @yellow;
+          color: @green5;
         }
         #battery.critical {
-          background: @red;
+          color: @red2;
         }
 
         #cpu {
-          background: @green;
-          color: @mantle;
+          color: @green4;
         }
 
         #memory {
-          background: @sapphire;
-          color: @mantle;
+          color: @cyan1;
         }
 
         #clock {
-          background: @lavender;
-          color: @mantle;
+          color: @text;
         }
       '';
   };

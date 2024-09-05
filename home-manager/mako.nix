@@ -8,24 +8,24 @@
   services.mako = {
     enable = true;
     anchor = "bottom-right";
-    backgroundColor = "#1e1e2e";
-    borderColor = "#cba6f7";
-    borderRadius = 10;
+    backgroundColor = "#100c00";
+    borderColor = "#9c00fc";
+    borderRadius = 0;
     borderSize = 2;
     defaultTimeout = 5000;
     font = "Source Sans 3 13";
     height = 400;
-    progressColor = "#313244";
-    textColor = "#cdd6f4";
+    progressColor = "#252726";
+    textColor = "#fcfcfc";
     width = 400;
     extraConfig =
       # toml
       ''
         [urgency=high]
-        border-color=#f38ba8
+        border-color=#ff1212
 
         [urgency=low]
-        border-color=#a6e3a1
+        border-color=#00d500
       '';
   };
 }
