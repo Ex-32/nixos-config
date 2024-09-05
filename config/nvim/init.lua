@@ -708,9 +708,9 @@ require('lazy').setup({
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
-          --['<Tab>'] = cmp.mapping.select_next_item(),
-          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          ['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -823,8 +823,9 @@ require('lazy').setup({
         'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'gomod',
         'haskell', 'html', 'java', 'javascript', 'json', 'jsonc', 'latex',
         'linkerscript', 'lua', 'make', 'markdown', 'markdown_inline', 'nasm',
-        'nix', 'org', 'passwd', 'python', 'rust', 'scss', 'sql', 'ssh_config',
-        'toml', 'typescript', 'udev', 'vim', 'vimdoc', 'xml', 'yuck', 'zig',
+        'nix', 'nu', 'org', 'passwd', 'python', 'rust', 'scss', 'sql',
+        'ssh_config', 'toml', 'typescript', 'udev', 'vim', 'vimdoc', 'xml',
+        'yuck', 'zig',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -836,6 +837,9 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+    },
+    dependencies = {
+      'LhKipp/nvim-nu',
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:

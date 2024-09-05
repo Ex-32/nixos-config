@@ -1,6 +1,5 @@
 module Main (main) where
 
--- NOTE: Xmonad.Util.Ungrab still needed for versions < 0.18.0
 import System.Exit
 import XMonad
 import XMonad.Actions.CycleWS qualified as CycleWS
@@ -16,7 +15,7 @@ import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 import XMonad.Util.SessionStart
-import XMonad.Util.Ungrab
+import XMonad.Operations
 
 main :: IO ()
 main =
@@ -42,10 +41,10 @@ customConfig =
                , ("M-S-<Space>", windows W.focusUp)
                , ("M-S-<Tab>", return ())
                , ("M-f", sendMessage NextLayout)
-               , ("M-<Print>", unGrab *> unsafeSpawn "@screenshot_full@")
-               , ("M-S-<Print>", unGrab *> unsafeSpawn "@screenshot_select@")
+               , ("M-<Print>", unGrab >> unsafeSpawn "@screenshot_full@")
+               , ("M-S-<Print>", unGrab >> unsafeSpawn "@screenshot_select@")
                , ("M-<Tab>", namedScratchpadAction scratchpads "dropterm")
-               , ("M-d", unGrab *> unsafeSpawn "@rofi@")
+               , ("M-d", unGrab >> unsafeSpawn "@rofi@")
                , ("M-q", safeSpawn "@kitty@" ["-1"])
                , ("M-S-r", restart "xmonad" True)
                , ("<XF86AudioMute>", safeSpawn "@wpctl@" ["set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"])

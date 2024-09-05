@@ -46,6 +46,9 @@ in {
       "documents"
       "src"
     ];
+    files = [
+      ".config/gh/hosts.yml"
+    ];
   };
 
   home.persistence."/persist/volatile/cache/${config.home.username}" = {
