@@ -68,7 +68,7 @@
         personal = {
           id = 3;
           name = "Personal";
-          icon = "fingerprint"; 
+          icon = "fingerprint";
           color = "purple";
         };
         parkland = {
@@ -78,7 +78,7 @@
           color = "green";
         };
         uiuc = {
-          id =  1;
+          id = 1;
           name = "UIUC";
           icon = "tree";
           color = "orange";
@@ -162,17 +162,19 @@
         "browser.gesture.swipe.right" = "";
         "layout.css.devPixelsPerPx" = 1.1;
       };
-      userChrome = ''
-        #TabsToolbar {
-          visibility: collapse;
-        }
-      '';
+      userChrome =
+        # css
+        ''
+          #TabsToolbar {
+            visibility: collapse;
+          }
+        '';
     };
   };
 
   xdg.desktopEntries = let
     firefox = "firefox-devedition";
-  in  {
+  in {
     ${firefox} = {
       name = "Firefox";
       exec = "${firefox} -P default %U";
@@ -180,7 +182,7 @@
       startupNotify = true;
       terminal = false;
       genericName = "Web Browser";
-      categories = [ "Network" "WebBrowser" ];
+      categories = ["Network" "WebBrowser"];
     };
     firefox-profile-manager = {
       name = "Firefox Profile Manager";
@@ -189,7 +191,7 @@
       startupNotify = true;
       terminal = false;
       genericName = "Web Browser";
-      categories = [ "Network" "WebBrowser" ];
+      categories = ["Network" "WebBrowser"];
     };
   };
 }

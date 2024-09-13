@@ -893,7 +893,8 @@ $env.config = {
 
 def ll [...args: string] {
     ls -la ...(if ($args | length) == 0 { ["."] } else { $args }) | 
-    select type mode user group size modified name target
+    select type mode user group size modified name target |
+    sort-by name
 }
 def l [...args: string] {
     ll ...$args | reject target

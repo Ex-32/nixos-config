@@ -5,29 +5,6 @@
   nixpkgs,
   ...
 }: {
-  programs.xonsh = {
-    enable = true;
-    package = pkgs.xonsh.wrapper.override {
-      extraPackages = pypkgs:
-        (with pypkgs; [
-          numpy
-          pwntools
-        ])
-        ++ [
-          (pypkgs.buildPythonPackage rec {
-            pname = "xonsh-direnv";
-            version = "1.6.3";
-            src = pkgs.fetchFromGitHub {
-              owner = "74th";
-              repo = pname;
-              rev = version;
-              hash = "sha256-97c2cuqG0EitDdCM40r2IFOlRMHlKC4cLemJrPcxsZo=";
-            };
-          })
-        ];
-    };
-  };
-
   environment.variables = rec {
     # disable the less history file
     LESSHISTFILE = "-";
@@ -45,7 +22,7 @@
     # just set it to always be enabled
     # NOTE: this **does** break vscode and derivatives, this variable should be
     # unset to launch vscode or it will crash on start
-    # NIXOS_OZONE_WL = "1";
+    NIXOS_OZONE_WL = "1";
 
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_CACHE_HOME = "$HOME/.cache";
