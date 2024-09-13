@@ -68,21 +68,24 @@
       '';
     };
 
-    emacs-with-deps = pkgs.symlinkJoin {
-      name = "emacs-with-deps";
-      paths = [pkgs.emacs];
-      nativeBuildInputs = [pkgs.makeWrapper];
-      postBuild = ''
-        wrapProgram $out/bin/emacs \
-          --suffix PATH : ${emacs-deps}/bin
-      '';
+    emacs-with-deps = let
+      emacs = assert pkgs.emacs.version == pkgs.emacs29-pgtk.version; pkgs.emacs29-pgtk;
+    in
+      pkgs.symlinkJoin {
+        name = "emacs-with-deps";
+        paths = [emacs];
+        nativeBuildInputs = [pkgs.makeWrapper];
+        postBuild = ''
+          wrapProgram $out/bin/emacs \
+            --suffix PATH : ${emacs-deps}/bin
+        '';
 
-      # NOTE: nix-doom-emacs checks this info, so it's being passed through
-      # from the base emacs packages
-      version = pkgs.emacs.version;
-      src = pkgs.emacs.src;
-      meta = pkgs.emacs.meta;
-    };
+        # NOTE: nix-doom-emacs checks this info, so it's being passed through
+        # from the base emacs packages
+        version = emacs.version;
+        src = emacs.src;
+        meta = emacs.meta;
+      };
   in {
     enable = true;
     emacs = emacs-with-deps;
