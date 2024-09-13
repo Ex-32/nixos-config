@@ -11,7 +11,7 @@
     backgroundColor = "#100c00";
     borderColor = "#9c00fc";
     borderRadius = 0;
-    borderSize = 2;
+    borderSize = 4;
     defaultTimeout = 5000;
     font = "Source Sans 3 13";
     height = 400;

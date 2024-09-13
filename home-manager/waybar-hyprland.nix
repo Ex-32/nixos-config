@@ -12,9 +12,7 @@
 
   home.file.".config/waybar/bin/custom-ps.sh" = {
     text =
-      /*
-      bash
-      */
+      # bash
       ''
         #!/bin/sh
         ${pkgs.procps}/bin/ps --ppid 2 -p 2 --deselect --no-headers | \

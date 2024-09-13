@@ -12,6 +12,7 @@
     ./qt.nix
     ./systray.nix
     ./waybar-hyprland.nix
+    ./fuzzel.nix
   ];
 
   home.packages = with pkgs; [
@@ -130,8 +131,8 @@
         "$mod+ALT, 9, focusmonitor, 8"
 
         "$mod, q, exec, kitty -1"
-        ''$mod, d, exec, ${pkgs.rofi-wayland}/bin/rofi -show drun -modi drun -scroll-method 0 -drun-match-fields all -drun-display-format "{name}" -no-drun-show-actions -terminal "kitty -1" -theme config''
-        # "$mod, Semicolon, exec, swaylock"
+        "$mod, d, exec, ${pkgs.fuzzel}/bin/fuzzel"
+
         "$mod, Print, exec, ${pkgs.grim}/bin/grim - | ${wl-copy}"
         "$mod+SHIFT, Print, exec, ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${wl-copy}"
         "$mod+SHIFT, p, exec, ${pkgs.hyprpicker}/bin/hyprpicker | ${wl-copy}"
