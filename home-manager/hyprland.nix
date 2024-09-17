@@ -29,9 +29,9 @@
     settings = {
       "$mod" = "SUPER";
       general = {
-        gaps_in = 4;
-        gaps_out = 8;
-        border_size = 4;
+        gaps_in = 3;
+        gaps_out = 6;
+        border_size = 3;
         "col.active_border" = "rgb(9c00fc) rgb(3106ae) 45deg";
         "col.inactive_border" = "0xff272725";
         layout = "master";
