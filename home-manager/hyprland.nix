@@ -4,7 +4,34 @@
   lib,
   inputs,
   ...
-}: {
+}: let
+  wallpaper-script = let
+    rand-file = "/dev/urandom";
+    core = "${pkgs.coreutils}/bin";
+  in
+    pkgs.writeScript "hyprland-wallpaper"
+    # bash
+    ''
+      #!/bin/sh
+      set -e
+      # FIXME: don't hardcode wallpaper path
+      WALLPAPER_PATH="${config.home.homeDirectory}/documents/pictures/wallpapers/current"
+      if [ ! -d "$WALLPAPER_PATH" ] ; then
+        echo "wallpaper directory '$WALLPAPER_PATH' doesn't exist"
+        exit 1
+      fi
+      rand_pos() {
+        ${core}/printf '0.%02d' $(( $(${core}/od -An -N2 -d ${rand-file}) % 99 + 1 ))
+      }
+      RAND_PAPER="$WALLPAPER_PATH/$(${core}/ls -1 "$WALLPAPER_PATH" |\
+        ${core}/shuf --random-source=${rand-file} -n 1)"
+      ${pkgs.swww}/bin/swww img \
+        --transition-duration 2 \
+        --transition-type grow \
+        --transition-pos "$(rand_pos),$(rand_pos)" \
+        "$RAND_PAPER"
+    '';
+in {
   imports = [
     ./gtk.nix
     ./kitty.nix
@@ -136,16 +163,29 @@
         "$mod, Print, exec, ${pkgs.grim}/bin/grim - | ${wl-copy}"
         "$mod+SHIFT, Print, exec, ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${wl-copy}"
         "$mod+SHIFT, p, exec, ${pkgs.hyprpicker}/bin/hyprpicker | ${wl-copy}"
-        "$mod+SHIFT, w, exec, ${config.home.homeDirectory}/.config/hypr/bin/wallpaper.sh"
+        "$mod+SHIFT, w, exec, ${wallpaper-script}"
 
         ", XF86AudioPrev, exec, ${playerctl} previous"
         ", XF86AudioPlay, exec, ${playerctl} play-pause"
         ", XF86AudioNext, exec, ${playerctl} next"
 
         "$mod, c, killactive"
-        "$mod, Tab, exec, ~/.config/hypr/bin/dropterm.sh"
         "$mod+SHIFT, f, togglefloating"
         "$mod, f, fullscreen"
+        "$mod, Tab, exec, ${pkgs.writeScript "hyprland-dropterm"
+          # bash
+          ''
+            #!/bin/sh
+            TERM_FILE="$XDG_RUNTIME_DIR/dropterm.pid"
+            if [ -f "$TERM_FILE" ] ; then
+              hyprctl dispatch togglespecialworkspace
+            else
+              echo $$ > "$TERM_FILE"
+              trap 'rm -f $TERM_FILE' EXIT
+              export SHLVL=0
+              kitty --class dropterm
+            fi
+          ''}"
 
         "$mod, left, movefocus, l"
         "$mod, right, movefocus, r"
@@ -234,98 +274,9 @@
       exec-once = [
         "${pkgs.brightnessctl}/bin/brightnessctl set 75%"
       ];
-      windowrule = [
-        "workspace special, ^(dropterm)$"
+      windowrulev2 = [
+        "workspace special, class:^(dropterm)$"
       ];
-    };
-  };
-
-  programs.swaylock = {
-    enable = true;
-    package = pkgs.swaylock-effects;
-    settings = {
-      screenshots = true;
-      clock = true;
-      timestr = "%H:%M:%S";
-      datestr = "%Y-%m-%d";
-      indicator = true;
-      indicator-radius = 350;
-      indicator-thickness = 12;
-      effect-blur = "8x5";
-      ring-color = "cba6f7";
-      ring-clear-color = "fab387";
-      ring-ver-color = "74c7ec";
-      ring-wrong-color = "f38ba8";
-      key-hl-color = "45475a";
-      bs-hl-color = "fab387";
-      line-color = "00000000";
-      line-clear-color = "00000000";
-      line-caps-lock-color = "00000000";
-      line-ver-color = "00000000";
-      line-wrong-color = "00000000";
-      inside-color = "00000000";
-      inside-clear-color = "00000000";
-      inside-caps-lock-color = "00000000";
-      inside-ver-color = "00000000";
-      inside-wrong-color = "00000000";
-      separator-color = "00000000";
-      text-color = "cba6f7";
-      text-clear-color = "fab387";
-      text-caps-lock-color = "f38ba8";
-      text-ver-color = "74c7ec";
-      text-wrong-color = "f38ba8";
-      fade-in = 0.2;
-      font = "Source Sans 3";
-    };
-  };
-
-  home.file = {
-    ".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
-    ".config/hypr/bin/dropterm.sh" = {
-      executable = true;
-      text =
-        # bash
-        ''
-          #!/bin/sh
-          TERM_FILE="$XDG_RUNTIME_DIR/dropterm.pid"
-          if [ -f "$TERM_FILE" ] ; then
-            hyprctl dispatch togglespecialworkspace
-          else
-            echo $$ > "$TERM_FILE"
-            trap 'rm -f $TERM_FILE' EXIT
-            export SHLVL=0
-            kitty --class dropterm
-          fi
-        '';
-    };
-    ".config/hypr/hyprpaper.conf".text = "splash = true";
-    ".config/hypr/bin/wallpaper.sh" = {
-      executable = true;
-      text = let
-        rand-file = "/dev/urandom";
-        core = "${pkgs.coreutils}/bin";
-      in
-        # bash
-        ''
-          #!/bin/sh
-          set -e
-          # FIXME: don't hardcode wallpaper path
-          WALLPAPER_PATH="${config.home.homeDirectory}/documents/pictures/wallpapers/current"
-          if [ ! -d "$WALLPAPER_PATH" ] ; then
-            echo "wallpaper directory '$WALLPAPER_PATH' doesn't exist"
-            exit 1
-          fi
-          rand_pos() {
-            ${core}/printf '0.%02d' $(( $(${core}/od -An -N2 -d ${rand-file}) % 99 + 1 ))
-          }
-          RAND_PAPER="$WALLPAPER_PATH/$(${core}/ls -1 "$WALLPAPER_PATH" |\
-            ${core}/shuf --random-source=${rand-file} -n 1)"
-          ${pkgs.swww}/bin/swww img \
-            --transition-duration 2 \
-            --transition-type grow \
-            --transition-pos "$(rand_pos),$(rand_pos)" \
-            "$RAND_PAPER"
-        '';
     };
   };
 
@@ -362,7 +313,7 @@
 
         Service = {
           Type = "oneshot";
-          ExecStart = "${config.home.homeDirectory}/.config/hypr/bin/wallpaper.sh";
+          ExecStart = "${wallpaper-script}";
         };
 
         Install = {
