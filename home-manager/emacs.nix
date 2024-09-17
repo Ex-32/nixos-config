@@ -92,7 +92,5 @@
     doomDir = ../config/emacs;
   };
 
-  services.emacs.enable = true;
-
   home.file.".emacs.d/init.el".enable = false;
 }

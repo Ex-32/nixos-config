@@ -55,14 +55,6 @@
     # this sets the location for the cuda compute cache
     # TODO: only enable this environment variable on nvidia systems
     CUDA_CACHE_PATH = "${XDG_CACHE_HOME}/nvidia/ComputeCache";
-
-    # programs can be installed from source code using cargo for crates.io and
-    # go for pkgs.go.dev, these packages get installed into their own
-    # directories that must be added to the PATH
-    PATH = [
-      "$HOME/.local/share/cargo/bin"
-      "$HOME/.local/share/go/bin"
-    ];
   };
 
   environment.shellAliases = {
