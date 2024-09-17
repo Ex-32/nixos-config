@@ -44,6 +44,6 @@
     };
   };
 
-  home.file.".config/xonsh/aliases.json".text =
-    builtins.toJSON osConfig.environment.shellAliases;
+  home.file.".config/nushell/env.json".text =
+    builtins.toJSON osConfig.environment.variables;
 }

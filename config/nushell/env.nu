@@ -99,3 +99,27 @@ $env.NU_PLUGIN_DIRS = [
 
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
+
+# load nixos environment variables from json
+open ~/.config/nushell/env.json |
+transpose name value |
+each {|row|
+    let value = $row.value |
+    parse --regex '(?:\$(?P<prefix>[a-zA-Z_]*))?(?P<value>.*)' |
+    get 0 |
+    each {|x|
+        if ($x.prefix | is-not-empty) {
+            ($env | get $x.prefix) + $x.value
+        } else {
+            $x.value
+        }
+    }
+
+    if ($row.value | find ':' | is-not-empty) {
+        { name: $row.name, value: (($env | get $row.name) + ":" + $value) }
+    } else {
+        { name: $row.name, value: $value }
+    }
+} |
+reduce {|item, acc| $acc | insert $item.name { $item.value } } | 
+load-env
