@@ -38,7 +38,6 @@ in {
       (symlink ".config/keepassxc")
       (symlink ".config/nheko")
       (symlink ".config/nvim/spell")
-      (symlink ".config/obsidian")
       (symlink ".config/spotify")
 
       ".mozilla"
