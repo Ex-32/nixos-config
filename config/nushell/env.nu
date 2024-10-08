@@ -21,9 +21,8 @@ def create_right_prompt [] {
     let time_segment = ([
         (ansi reset)
         (ansi magenta)
-        (date now | format date '%x %X') # try to respect user's locale
-    ] | str join | str replace --regex --all "([/:])" $"(ansi green)${1}(ansi magenta)" |
-        str replace --regex --all "([AP]M)" $"(ansi magenta_underline)${1}")
+        (date now | format date '%Y|%m|%d %H:%M') # try to respect user's locale
+    ] | str join | str replace --regex --all "([|:])" $"(ansi magenta_dimmed)${1}(ansi reset)(ansi magenta)")
 
     let last_exit_code = if ($env.LAST_EXIT_CODE != 0) {([
         (ansi rb)
@@ -41,9 +40,9 @@ $env.PROMPT_COMMAND_RIGHT = {|| create_right_prompt }
 
 # The prompt indicators are environmental variables that represent
 # the state of the prompt
-$env.PROMPT_INDICATOR = {|| "> " }
-$env.PROMPT_INDICATOR_VI_INSERT = {|| ": " }
-$env.PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
+$env.PROMPT_INDICATOR = {|| "|󰘧 " }
+$env.PROMPT_INDICATOR_VI_INSERT = {|| "|: " }
+$env.PROMPT_INDICATOR_VI_NORMAL = {|| "|󰘧 " }
 $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 
 # If you want previously entered commands to have a different prompt from the usual one,
@@ -121,5 +120,5 @@ each {|row|
         { name: $row.name, value: $value }
     }
 } |
-reduce {|item, acc| $acc | insert $item.name { $item.value } } | 
+reduce -f {} {|x, acc| $acc | upsert $x.name $x.value } |
 load-env
