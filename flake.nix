@@ -113,6 +113,7 @@
           ./lib/sound.nix
           ./lib/steam.nix
           ./lib/users.nix
+          ./lib/virt-manager.nix
 
           # home-manager configuration
           {
