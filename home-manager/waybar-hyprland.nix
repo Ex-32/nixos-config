@@ -187,7 +187,7 @@
         @define-color mil5 #afb48b;
 
         * {
-          font-size: 20px;
+          font-size: 21px;
           font-family: "FiraCode Nerd Font", monospace;
 
           border: none;
@@ -200,10 +200,17 @@
 
         window {
           background: linear-gradient(rgba(16, 12, 0, 0.8), rgba(16, 12, 0, 0));
+          margin: 0px;
+          padding: 0px;
         }
 
         window#waybar.empty #window {
           color: rgba(0, 0, 0, 0);
+        }
+
+        #tray menu {
+          background: @grey2;
+          color: @text;
         }
 
         #workspaces,
