@@ -39,6 +39,7 @@ in {
       (symlink ".config/nheko")
       (symlink ".config/nvim/spell")
       (symlink ".config/spotify")
+      (symlink ".config/nushell/history.sqlite3")
 
       ".mozilla"
       ".ssh"
