@@ -20,7 +20,10 @@
       in
         lib.attrsets.filterAttrs
         (name: val: val != null && ! (builtins.elem name excluded))
-        osConfig.environment.shellAliases;
+        osConfig.environment.shellAliases
+        // {
+          cal = "^cal";
+        };
     };
 
     carapace = {
