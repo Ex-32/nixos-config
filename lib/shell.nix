@@ -20,8 +20,6 @@
     # this tells electron applications to use a native wayland backend if
     # available, as best i can tell it has no adverse effects on X11 so i've
     # just set it to always be enabled
-    # NOTE: this **does** break vscode and derivatives, this variable should be
-    # unset to launch vscode or it will crash on start
     NIXOS_OZONE_WL = "1";
 
     XDG_CONFIG_HOME = "$HOME/.config";
@@ -91,7 +89,6 @@
     fzf # fuzzy search the filesystem for files/directories
     htop # the best way to monitor processes this side of the solar system
     ripgrep # grep the filesystem crazy fast
-    tmux # terminals all the way down
     trash-cli # fuck i didn't mean to delete that...
     lsd # modern ls clone with more colors and relative modtime
     zellij # tmux but dramatic

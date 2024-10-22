@@ -16,6 +16,7 @@ in {
   imports = [inputs.impermanence.nixosModules.home-manager.impermanence];
 
   home.persistence."/persist/safe/home/${config.home.username}" = {
+    allowOther = osConfig.programs.fuse.userAllowOther;
     directories = [
       ".local/state"
 
@@ -52,12 +53,14 @@ in {
   };
 
   home.persistence."/persist/volatile/cache/${config.home.username}" = {
+    allowOther = osConfig.programs.fuse.userAllowOther;
     directories = [
       ".cache"
     ];
   };
 
   home.persistence."/persist/volatile/games/${config.home.username}" = {
+    allowOther = osConfig.programs.fuse.userAllowOther;
     directories =
       (optionals osConfig.programs.steam.enable [
         (symlink ".factorio")
