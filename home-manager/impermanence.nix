@@ -31,6 +31,7 @@ in {
       (symlink ".local/share/zoxide")
 
       (symlink ".config/1Password")
+      (symlink ".config/Bitwarden")
       (symlink ".config/RawTherapee")
       (symlink ".config/Signal")
       (symlink ".config/Slack")

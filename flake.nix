@@ -81,7 +81,6 @@
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
-                keepassxc
                 gparted
               ];
             };
@@ -142,7 +141,7 @@
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
-                keepassxc
+                bitwarden-desktop
                 gparted
                 rclone
               ];

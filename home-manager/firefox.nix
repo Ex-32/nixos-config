@@ -45,6 +45,8 @@
       id = 0;
       name = "default";
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        bitwarden
+        canvasblocker
         clearurls
         decentraleyes
         disconnect
