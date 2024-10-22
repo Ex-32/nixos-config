@@ -9,6 +9,7 @@
     "steam"
     "steam-original"
     "steam-run"
+    "steam-unwrapped"
   ];
 
   # there's a lot of other features for advanced configuration/troubleshooting

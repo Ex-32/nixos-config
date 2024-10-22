@@ -7,7 +7,6 @@
 }: {
   boot = {
     zfs.package = pkgs.zfs_unstable;
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     initrd.supportedFilesystems = ["zfs"];
     supportedFilesystems = ["zfs"];
   };
