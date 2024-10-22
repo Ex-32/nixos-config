@@ -59,7 +59,7 @@ in {
         gaps_in = 3;
         gaps_out = 6;
         border_size = 3;
-        "col.active_border" = "rgb(9c00fc) rgb(3106ae) 45deg";
+        "col.active_border" = "rgb(d6e800) rgb(ff006e) 70deg";
         "col.inactive_border" = "0xff272725";
         layout = "master";
       };
@@ -163,6 +163,7 @@ in {
         "$mod, Print, exec, ${pkgs.grim}/bin/grim - | ${wl-copy}"
         "$mod+SHIFT, Print, exec, ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${wl-copy}"
         "$mod+SHIFT, p, exec, ${pkgs.hyprpicker}/bin/hyprpicker | ${wl-copy}"
+        "$mod+SHIFT, l, exec, ${pkgs.hyprlock}/bin/hyprlock"
         "$mod+SHIFT, w, exec, ${wallpaper-script}"
 
         ", XF86AudioPrev, exec, ${playerctl} previous"
@@ -280,8 +281,64 @@ in {
     };
   };
 
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        disable_loading_bar = true;
+        grace = 0;
+        hide_cursor = true;
+        no_fade_in = false;
+      };
+
+      background = [
+        {
+          path = "screenshot";
+          blur_passes = 3;
+          blur_size = 4;
+        }
+      ];
+
+      input-field = [
+        {
+          monitor = "";
+          size = "1200, 200";
+          check_color = "rgb(cd00f0)";
+          dots_center = true;
+          fade_on_empty = false;
+          fail_color = "rgb(ff1212)";
+          fail_text = "!! Authroization Failed !!";
+          fail_timeout = 2000;
+          font_color = "rgb(ff006e)";
+          inner_color = "rgba(100c00f2)";
+          outer_color = "rgb(ff006e)";
+          outline_thickness = 3;
+          placeholder_text = "> Authorization Required <";
+          position = "0, 0";
+          rounding = -1;
+        }
+      ];
+    };
+  };
+
   systemd.user = {
     services = {
+      hyprlock = {
+        Unit = {
+          Description = "hyprlock under xss-lock";
+          Wants = ["hyprland-session.target"];
+          After = ["hyprland-session.target"];
+        };
+
+        Service = {
+          Type = "simple";
+          ExecStart = "${pkgs.xss-lock}/bin/xss-lock ${pkgs.hyprlock}/bin/hyprlock";
+        };
+
+        Install = {
+          WantedBy = ["hyprland-session.target"];
+        };
+      };
       swww-daemon = {
         Unit = {
           Description = "swww wallpaper daemon";

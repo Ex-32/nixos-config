@@ -11,6 +11,7 @@
   # like polkit and sudo.
   security.pam.services.login.fprintAuth = false;
   security.pam.services.swaylock.fprintAuth = false;
+  security.pam.services.hyprlock.fprintAuth = false;
 
   # this installs and enables a systemd user service for the mate polkit agent
   # (the mate agent was chosen because it works well with fprint, properly
