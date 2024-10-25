@@ -114,6 +114,20 @@
           ./lib/users.nix
           ./lib/virt-manager.nix
 
+          {
+            nixpkgs.config.permittedInsecurePackages = [
+              # FIXME: look to see if nheko is fixing upstream or else find new matrix client
+              "olm-3.2.16"
+            ];
+
+            # HACK: this stops errors about too many open files when emacs,
+            # obsidian, or steam (probably others too) are open, but causes a
+            # performance hit; remove when fixed upstream
+            environment.variables = {MESA_SHADER_CACHE_DISABLE = "true";};
+
+            services.desktopManager.plasma6.enable = true;
+          }
+
           # home-manager configuration
           {
             home-manager.users.jenna = {pkgs, ...}: {

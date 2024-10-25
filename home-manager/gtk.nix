@@ -16,11 +16,8 @@ in {
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.catppuccin-gtk.override {
-        accents = ["mauve"];
-        variant = "mocha";
-      };
-      name = "Catppuccin-Mocha-Standard-Mauve-Dark";
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
     };
     font = {
       package = pkgs.source-sans;
@@ -28,17 +25,38 @@ in {
       size = 14;
     };
     iconTheme = {
-      package = pkgs.catppuccin-papirus-folders.override {
-        flavor = "mocha";
-        accent = "mauve";
-      };
-      name = "Papirus-Dark";
+      package = let
+        version = "30.0";
+      in
+        pkgs.stdenvNoCC.mkDerivation {
+          pname = "suru-plus";
+          inherit version;
+
+          src = pkgs.fetchFromGitHub {
+            owner = "gusbemacbe";
+            repo = "suru-plus";
+            rev = "v${version}";
+            hash = "sha256-YrjIrqauqSXnP1FylynC+nWIJfMZvDj/WH9NgochbKI=";
+          };
+
+          dontDropIconThemeCache = true;
+
+          installPhase = ''
+            runHook preInstall
+
+            mkdir -p $out/share/icons
+            mv "./Suru++" "$out/share/icons"
+
+            runHook postInstall
+          '';
+        };
+      name = "Suru++";
     };
-    cursorTheme = {
-      package = pkgs.catppuccin-cursors.mochaMauve;
-      name = cursor-name;
-      size = cursor-size;
-    };
+    # cursorTheme = {
+    #   package = pkgs.catppuccin-cursors.mochaMauve;
+    #   name = cursor-name;
+    #   size = cursor-size;
+    # };
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
   };
 

@@ -66,7 +66,7 @@
     jc = "journalctl";
 
     nor = "nh os switch -a /etc/nixos";
-    py = "nix shell nixpkgs#python3 --command python3";
+    # py = "nix shell nixpkgs#python3 --command python3";
 
     datetime = "${pkgs.coreutils}/bin/date '+%a %Y-%m-%d %H:%M:%S'";
 
@@ -92,5 +92,10 @@
     trash-cli # fuck i didn't mean to delete that...
     lsd # modern ls clone with more colors and relative modtime
     zellij # tmux but dramatic
+    (python3.withPackages (p:
+      with p; [
+        numpy
+        scipy
+      ]))
   ];
 }

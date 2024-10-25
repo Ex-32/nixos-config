@@ -126,6 +126,7 @@ in {
       bind = let
         playerctl = "${pkgs.playerctl}/bin/playerctl";
         wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+        systemctl = "${pkgs.systemd}/bin/systemctl";
       in [
         "$mod, 1, focusworkspaceoncurrentmonitor, 1"
         "$mod, 2, focusworkspaceoncurrentmonitor, 2"
@@ -165,6 +166,14 @@ in {
         "$mod+SHIFT, p, exec, ${pkgs.hyprpicker}/bin/hyprpicker | ${wl-copy}"
         "$mod+SHIFT, l, exec, ${pkgs.hyprlock}/bin/hyprlock"
         "$mod+SHIFT, w, exec, ${wallpaper-script}"
+        "$mod+SHIFT, a, exec, ${pkgs.writeScript "toggle-activate-linux"
+          # bash
+          ''
+            #!/bin/sh
+            test "$(${systemctl} --user is-active activate-linux.service)" = "active" \
+              && ${systemctl} --user stop activate-linux.service \
+              || ${systemctl} --user start activate-linux.service
+          ''}"
 
         ", XF86AudioPrev, exec, ${playerctl} previous"
         ", XF86AudioPlay, exec, ${playerctl} play-pause"
@@ -323,6 +332,22 @@ in {
 
   systemd.user = {
     services = {
+      activate-linux = {
+        Unit = {
+          Description = "Activate Linux";
+          Wants = ["hyprland-session.target"];
+          After = ["hyprland-session.target"];
+        };
+
+        Service = {
+          Type = "simple";
+          ExecStart = "${pkgs.activate-linux}/bin/activate-linux";
+        };
+
+        Install = {
+          WantedBy = ["hyprland-session.target"];
+        };
+      };
       hyprlock = {
         Unit = {
           Description = "hyprlock under xss-lock";
