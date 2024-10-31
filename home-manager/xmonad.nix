@@ -1,16 +1,40 @@
 {
   config,
+  osConfig,
   pkgs,
   lib,
   inputs,
   ...
-}: {
+}: let
+  xmonad-wallpaper = let
+    core = "${pkgs.coreutils}/bin";
+    home = config.home.homeDirectory;
+    hostname = osConfig.networking.hostName;
+  in
+    pkgs.writeScript "xmonad-wallpaper"
+    # bash
+    ''
+      #!/bin/sh
+      set -e
+      # FIXME: don't hardcode wallpaper path
+      WALLPAPER_PATH="${home}/documents/pictures/wallpapers/${hostname}"
+      if [ ! -d "$WALLPAPER_PATH" ] ; then
+        echo "wallpaper directory '$WALLPAPER_PATH' doesn't exist"
+        exit 1
+      fi
+      RAND_PAPER="$WALLPAPER_PATH/$(${core}/ls -1 "$WALLPAPER_PATH" |\
+        ${core}/shuf --random-source=/dev/urandom -n 1)"
+      ${pkgs.feh}/bin/feh --no-fehbg --bg-fill $RAND_PAPER
+    '';
+in {
   imports = [
     ./gtk.nix
     ./kitty.nix
+    ./nerdfont.nix
     ./picom.nix
+    ./polybar.nix
     ./qt.nix
-    # ./systray.nix
+    ./systray.nix
   ];
 
   home.packages = with pkgs; [
@@ -38,29 +62,17 @@
         xclip-png = "${pkgs.xclip}/bin/xclip -selection clipboard -target image/png -i";
         xorg = pkgs.xorg;
       in
-        pkgs.substituteAll rec {
-          src = ../config/xmonad/xmonad.hs;
+        pkgs.replaceVars ../config/xmonad/xmonad.hs rec {
           # @variables@ to substitute
           ## packages
           brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
           kitty = "${pkgs.kitty}/bin/kitty";
           playerctl = "${pkgs.playerctl}/bin/playerctl";
           wpctl = "${pkgs.wireplumber}/bin/wpctl";
-          xdotool = "${pkgs.xdotool}/bin/xdotool";
           xhost = "${xorg.xhost}/bin/xhost";
+          rlaunch = "${pkgs.rlaunch}/bin/rlaunch";
           xsetroot = "${xorg.xsetroot}/bin/xsetroot";
-          ## scripts
-          rofi = lib.strings.concatStringsSep " " [
-            "${pkgs.rofi}/bin/rofi"
-            "-show drun"
-            "-modi drun"
-            "-scroll-method 0"
-            "-drun-match-fields all"
-            "-drun-display-format {name}"
-            "-no-drun-show-actions"
-            "-terminal '${kitty}'"
-            "-theme config"
-          ];
+          change_wallpaper = xmonad-wallpaper;
           screenshot_full = "${maim} | ${xclip-png}";
           screenshot_select = "${maim} -s | ${xclip-png}";
           vol_down =
@@ -111,113 +123,93 @@
 
   home.file = {
     ".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
-    # ".xmonad/bin/wallpaper.sh" = {
-    #   executable = true;
-    #   text = let
-    #     core = "${pkgs.coreutils}/bin";
-    #   in
-    #     # bash
-    #     ''
-    #       #!/bin/sh
-    #       set -e
-    #       # FIXME: don't hardcode wallpaper path
-    #       WALLPAPER_PATH="${config.home.homeDirectory}/documents/pictures/wallpapers/current"
-    #       if [ ! -d "$WALLPAPER_PATH" ] ; then
-    #         echo "wallpaper directory '$WALLPAPER_PATH' doesn't exist"
-    #         exit 1
-    #       fi
-    #       RAND_PAPER="$WALLPAPER_PATH/$(${core}/ls -1 "$WALLPAPER_PATH" |\
-    #         ${core}/shuf --random-source=/dev/urandom -n 1)"
-    #       ${pkgs.feh}/bin/feh --no-fehbg --bg-fill $RAND_PAPER
-    #     '';
-    # };
   };
 
-  # systemd.user = {
-  #   services = {
-  #     taffybar = let
-  #       taffybar-configured = pkgs.haskellPackages.callCabal2nix "taffybar-configured" ../config/taffybar {};
-  #     in {
-  #       Unit = {
-  #         Description = "taffybar system bar service";
-  #         Wants = [
-  #           "graphical-session.target"
-  #           "status-notifier-watcher.service"
-  #         ];
-  #         After = [
-  #           "graphical-session.target"
-  #           "status-notifier-watcher.service"
-  #         ];
-  #       };
-  #
-  #       Service = {
-  #         Type = "simple";
-  #         ExecStart = "${taffybar-configured}/bin/taffybar";
-  #         Restart = "on-failure";
-  #         RestartSec = 1;
-  #         TimeoutSec = "30s";
-  #       };
-  #
-  #       Install = {
-  #         WantedBy = ["graphical-session.target"];
-  #       };
-  #     };
-  #     status-notifier-watcher = let
-  #       sni = pkgs.haskellPackages.status-notifier-item;
-  #     in {
-  #       Unit = {
-  #         Description = "StatusNotifierWatcher implementation";
-  #         Wants = ["graphical-session.target"];
-  #         After = ["graphical-session.target"];
-  #       };
-  #
-  #       Service = {
-  #         Type = "simple";
-  #         ExecStart = "${sni}/bin/status-notifier-watcher";
-  #         Restart = "on-failure";
-  #         RestartSec = 1;
-  #         TimeoutSec = "30s";
-  #       };
-  #
-  #       Install = {
-  #         WantedBy = ["graphical-session.target"];
-  #       };
-  #     };
-  #     fehbg = {
-  #       Unit = {
-  #         Description = "feh wallpaper service";
-  #         Wants = ["graphical-session.target"];
-  #         After = ["graphical-session.target"];
-  #       };
-  #
-  #       Service = {
-  #         Type = "oneshot";
-  #         ExecStart = "${config.home.homeDirectory}/.xmonad/bin/wallpaper.sh";
-  #       };
-  #
-  #       Install = {
-  #         WantedBy = ["graphical-session.target"];
-  #       };
-  #     };
-  #   };
-  #   timers = {
-  #     fehbg = {
-  #       Unit = {
-  #         Description = "feh wallpaper timer";
-  #         Wants = ["graphical-session.target"];
-  #         After = ["graphical-session.target"];
-  #       };
-  #
-  #       Timer = {
-  #         OnUnitActiveSec = "5min";
-  #         RandomizedDelaySec = "30s";
-  #         AccuracySec = "30s";
-  #       };
-  #
-  #       Install = {
-  #         WantedBy = ["graphical-session.target"];
-  #       };
-  #     };
-  #   };
-  # };
+  systemd.user = {
+    services = {
+      # taffybar = let
+      #   taffybar-configured = pkgs.haskellPackages.callCabal2nix "taffybar-configured" ../config/taffybar {};
+      # in {
+      #   Unit = {
+      #     Description = "taffybar system bar service";
+      #     Wants = [
+      #       "graphical-session.target"
+      #       "status-notifier-watcher.service"
+      #     ];
+      #     After = [
+      #       "graphical-session.target"
+      #       "status-notifier-watcher.service"
+      #     ];
+      #   };
+      #
+      #   Service = {
+      #     Type = "simple";
+      #     ExecStart = "${taffybar-configured}/bin/taffybar";
+      #     Restart = "on-failure";
+      #     RestartSec = 1;
+      #     TimeoutSec = "30s";
+      #   };
+      #
+      #   Install = {
+      #     WantedBy = ["graphical-session.target"];
+      #   };
+      # };
+      # status-notifier-watcher = let
+      #   sni = pkgs.haskellPackages.status-notifier-item;
+      # in {
+      #   Unit = {
+      #     Description = "StatusNotifierWatcher implementation";
+      #     Wants = ["graphical-session.target"];
+      #     After = ["graphical-session.target"];
+      #   };
+      #
+      #   Service = {
+      #     Type = "simple";
+      #     ExecStart = "${sni}/bin/status-notifier-watcher";
+      #     Restart = "on-failure";
+      #     RestartSec = 1;
+      #     TimeoutSec = "30s";
+      #   };
+      #
+      #   Install = {
+      #     WantedBy = ["graphical-session.target"];
+      #   };
+      # };
+      fehbg = {
+        Unit = {
+          Description = "feh wallpaper service";
+          Wants = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+
+        Service = {
+          Type = "oneshot";
+          ExecStart = xmonad-wallpaper;
+        };
+
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+    };
+    timers = {
+      fehbg = {
+        Unit = {
+          Description = "feh wallpaper timer";
+          Wants = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+
+        Timer = {
+          OnUnitActiveSec = "5min";
+          RandomizedDelaySec = "30s";
+          AccuracySec = "30s";
+        };
+
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+    };
+  };
 }

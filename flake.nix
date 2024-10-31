@@ -29,14 +29,12 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         modules = [
-          {networking.hostName = "nixos-pc";}
-          # hardware configuration
           ./systems/nixos-pc.nix
 
-          # system configuration
           ./lib/appimage-binfmt.nix
           ./lib/auth.nix
           ./lib/base.nix
+          ./lib/bluetooth.nix
           ./lib/console.nix
           ./lib/desktop.nix
           ./lib/flipperzero.nix
@@ -52,7 +50,13 @@
           ./lib/vial.nix
           ./lib/x11.nix
 
-          # home-manager configuration
+          {
+            nixpkgs.config.permittedInsecurePackages = [
+              # FIXME: look to see if nheko is fixing upstream or else find new matrix client
+              "olm-3.2.16"
+            ];
+          }
+
           {
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
@@ -74,13 +78,14 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
+                ./home-manager/nushell.nix
                 ./home-manager/xmonad.nix
-                ./home-manager/xonsh.nix
               ];
               local.lutris.enable = true;
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
+                bitwarden-desktop
                 gparted
               ];
             };
@@ -182,7 +187,7 @@
           packages = [
             (pkgs.haskellPackages.ghcWithPackages (hpkgs:
               with hpkgs; [
-                xmonad
+                xmonad_0_18_0
                 xmonad-contrib
                 taffybar
               ]))

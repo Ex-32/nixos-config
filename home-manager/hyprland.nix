@@ -1,13 +1,16 @@
 {
   config,
+  osConfig,
   pkgs,
   lib,
   inputs,
   ...
 }: let
   wallpaper-script = let
-    rand-file = "/dev/urandom";
     core = "${pkgs.coreutils}/bin";
+    home = config.home.homeDirectory;
+    hostname = osConfig.networking.hostName;
+    rand-file = "/dev/urandom";
   in
     pkgs.writeScript "hyprland-wallpaper"
     # bash
@@ -15,7 +18,7 @@
       #!/bin/sh
       set -e
       # FIXME: don't hardcode wallpaper path
-      WALLPAPER_PATH="${config.home.homeDirectory}/documents/pictures/wallpapers/current"
+      WALLPAPER_PATH="${home}/documents/pictures/wallpapers/${hostname}"
       if [ ! -d "$WALLPAPER_PATH" ] ; then
         echo "wallpaper directory '$WALLPAPER_PATH' doesn't exist"
         exit 1

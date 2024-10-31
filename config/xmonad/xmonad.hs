@@ -10,12 +10,15 @@ import XMonad.Layout.Gaps
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
 import XMonad.Layout.Spacing
+import XMonad.Operations
 import XMonad.StackSet qualified as W
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 import XMonad.Util.SessionStart
-import XMonad.Operations
+
+phi :: Double
+phi = (1.0 + sqrt 5.0) / 2
 
 main :: IO ()
 main =
@@ -32,8 +35,8 @@ customConfig =
         , manageHook = customManageHook -- Match on certain windows
         , startupHook = customStartupHook
         , borderWidth = 2
-        , normalBorderColor = "#11111b"
-        , focusedBorderColor = "#cba6f7"
+        , normalBorderColor = "#252726"
+        , focusedBorderColor = "#ff006e"
         }
         `keys` [ ("M-c", kill)
                , ("M-S-c", return ()) -- disable default key binding
@@ -43,11 +46,11 @@ customConfig =
                , ("M-f", sendMessage NextLayout)
                , ("M-<Print>", unGrab >> unsafeSpawn "@screenshot_full@")
                , ("M-S-<Print>", unGrab >> unsafeSpawn "@screenshot_select@")
+               , ("M-S-w", safeSpawn "@change_wallpaper@" [])
                , ("M-<Tab>", namedScratchpadAction scratchpads "dropterm")
-               , ("M-d", unGrab >> unsafeSpawn "@rofi@")
                , ("M-q", safeSpawn "@kitty@" ["-1"])
                , ("M-S-r", restart "xmonad" True)
-               , ("<XF86AudioMute>", safeSpawn "@wpctl@" ["set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"])
+               , ("<XF86AudioMute>", safeSpawn "@wpctl@" ["set-mute", "\x40\&DEFAULT_AUDIO_SINK\x40", "toggle"])
                , ("<XF86AudioLowerVolume>", safeSpawn "@vol_down@" [])
                , ("<XF86AudioRaiseVolume>", safeSpawn "@vol_up@" [])
                , ("<XF86AudioPrev>", safeSpawn "@playerctl@" ["previous"])
@@ -60,6 +63,19 @@ customConfig =
                , ("M-]", CycleWS.nextWS)
                , ("M-S-[", CycleWS.shiftToPrev)
                , ("M-S-]", CycleWS.shiftToNext)
+               ,
+                   ( "M-d"
+                   , safeSpawn
+                        "@rlaunch@"
+                        [ "--font=FiraCode Nerd Font"
+                        , "-h48"
+                        , "--color0=#100c00"
+                        , "--color1=#ff006e"
+                        , "--color2=#bdadb8"
+                        , "--color3=#fcfcfc"
+                        , "--color4=#100c00"
+                        ]
+                   )
                ]
   where
     keys = additionalKeysP
@@ -81,9 +97,11 @@ customLayoutHook = tiled ||| max
     -- parent-children-stack window layout
     tiled =
         renamed [Replace "Tiled"] $
-            smartBorders $
-                Tall nmaster delta $
-                    toRational ratio
+            spacingRaw False (Border 3 3 3 3) True (Border 3 3 3 3) True $
+                gaps [(U, 48)] $
+                    smartBorders $
+                        Tall nmaster delta $
+                            toRational ratio
 
     -- fullscreen monocule layout
     -- (apparently redundant call to smartBorders is for floating windows)
@@ -105,12 +123,9 @@ scratchpads =
 customStartupHook :: X ()
 customStartupHook = do
     safeSpawn "@xhost@" ["+SI:localuser:root"]
-    safeSpawn "@xsetrootk@" ["-cursor_name", "left_ptr"]
-    safeSpawn "@wpctl@" ["set-volume", "@DEFAULT_AUDIO_SOURCE@", "30%"]
+    safeSpawn "@xsetroot@" ["-cursor_name", "left_ptr"]
+    -- safeSpawn "@wpctl@" ["set-volume", "\x40\&DEFAULT_AUDIO_SOURCE\x40", "30%"]
     safeSpawnOnce "@brightnessctl@" ["set", "75%"]
-
-phi :: Double
-phi = (1.0 + sqrt 5.0) / 2
 
 safeSpawnOnce :: FilePath -> [String] -> X ()
 safeSpawnOnce cmd args = doOnce $ safeSpawn cmd args
