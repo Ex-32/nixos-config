@@ -37,6 +37,7 @@
           ./lib/bluetooth.nix
           ./lib/console.nix
           ./lib/desktop.nix
+          ./lib/distrobox.nix
           ./lib/flipperzero.nix
           ./lib/impermanence.nix
           ./lib/locale.nix

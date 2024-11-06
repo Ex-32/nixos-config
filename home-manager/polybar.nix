@@ -35,7 +35,7 @@
         modules-right = "pulseaudio memory cpu wlan eth date systray";
         padding-left = "0";
         padding-right = "1";
-        radius = "6";
+        radius = "0";
         separator = "|";
         separator-foreground = "\${colors.disabled}";
         width = "100%";

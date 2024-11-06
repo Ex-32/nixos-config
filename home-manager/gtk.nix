@@ -39,6 +39,11 @@ in {
             hash = "sha256-YrjIrqauqSXnP1FylynC+nWIJfMZvDj/WH9NgochbKI=";
           };
 
+          nativeBuildInputs = [pkgs.gtk3];
+          propagatedBuildInputs = with pkgs; [
+            breeze-icons
+            hicolor-icon-theme
+          ];
           dontDropIconThemeCache = true;
 
           installPhase = ''
@@ -46,11 +51,12 @@ in {
 
             mkdir -p $out/share/icons
             mv "./Suru++" "$out/share/icons"
+            gtk-update-icon-cache --force "$out/share/icons/Suru++"
 
             runHook postInstall
           '';
         };
-      name = "Suru++";
+      name = "Suru++ 25";
     };
     # cursorTheme = {
     #   package = pkgs.catppuccin-cursors.mochaMauve;
