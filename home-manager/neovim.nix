@@ -28,9 +28,9 @@
         lua-language-server
         nixd
         nodePackages.bash-language-server
-        nodePackages.typescript-language-server
         pyright
         texlab
+        typescript-language-server
         vscode-langservers-extracted
         # sources ({null,none}-ls)
         alejandra

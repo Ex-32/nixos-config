@@ -15,14 +15,18 @@ in {
   ];
 
   networking = {
-    hostId = "6f02efe2";
     hostName = "nixos-pc";
+    hostId = "6f02efe2";
+    useDHCP = lib.mkDefault true;
   };
 
   # this enables firmware that's distributed as a redistributable binary but
   # not FOSS, not having this enabled can cause issues with some hardware,
   # especially wifi cards
-  hardware.enableRedistributableFirmware = true;
+  hardware = rec {
+    enableRedistributableFirmware = true;
+    cpu.amd.updateMicrocode = enableRedistributableFirmware;
+  };
 
   boot = {
     kernelParams = [
@@ -94,14 +98,5 @@ in {
   #   ssl = true;
   # };
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp9s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp8s0.useDHCP = lib.mkDefault true;
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

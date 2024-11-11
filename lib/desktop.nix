@@ -23,7 +23,7 @@
     #   fonts = [];
     # })
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     roboto
     source-sans
     ubuntu_font_family

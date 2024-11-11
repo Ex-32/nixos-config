@@ -583,7 +583,7 @@ require('lazy').setup({
           root_dir = lspconfig.util.root_pattern(".venv", ".git"),
         },
         texlab = {},
-        tsserver = {},
+        ts_ls = {},
       }
 
       -- register/configure servers from lua/local/lsp.lua

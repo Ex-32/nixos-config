@@ -61,8 +61,9 @@
     # explanatory comments
     environment.systemPackages = with pkgs; [
       curl
-      file
+      efibootmgr
       fd
+      file
       git # since this config is in git, git is a absolute necessity
       git-crypt # transparent encryption of files in git on push, used by this config for secrets like password hashes
       lsof
@@ -70,8 +71,10 @@
       micro # a fancier version of the nano editor, with a save-with-sudo feature
       nix-output-monitor
       nix-tree # helper tool for interactive inspection of derivations
+      pciutils
       unixtools.xxd
       unzip
+      usbutils
       wget
       zip
     ];

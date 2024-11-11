@@ -3,7 +3,6 @@
   inputs,
   lib,
   pkgs,
-  modulesPath,
   ...
 }: let
   devs = {
@@ -16,12 +15,21 @@ in {
     ../lib/zfs.nix
   ];
 
+  networking = {
+    hostName = "nixbook";
+    hostId = "452fa516";
+    useDHCP = lib.mkDefault true;
+  };
+
   # this enables firmware that's distributed as a redistributable binary but
   # not FOSS, not having this enabled can cause issues with some hardware,
   # especially wifi cards
-  hardware.enableRedistributableFirmware = true;
+  hardware = rec {
+    enableRedistributableFirmware = true;
+    # update microcode with break without enableRedistributableFirmware
+    cpu.intel.updateMicrocode = enableRedistributableFirmware;
+  };
 
-  networking.hostId = "452fa516";
   boot = {
     kernelParams = [
       "vsyscall=none"
@@ -31,8 +39,9 @@ in {
     extraModulePackages = [];
 
     initrd = {
+      systemd.enable = true;
       availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
-      kernelModules = [];
+      kernelModules = ["i915"];
     };
 
     loader = {
@@ -112,13 +121,10 @@ in {
     };
   };
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp170s0.useDHCP = lib.mkDefault true;
+  # HACK: this stops errors about too many open files when emacs,
+  # obsidian, or steam (probably others too) are open, but causes a
+  # performance hit; remove when fixed upstream
+  environment.variables.MESA_SHADER_CACHE_DISABLE = "true";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

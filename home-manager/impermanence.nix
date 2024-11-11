@@ -20,6 +20,7 @@ in {
     directories = [
       ".local/state"
 
+      (symlink ".local/share/containers")
       (symlink ".local/share/direnv")
       (symlink ".local/share/doom")
       (symlink ".local/share/gnupg")
@@ -32,12 +33,12 @@ in {
 
       (symlink ".config/1Password")
       (symlink ".config/Bitwarden")
+      (symlink ".config/Logseq")
       (symlink ".config/RawTherapee")
       (symlink ".config/Signal")
       (symlink ".config/Slack")
       (symlink ".config/discord")
       (symlink ".config/htop")
-      (symlink ".config/keepassxc")
       (symlink ".config/nheko")
       (symlink ".config/nushell/history.sqlite3")
       (symlink ".config/nvim/spell")
@@ -47,6 +48,7 @@ in {
       ".ssh"
       "documents"
       "src"
+      (symlink ".logseq")
     ];
     files = [
       ".config/gh/hosts.yml"

@@ -100,25 +100,24 @@ $env.NU_PLUGIN_DIRS = [
 # source ($nu.default-config-dir | path join 'custom.nu')
 
 # load nixos environment variables from json
-open ~/.config/nushell/env.json |
-transpose name value |
-each {|row|
-    let value = $row.value |
-    parse --regex '(?:\$(?P<prefix>[a-zA-Z_]*))?(?P<value>.*)' |
-    get 0 |
-    each {|x|
-        if ($x.prefix | is-not-empty) {
-            ($env | get $x.prefix) + $x.value
-        } else {
-            $x.value
+if ('NIX_ENVS_LOADED' not-in $env) {
+    open ~/.config/nushell/env.json |
+    transpose name value |
+    each {|row|
+        let val = (sh -c $"echo \"($row.value)\"");
+        {
+            name: $row.name,
+            value: (
+                if ($row.name in $env and ':' in $val) {
+                    $val + ':' + ($env | get $row.name)
+                } else {
+                    $val
+                }
+            )
         }
-    }
+    } |
+    reduce -f {} {|x, acc| $acc | upsert $x.name $x.value } |
+    load-env
 
-    if ($row.value | find ':' | is-not-empty) {
-        { name: $row.name, value: (($env | get $row.name) + ":" + $value) }
-    } else {
-        { name: $row.name, value: $value }
-    }
-} |
-reduce -f {} {|x, acc| $acc | upsert $x.name $x.value } |
-load-env
+    load-env {NIX_ENVS_LOADED: true}
+}

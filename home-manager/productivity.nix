@@ -27,7 +27,8 @@
 in {
   home.packages = [
     libreoffice-with-deps
-    pkgs.onlyoffice-bin
+    pkgs.logseq
+    pkgs.onlyoffice-desktopeditors
     pkgs.zathura
   ];
 }

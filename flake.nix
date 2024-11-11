@@ -12,10 +12,10 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
 
-    unstraightened = {
-      url = "github:marienz/nix-doom-emacs-unstraightened";
-      inputs.nixpkgs.follows = "";
-    };
+    # unstraightened = {
+    #   url = "github:marienz/nix-doom-emacs-unstraightened";
+    #   inputs.nixpkgs.follows = "";
+    # };
   };
 
   outputs = inputs @ {
@@ -55,6 +55,9 @@
             nixpkgs.config.permittedInsecurePackages = [
               # FIXME: look to see if nheko is fixing upstream or else find new matrix client
               "olm-3.2.16"
+
+              # NOTE: this is a necessary evil to get logseq to work properly
+              "electron-27.3.11"
             ];
           }
 
@@ -62,7 +65,6 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
-                ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
@@ -97,18 +99,15 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         modules = [
-          {networking.hostName = "nixbook";}
-
-          # hardware configuration
           ./systems/nixbook.nix
 
-          # system configuration
           ./lib/appimage-binfmt.nix
           ./lib/auth.nix
           ./lib/base.nix
           ./lib/bluetooth.nix
           ./lib/console.nix
           ./lib/desktop.nix
+          ./lib/distrobox.nix
           ./lib/flipperzero.nix
           ./lib/impermanence.nix
           ./lib/locale.nix
@@ -124,22 +123,16 @@
             nixpkgs.config.permittedInsecurePackages = [
               # FIXME: look to see if nheko is fixing upstream or else find new matrix client
               "olm-3.2.16"
+
+              # NOTE: this is a necessary evil to get logseq to work properly
+              "electron-27.3.11"
             ];
-
-            # HACK: this stops errors about too many open files when emacs,
-            # obsidian, or steam (probably others too) are open, but causes a
-            # performance hit; remove when fixed upstream
-            environment.variables = {MESA_SHADER_CACHE_DISABLE = "true";};
-
-            services.desktopManager.plasma6.enable = true;
           }
 
-          # home-manager configuration
           {
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
-                ./home-manager/emacs.nix
                 ./home-manager/firefox.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix

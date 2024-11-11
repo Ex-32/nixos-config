@@ -66,7 +66,6 @@
     jc = "journalctl";
 
     nor = "nh os switch -a /etc/nixos";
-    # py = "nix shell nixpkgs#python3 --command python3";
 
     datetime = "${pkgs.coreutils}/bin/date '+%a %Y-%m-%d %H:%M:%S'";
 
@@ -81,7 +80,13 @@
   };
 
   # misc shell utilities for interactive shell use
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; let
+    python = python3.withPackages (p:
+      with p; [
+        numpy
+        scipy
+      ]);
+  in [
     bat # a modern cat clone with line numbers and syntax highlighting
     du-dust # a modern du replacement designed for interactive use
     duf # a modern df replacement with tailored for human readability
@@ -90,12 +95,8 @@
     htop # the best way to monitor processes this side of the solar system
     ripgrep # grep the filesystem crazy fast
     trash-cli # fuck i didn't mean to delete that...
-    lsd # modern ls clone with more colors and relative modtime
     zellij # tmux but dramatic
-    (python3.withPackages (p:
-      with p; [
-        numpy
-        scipy
-      ]))
+    python # python with dependencies
+    python.pkgs.ptpython # better python REPL
   ];
 }

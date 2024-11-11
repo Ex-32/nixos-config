@@ -46,6 +46,9 @@ in {
     ];
   };
 
+  # don't fuck with /etc/machine-id since we're handling that
+  systemd.services."systemd-machine-id-commit".enable = false;
+
   fileSystems."/" = {
     device = "none";
     fsType = "tmpfs";
