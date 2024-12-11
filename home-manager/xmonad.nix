@@ -30,7 +30,6 @@ in {
   imports = [
     ./gtk.nix
     ./kitty.nix
-    ./nerdfont.nix
     ./picom.nix
     ./polybar.nix
     ./qt.nix

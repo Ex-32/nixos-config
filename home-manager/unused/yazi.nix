@@ -5,9 +5,6 @@
   inputs,
   ...
 }: {
-  imports = [
-    ./nerdfont.nix
-  ];
   programs.yazi = {
     enable = true;
     settings = {

@@ -28,6 +28,8 @@
     source-sans
     ubuntu_font_family
     xkcd-font
+    nerd-fonts.fira-code
+    nerd-fonts.symbols-only
   ];
 
   # many gtk applications don't behave properly unless they can query dconf for

@@ -6,7 +6,6 @@
   ...
 }: {
   imports = [
-    ./nerdfont.nix
     ./xonsh.nix
   ];
 
