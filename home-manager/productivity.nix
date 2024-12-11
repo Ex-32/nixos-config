@@ -25,9 +25,13 @@
     '';
   };
 in {
+  allowedUnfree = [
+    "obsidian"
+  ];
+
   home.packages = [
     libreoffice-with-deps
-    pkgs.logseq
+    pkgs.obsidian
     pkgs.onlyoffice-desktopeditors
     pkgs.zathura
   ];

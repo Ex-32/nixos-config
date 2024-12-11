@@ -33,7 +33,7 @@ in {
 
       (symlink ".config/1Password")
       (symlink ".config/Bitwarden")
-      (symlink ".config/Logseq")
+      # (symlink ".config/Logseq")
       (symlink ".config/RawTherapee")
       (symlink ".config/Signal")
       (symlink ".config/Slack")
@@ -43,12 +43,13 @@ in {
       (symlink ".config/nushell/history.sqlite3")
       (symlink ".config/nvim/spell")
       (symlink ".config/spotify")
+      (symlink ".config/obsidian")
 
       ".mozilla"
       ".ssh"
       "documents"
       "src"
-      (symlink ".logseq")
+      # (symlink ".logseq")
     ];
     files = [
       ".config/gh/hosts.yml"

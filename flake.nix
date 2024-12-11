@@ -55,9 +55,6 @@
             nixpkgs.config.permittedInsecurePackages = [
               # FIXME: look to see if nheko is fixing upstream or else find new matrix client
               "olm-3.2.16"
-
-              # NOTE: this is a necessary evil to get logseq to work properly
-              "electron-27.3.11"
             ];
           }
 
@@ -123,9 +120,6 @@
             nixpkgs.config.permittedInsecurePackages = [
               # FIXME: look to see if nheko is fixing upstream or else find new matrix client
               "olm-3.2.16"
-
-              # NOTE: this is a necessary evil to get logseq to work properly
-              "electron-27.3.11"
             ];
           }
 
