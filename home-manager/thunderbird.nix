@@ -21,7 +21,7 @@
 
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox;
+    package = pkgs.firefox-devedition;
     enableGnomeExtensions = false;
     policies = {
       DefaultDownloadDirectory = "${config.home.homeDirectory}/downloads";
@@ -175,7 +175,7 @@
   };
 
   xdg.desktopEntries = let
-    firefox = "firefox";
+    firefox = "firefox-devedition";
   in {
     ${firefox} = {
       name = "Firefox";

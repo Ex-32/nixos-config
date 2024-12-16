@@ -84,7 +84,9 @@ in {
           enabled = true;
           size = 2;
         };
-        drop_shadow = false;
+        shadow = {
+          enabled = false;
+        };
       };
       animations = {
         enabled = true;

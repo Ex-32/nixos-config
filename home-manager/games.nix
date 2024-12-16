@@ -11,8 +11,16 @@
 
   config = lib.mkMerge [
     {
+      allowedUnfree = [
+        "dwarf-fortress"
+      ];
+
       home.packages = with pkgs; [
+        dwarf-fortress
+        endless-sky
+        mindustry
         prismlauncher
+        sauerbraten
         superTuxKart
       ];
     }

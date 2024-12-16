@@ -19,9 +19,12 @@
   fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [
     corefonts
-    # (google-fonts.override {
-    #   fonts = [];
-    # })
+    (google-fonts.override {
+      fonts = [
+        "Courier Prime"
+        "Permanent Marker"
+      ];
+    })
     noto-fonts
     noto-fonts-cjk-sans
     roboto

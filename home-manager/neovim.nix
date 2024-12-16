@@ -32,6 +32,7 @@
         texlab
         typescript-language-server
         vscode-langservers-extracted
+        erlang-ls
         # sources ({null,none}-ls)
         alejandra
         clang-tools # (clang-format)

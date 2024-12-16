@@ -114,7 +114,7 @@
           ./lib/sound.nix
           ./lib/steam.nix
           ./lib/users.nix
-          ./lib/virt-manager.nix
+          # ./lib/virt-manager.nix
 
           {
             nixpkgs.config.permittedInsecurePackages = [
@@ -144,6 +144,7 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
+                ./home-manager/zed.nix
               ];
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
