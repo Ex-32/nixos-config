@@ -55,9 +55,13 @@ in {
           "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
         };
         extraEntries = {
-          "z-00-efi-shell.conf" = ''
+          "z-01-efi-shell.conf" = ''
             title EFI Shell
             efi /efi/shell/shell.efi
+          '';
+          "z-00-gentoo-grub.conf" = ''
+            title Gentoo GRUB
+            efi /efi/gentoo/grubx64.efi
           '';
         };
       };
