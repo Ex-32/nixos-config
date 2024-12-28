@@ -9,7 +9,7 @@
   # import home-manager and the NUR's base nixos modules
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    inputs.nur.nixosModules.nur
+    inputs.nur.modules.nixos.default
   ];
 
   # Pending https://github.com/NixOS/nixpkgs/issues/55674
