@@ -114,7 +114,7 @@
           ./nixos/sound.nix
           ./nixos/steam.nix
           ./nixos/users.nix
-          # ./nixos/virt-manager.nix
+          ./nixos/virt-manager.nix
 
           {
             nixpkgs.config.permittedInsecurePackages = [
