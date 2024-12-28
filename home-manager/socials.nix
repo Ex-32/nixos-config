@@ -7,13 +7,12 @@
 }: {
   allowedUnfree = [
     "discord"
-    "slack"
+    "signal-desktop"
   ];
 
   home.packages = with pkgs; [
     discord
-    nheko
+    # nheko
     signal-desktop
-    slack
   ];
 }

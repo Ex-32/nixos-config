@@ -29,10 +29,13 @@ in {
     "obsidian"
   ];
 
-  home.packages = [
-    libreoffice-with-deps
-    pkgs.obsidian
-    pkgs.onlyoffice-desktopeditors
-    pkgs.zathura
-  ];
+  home.packages =
+    [
+      pkgs.obsidian
+      pkgs.zathura
+    ]
+    ++ lib.optionals (builtins.elem pkgs.system lib.platforms.linux) [
+      libreoffice-with-deps
+      pkgs.onlyoffice-desktopeditors
+    ];
 }

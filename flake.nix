@@ -12,10 +12,10 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
 
-    # unstraightened = {
-    #   url = "github:marienz/nix-doom-emacs-unstraightened";
-    #   inputs.nixpkgs.follows = "";
-    # };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -31,25 +31,25 @@
         modules = [
           ./systems/nixos-pc.nix
 
-          ./lib/appimage-binfmt.nix
-          ./lib/auth.nix
-          ./lib/base.nix
-          ./lib/bluetooth.nix
-          ./lib/console.nix
-          ./lib/desktop.nix
-          ./lib/distrobox.nix
-          ./lib/flipperzero.nix
-          ./lib/impermanence.nix
-          ./lib/locale.nix
-          ./lib/network.nix
-          ./lib/printing.nix
-          ./lib/shell.nix
-          ./lib/sound.nix
-          ./lib/ssh.nix
-          ./lib/steam.nix
-          ./lib/users.nix
-          ./lib/vial.nix
-          ./lib/x11.nix
+          ./nixos/appimage-binfmt.nix
+          ./nixos/auth.nix
+          ./nixos/base.nix
+          ./nixos/bluetooth.nix
+          ./nixos/console.nix
+          ./nixos/desktop.nix
+          ./nixos/distrobox.nix
+          ./nixos/flipperzero.nix
+          ./nixos/impermanence.nix
+          ./nixos/locale.nix
+          ./nixos/network.nix
+          ./nixos/printing.nix
+          ./nixos/shell.nix
+          ./nixos/sound.nix
+          ./nixos/ssh.nix
+          ./nixos/steam.nix
+          ./nixos/users.nix
+          ./nixos/vial.nix
+          ./nixos/x11.nix
 
           {
             nixpkgs.config.permittedInsecurePackages = [
@@ -98,23 +98,23 @@
         modules = [
           ./systems/nixbook.nix
 
-          ./lib/appimage-binfmt.nix
-          ./lib/auth.nix
-          ./lib/base.nix
-          ./lib/bluetooth.nix
-          ./lib/console.nix
-          ./lib/desktop.nix
-          ./lib/distrobox.nix
-          ./lib/flipperzero.nix
-          ./lib/impermanence.nix
-          ./lib/locale.nix
-          ./lib/network.nix
-          ./lib/printing.nix
-          ./lib/shell.nix
-          ./lib/sound.nix
-          ./lib/steam.nix
-          ./lib/users.nix
-          # ./lib/virt-manager.nix
+          ./nixos/appimage-binfmt.nix
+          ./nixos/auth.nix
+          ./nixos/base.nix
+          ./nixos/bluetooth.nix
+          ./nixos/console.nix
+          ./nixos/desktop.nix
+          ./nixos/distrobox.nix
+          ./nixos/flipperzero.nix
+          ./nixos/impermanence.nix
+          ./nixos/locale.nix
+          ./nixos/network.nix
+          ./nixos/printing.nix
+          ./nixos/shell.nix
+          ./nixos/sound.nix
+          ./nixos/steam.nix
+          ./nixos/users.nix
+          # ./nixos/virt-manager.nix
 
           {
             nixpkgs.config.permittedInsecurePackages = [
@@ -159,11 +159,40 @@
       };
     };
 
+    darwinConfigurations."o7" = inputs.nix-darwin.lib.darwinSystem {
+      system = "x86_64-darwin";
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./darwin/base.nix
+        ./darwin/users.nix
+        ./darwin/yabai.nix
+
+        {
+          home-manager.users.jenna = {pkgs, ...}: {
+            imports = [
+              ./home-manager/base.nix
+              ./home-manager/firefox.nix
+              ./home-manager/fun.nix
+              ./home-manager/git.nix
+              ./home-manager/kitty.nix
+              ./home-manager/neovim.nix
+              ./home-manager/nushell.nix
+              ./home-manager/productivity.nix
+              ./home-manager/socials.nix
+              ./home-manager/spotify.nix
+              ./home-manager/syncthing.nix
+            ];
+            allowedUnfree = [];
+            home.packages = with pkgs; [
+            ];
+          };
+        }
+      ];
+    };
+
     devShells = let
       forSystems = nixpkgs.lib.genAttrs [
-        "aarch64-darwin"
         "aarch64-linux"
-        "x86_64-darwin"
         "x86_64-linux"
       ];
 

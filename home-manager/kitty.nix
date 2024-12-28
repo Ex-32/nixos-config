@@ -5,10 +5,6 @@
   inputs,
   ...
 }: {
-  imports = [
-    ./xonsh.nix
-  ];
-
   home.packages = with pkgs; [
     kitty
     zellij

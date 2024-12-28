@@ -20,7 +20,8 @@
     # personal enemy
     home.file.".manpath".enable = false;
 
+    # FIXME: work on bot nixos and nix Darwin
     # stateVersion mismatches between nixpkgs and home-manager are... *bad*
-    home.stateVersion = osConfig.system.stateVersion;
+    home.stateVersion = "24.11"; # osConfig.system.stateVersion; 
   };
 }

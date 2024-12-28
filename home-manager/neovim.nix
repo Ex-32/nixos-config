@@ -57,7 +57,7 @@
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''
         wrapProgram $out/bin/nvim \
-          --suffix PATH : ${nvim-deps}/bin \
+          --prefix PATH : ${nvim-deps}/bin \
           --add-flags "--cmd 'set shell=${pkgs.bash}/bin/bash'"
       '';
     };

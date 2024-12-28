@@ -10,8 +10,8 @@
   };
 in {
   imports = [
-    ../lib/nvidia.nix
-    ../lib/zfs.nix
+    ../nixos/nvidia.nix
+    ../nixos/zfs.nix
   ];
 
   networking = {

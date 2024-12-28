@@ -35,7 +35,7 @@
 
     nixpkgs = {
       # this makes NUR packages available under pkgs.nur.repos.repoName.packageName
-      overlays = [inputs.nur.overlay];
+      overlays = [inputs.nur.overlays.default];
 
       # Pending https://github.com/NixOS/nixpkgs/issues/55674
       config.allowUnfreePredicate = pkg:

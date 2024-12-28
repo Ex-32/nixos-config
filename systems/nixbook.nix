@@ -12,7 +12,7 @@
 in {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
-    ../lib/zfs.nix
+    ../nixos/zfs.nix
   ];
 
   networking = {
