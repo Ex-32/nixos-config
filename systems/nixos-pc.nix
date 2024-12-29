@@ -69,21 +69,27 @@ in {
   };
 
   fileSystems = let
-    dataset = subpath: {
+    rpool = subpath: {
       fsType = "zfs";
       device = "rpool/encrypt/${subpath}";
       neededForBoot = true;
     };
+    tank = subpath: {
+      fsType = "zfs";
+      device = "tank/${subpath}";
+      neededForBoot = false;
+    };
   in {
     "/boot" = {device = devs.boot;};
 
-    "/nix" = dataset "volatile/nix";
+    "/nix" = rpool "volatile/nix";
 
-    "/persist/safe/system" = dataset "safe/system";
-    "/persist/safe/home" = dataset "safe/home";
+    "/persist/safe/system" = rpool "safe/system";
+    "/persist/safe/home" = rpool "safe/home";
 
-    "/persist/volatile/cache" = dataset "volatile/cache";
-    "/persist/volatile/games" = dataset "volatile/games";
+    "/persist/volatile/cache" = rpool "volatile/cache";
+    "/persist/volatile/games" = tank "nixos-pc/games";
+    "/persist/volatile/media" = tank "media";
   };
 
   swapDevices = [
