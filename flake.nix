@@ -85,7 +85,6 @@
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
-                bitwarden-desktop
                 gparted
               ];
             };
@@ -149,7 +148,6 @@
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
-                bitwarden-desktop
                 gparted
                 rclone
               ];
