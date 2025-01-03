@@ -112,6 +112,7 @@
           ./nixos/shell.nix
           ./nixos/sound.nix
           ./nixos/steam.nix
+          ./nixos/tailscale.nix
           ./nixos/users.nix
           ./nixos/virt-manager.nix
 

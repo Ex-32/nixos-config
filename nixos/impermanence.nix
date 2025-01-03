@@ -39,7 +39,8 @@ in {
       )
       ++ (optional config.hardware.bluetooth.enable "/var/lib/bluetooth")
       ++ (optional config.virtualisation.libvirtd.enable "/var/lib/libvirt")
-      ++ (optional config.services.fprintd.enable "/var/lib/fprint");
+      ++ (optional config.services.fprintd.enable "/var/lib/fprint")
+      ++ (optional config.services.tailscale.enable "/var/lib/tailscale");
 
     files = [
       "/etc/machine-id"
