@@ -15,13 +15,16 @@
     isNormalUser = true;
     uid = 1000;
     description = "Jenna Fligor";
-    extraGroups = [
-      "networkmanager" # networking privileges
-      "wheel" # general admin (sudo) privileges
-      "video" # raw video device access
-      "lp" # printing privileges
-      "dialout" # raw serial device access
-    ];
+    extraGroups =
+      [
+        "networkmanager" # networking privileges
+        "wheel" # general admin (sudo) privileges
+        "video" # raw video device access
+        "lp" # printing privileges
+        "dialout" # raw serial device access
+      ]
+      # add user to jellyfin group if jellyfin is enabled
+      ++ (lib.lists.optional config.services.jellyfin.enable "jellyfin");
     shell = pkgs.nushell;
 
     # without this any form of rootless containerization will fail

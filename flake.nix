@@ -40,6 +40,7 @@
           ./nixos/distrobox.nix
           ./nixos/flipperzero.nix
           ./nixos/impermanence.nix
+          ./nixos/jellyfin.nix
           ./nixos/locale.nix
           ./nixos/network.nix
           ./nixos/printing.nix

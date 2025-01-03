@@ -89,7 +89,7 @@ in {
 
     "/persist/volatile/cache" = rpool "volatile/cache";
     "/persist/volatile/games" = tank "nixos-pc/games";
-    "/persist/volatile/media" = tank "media";
+    "/persist/volatile/jellyfin" = tank "jellyfin";
   };
 
   swapDevices = [
