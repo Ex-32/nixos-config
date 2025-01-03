@@ -74,6 +74,12 @@ in {
       ])
       ++ (optionals config.local.lutris.enable [
         (symlink ".local/share/epic-games")
-      ]);
+      ])
+      ++ (optionals (
+          builtins.elem pkgs.prismlauncher
+          (config.home.packages ++ osConfig.environment.systemPackages)
+        ) [
+          (symlink ".local/share/PrismLauncher")
+        ]);
   };
 }
