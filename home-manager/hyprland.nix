@@ -37,7 +37,7 @@
 in {
   imports = [
     ./gtk.nix
-    ./kitty.nix
+    ./ghostty.nix
     ./mako.nix
     ./qt.nix
     ./systray.nix
@@ -163,7 +163,7 @@ in {
         "$mod+ALT, 8, focusmonitor, 7"
         "$mod+ALT, 9, focusmonitor, 8"
 
-        "$mod, q, exec, kitty -1"
+        "$mod, q, exec, ${config.programs.ghostty.package}/bin/ghostty"
         "$mod, d, exec, ${pkgs.fuzzel}/bin/fuzzel"
 
         "$mod, Print, exec, ${pkgs.grim}/bin/grim - | ${wl-copy}"
@@ -198,7 +198,7 @@ in {
               echo $$ > "$TERM_FILE"
               trap 'rm -f $TERM_FILE' EXIT
               export SHLVL=0
-              kitty --class dropterm
+              ${config.programs.ghostty.package}/bin/ghostty --class=ghostty.dropterm
             fi
           ''}"
 
@@ -290,7 +290,7 @@ in {
         "${pkgs.brightnessctl}/bin/brightnessctl set 75%"
       ];
       windowrulev2 = [
-        "workspace special, class:^(dropterm)$"
+        "workspace special, class:^((.+\\.)?dropterm)$"
       ];
     };
   };

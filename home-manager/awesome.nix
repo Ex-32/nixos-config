@@ -35,7 +35,7 @@
 in {
   imports = [
     ./gtk.nix
-    ./kitty.nix
+    ./ghostty.nix
     ./picom.nix
     ./qt.nix
     ./systray.nix
@@ -71,7 +71,7 @@ in {
         home = config.home.homeDirectory;
         ## packages
         # brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-        kitty = "${pkgs.kitty}/bin/kitty";
+        ghostty = "${config.programs.ghostty.package}/bin/ghostty";
         playerctl = "${pkgs.playerctl}/bin/playerctl";
         wpctl = "${pkgs.wireplumber}/bin/wpctl";
         tdrop = "${pkgs.tdrop}/bin/tdrop";

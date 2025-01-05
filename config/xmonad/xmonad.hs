@@ -48,7 +48,7 @@ customConfig =
                , ("M-S-<Print>", unGrab >> unsafeSpawn "@screenshot_select@")
                , ("M-S-w", safeSpawn "@change_wallpaper@" [])
                , ("M-<Tab>", namedScratchpadAction scratchpads "dropterm")
-               , ("M-q", safeSpawn "@kitty@" ["-1"])
+               , ("M-q", safeSpawn "@ghostty@" [])
                , ("M-S-r", restart "xmonad" True)
                , ("<XF86AudioMute>", safeSpawn "@wpctl@" ["set-mute", "\x40\&DEFAULT_AUDIO_SINK\x40", "toggle"])
                , ("<XF86AudioLowerVolume>", safeSpawn "@vol_down@" [])
@@ -110,8 +110,8 @@ customLayoutHook = tiled ||| max
 scratchpads =
     [ NS
         "dropterm"
-        "@kitty@ -o background_opacity=0.7 --class dropterm"
-        (className =? "dropterm")
+        "@ghostty@ --background-opacity=0.75 --class=ghostty.dropterm"
+        (className =? "ghostty.dropterm")
         $ customFloating
         $ W.RationalRect 0.06 0.09 0.88 0.82 -- x y w h
     ]

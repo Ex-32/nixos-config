@@ -29,7 +29,7 @@
 in {
   imports = [
     ./gtk.nix
-    ./kitty.nix
+    ./ghostty.nix
     ./picom.nix
     ./polybar.nix
     ./qt.nix
@@ -65,7 +65,7 @@ in {
           # @variables@ to substitute
           ## packages
           brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-          kitty = "${pkgs.kitty}/bin/kitty";
+          ghostty = "${config.programs.ghostty.package}/bin/ghostty";
           playerctl = "${pkgs.playerctl}/bin/playerctl";
           wpctl = "${pkgs.wireplumber}/bin/wpctl";
           xhost = "${xorg.xhost}/bin/xhost";

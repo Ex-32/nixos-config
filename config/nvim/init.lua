@@ -970,12 +970,6 @@ require('lazy').setup({
     end
   },
 
-  ---- kitty config script
-  {
-    "fladson/vim-kitty",
-    ft = { "kitty", "kitty.conf" },
-  },
-
   ---- markdown
   {
     "OXY2DEV/markview.nvim",

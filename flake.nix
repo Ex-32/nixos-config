@@ -66,12 +66,14 @@
                 ./home-manager/firefox.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
+                ./home-manager/ghostty.nix
                 ./home-manager/git.nix
                 ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
+                ./home-manager/nushell.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/photos.nix
                 ./home-manager/productivity.nix
@@ -79,7 +81,6 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
-                ./home-manager/nushell.nix
                 ./home-manager/xmonad.nix
               ];
               local.lutris.enable = true;
@@ -131,10 +132,10 @@
                 ./home-manager/firefox.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
+                ./home-manager/ghostty.nix
                 ./home-manager/git.nix
                 ./home-manager/hyprland.nix
                 ./home-manager/impermanence.nix
-                ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
