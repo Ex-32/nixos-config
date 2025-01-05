@@ -61,8 +61,8 @@ in {
       general = {
         gaps_in = 3;
         gaps_out = 6;
-        border_size = 3;
-        "col.active_border" = "rgb(d6e800) rgb(ff006e) 70deg";
+        border_size = 2;
+        "col.active_border" = "rgb(ff006e) rgb(d6e800) 70deg";
         "col.inactive_border" = "0xff272725";
         layout = "master";
       };
