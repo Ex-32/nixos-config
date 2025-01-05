@@ -52,7 +52,7 @@ end
 beautiful.init("@home@/.config/awesome/theme/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "@ghostty@"
+terminal = "@kitty@"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -287,7 +287,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift" }, "w", function() awful.spawn("@change_wallpaper@") end,
         { description = "cycle wallpaper", group = "awesome" }),
     awful.key({ modkey, }, "Tab",
-        function() awful.spawn({ "@tdrop@", "-a", "-x6%", "-y9%", "-w88%", "-h82%", "ghostty", "--class=ghostty.dropterm" }) end,
+        function() awful.spawn({ "@tdrop@", "-a", "-x6%", "-y9%", "-w88%", "-h82%", "kitty", "--class", "dropdown" }) end,
         { description = "dropdown terminal", group = "launcher" }),
     awful.key({ modkey, }, "q", function() awful.spawn({ terminal, "-1" }) end,
         { description = "open a terminal", group = "launcher" }),
@@ -504,7 +504,7 @@ awful.rules.rules = {
                 "pinentry",
             },
             class = {
-                "ghostty.dropterm",
+                "dropdown",
                 "Arandr",
                 "Blueman-manager",
                 "Gpick",

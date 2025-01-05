@@ -67,7 +67,6 @@
                 ./home-manager/firefox.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
-                ./home-manager/ghostty.nix
                 ./home-manager/git.nix
                 ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
@@ -133,10 +132,10 @@
                 ./home-manager/firefox.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
-                ./home-manager/ghostty.nix
                 ./home-manager/git.nix
                 ./home-manager/hyprland.nix
                 ./home-manager/impermanence.nix
+                ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
