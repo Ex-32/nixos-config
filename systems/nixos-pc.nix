@@ -69,27 +69,31 @@ in {
   };
 
   fileSystems = let
-    rpool = subpath: {
-      fsType = "zfs";
-      device = "rpool/encrypt/${subpath}";
-      neededForBoot = true;
-    };
-    tank = subpath: {
-      fsType = "zfs";
-      device = "tank/${subpath}";
-      neededForBoot = false;
-    };
+    rpool = subpath: opts:
+      {
+        fsType = "zfs";
+        device = "rpool/encrypt/${subpath}";
+        neededForBoot = true;
+      }
+      // (lib.attrsets.optionalAttrs ((builtins.length opts) > 0) {options = opts;});
+    tank = subpath: opts:
+      {
+        fsType = "zfs";
+        device = "tank/${subpath}";
+        neededForBoot = false;
+      }
+      // (lib.attrsets.optionalAttrs ((builtins.length opts) > 0) {options = opts;});
   in {
     "/boot" = {device = devs.boot;};
 
-    "/nix" = rpool "volatile/nix";
+    "/nix" = rpool "volatile/nix" [];
 
-    "/persist/safe/system" = rpool "safe/system";
-    "/persist/safe/home" = rpool "safe/home";
+    "/persist/safe/system" = rpool "safe/system" ["nofail"];
+    "/persist/safe/home" = rpool "safe/home" ["nofail"];
 
-    "/persist/volatile/cache" = rpool "volatile/cache";
-    "/persist/volatile/games" = tank "nixos-pc/games";
-    "/persist/volatile/jellyfin" = tank "jellyfin";
+    "/persist/volatile/cache" = rpool "volatile/cache" ["nofail"];
+    "/persist/volatile/games" = tank "nixos-pc/games" ["nofail"];
+    "/persist/volatile/jellyfin" = tank "jellyfin" ["nofail"];
   };
 
   swapDevices = [
