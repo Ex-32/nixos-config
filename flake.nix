@@ -73,7 +73,6 @@
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
-                ./home-manager/nushell.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/photos.nix
                 ./home-manager/productivity.nix
@@ -82,6 +81,8 @@
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/xmonad.nix
+                ./home-manager/zellij.nix
+                ./home-manager/zsh.nix
               ];
               local.lutris.enable = true;
               allowedUnfree = ["1password"];
@@ -139,14 +140,14 @@
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
                 ./home-manager/nix-index.nix
-                ./home-manager/nushell.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
-                ./home-manager/zed.nix
+                ./home-manager/zellij.nix
+                ./home-manager/zsh.nix
               ];
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
@@ -177,11 +178,11 @@
               ./home-manager/git.nix
               ./home-manager/kitty.nix
               ./home-manager/neovim.nix
-              ./home-manager/nushell.nix
               ./home-manager/productivity.nix
               ./home-manager/socials.nix
               ./home-manager/spotify.nix
               ./home-manager/syncthing.nix
+              ./home-manager/zsh.nix
             ];
             allowedUnfree = [];
             home.packages = with pkgs; [

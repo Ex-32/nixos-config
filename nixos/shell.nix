@@ -5,6 +5,13 @@
   nixpkgs,
   ...
 }: {
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableBashCompletion = true;
+    autosuggestions.enable = true;
+  };
+
   environment.variables = rec {
     # disable the less history file
     LESSHISTFILE = "-";
@@ -48,7 +55,6 @@
     GTK_RC_FILES = "${XDG_CONFIG_HOME}/gtk-1.0/gtkrc";
     GTK_RC2_FILES = "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
     NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
-    ZDOTDIR = "${XDG_CONFIG_HOME}/zsh";
 
     # this sets the location for the cuda compute cache
     # TODO: only enable this environment variable on nvidia systems

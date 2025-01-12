@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  nixpkgs,
   ...
 }: {
   # because of impermanence, /etc/passwd and /etc/group are created from
@@ -17,7 +16,7 @@
     description = "Jenna Fligor";
     extraGroups =
       [
-        "networkmanager" # networking privileges
+        "networkmanager" # networking configuration privileges
         "wheel" # general admin (sudo) privileges
         "video" # raw video device access
         "lp" # printing privileges
@@ -25,7 +24,7 @@
       ]
       # add user to jellyfin group if jellyfin is enabled
       ++ (lib.lists.optional config.services.jellyfin.enable "jellyfin");
-    shell = pkgs.nushell;
+    shell = pkgs.zsh;
 
     # without this any form of rootless containerization will fail
     autoSubUidGidRange = true;
