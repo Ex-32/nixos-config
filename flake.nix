@@ -42,6 +42,7 @@
           ./nixos/impermanence.nix
           ./nixos/jellyfin.nix
           ./nixos/locale.nix
+          ./nixos/mullvad.nix
           ./nixos/network.nix
           ./nixos/printing.nix
           ./nixos/shell.nix
@@ -89,6 +90,7 @@
               home.packages = with pkgs; [
                 _1password-gui
                 gparted
+                qbittorrent
               ];
             };
           }
@@ -110,6 +112,7 @@
           ./nixos/flipperzero.nix
           ./nixos/impermanence.nix
           ./nixos/locale.nix
+          ./nixos/mullvad.nix
           ./nixos/network.nix
           ./nixos/printing.nix
           ./nixos/shell.nix
