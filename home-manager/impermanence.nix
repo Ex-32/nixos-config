@@ -29,6 +29,7 @@ in {
         (symlink ".local/share/keyrings")
         (symlink ".local/share/nheko")
         (symlink ".local/share/nvim")
+        (symlink ".local/share/qBittorrent")
         (symlink ".local/share/wine")
         (symlink ".local/share/xonsh")
         (symlink ".local/share/zoxide")
@@ -41,10 +42,11 @@ in {
         (symlink ".config/discord")
         (symlink ".config/htop")
         (symlink ".config/nheko")
-        (symlink ".config/nushell/history.sqlite3")
+        # (symlink ".config/nushell/history.sqlite3")
         (symlink ".config/nvim/spell")
-        (symlink ".config/spotify")
         (symlink ".config/obsidian")
+        (symlink ".config/qBittorrent")
+        (symlink ".config/spotify")
 
         ".mozilla"
         ".ssh"
