@@ -30,7 +30,7 @@
       # this disallows use of nix by non-admin user, since `nix shell` can
       # download and execute arbitrary programs, this helps reduce system attack
       # surface area
-      allowed-users = lib.mkForce ["@wheel"];
+      allowed-users = lib.mkForce ["@nix" "@wheel"];
     };
 
     nixpkgs = {

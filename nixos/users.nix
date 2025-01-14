@@ -21,6 +21,7 @@
         "video" # raw video device access
         "lp" # printing privileges
         "dialout" # raw serial device access
+        "nix" # nix access
       ]
       # add user to jellyfin group if jellyfin is enabled
       ++ (lib.lists.optional config.services.jellyfin.enable "jellyfin");

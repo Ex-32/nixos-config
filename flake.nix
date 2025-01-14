@@ -45,6 +45,7 @@
           ./nixos/mullvad.nix
           ./nixos/network.nix
           ./nixos/printing.nix
+          ./nixos/puzzle.nix
           ./nixos/shell.nix
           ./nixos/sound.nix
           ./nixos/ssh.nix
