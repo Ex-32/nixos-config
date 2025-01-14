@@ -33,5 +33,9 @@
     # it must be initalHashedPassword, and not hashedPassword, because
     # impermanence means /etc/passwd exists on a ramdisk
     initialHashedPassword = import ../secrets/passwd/jenna;
+
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG9fCOzAH3+OxW0bCwZy84Wh36lKVqVChsg0rAeTJmGZ"
+    ];
   };
 }
