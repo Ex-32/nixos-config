@@ -120,60 +120,8 @@ in {
     };
   };
 
-  home.file = {
-    ".config/rofi/config.rasi".source = ../config/rofi/config.rasi;
-  };
-
   systemd.user = {
     services = {
-      # taffybar = let
-      #   taffybar-configured = pkgs.haskellPackages.callCabal2nix "taffybar-configured" ../config/taffybar {};
-      # in {
-      #   Unit = {
-      #     Description = "taffybar system bar service";
-      #     Wants = [
-      #       "graphical-session.target"
-      #       "status-notifier-watcher.service"
-      #     ];
-      #     After = [
-      #       "graphical-session.target"
-      #       "status-notifier-watcher.service"
-      #     ];
-      #   };
-      #
-      #   Service = {
-      #     Type = "simple";
-      #     ExecStart = "${taffybar-configured}/bin/taffybar";
-      #     Restart = "on-failure";
-      #     RestartSec = 1;
-      #     TimeoutSec = "30s";
-      #   };
-      #
-      #   Install = {
-      #     WantedBy = ["graphical-session.target"];
-      #   };
-      # };
-      # status-notifier-watcher = let
-      #   sni = pkgs.haskellPackages.status-notifier-item;
-      # in {
-      #   Unit = {
-      #     Description = "StatusNotifierWatcher implementation";
-      #     Wants = ["graphical-session.target"];
-      #     After = ["graphical-session.target"];
-      #   };
-      #
-      #   Service = {
-      #     Type = "simple";
-      #     ExecStart = "${sni}/bin/status-notifier-watcher";
-      #     Restart = "on-failure";
-      #     RestartSec = 1;
-      #     TimeoutSec = "30s";
-      #   };
-      #
-      #   Install = {
-      #     WantedBy = ["graphical-session.target"];
-      #   };
-      # };
       fehbg = {
         Unit = {
           Description = "feh wallpaper service";
