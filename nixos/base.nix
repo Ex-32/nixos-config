@@ -19,6 +19,9 @@
   };
 
   config = {
+    # define nix group (users who're allowed to interact with the nix daemon)
+    users.groups = {nix = {};};
+
     nix.settings = {
       # enable experimental flake support, since this system config is flake
       # if these options were removed the resultant system would be unable to
@@ -27,10 +30,9 @@
       # $HOME dotfile clutter is one of my personal pet-peeves, this helps reduce
       # it by storing nix's files in xdg compliant locations
       use-xdg-base-directories = true;
-      # this disallows use of nix by non-admin user, since `nix shell` can
-      # download and execute arbitrary programs, this helps reduce system attack
-      # surface area
-      allowed-users = lib.mkForce ["@nix" "@wheel"];
+      # this requires that users are specifically added to the "nix" group to
+      # interact with the nix daemon
+      allowed-users = lib.mkForce ["@nix"];
     };
 
     nixpkgs = {
