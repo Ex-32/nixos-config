@@ -5,6 +5,10 @@
   inputs,
   ...
 }: {
+  imports = [
+    ./starship.nix
+  ];
+
   programs = {
     zsh = {
       enable = true;
@@ -45,6 +49,9 @@
           }
         '';
     };
+
+    starship.enableZshIntegration = true;
+
     direnv = {
       enable = true;
       enableZshIntegration = true;
