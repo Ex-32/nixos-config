@@ -22,9 +22,10 @@
         "lp" # printing privileges
         "dialout" # raw serial device access
         "nix" # nix access
+        "kvm"
       ]
-      # add user to jellyfin group if jellyfin is enabled
-      ++ (lib.lists.optional config.services.jellyfin.enable "jellyfin");
+      ++ (lib.lists.optional config.services.jellyfin.enable "jellyfin")
+      ++ (lib.lists.optional config.virtualisation.libvirtd.enable "libvirtd");
     shell = pkgs.zsh;
 
     # without this any form of rootless containerization will fail
