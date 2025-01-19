@@ -44,6 +44,7 @@ customConfig =
                , ("M-S-<Space>", windows W.focusUp)
                , ("M-S-<Tab>", return ())
                , ("M-f", sendMessage NextLayout)
+               , ("M-S-l", safeSpawn "@loginctl@" ["lock-session"])
                , ("M-<Print>", unGrab >> unsafeSpawn "@screenshot_full@")
                , ("M-S-<Print>", unGrab >> unsafeSpawn "@screenshot_select@")
                , ("M-S-w", safeSpawn "@change_wallpaper@" [])
@@ -93,11 +94,12 @@ customLayoutHook = tiled ||| max
     nmaster = 1 -- Default number of windows in the master pane
     ratio = phi - 1 -- Default proportion of screen occupied by master pane
     delta = 2 / 100 -- Percent of screen to increment by when resizing panes
+    border3 = Border 3 3 3 3
 
     -- parent-children-stack window layout
     tiled =
         renamed [Replace "Tiled"] $
-            spacingRaw False (Border 3 3 3 3) True (Border 3 3 3 3) True $
+            spacingRaw False border3 True border3 True $
                 gaps [(U, 48)] $
                     smartBorders $
                         Tall nmaster delta $

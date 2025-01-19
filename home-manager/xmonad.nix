@@ -66,6 +66,7 @@ in {
           ## packages
           brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
           kitty = "${pkgs.kitty}/bin/kitty";
+          loginctl = "${pkgs.systemd}/bin/loginctl";
           playerctl = "${pkgs.playerctl}/bin/playerctl";
           wpctl = "${pkgs.wireplumber}/bin/wpctl";
           xhost = "${xorg.xhost}/bin/xhost";
@@ -120,8 +121,42 @@ in {
     };
   };
 
+  services.screen-locker = {
+    enable = true;
+    xautolock.enable = false;
+    inactiveInterval = 5;
+    lockCmd = let
+      conf = {
+        XSECURELOCK_PASSWORD_PROMPT = "asterisks";
+        XSECURELOCK_FONT = "FiraCode Nerd Font Light";
+      };
+    in
+      builtins.concatStringsSep " " [
+        "${pkgs.coreutils}/bin/env"
+        (builtins.concatStringsSep " "
+          (lib.attrsets.mapAttrsToList (name: val: ''${name}="${val}"'') conf))
+        "${pkgs.xsecurelock}/bin/xsecurelock"
+      ];
+  };
+
   systemd.user = {
     services = {
+      activate-linux = {
+        Unit = {
+          Description = "Activate Linux";
+          Wants = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+
+        Service = {
+          Type = "simple";
+          ExecStart = "${pkgs.activate-linux}/bin/activate-linux";
+        };
+
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
       fehbg = {
         Unit = {
           Description = "feh wallpaper service";

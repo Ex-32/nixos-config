@@ -50,7 +50,7 @@
         type = "internal/cpu";
       };
       "module/date" = {
-        date = "%H:%M";
+        date = "%Y-%m-%d %H:%M";
         date-alt = "%Y-%m-%d %H:%M:%S";
         interval = "1";
         label = "%date%";
