@@ -25,11 +25,11 @@
     ...
   }: {
     nixosConfigurations = {
-      "nixos-pc" = nixpkgs.lib.nixosSystem {
+      "zion-mainframe" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         modules = [
-          ./systems/nixos-pc.nix
+          ./systems/zion-mainframe.nix
 
           ./nixos/appimage-binfmt.nix
           ./nixos/auth.nix

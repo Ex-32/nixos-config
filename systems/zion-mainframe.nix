@@ -15,9 +15,34 @@ in {
   ];
 
   networking = {
-    hostName = "nixos-pc";
+    hostName = "zion-mainframe";
     hostId = "6f02efe2";
     useDHCP = lib.mkDefault true;
+  };
+
+  services.nebula.networks.Caldwell69 = {
+    enable = true;
+    lighthouses = ["192.168.69.1"];
+    staticHostMap = {"192.168.69.1" = ["146.190.187.143:4242"];};
+    firewall = {
+      inbound = [
+        {
+          host = "any";
+          port = "any";
+          proto = "any";
+        }
+      ];
+      outbound = [
+        {
+          host = "any";
+          port = "any";
+          proto = "any";
+        }
+      ];
+    };
+    cert = ../secrets/nebula/zion-mainframe.crt;
+    key = ../secrets/nebula/zion-mainframe.key;
+    ca = ../secrets/nebula/ca.crt;
   };
 
   # this enables firmware that's distributed as a redistributable binary but
@@ -92,25 +117,13 @@ in {
     "/persist/safe/home" = rpool "safe/home" ["nofail"];
 
     "/persist/volatile/cache" = rpool "volatile/cache" ["nofail"];
-    "/persist/volatile/games" = tank "nixos-pc/games" ["nofail"];
+    "/persist/volatile/games" = tank "zion-mainframe/games" ["nofail"];
     "/persist/volatile/jellyfin" = tank "jellyfin" ["nofail"];
   };
 
   swapDevices = [
     {device = devs.swap;}
   ];
-
-  # services.ddclient = {
-  #   enable = true;
-  #   interval = "1h";
-  #   use = "web, web=svc.joker.com/nic/checkip";
-  #   server = "svc.joker.com/nic/update?";
-  #   protocol = "dyndns2";
-  #   username = import ../secrets/ddclient/nixos-pc/login;
-  #   passwordFile = "/etc/nixos/secrets/ddclient/nixos-pc/password";
-  #   domains = import ../secrets/ddclient/nixos-pc/domains;
-  #   ssl = true;
-  # };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

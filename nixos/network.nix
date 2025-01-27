@@ -14,6 +14,7 @@
 
   networking.firewall = let
     allowed = [
+      4242 # nebula
       28785 # super tux kart
       57621 # spotify sync
     ];
