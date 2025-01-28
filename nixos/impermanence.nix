@@ -24,6 +24,7 @@ in {
     directories =
       [
         "/etc/nixos"
+        "/etc/ssh"
         "/var/lib/nixos"
         "/var/log"
         # below we use the `config` variable to introspect the state of this
