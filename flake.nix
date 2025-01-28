@@ -25,11 +25,11 @@
     ...
   }: {
     nixosConfigurations = {
-      "zion-mainframe" = nixpkgs.lib.nixosSystem {
+      "zion" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         modules = [
-          ./systems/zion-mainframe.nix
+          ./systems/zion.nix
 
           ./nixos/appimage-binfmt.nix
           ./nixos/auth.nix
@@ -97,11 +97,11 @@
           }
         ];
       };
-      "nixbook" = nixpkgs.lib.nixosSystem {
+      "reason" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         modules = [
-          ./systems/nixbook.nix
+          ./systems/reason.nix
 
           ./nixos/appimage-binfmt.nix
           ./nixos/auth.nix

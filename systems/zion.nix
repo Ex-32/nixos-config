@@ -15,7 +15,7 @@ in {
   ];
 
   networking = {
-    hostName = "zion-mainframe";
+    hostName = "zion";
     hostId = "6f02efe2";
     useDHCP = lib.mkDefault true;
   };
@@ -40,8 +40,8 @@ in {
         }
       ];
     };
-    cert = ../secrets/nebula/zion-mainframe.crt;
-    key = ../secrets/nebula/zion-mainframe.key;
+    cert = ../secrets/nebula/zion.crt;
+    key = ../secrets/nebula/zion.key;
     ca = ../secrets/nebula/ca.crt;
   };
 
