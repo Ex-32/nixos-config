@@ -12,7 +12,7 @@
     hostname = osConfig.networking.hostName;
   in
     pkgs.writeScript "xmonad-wallpaper"
-    # bash
+    # sh
     ''
       #!/bin/sh
       set -e
@@ -64,17 +64,34 @@ in {
         pkgs.replaceVars ../config/xmonad/xmonad.hs rec {
           # @variables@ to substitute
           ## packages
-          brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-          kitty = "${pkgs.kitty}/bin/kitty";
-          loginctl = "${pkgs.systemd}/bin/loginctl";
-          playerctl = "${pkgs.playerctl}/bin/playerctl";
-          wpctl = "${pkgs.wireplumber}/bin/wpctl";
-          xhost = "${xorg.xhost}/bin/xhost";
-          rlaunch = "${pkgs.rlaunch}/bin/rlaunch";
-          xsetroot = "${xorg.xsetroot}/bin/xsetroot";
+          brightnessctl = pkgs.brightnessctl + "/bin/brightnessctl";
+          kitty = pkgs.kitty + "/bin/kitty";
+          loginctl = pkgs.systemd + "/bin/loginctl";
+          playerctl = pkgs.playerctl + "/bin/playerctl";
+          wpctl = pkgs.wireplumber + "/bin/wpctl";
+          xhost = xorg.xhost + "/bin/xhost";
+          rlaunch = pkgs.rlaunch + "/bin/rlaunch";
+          xsetroot = xorg.xsetroot + "/bin/xsetroot";
           change_wallpaper = xmonad-wallpaper;
           screenshot_full = "${maim} | ${xclip-png}";
           screenshot_select = "${maim} -s | ${xclip-png}";
+          toggle_compositor = let
+            systemctl = pkgs.systemd + "/bin/systemctl";
+            unit = "picom.service";
+          in
+            pkgs.writeScript "toggle-compositor"
+            # sh
+            ''
+              #!/bin/sh
+              status="$(${systemctl} --user is-active ${unit})"
+              if [ "$status" = "active" ] ; then
+                  ${systemctl} --user stop ${unit}
+              elif [ "$status" = "inactive" ] ; then
+                  ${systemctl} --user start ${unit}
+              else
+                  ${systemctl} --user restart ${unit}
+              fi
+            '';
           vol_down =
             pkgs.writeScript "vol-down"
             # python
@@ -132,10 +149,10 @@ in {
       };
     in
       builtins.concatStringsSep " " [
-        "${pkgs.coreutils}/bin/env"
+        (pkgs.coreutils + "/bin/env")
         (builtins.concatStringsSep " "
           (lib.attrsets.mapAttrsToList (name: val: ''${name}="${val}"'') conf))
-        "${pkgs.xsecurelock}/bin/xsecurelock"
+        (pkgs.xsecurelock + "/bin/xsecurelock")
       ];
   };
 
