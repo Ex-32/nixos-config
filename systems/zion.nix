@@ -117,7 +117,7 @@ in {
     "/persist/safe/home" = rpool "safe/home" ["nofail"];
 
     "/persist/volatile/cache" = rpool "volatile/cache" ["nofail"];
-    "/persist/volatile/games" = tank "zion-mainframe/games" ["nofail"];
+    "/persist/volatile/games" = tank "zion/games" ["nofail"];
     "/persist/volatile/jellyfin" = tank "jellyfin" ["nofail"];
   };
 
