@@ -39,7 +39,7 @@
             src = pkgs.fetchurl {
               name = "Firefox-${version}.dmg";
               url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-GB/Firefox%20${version}.dmg";
-              sha256 = "sha256-6wlF8YFqtwPB+83lFdv/ytvOeyc8RVof7z3BVXyAjyU=";
+              sha256 = "sha256-xUIYUogS/QqLRaWZkNvGRfoePmzJ/seUnXfeV/eIbvI=";
             };
 
             meta = {
