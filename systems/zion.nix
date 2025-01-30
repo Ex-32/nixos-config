@@ -24,6 +24,10 @@ in {
     enable = true;
     lighthouses = ["192.168.69.1"];
     staticHostMap = {"192.168.69.1" = ["146.190.187.143:4242"];};
+    listen = {
+      host = "0.0.0.0";
+      port = 4242;
+    };
     firewall = {
       inbound = [
         {

@@ -25,6 +25,10 @@ in {
     enable = true;
     lighthouses = ["192.168.69.1"];
     staticHostMap = {"192.168.69.1" = ["146.190.187.143:4242"];};
+    listen = {
+      host = "0.0.0.0";
+      port = 4242;
+    };
     firewall = {
       inbound = [
         {
@@ -82,7 +86,11 @@ in {
           "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
         };
         extraEntries = {
-          "z-00-efi-shell.conf" = ''
+          "z-00-freebsd.conf" = ''
+            title FreeBSD Loader
+            efi /efi/freebsd/loader.efi
+          '';
+          "z-01-efi-shell.conf" = ''
             title EFI Shell
             efi /efi/shell/shell.efi
           '';
