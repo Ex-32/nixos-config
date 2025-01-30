@@ -213,7 +213,6 @@
               with hpkgs; [
                 xmonad_0_18_0
                 xmonad-contrib
-                taffybar
               ]))
           ];
         };
