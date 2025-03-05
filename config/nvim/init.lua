@@ -891,6 +891,12 @@ require('lazy').setup({
   },
 
   {
+    "chrisgrieser/nvim-lsp-endhints",
+    event = "LspAttach",
+    opts = {},
+  },
+
+  {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function(_, _)
       require("lsp_lines").setup()
