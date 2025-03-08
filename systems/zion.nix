@@ -122,7 +122,6 @@ in {
 
     "/persist/volatile/cache" = rpool "volatile/cache" ["nofail"];
     "/persist/volatile/games" = tank "zion/games" ["nofail"];
-    "/persist/volatile/jellyfin" = tank "jellyfin" ["nofail"];
   };
 
   swapDevices = [
