@@ -121,7 +121,6 @@
           ./nixos/steam.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
-          ./nixos/virt-manager.nix
 
           {
             nixpkgs.config.permittedInsecurePackages = [
@@ -143,6 +142,7 @@
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
+                ./home-manager/niri.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
