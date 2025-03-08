@@ -35,6 +35,7 @@
           ./nixos/auth.nix
           ./nixos/base.nix
           ./nixos/bluetooth.nix
+          ./nixos/ccc.nix
           ./nixos/console.nix
           ./nixos/desktop.nix
           ./nixos/distrobox.nix
