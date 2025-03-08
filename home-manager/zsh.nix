@@ -36,7 +36,8 @@
           bindkey "^[[1;5D" backward-word
 
           ns() {
-              nix_shell=pure
+              local arg_list=""
+              local nix_shell=pure
               for arg in $@ ; do
                   [[ "$arg" == "--impure" ]] && nix_shell=impure
                   if [[ "$arg" =~ "--.*" ]] ; then
