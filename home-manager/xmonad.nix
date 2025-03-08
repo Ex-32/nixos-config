@@ -72,6 +72,7 @@ in {
           xhost = xorg.xhost + "/bin/xhost";
           rlaunch = pkgs.rlaunch + "/bin/rlaunch";
           xsetroot = xorg.xsetroot + "/bin/xsetroot";
+          setxkbmap = xorg.setxkbmap + "/bin/setxkbmap";
           change_wallpaper = xmonad-wallpaper;
           screenshot_full = "${maim} | ${xclip-png}";
           screenshot_select = "${maim} -s | ${xclip-png}";
@@ -158,22 +159,6 @@ in {
 
   systemd.user = {
     services = {
-      activate-linux = {
-        Unit = {
-          Description = "Activate Linux";
-          Wants = ["graphical-session.target"];
-          After = ["graphical-session.target"];
-        };
-
-        Service = {
-          Type = "simple";
-          ExecStart = "${pkgs.activate-linux}/bin/activate-linux";
-        };
-
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-      };
       fehbg = {
         Unit = {
           Description = "feh wallpaper service";

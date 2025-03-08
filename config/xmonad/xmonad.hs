@@ -52,16 +52,6 @@ customConfig =
                , ("M-<Tab>", namedScratchpadAction scratchpads "dropterm")
                , ("M-q", safeSpawn "@kitty@" ["-1"])
                , ("M-S-r", restart "xmonad" True)
-               , ("<XF86AudioMute>", safeSpawn "@wpctl@" ["set-mute", "\x40\&DEFAULT_AUDIO_SINK\x40", "toggle"])
-               , ("<XF86AudioLowerVolume>", safeSpawn "@vol_down@" [])
-               , ("<XF86AudioRaiseVolume>", safeSpawn "@vol_up@" [])
-               , ("S-<XF86AudioLowerVolume>", safeSpawn "@wpctl@" ["set-volume", "-l", "1.5", "\x40\&DEFAULT_AUDIO_SINK\x40", "1%-"])
-               , ("S-<XF86AudioRaiseVolume>", safeSpawn "@wpctl@" ["set-volume", "-l", "1.5", "\x40\&DEFAULT_AUDIO_SINK\x40", "1%+"])
-               , ("<XF86AudioPrev>", safeSpawn "@playerctl@" ["previous"])
-               , ("<XF86AudioPlay>", safeSpawn "@playerctl@" ["play-pause"])
-               , ("<XF86AudioNext>", safeSpawn "@playerctl@" ["next"])
-               , ("<XF86MonBrightnessDown>", safeSpawn "@brightnessctl@" ["set", "5%-"])
-               , ("<XF86MonBrightnessUp>", safeSpawn "@brightnessctl@" ["set", "5%+"])
                , ("M1-C-<Delete>", io exitSuccess)
                , ("M-[", CycleWS.prevWS)
                , ("M-]", CycleWS.nextWS)
@@ -80,6 +70,44 @@ customConfig =
                         , "--color4=#100c00"
                         ]
                    )
+               ,
+                   ( "<XF86AudioMute>"
+                   , safeSpawn
+                        "@wpctl@"
+                        [ "set-mute"
+                        , "\x40\&DEFAULT_AUDIO_SINK\x40"
+                        , "toggle"
+                        ]
+                   )
+               , ("<XF86AudioLowerVolume>", safeSpawn "@vol_down@" [])
+               , ("<XF86AudioRaiseVolume>", safeSpawn "@vol_up@" [])
+               ,
+                   ( "S-<XF86AudioLowerVolume>"
+                   , safeSpawn
+                        "@wpctl@"
+                        [ "set-volume"
+                        , "-l"
+                        , "1.5"
+                        , "\x40\&DEFAULT_AUDIO_SINK\x40"
+                        , "1%-"
+                        ]
+                   )
+               ,
+                   ( "S-<XF86AudioRaiseVolume>"
+                   , safeSpawn
+                        "@wpctl@"
+                        [ "set-volume"
+                        , "-l"
+                        , "1.5"
+                        , "\x40\&DEFAULT_AUDIO_SINK\x40"
+                        , "1%+"
+                        ]
+                   )
+               , ("<XF86AudioPrev>", safeSpawn "@playerctl@" ["previous"])
+               , ("<XF86AudioPlay>", safeSpawn "@playerctl@" ["play-pause"])
+               , ("<XF86AudioNext>", safeSpawn "@playerctl@" ["next"])
+               , ("<XF86MonBrightnessDown>", safeSpawn "@brightnessctl@" ["set", "5%-"])
+               , ("<XF86MonBrightnessUp>", safeSpawn "@brightnessctl@" ["set", "5%+"])
                ]
   where
     keys = additionalKeysP
@@ -129,6 +157,7 @@ customStartupHook :: X ()
 customStartupHook = do
     safeSpawn "@xhost@" ["+SI:localuser:root"]
     safeSpawn "@xsetroot@" ["-cursor_name", "left_ptr"]
+    safeSpawn "@setxkbmap@" ["-option", "compose:ralt"]
     -- safeSpawn "@wpctl@" ["set-volume", "\x40\&DEFAULT_AUDIO_SOURCE\x40", "30%"]
     safeSpawnOnce "@brightnessctl@" ["set", "75%"]
 
