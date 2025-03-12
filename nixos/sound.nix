@@ -5,8 +5,6 @@
   nixpkgs,
   ...
 }: {
-  # sound.enable = true;
-
   # i'm using pipewire-pulse to handle pipewire clients and having both enabled
   # causes weird behavior because they'll fight to connect to pulse clients
   services.pulseaudio.enable = lib.mkForce false;
@@ -21,6 +19,7 @@
     enable = true;
     wireplumber.enable = true;
     alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
   };
