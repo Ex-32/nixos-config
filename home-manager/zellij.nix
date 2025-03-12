@@ -5,6 +5,8 @@
   inputs,
   ...
 }: {
-  programs.zellij.enable = true;
-  home.file.".config/zellij/config.kdl".source = ../config/zellij/config.kdl;
+  home = {
+    packages = [pkgs.zellij];
+    file.".config/zellij/config.kdl".source = ../config/zellij/config.kdl;
+  };
 }
