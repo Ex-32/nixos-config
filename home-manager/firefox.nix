@@ -75,7 +75,7 @@
           id = 0;
           isDefault = true;
           name = "default";
-          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+          extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
             # bitwarden
             canvasblocker
             clearurls
@@ -228,9 +228,6 @@
           categories = ["Network" "WebBrowser"];
         };
       };
-    })
-    (lib.mkIf (builtins.elem pkgs.system lib.platforms.darwin) {
-      nixpkgs.overlays = [inputs.nixpkgs-firefox-darwin.overlay];
     })
   ];
 }
