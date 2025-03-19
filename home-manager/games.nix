@@ -20,7 +20,27 @@
         endless-sky
         mindustry
         prismlauncher
-        sauerbraten
+        # sauerbraten
+        (sauerbraten.overrideAttrs (old: rec {
+          installPhase = ''
+            runHook preInstall
+
+            mkdir -p $out/bin $out/share/icon/ $out/share/sauerbraten $out/share/doc/sauerbraten
+            cp -r "../docs/"* $out/share/doc/sauerbraten/
+            cp sauer_client sauer_server $out/share/sauerbraten/
+            cp -r ../packages ../data $out/share/sauerbraten/
+            ln -s $out/share/sauerbraten/data/cube.png $out/share/icon/sauerbraten.png
+
+            makeWrapper $out/share/sauerbraten/sauer_server $out/bin/sauerbraten_server \
+              --chdir "$out/share/sauerbraten"
+            makeWrapper $out/share/sauerbraten/sauer_client $out/bin/sauerbraten_client \
+              --chdir "$out/share/sauerbraten" \
+              --add-flags "-q\''${HOME}/.config/sauerbraten"
+
+            runHook postInstall
+          '';
+        }))
+
         superTuxKart
       ];
     }
