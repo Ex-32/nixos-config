@@ -3,6 +3,8 @@
 // Check the wiki for a full description of the configuration:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Overview
 
+spawn-at-startup "@startup_hook@"
+
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
@@ -22,6 +24,7 @@ input {
     // Next sections include libinput settings.
     // Omitting settings disables them, or leaves them at their default values.
     touchpad {
+        click-method "clickfinger"
         // off
         // tap
         // dwt
@@ -221,7 +224,7 @@ layout {
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
 // The path is formatted with strftime(3) to give you the screenshot date and time.
-screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+screenshot-path "~/documents/pictures/screenshots/screenshot_%Y-%m-%d_%H-%M-%S.png"
 
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
@@ -295,8 +298,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Q { spawn "@kitty@" "-1"; }
-    Mod+D { spawn "@fuzzel@"; }
+    Mod+Q { spawn "@launch_kitty@"; }
+    Mod+D { spawn "@launch_fuzzel@"; }
     Mod+Ctrl+a { spawn "@toggle_activate_linux@"; }
     // Mod+Shift+L { spawn "swaylock"; }
 

@@ -122,6 +122,8 @@
           ./nixos/tailscale.nix
           ./nixos/users.nix
 
+          ./nixos/vial.nix
+
           {
             nixpkgs.config.permittedInsecurePackages = [
               # FIXME: look to see if nheko is fixing upstream or else find new matrix client
@@ -137,7 +139,7 @@
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
-                ./home-manager/hyprland.nix
+                # ./home-manager/hyprland.nix
                 ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
