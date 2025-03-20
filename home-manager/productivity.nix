@@ -37,5 +37,6 @@ in {
     ++ lib.optionals (builtins.elem pkgs.system lib.platforms.linux) [
       libreoffice-with-deps
       pkgs.onlyoffice-desktopeditors
+      pkgs.foliate
     ];
 }

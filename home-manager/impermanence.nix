@@ -22,6 +22,7 @@ in {
       [
         ".local/state"
 
+        (symlink ".local/share/com.github.johnfactotum.Foliate")
         (symlink ".local/share/containers")
         (symlink ".local/share/direnv")
         (symlink ".local/share/doom")
