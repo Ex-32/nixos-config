@@ -54,6 +54,7 @@
           ./nixos/users.nix
           ./nixos/vial.nix
           ./nixos/x11.nix
+          ./nixos/homelab-smb.nix
 
           {
             nixpkgs.config.permittedInsecurePackages = [
