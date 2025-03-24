@@ -30,6 +30,7 @@ in {
         (symlink ".local/share/keyrings")
         (symlink ".local/share/nheko")
         (symlink ".local/share/nvim")
+        (symlink ".local/share/nyxt")
         (symlink ".local/share/qBittorrent")
         (symlink ".local/share/wine")
         (symlink ".local/share/xonsh")

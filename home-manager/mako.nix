@@ -9,23 +9,23 @@
     enable = true;
     anchor = "bottom-right";
     backgroundColor = "#100c00";
-    borderColor = "#9c00fc";
+    borderColor = "#ff006e";
     borderRadius = 0;
-    borderSize = 3;
+    borderSize = 2;
     defaultTimeout = 5000;
-    font = "Source Sans 3 13";
-    height = 400;
+    font = "Source Sans 3 12";
+    height = 300;
     progressColor = "#252726";
     textColor = "#fcfcfc";
-    width = 400;
+    width = 300;
     extraConfig =
       # toml
       ''
         [urgency=high]
-        border-color=#ff1212
+        border-color=#fe552c
 
         [urgency=low]
-        border-color=#00d500
+        border-color=#00b300
       '';
   };
 }

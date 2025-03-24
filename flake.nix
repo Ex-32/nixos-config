@@ -161,6 +161,7 @@
                 _1password-gui
                 gparted
                 rclone
+                nyxt
               ];
             };
           }
