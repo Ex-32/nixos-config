@@ -301,7 +301,8 @@ binds {
     Mod+Q { spawn "@launch_kitty@"; }
     Mod+D { spawn "@launch_fuzzel@"; }
     Mod+Ctrl+a { spawn "@toggle_activate_linux@"; }
-    // Mod+Shift+L { spawn "swaylock"; }
+    Mod+Ctrl+S { spawn "swaylock"; }
+    Mod+Ctrl+W { spawn "@change_wallpaper@"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -313,6 +314,14 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn "@vol_down@"; }
     XF86AudioMute        allow-when-locked=true { spawn "@wpctl@" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "@wpctl@" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+
+    XF86AudioPrev allow-when-locked=true { spawn "@playerctl@" "previous"; }
+    XF86AudioPlay allow-when-locked=true { spawn "@playerctl@" "play-pause"; }
+    XF86AudioNext allow-when-locked=true { spawn "@playerctl@" "next"; }
+
+    XF86MonBrightnessDown allow-when-locked=true { spawn "@brightnessctl@" "set" "5%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "@brightnessctl@" "set" "5%+"; }
+
 
     Mod+C { close-window; }
 

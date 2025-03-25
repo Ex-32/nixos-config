@@ -61,11 +61,9 @@ in {
       # @variables@ to substitute
 
       ## packages
-      # brightnessctl = lib.getExe pkgs.brightnessctl;
-      # fuzzel = lib.getExe pkgs.fuzzel;
-      # kitty = lib.getExe pkgs.kitty;
+      brightnessctl = lib.getExe pkgs.brightnessctl;
       # loginctl = lib.getExe' pkgs.systemd "loginctl";
-      # playerctl = lib.getExe pkgs.playerctl;
+      playerctl = lib.getExe pkgs.playerctl;
       wpctl = lib.getExe' pkgs.wireplumber "wpctl";
       # systemctl = lib.getExe' pkgs.systemd "systemctl";
 
@@ -120,21 +118,7 @@ in {
           eval "export DISPLAY=\"$(cat "''${XDG_RUNTIME_DIR}/DISPLAY_''${WAYLAND_DISPLAY}")\""
           exec ${lib.getExe pkgs.fuzzel}
         '';
-      # change_wallpaper = wallpaper-script;
-      # screenshot_full =
-      #   pkgs.writeScript "screenshot-full"
-      #   #bash
-      #   ''
-      #     #!/bin/sh
-      #     ${grim} - | ${wl-copy}
-      #   '';
-      # screenshot_select =
-      #   pkgs.writeScript "screenshot-select"
-      #   #bash
-      #   ''
-      #     #!/bin/sh
-      #     ${lib.getExe pkgs.slurp} | ${grim} -g - - | ${wl-copy}
-      #   '';
+      change_wallpaper = wallpaper-script;
       toggle_activate_linux =
         pkgs.writeScript "toggle-activate-linux"
         # bash

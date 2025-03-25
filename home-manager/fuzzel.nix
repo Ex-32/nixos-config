@@ -11,10 +11,10 @@
       # ini
       ''
         [main]
-        font=Source Sans:size=8
+        font=Source Sans:size=14
         anchor=top
         lines=30
-        line-height=14
+        line-height=20
 
         [colors]
         background=100c00ff

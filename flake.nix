@@ -53,7 +53,6 @@
           ./nixos/tailscale.nix
           ./nixos/users.nix
           ./nixos/vial.nix
-          ./nixos/x11.nix
           ./nixos/homelab-smb.nix
 
           {
@@ -75,6 +74,7 @@
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
+                ./home-manager/niri.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/obs-studio.nix
                 ./home-manager/photos.nix
@@ -83,7 +83,6 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
-                ./home-manager/xmonad.nix
                 ./home-manager/zellij.nix
                 ./home-manager/zsh.nix
               ];
@@ -92,6 +91,7 @@
               home.packages = with pkgs; [
                 _1password-gui
                 gparted
+                nyxt
                 qbittorrent
               ];
             };
@@ -160,8 +160,8 @@
               home.packages = with pkgs; [
                 _1password-gui
                 gparted
-                rclone
                 nyxt
+                rclone
               ];
             };
           }
