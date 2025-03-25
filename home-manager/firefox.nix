@@ -126,8 +126,8 @@
           containersForce = true;
           search = {
             force = true;
-            default = "DuckDuckGo";
-            privateDefault = "DuckDuckGo";
+            default = "ddg";
+            privateDefault = "ddg";
             engines = {
               "Nix Packages" = {
                 urls = [
@@ -182,10 +182,8 @@
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = ["@hm"];
               };
-              "Google".metaData.hidden = true;
-              "Amazon.com".metaData.hidden = true;
-              "Bing".metaData.hidden = true;
-              "eBay".metaData.hidden = true;
+              "google".metaData.hidden = true;
+              "bing".metaData.hidden = true;
             };
           };
           settings = {

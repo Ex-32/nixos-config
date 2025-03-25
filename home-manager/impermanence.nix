@@ -72,7 +72,7 @@ in {
     allowOther = osConfig.programs.fuse.userAllowOther;
     directories =
       (optionals osConfig.programs.steam.enable [
-        (symlink ".factorio")
+        ".factorio"
         (symlink ".local/share/Steam")
         (symlink ".local/share/vulkan")
         (symlink ".steam")
