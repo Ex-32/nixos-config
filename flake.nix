@@ -112,6 +112,7 @@
           ./nixos/desktop.nix
           ./nixos/distrobox.nix
           ./nixos/flipperzero.nix
+          ./nixos/homelab-smb.nix
           ./nixos/impermanence.nix
           ./nixos/locale.nix
           ./nixos/mullvad.nix
@@ -122,7 +123,6 @@
           ./nixos/steam.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
-
           ./nixos/vial.nix
 
           {
@@ -140,7 +140,6 @@
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
-                # ./home-manager/hyprland.nix
                 ./home-manager/impermanence.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
