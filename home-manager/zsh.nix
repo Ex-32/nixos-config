@@ -48,6 +48,11 @@
               done
               eval "env IN_NIX_SHELL=$nix_shell nix shell $arg_list"
           }
+
+          _set_title_preexec() { print -Pn "\e]0;%~ | $1\a" }
+          _set_title_precmd() { print -Pn "\e]0;%~ | zsh\a" }
+          preexec_function+=(_set_title_preexec)
+          precmd_functions+=(_set_title_precmd)
         '';
     };
 
