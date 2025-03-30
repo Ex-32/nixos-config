@@ -47,8 +47,7 @@ in {
     ./kitty.nix
     ./mako.nix
     ./qt.nix
-    # ./systray.nix
-    # ./waybar-hyprland.nix
+    ./waybar.nix
     ./fuzzel.nix
   ];
 
