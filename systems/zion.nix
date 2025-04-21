@@ -88,10 +88,6 @@ in {
             title EFI Shell
             efi /efi/shell/shell.efi
           '';
-          "z-00-gentoo-grub.conf" = ''
-            title Gentoo GRUB
-            efi /efi/gentoo/grubx64.efi
-          '';
         };
       };
     };
