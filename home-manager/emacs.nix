@@ -39,18 +39,25 @@
       paths =
         (with pkgs; [
           (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
+          alejandra
+          cargo
           clang-tools
+          cmake-language-server
           ghc # needed for hls
           gnumake
           gopls
           haskell-language-server
           lua-language-server
+          nixd
           nodePackages.bash-language-server
           pandoc
           pyright
           rust-analyzer
           texlab
           vscode-langservers-extracted
+          shellcheck
+          shfmt
+          editorconfig-core-c
         ])
         ++ [
           tex
