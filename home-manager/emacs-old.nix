@@ -9,7 +9,9 @@
     "aspell-dict-en-science"
   ];
 
-  programs.emacs = let
+  imports = [inputs.unstraightened.hmModule];
+
+  programs.doom-emacs = let
     # from https://nixos.wiki/wiki/TexLive#Combine_Sets
     tex = pkgs.texlive.combine {
       inherit
@@ -86,14 +88,9 @@
       };
   in {
     enable = true;
-    package = emacs-with-deps;
+    emacs = emacs-with-deps;
+    doomDir = ../config/doom;
   };
 
-  home.file = {
-    ".emacs.d/init.el".enable = false;
-    ".config/doom" = {
-      source = ../config/doom;
-      recursive = true;
-    };
-  };
+  home.file.".emacs.d/init.el".enable = false;
 }
