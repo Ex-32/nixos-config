@@ -42,12 +42,12 @@
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
     CARGO_HOME = "${XDG_DATA_HOME}/cargo";
-    RUSTUP_HOME = "${XDG_DATA_HOME}/rustup";
-    GOPATH = "${XDG_DATA_HOME}/go";
-    RBENV_ROOT = "${XDG_DATA_HOME}/rbenv";
     GNUPGHOME = "${XDG_DATA_HOME}/gnugp";
-    WINEPREFIX = "${XDG_DATA_HOME}/wine";
+    GOPATH = "${XDG_DATA_HOME}/go";
     GRADLE_USER_HOME = "${XDG_DATA_HOME}/gradle";
+    RBENV_ROOT = "${XDG_DATA_HOME}/rbenv";
+    RUSTUP_HOME = "${XDG_DATA_HOME}/rustup";
+    WINEPREFIX = "${XDG_DATA_HOME}/wine";
 
     # NOTE: using _JAVA_OPTIONS to set the userRoot location and prevent the
     # creation of ~/.java can break poorly designed programs that hardcode
@@ -91,6 +91,7 @@
       with p; [
         numpy
         scipy
+        opencv4
       ]);
   in [
     bat # a modern cat clone with line numbers and syntax highlighting

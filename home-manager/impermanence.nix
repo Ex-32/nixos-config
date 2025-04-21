@@ -49,6 +49,7 @@ in {
         (symlink ".config/obsidian")
         (symlink ".config/qBittorrent")
         (symlink ".config/spotify")
+        (symlink ".config/steamtinkerlaunch")
 
         ".mozilla"
         ".ssh"
