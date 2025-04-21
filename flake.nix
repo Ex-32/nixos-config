@@ -72,6 +72,7 @@
                 ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/impermanence.nix
+                ./home-manager/julia.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
@@ -143,6 +144,7 @@
                 ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/impermanence.nix
+                ./home-manager/julia.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
