@@ -957,16 +957,6 @@ require('lazy').setup({
     ft = { "kitty", "kitty.conf" },
   },
 
-  ---- markdown
-  {
-    "OXY2DEV/markview.nvim",
-    ft = { "markdown" },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
-    },
-  },
-
   ---- xonsh
   "meatballs/vim-xonsh",
 
