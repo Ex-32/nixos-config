@@ -38,5 +38,6 @@ in {
       libreoffice-with-deps
       pkgs.onlyoffice-desktopeditors
       pkgs.foliate
+      pkgs.font-manager
     ];
 }
