@@ -52,7 +52,6 @@
           ./nixos/steam.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
-          ./nixos/vial.nix
           ./nixos/homelab-smb.nix
 
           {
@@ -72,7 +71,6 @@
                 ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/impermanence.nix
-                ./home-manager/julia.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
@@ -204,27 +202,5 @@
         }
       ];
     };
-
-    devShells = let
-      forSystems = nixpkgs.lib.genAttrs [
-        "aarch64-linux"
-        "x86_64-linux"
-      ];
-
-      nixpkgsFor = forSystems (system: import nixpkgs {inherit system;});
-    in
-      forSystems (system: let
-        pkgs = nixpkgsFor.${system};
-      in {
-        default = pkgs.mkShell {
-          packages = [
-            (pkgs.haskellPackages.ghcWithPackages (hpkgs:
-              with hpkgs; [
-                xmonad_0_18_0
-                xmonad-contrib
-              ]))
-          ];
-        };
-      });
   };
 }

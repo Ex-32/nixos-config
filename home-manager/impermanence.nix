@@ -74,7 +74,10 @@ in {
     directories =
       (optionals osConfig.programs.steam.enable [
         ".factorio"
+        (symlink ".local/share/EXAPUNKS")
+        (symlink ".local/share/Opus Magnum")
         (symlink ".local/share/Steam")
+        (symlink ".local/share/Zachtronics Industries")
         (symlink ".local/share/vulkan")
         (symlink ".steam")
       ])
