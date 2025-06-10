@@ -27,7 +27,7 @@
         size = ZLONG_MAX;
       };
 
-      initExtra =
+      initContent =
         # sh
         ''
           # make ctrl+arrow-key work as expected
