@@ -14,7 +14,7 @@
   home.packages = with pkgs;
     [
       discord
-      signal-desktop-source
+      signal-desktop
       slack
     ]
     ++ (lib.optionals (builtins.elem pkgs.system lib.platforms.linux) (with pkgs; [
