@@ -76,6 +76,8 @@ in {
     directories =
       (optionals osConfig.programs.steam.enable [
         ".factorio"
+        (symlink ".config/StardewValley")
+        (symlink ".config/Stardrop")
         (symlink ".local/share/EXAPUNKS")
         (symlink ".local/share/Opus Magnum")
         (symlink ".local/share/Steam")
