@@ -16,9 +16,9 @@
       discord
       signal-desktop
       slack
+      cinny-desktop
     ]
     ++ (lib.optionals (builtins.elem pkgs.system lib.platforms.linux) (with pkgs; [
-      nheko
       teams-for-linux
     ]));
 }

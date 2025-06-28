@@ -22,11 +22,13 @@ in {
       [
         ".local/state"
 
+        (symlink ".local/share/cinny")
         (symlink ".local/share/com.github.johnfactotum.Foliate")
         (symlink ".local/share/containers")
         (symlink ".local/share/direnv")
         (symlink ".local/share/doom")
         (symlink ".local/share/gnupg")
+        (symlink ".local/share/in.cinny.app")
         (symlink ".local/share/keyrings")
         (symlink ".local/share/nheko")
         (symlink ".local/share/nvim")
@@ -44,7 +46,7 @@ in {
         (symlink ".config/discord")
         (symlink ".config/emacs")
         (symlink ".config/htop")
-        (symlink ".config/nheko")
+        (symlink ".config/in.cinny.app")
         (symlink ".config/nvim/spell")
         (symlink ".config/obsidian")
         (symlink ".config/qBittorrent")
