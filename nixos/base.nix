@@ -67,7 +67,6 @@
       fd
       file
       git # since this config is in git, git is a absolute necessity
-      git-crypt # transparent encryption of files in git on push, used by this config for secrets like password hashes
       hyperfine
       lsof
       man-pages

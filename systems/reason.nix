@@ -21,35 +21,6 @@ in {
     useDHCP = lib.mkDefault true;
   };
 
-  # services.nebula.networks.Caldwell69 = {
-  #   enable = true;
-  #   lighthouses = ["192.168.69.1"];
-  #   staticHostMap = {"192.168.69.1" = ["146.190.187.143:4242"];};
-  #   listen = {
-  #     host = "0.0.0.0";
-  #     port = 4242;
-  #   };
-  #   firewall = {
-  #     inbound = [
-  #       {
-  #         host = "any";
-  #         port = "any";
-  #         proto = "any";
-  #       }
-  #     ];
-  #     outbound = [
-  #       {
-  #         host = "any";
-  #         port = "any";
-  #         proto = "any";
-  #       }
-  #     ];
-  #   };
-  #   cert = ../secrets/nebula/reason.crt;
-  #   key = ../secrets/nebula/reason.key;
-  #   ca = ../secrets/nebula/ca.crt;
-  # };
-
   # this enables firmware that's distributed as a redistributable binary but
   # not FOSS, not having this enabled can cause issues with some hardware,
   # especially wifi cards
