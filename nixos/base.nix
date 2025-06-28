@@ -75,6 +75,7 @@
       nix-output-monitor
       nix-tree # helper tool for interactive inspection of derivations
       pciutils
+      sops
       unixtools.xxd
       unzip
       usbutils

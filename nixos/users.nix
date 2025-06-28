@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   pkgs,
   lib,
@@ -31,12 +32,13 @@
     # without this any form of rootless containerization will fail
     autoSubUidGidRange = true;
 
-    # it must be initalHashedPassword, and not hashedPassword, because
-    # impermanence means /etc/passwd exists on a ramdisk
-    initialHashedPassword = import ../secrets/passwd/jenna;
+    # impermanence means the password must be pre-specified, here we load it
+    # from sops so the plaintext hash is never copied to the nix store.
+    hashedPasswordFile = config.sops.secrets."login/jenna".path;
 
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG9fCOzAH3+OxW0bCwZy84Wh36lKVqVChsg0rAeTJmGZ"
     ];
   };
+  sops.secrets."login/jenna".neededForUsers = true;
 }

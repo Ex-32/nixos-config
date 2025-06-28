@@ -1,0 +1,9 @@
+keys:
+ - &admin_jenna age1h2d2j5mrmyftwatjxzxnfutq2j4l4ru9ua9xl6k825t2ax6x9vvsm6dx3j
+ - &host_zion age1fewtc08h8l6rf98tshz0p7fjz96uf3c45843vru9n3urapq9ga4q0793rd
+creation_rules:
+  - path_regex: secrets.yaml
+    key_groups:
+    - age:
+      - *admin_jenna
+      - *host_zion

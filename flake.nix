@@ -7,6 +7,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -48,6 +52,7 @@
           ./nixos/printing.nix
           ./nixos/puzzle.nix
           ./nixos/shell.nix
+          ./nixos/sops.nix
           ./nixos/sound.nix
           ./nixos/ssh.nix
           ./nixos/steam.nix
