@@ -89,7 +89,6 @@
               home.packages = with pkgs; [
                 _1password-gui
                 bitwarden-desktop
-                gparted
                 nyxt
                 qbittorrent
               ];
@@ -153,7 +152,6 @@
               home.packages = with pkgs; [
                 _1password-gui
                 bitwarden-desktop
-                gparted
                 nyxt
                 rclone
               ];

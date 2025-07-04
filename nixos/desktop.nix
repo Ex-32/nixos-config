@@ -39,7 +39,15 @@
   # settings, so regardless of windowing environment it's good to have it
   # enabled
   programs.dconf.enable = true;
-  environment.systemPackages = [pkgs.adwaita-icon-theme];
+  environment.systemPackages = with pkgs; [
+    adwaita-icon-theme
+
+    # in order for pkexec to do correctly grant gparted permission to modify the
+    # disk it needs to be installed at the system level not the user level,
+    # realistically i want gparted on any system with a graphical interface, so
+    # this is the logical place for it
+    gparted
+  ];
 
   # unprivileged access to disks is a pain in the ass without udisks so, so
   # it's always worth having in a graphical system where you'll be logged in as
