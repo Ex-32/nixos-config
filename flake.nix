@@ -118,6 +118,7 @@
           ./nixos/network.nix
           ./nixos/printing.nix
           ./nixos/shell.nix
+          ./nixos/sops.nix
           ./nixos/sound.nix
           ./nixos/steam.nix
           ./nixos/tailscale.nix
