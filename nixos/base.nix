@@ -52,10 +52,14 @@
     # take up an obscene amount of space
     systemd.coredump.extraConfig = "Storage=none";
 
-    # this disallows use of the `sudo` command by any non-admin user, given
-    # sudo's power and historical exploits, this helps reduce system attack
-    # surface area
-    security.sudo.execWheelOnly = true;
+    # after CVE-2025-32463 i'm giving up on sudo, long live doas
+    security = {
+      sudo.enable = lib.mkForce false;
+      doas = {
+        enable = true;
+        wheelNeedsPassword = lib.mkForce true;
+      };
+    };
 
     # these are packages that i consider absolutely essential for a basic system
     # some of these are default file and network tools you'd find installed by

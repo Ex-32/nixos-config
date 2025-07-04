@@ -9,9 +9,11 @@
   # swaylock, the goal here is to require the typed password to unlock the
   # machine, and use the fingerprint only for privilege escalation requests
   # like polkit and sudo.
-  security.pam.services.login.fprintAuth = false;
-  security.pam.services.swaylock.fprintAuth = false;
-  security.pam.services.hyprlock.fprintAuth = false;
+  security.pam.services = {
+    login.fprintAuth = false;
+    swaylock.fprintAuth = false;
+    hyprlock.fprintAuth = false;
+  };
 
   # this installs and enables a systemd user service for the mate polkit agent
   # (the mate agent was chosen because it works well with fprint, properly
