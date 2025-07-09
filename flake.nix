@@ -48,6 +48,7 @@
           ./nixos/locale.nix
           ./nixos/mullvad.nix
           ./nixos/network.nix
+          ./nixos/obs-studio.nix
           ./nixos/printing.nix
           ./nixos/puzzle.nix
           ./nixos/shell.nix
@@ -73,7 +74,6 @@
                 ./home-manager/neovim.nix
                 ./home-manager/niri.nix
                 ./home-manager/nix-index.nix
-                ./home-manager/obs-studio.nix
                 ./home-manager/photos.nix
                 ./home-manager/productivity.nix
                 ./home-manager/socials.nix
@@ -113,6 +113,7 @@
           ./nixos/locale.nix
           ./nixos/mullvad.nix
           ./nixos/network.nix
+          ./nixos/obs-studio.nix
           ./nixos/printing.nix
           ./nixos/shell.nix
           ./nixos/sops.nix
@@ -137,7 +138,6 @@
                 ./home-manager/neovim.nix
                 ./home-manager/niri.nix
                 ./home-manager/nix-index.nix
-                ./home-manager/obs-studio.nix
                 ./home-manager/productivity.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
