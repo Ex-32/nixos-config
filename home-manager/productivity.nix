@@ -27,17 +27,23 @@
 in {
   allowedUnfree = [
     "obsidian"
+    "slack"
+    "zoom"
   ];
 
-  home.packages =
+  home.packages = with pkgs;
     [
-      pkgs.obsidian
-      pkgs.zathura
+      obsidian
+      slack
+      zathura
+      zoom-us
     ]
     ++ lib.optionals (builtins.elem pkgs.system lib.platforms.linux) [
+      foliate
+      font-manager
       libreoffice-with-deps
-      pkgs.onlyoffice-desktopeditors
-      pkgs.foliate
-      pkgs.font-manager
+      nextcloud-client
+      onlyoffice-desktopeditors
+      teams-for-linux
     ];
 }

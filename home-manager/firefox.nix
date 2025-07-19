@@ -116,6 +116,12 @@
               icon = "tree";
               color = "orange";
             };
+            scinet = {
+              id = 4;
+              name = "SCinet";
+              icon = "fingerprint";
+              color = "turquoise";
+            };
             facebook = {
               id = 0;
               name = "Facebook";

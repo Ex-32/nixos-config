@@ -61,4 +61,7 @@
   # gnome-keyring, this could cause issues with trying to install KDE Plasma
   # since it'll likely pull in kwallet which will cause a collision
   services.gnome.gnome-keyring.enable = true;
+
+  # needed for home-manager xdg portals to work correctly
+  environment.pathsToLink = ["/share/xdg-desktop-portal" "/share/applications"];
 }

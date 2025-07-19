@@ -30,6 +30,9 @@
       initContent =
         # sh
         ''
+          # default to emacs keybinds
+          bindkey -e
+
           # make ctrl+arrow-key work as expected
           # (for kitty at least, may vary with terminal emulators)
           bindkey "^[[1;5C" forward-word

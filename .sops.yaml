@@ -3,7 +3,7 @@ keys:
  - &host_reason age15h0uxk62493dnjahdy54s2tj0v82pkad4ume2klxpt6kyxy3sdfqckwkgk
  - &host_zion age1fewtc08h8l6rf98tshz0p7fjz96uf3c45843vru9n3urapq9ga4q0793rd
 creation_rules:
-  - path_regex: secrets.yaml
+  - path_regex: secrets\.yaml
     key_groups:
     - age:
       - *admin_jenna
