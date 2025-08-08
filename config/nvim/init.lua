@@ -794,8 +794,8 @@ require('lazy').setup({
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
-        'arduino', 'bash', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'csv',
-        'cuda', 'diff', 'dockerfile', 'fish', 'fortran', 'git_config',
+        'arduino', 'bash', 'c', 'c_sharp', 'cmake', 'commonlisp', 'cpp', 'css',
+        'csv', 'cuda', 'diff', 'dockerfile', 'fish', 'fortran', 'git_config',
         'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'gomod',
         'haskell', 'html', 'java', 'javascript', 'json', 'jsonc', 'latex',
         'linkerscript', 'lua', 'make', 'markdown', 'markdown_inline', 'nasm',

@@ -43,6 +43,7 @@
           cargo
           clang-tools
           cmake-language-server
+          editorconfig-core-c
           ghc # needed for hls
           gnumake
           gopls
@@ -53,11 +54,10 @@
           pandoc
           pyright
           rust-analyzer
-          texlab
-          vscode-langservers-extracted
           shellcheck
           shfmt
-          editorconfig-core-c
+          texlab
+          vscode-langservers-extracted
         ])
         ++ [
           tex
