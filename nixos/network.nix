@@ -17,6 +17,7 @@
       4242 # nebula
       28785 # super tux kart
       57621 # spotify sync
+      35666 # EmptyEpsilon
     ];
   in {
     enable = true;

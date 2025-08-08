@@ -22,6 +22,7 @@
         prismlauncher
         # sauerbraten
         superTuxKart
+        EmptyEpsilon
       ];
     }
     (lib.mkIf config.local.lutris.enable {
