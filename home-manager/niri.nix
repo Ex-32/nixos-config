@@ -52,19 +52,15 @@ in {
   ];
 
   xdg.configFile."niri/config.kdl".source = let
-    wl-copy = lib.getExe' pkgs.wl-clipboard "wl-copy";
-    grim = lib.getExe pkgs.grim;
     systemctl = lib.getExe' pkgs.systemd "systemctl";
   in
-    pkgs.replaceVars ../config/niri/config.kdl rec {
+    pkgs.replaceVars ../config/niri/config.kdl {
       # @variables@ to substitute
 
       ## packages
       brightnessctl = lib.getExe pkgs.brightnessctl;
-      # loginctl = lib.getExe' pkgs.systemd "loginctl";
       playerctl = lib.getExe pkgs.playerctl;
       wpctl = lib.getExe' pkgs.wireplumber "wpctl";
-      # systemctl = lib.getExe' pkgs.systemd "systemctl";
 
       ## scripts
       startup_hook = let
@@ -127,48 +123,6 @@ in {
             && ${systemctl} --user stop activate-linux.service \
             || ${systemctl} --user start activate-linux.service
         '';
-      vol_down =
-        pkgs.writeScript "vol-down"
-        # python
-        ''
-          #!${lib.getExe pkgs.python3}
-
-          import subprocess
-
-          output = subprocess.run(
-            ["${wpctl}", "get-volume", "@DEFAULT_AUDIO_SINK@"],
-            capture_output=True,
-          ).stdout
-
-          # between '0' and '9' ascii
-          vol = int(bytes([x for x in output if x >= 48 and x <= 57]))
-          new_vol = (((vol - 1) // 5) * 5) / 100
-
-          subprocess.run(
-            ["${wpctl}", "set-volume", "-l", "1.5", "@DEFAULT_AUDIO_SINK@", str(new_vol)]
-          )
-        '';
-      vol_up =
-        pkgs.writeScript "vol-up"
-        # python
-        ''
-          #!${lib.getExe pkgs.python3}
-
-          import subprocess
-
-          output = subprocess.run(
-            ["${wpctl}", "get-volume", "@DEFAULT_AUDIO_SINK@"],
-            capture_output=True,
-          ).stdout
-
-          # between '0' and '9' ascii
-          vol = int(bytes([x for x in output if x >= 48 and x <= 57]))
-          new_vol = (((vol + 5) // 5) * 5) / 100
-
-          subprocess.run(
-            ["${wpctl}", "set-volume", "-l", "1.5", "@DEFAULT_AUDIO_SINK@", str(new_vol)]
-          )
-        '';
 
       # this causes these values (those used by wpctl) to be excluded from the
       # validation check that makes sure there are no unsubstituted values.
@@ -184,7 +138,6 @@ in {
 
   xdg.portal = {
     enable = true;
-    # xdgOpenUsePortal = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
@@ -253,7 +206,9 @@ in {
     ];
   };
 
-  systemd.user = {
+  systemd.user = let
+    niri-target = "niri-session.target";
+  in {
     targets.niri-session = {
       Unit = {
         Description = "niri compositor session";
@@ -271,8 +226,8 @@ in {
       activate-linux = {
         Unit = {
           Description = "Activate Linux";
-          Wants = ["niri-session.target"];
-          After = ["niri-session.target"];
+          Wants = [niri-target];
+          After = [niri-target];
         };
 
         Service = {
@@ -280,15 +235,13 @@ in {
           ExecStart = lib.getExe pkgs.activate-linux + " -s 0.8";
         };
 
-        Install = {
-          WantedBy = ["niri-session.target"];
-        };
+        Install.WantedBy = [niri-target];
       };
       xwayland-satellite = {
         Unit = {
           Description = "xwayland satellite daemon";
-          Wants = ["niri-session.target"];
-          After = ["niri-session.target"];
+          Wants = [niri-target];
+          After = [niri-target];
         };
 
         Service = {
@@ -299,58 +252,46 @@ in {
           TimeoutSec = "30s";
         };
 
-        Install = {
-          WantedBy = ["niri-session.target"];
-        };
+        Install.WantedBy = [niri-target];
       };
       swww-daemon = {
         Unit = {
           Description = "swww wallpaper daemon";
-          Wants = ["niri-session.target"];
-          After = ["niri-session.target"];
+          Wants = [niri-target];
+          After = [niri-target];
         };
 
         Service = {
           Type = "simple";
-          ExecStart = "${pkgs.swww}/bin/swww-daemon";
+          ExecStart = lib.getExe' pkgs.swww "swww-daemon";
           Restart = "on-failure";
           RestartSec = 1;
           TimeoutSec = "30s";
         };
 
-        Install = {
-          WantedBy = ["niri-session.target"];
-        };
+        Install.WantedBy = [niri-target];
       };
       swww = {
         Unit = {
           Description = "cycle swww wallpaper";
-          Wants = ["niri-session.target"];
-          After = [
-            "niri-session.target"
-            "swww-daemon.service"
-          ];
+          Wants = [niri-target];
+          After = [niri-target "swww-daemon.service"];
         };
 
         Service = {
           Type = "oneshot";
-          ExecStart = "${wallpaper-script}";
+          ExecStart = wallpaper-script;
         };
 
-        Install = {
-          WantedBy = ["niri-session.target"];
-        };
+        Install.WantedBy = [niri-target];
       };
     };
     timers = {
       swww = {
         Unit = {
           Description = "cycle swww wallpaper";
-          Wants = ["niri-session.target"];
-          After = [
-            "niri-session.target"
-            "swww-daemon.service"
-          ];
+          Wants = [niri-target];
+          After = [niri-target "swww-daemon.service"];
         };
 
         Timer = {
@@ -359,9 +300,7 @@ in {
           AccuracySec = "30s";
         };
 
-        Install = {
-          WantedBy = ["niri-session.target"];
-        };
+        Install.WantedBy = [niri-target];
       };
     };
   };
