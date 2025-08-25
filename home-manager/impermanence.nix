@@ -59,7 +59,8 @@ in {
         "documents"
         "src"
       ]
-      ++ (optional config.programs.zsh.enable (symlink ".local/share/zsh"));
+      ++ (optional config.programs.zsh.enable (symlink ".local/share/zsh"))
+      ++ (optional config.services.kdeconnect.enable (symlink ".config/kdeconnect"));
     files = [
       ".config/gh/hosts.yml"
     ];

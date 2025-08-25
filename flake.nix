@@ -69,6 +69,7 @@
                 ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/impermanence.nix
+                ./home-manager/kdeconnect.nix
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
