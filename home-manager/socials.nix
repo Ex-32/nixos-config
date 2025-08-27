@@ -13,6 +13,6 @@
   home.packages = with pkgs; [
     discord
     signal-desktop
-    cinny-desktop
+    element-desktop
   ];
 }

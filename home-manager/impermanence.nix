@@ -12,6 +12,7 @@
   };
   optional = lib.lists.optional;
   optionals = lib.lists.optionals;
+  forPkg = pkg: path: (optional (builtins.elem pkg (config.home.packages ++ osConfig.environment.systemPackages)) path);
   removeHome = str: lib.strings.removePrefix config.home.homeDirectory str;
 in {
   imports = [inputs.impermanence.nixosModules.home-manager.impermanence];
@@ -22,13 +23,11 @@ in {
       [
         ".local/state"
 
-        (symlink ".local/share/cinny")
         (symlink ".local/share/com.github.johnfactotum.Foliate")
         (symlink ".local/share/containers")
         (symlink ".local/share/direnv")
         (symlink ".local/share/doom")
         (symlink ".local/share/gnupg")
-        (symlink ".local/share/in.cinny.app")
         (symlink ".local/share/keyrings")
         (symlink ".local/share/nheko")
         (symlink ".local/share/nvim")
@@ -40,13 +39,13 @@ in {
 
         (symlink ".config/1Password")
         (symlink ".config/Bitwarden")
+        (symlink ".config/Element")
         (symlink ".config/RawTherapee")
         (symlink ".config/Signal")
         (symlink ".config/Slack")
         (symlink ".config/discord")
         (symlink ".config/emacs")
         (symlink ".config/htop")
-        (symlink ".config/in.cinny.app")
         (symlink ".config/nvim/spell")
         (symlink ".config/obsidian")
         (symlink ".config/qBittorrent")
@@ -90,11 +89,8 @@ in {
       ++ (optionals config.local.lutris.enable [
         (symlink ".local/share/epic-games")
       ])
-      ++ (optionals (
-          builtins.elem pkgs.prismlauncher
-          (config.home.packages ++ osConfig.environment.systemPackages)
-        ) [
-          (symlink ".local/share/PrismLauncher")
-        ]);
+      ++ (forPkg pkgs.prismlauncher (symlink ".local/share/PrismLauncher"))
+      ++ (forPkg pkgs.endless-sky (symlink ".local/share/endless-sky"))
+      ++ (forPkg pkgs.superTuxKart (symlink ".local/share/supertuxkart"));
   };
 }

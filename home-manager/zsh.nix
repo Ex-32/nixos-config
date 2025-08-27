@@ -13,7 +13,7 @@
     zsh = {
       enable = true;
       autocd = true;
-      dotDir = ".config/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
       history = let
         ZLONG_MAX = 9223372036854775807;
       in {

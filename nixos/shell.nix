@@ -67,7 +67,7 @@
     l = "${pkgs.lsd}/bin/lsd -lA --date relative --no-symlink";
     ll = "${pkgs.lsd}/bin/lsd -lA";
 
-    sc = "sudo systemctl";
+    sc = "doas systemctl";
     scu = "systemctl --user";
     jc = "journalctl";
 
@@ -89,9 +89,11 @@
   environment.systemPackages = with pkgs; let
     python = python3.withPackages (p:
       with p; [
+        manim
+        matplotlib
         numpy
-        scipy
         opencv4
+        scipy
       ]);
   in [
     bat # a modern cat clone with line numbers and syntax highlighting
