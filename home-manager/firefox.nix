@@ -188,6 +188,36 @@
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = ["@hm"];
               };
+              "NixOS Wiki" = {
+                urls = [
+                  {
+                    template = "https://nixos.wiki/index.php";
+                    params = [
+                      {
+                        name = "search";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
+                icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                definedAliases = ["@nw"];
+              };
+              "NixOS Wiki (official)" = {
+                urls = [
+                  {
+                    template = "https://wiki.nixos.org/w/index.php";
+                    params = [
+                      {
+                        name = "search";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
+                icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                definedAliases = ["@nwo"];
+              };
               "google".metaData.hidden = true;
               "bing".metaData.hidden = true;
             };
