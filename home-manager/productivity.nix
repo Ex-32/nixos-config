@@ -26,14 +26,12 @@
   };
 in {
   allowedUnfree = [
-    "obsidian"
     "slack"
     "zoom"
   ];
 
   home.packages = with pkgs;
     [
-      obsidian
       slack
       zathura
       zoom-us

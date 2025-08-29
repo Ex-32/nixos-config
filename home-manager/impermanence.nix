@@ -47,7 +47,6 @@ in {
         (symlink ".config/emacs")
         (symlink ".config/htop")
         (symlink ".config/nvim/spell")
-        (symlink ".config/obsidian")
         (symlink ".config/qBittorrent")
         (symlink ".config/sops")
         (symlink ".config/spotify")
