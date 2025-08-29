@@ -71,26 +71,4 @@ in {
       ".cache"
     ];
   };
-
-  home.persistence."/persist/volatile/games/${config.home.username}" = {
-    allowOther = osConfig.programs.fuse.userAllowOther;
-    directories =
-      (optionals osConfig.programs.steam.enable [
-        ".factorio"
-        (symlink ".config/StardewValley")
-        (symlink ".config/Stardrop")
-        (symlink ".local/share/EXAPUNKS")
-        (symlink ".local/share/Opus Magnum")
-        (symlink ".local/share/Steam")
-        (symlink ".local/share/Zachtronics Industries")
-        (symlink ".local/share/vulkan")
-        (symlink ".steam")
-      ])
-      ++ (optionals config.local.lutris.enable [
-        (symlink ".local/share/epic-games")
-      ])
-      ++ (forPkg pkgs.prismlauncher (symlink ".local/share/PrismLauncher"))
-      ++ (forPkg pkgs.endless-sky (symlink ".local/share/endless-sky"))
-      ++ (forPkg pkgs.superTuxKart (symlink ".local/share/supertuxkart"));
-  };
 }

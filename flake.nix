@@ -15,11 +15,6 @@
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
-
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs @ {
@@ -158,37 +153,6 @@
           }
         ];
       };
-    };
-
-    darwinConfigurations."kiroshi" = inputs.nix-darwin.lib.darwinSystem {
-      system = "x86_64-darwin";
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./darwin/base.nix
-        ./darwin/users.nix
-        ./darwin/yabai.nix
-
-        {
-          home-manager.users.jenna = {pkgs, ...}: {
-            imports = [
-              ./home-manager/base.nix
-              ./home-manager/firefox.nix
-              ./home-manager/fun.nix
-              ./home-manager/git.nix
-              ./home-manager/kitty.nix
-              ./home-manager/neovim.nix
-              ./home-manager/productivity.nix
-              ./home-manager/socials.nix
-              ./home-manager/spotify.nix
-              ./home-manager/syncthing.nix
-              ./home-manager/zsh.nix
-            ];
-            allowedUnfree = [];
-            home.packages = with pkgs; [
-            ];
-          };
-        }
-      ];
     };
   };
 }
