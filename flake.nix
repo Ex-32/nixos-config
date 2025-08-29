@@ -50,7 +50,6 @@
           ./nixos/sops.nix
           ./nixos/sound.nix
           ./nixos/ssh.nix
-          ./nixos/steam.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
 
@@ -79,7 +78,6 @@
                 ./home-manager/zellij.nix
                 ./home-manager/zsh.nix
               ];
-              local.lutris.enable = true;
               allowedUnfree = ["1password"];
               home.packages = with pkgs; [
                 _1password-gui
@@ -114,7 +112,6 @@
           ./nixos/shell.nix
           ./nixos/sops.nix
           ./nixos/sound.nix
-          ./nixos/steam.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
 

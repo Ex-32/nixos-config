@@ -72,13 +72,6 @@ in {
         neededForBoot = true;
       }
       // (lib.attrsets.optionalAttrs ((builtins.length opts) > 0) {options = opts;});
-    tank = subpath: opts:
-      {
-        fsType = "zfs";
-        device = "tank/${subpath}";
-        neededForBoot = false;
-      }
-      // (lib.attrsets.optionalAttrs ((builtins.length opts) > 0) {options = opts;});
   in {
     "/boot" = {device = devs.boot;};
 
@@ -88,7 +81,6 @@ in {
     "/persist/safe/home" = rpool "safe/home" ["nofail"];
 
     "/persist/volatile/cache" = rpool "volatile/cache" ["nofail"];
-    "/persist/volatile/games" = tank "zion/games" ["nofail"];
   };
 
   swapDevices = [
