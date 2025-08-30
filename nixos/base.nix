@@ -57,7 +57,13 @@
       sudo.enable = lib.mkForce false;
       doas = {
         enable = true;
-        wheelNeedsPassword = lib.mkForce true;
+        wheelNeedsPassword = true;
+        extraRules = [
+          {
+            groups = ["wheel"];
+            persist = true;
+          }
+        ];
       };
     };
 

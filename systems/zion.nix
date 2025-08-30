@@ -78,7 +78,7 @@ in {
   in {
     "/boot" = {device = devs.boot;};
 
-    "/nix" = boot-dataset "volatile/nix" [];
+    "/nix" = boot-dataset "volatile/nix";
 
     "/persist/safe/system" = boot-dataset "safe/system";
     "/persist/safe/home" = dataset "safe/home";
