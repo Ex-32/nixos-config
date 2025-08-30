@@ -86,17 +86,22 @@ in {
   };
 
   fileSystems = let
-    dataset = subpath: {
+    boot-dataset = subpath: {
       fsType = "zfs";
       device = "rpool/encrypt/${subpath}";
       neededForBoot = true;
     };
+    dataset = subpath: {
+      fsType = "zfs";
+      device = "rpool/encrypt/${subpath}";
+      options = ["nofail"];
+    };
   in {
     "/boot" = {device = devs.boot;};
 
-    "/nix" = dataset "volatile/nix";
+    "/nix" = boot-dataset "volatile/nix";
 
-    "/persist/safe/system" = dataset "safe/system";
+    "/persist/safe/system" = boot-dataset "safe/system";
     "/persist/safe/home" = dataset "safe/home";
 
     "/persist/volatile/cache" = dataset "volatile/cache";

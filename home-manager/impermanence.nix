@@ -70,4 +70,13 @@ in {
       ".cache"
     ];
   };
+
+  home.persistence."/persist/volatile/games/${config.home.username}" = {
+    allowOther = osConfig.programs.fuse.userAllowOther;
+    directories =
+      optionals osConfig.programs.steam.enable
+      (forPkg pkgs.prismlauncher (symlink ".local/share/PrismLauncher"))
+      ++ (forPkg pkgs.endless-sky (symlink ".local/share/endless-sky"))
+      ++ (forPkg pkgs.superTuxKart (symlink ".local/share/supertuxkart"));
+  };
 }

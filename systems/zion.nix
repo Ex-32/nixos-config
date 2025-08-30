@@ -65,22 +65,26 @@ in {
   };
 
   fileSystems = let
-    rpool = subpath: opts:
-      {
-        fsType = "zfs";
-        device = "rpool/encrypt/${subpath}";
-        neededForBoot = true;
-      }
-      // (lib.attrsets.optionalAttrs ((builtins.length opts) > 0) {options = opts;});
+    boot-dataset = subpath: {
+      fsType = "zfs";
+      device = "rpool/encrypt/${subpath}";
+      neededForBoot = true;
+    };
+    dataset = subpath: {
+      fsType = "zfs";
+      device = "rpool/encrypt/${subpath}";
+      options = ["nofail"];
+    };
   in {
     "/boot" = {device = devs.boot;};
 
-    "/nix" = rpool "volatile/nix" [];
+    "/nix" = boot-dataset "volatile/nix" [];
 
-    "/persist/safe/system" = rpool "safe/system" ["nofail"];
-    "/persist/safe/home" = rpool "safe/home" ["nofail"];
+    "/persist/safe/system" = boot-dataset "safe/system";
+    "/persist/safe/home" = dataset "safe/home";
 
-    "/persist/volatile/cache" = rpool "volatile/cache" ["nofail"];
+    "/persist/volatile/cache" = dataset "volatile/cache";
+    "/persist/volatile/games" = dataset "volatile/games";
   };
 
   swapDevices = [
