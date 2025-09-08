@@ -16,10 +16,6 @@
     # disable the less history file
     LESSHISTFILE = "-";
 
-    # enable truecolor when using micro
-    # TODO: use a wrapper around micro to avoid general env pollution
-    MICRO_TRUECOLOR = "1";
-
     # this is a hacky but unavoidable fix to get many graphical applications
     # written in java to work on wayland and some more exotic X window managers
     _JAVA_AWT_WM_NONREPARENTING = "1";
@@ -64,8 +60,8 @@
   environment.shellAliases = {
     ls = null;
 
-    l = "${pkgs.lsd}/bin/lsd -lA --date relative --no-symlink";
-    ll = "${pkgs.lsd}/bin/lsd -lA";
+    l = "${lib.getExe pkgs.lsd} -lA --date relative --no-symlink";
+    ll = "${lib.getExe pkgs.lsd} -lA";
 
     sc = "doas systemctl";
     scu = "systemctl --user";
@@ -102,10 +98,11 @@
     fselect # and SQL inspired find utility for querying the filesystem
     fzf # fuzzy search the filesystem for files/directories
     htop # the best way to monitor processes this side of the solar system
+    lsd # modernized ls rewrite (better version of e{x,z}a imo)
+    python # python with dependencies
+    python.pkgs.ptpython # better python REPL
     ripgrep # grep the filesystem crazy fast
     trash-cli # fuck i didn't mean to delete that...
     zellij # tmux but dramatic
-    python # python with dependencies
-    python.pkgs.ptpython # better python REPL
   ];
 }
