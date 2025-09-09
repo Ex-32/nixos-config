@@ -52,6 +52,7 @@
           ./nixos/ssh.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
+          ./nixos/vial.nix
 
           {
             home-manager.users.jenna = {pkgs, ...}: {
