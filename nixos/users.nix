@@ -27,7 +27,7 @@
       ]
       ++ (lib.lists.optional config.services.jellyfin.enable "jellyfin")
       ++ (lib.lists.optional config.virtualisation.libvirtd.enable "libvirtd");
-    shell = pkgs.zsh;
+    shell = config.programs.xonsh.package;
 
     # without this any form of rootless containerization will fail
     autoSubUidGidRange = true;

@@ -12,6 +12,24 @@
     autosuggestions.enable = true;
   };
 
+  programs.xonsh = {
+    enable = true;
+    package = pkgs.xonsh;
+    extraPackages = ps:
+      builtins.attrValues {
+        inherit
+          (ps)
+          manim
+          matplotlib
+          numpy
+          opencv4
+          pwntools
+          scipy
+          ;
+        xonsh-direnv = pkgs.xonsh.xontribs.xonsh-direnv;
+      };
+  };
+
   environment.variables = rec {
     # disable the less history file
     LESSHISTFILE = "-";
@@ -82,16 +100,7 @@
   };
 
   # misc shell utilities for interactive shell use
-  environment.systemPackages = with pkgs; let
-    python = python3.withPackages (p:
-      with p; [
-        manim
-        matplotlib
-        numpy
-        opencv4
-        scipy
-      ]);
-  in [
+  environment.systemPackages = with pkgs; [
     bat # a modern cat clone with line numbers and syntax highlighting
     du-dust # a modern du replacement designed for interactive use
     duf # a modern df replacement with tailored for human readability
@@ -99,8 +108,6 @@
     fzf # fuzzy search the filesystem for files/directories
     htop # the best way to monitor processes this side of the solar system
     lsd # modernized ls rewrite (better version of e{x,z}a imo)
-    python # python with dependencies
-    python.pkgs.ptpython # better python REPL
     ripgrep # grep the filesystem crazy fast
     trash-cli # fuck i didn't mean to delete that...
     zellij # tmux but dramatic
