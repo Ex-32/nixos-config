@@ -78,7 +78,6 @@
       fd
       file
       git # since this config is in git, git is a absolute necessity
-      hyperfine
       lsof
       man-pages
       nix-output-monitor

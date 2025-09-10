@@ -4,7 +4,16 @@
   lib,
   nixpkgs,
   ...
-}: {
+}: let
+  fromSet = set: list: builtins.map (name: builtins.getAttr name set) list;
+  pypkgs = [
+    "numpy"
+    "opencv4"
+    "plotille"
+    "pwntools"
+    "scipy"
+  ];
+in {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -16,18 +25,10 @@
     enable = true;
     package = pkgs.xonsh;
     extraPackages = ps:
-      builtins.attrValues {
-        inherit
-          (ps)
-          manim
-          matplotlib
-          numpy
-          opencv4
-          pwntools
-          scipy
-          ;
-        xonsh-direnv = pkgs.xonsh.xontribs.xonsh-direnv;
-      };
+      [
+        pkgs.xonsh.xontribs.xonsh-direnv
+      ]
+      ++ (fromSet ps pypkgs);
   };
 
   environment.variables = rec {
@@ -100,16 +101,19 @@
   };
 
   # misc shell utilities for interactive shell use
-  environment.systemPackages = with pkgs; [
-    bat # a modern cat clone with line numbers and syntax highlighting
-    du-dust # a modern du replacement designed for interactive use
-    duf # a modern df replacement with tailored for human readability
-    fselect # and SQL inspired find utility for querying the filesystem
-    fzf # fuzzy search the filesystem for files/directories
-    htop # the best way to monitor processes this side of the solar system
-    lsd # modernized ls rewrite (better version of e{x,z}a imo)
-    ripgrep # grep the filesystem crazy fast
-    trash-cli # fuck i didn't mean to delete that...
-    zellij # tmux but dramatic
-  ];
+  environment.systemPackages =
+    (with pkgs; [
+      bat # a modern cat clone with line numbers and syntax highlighting
+      du-dust # a modern du replacement designed for interactive use
+      duf # a modern df replacement with tailored for human readability
+      fselect # and SQL inspired find utility for querying the filesystem
+      fzf # fuzzy search the filesystem for files/directories
+      htop # the best way to monitor processes this side of the solar system
+      lsd # modernized ls rewrite (better version of e{x,z}a imo)
+      ripgrep # grep the filesystem crazy fast
+      trash-cli # fuck i didn't mean to delete that...
+      zellij # tmux but dramatic
+      hyperfine
+    ])
+    ++ [(pkgs.python3.withPackages (ps: fromSet ps pypkgs))];
 }

@@ -76,6 +76,7 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
+                ./home-manager/xonsh.nix
                 ./home-manager/zellij.nix
                 ./home-manager/zsh.nix
               ];
