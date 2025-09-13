@@ -15,18 +15,22 @@
     isNormalUser = true;
     uid = 1000;
     description = "Jenna Fligor";
-    extraGroups =
+    extraGroups = let
+      ifSet = lib.lists.optional;
+      ifExists = group: ifSet (builtins.hasAttr group config.users.groups) group;
+    in
       [
-        "networkmanager" # networking configuration privileges
         "wheel" # general admin (sudo) privileges
         "video" # raw video device access
         "lp" # printing privileges
         "dialout" # raw serial device access
-        "nix" # nix access
-        "kvm"
       ]
-      ++ (lib.lists.optional config.services.jellyfin.enable "jellyfin")
-      ++ (lib.lists.optional config.virtualisation.libvirtd.enable "libvirtd");
+      ++ (ifSet config.networking.networkmanager.enable "networkmanager")
+      ++ (ifSet config.services.jellyfin.enable "jellyfin")
+      ++ (ifSet config.virtualisation.libvirtd.enable "libvirtd")
+      ++ (ifExists "nix")
+      ++ (ifExists "kvm")
+      ++ (ifExists "hidraw");
     shell = config.programs.xonsh.package;
 
     # without this any form of rootless containerization will fail
