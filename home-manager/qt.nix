@@ -5,7 +5,7 @@
   inputs,
   ...
 }: {
-  home.packages = [pkgs.libsForQt5.lightly];
+  home.packages = [pkgs.darkly];
 
   qt = {
     enable = true;
@@ -91,7 +91,7 @@
       custom_palette=true
       icon_theme=Papirus-Dark
       standard_dialogs=default
-      style=Lightly
+      style=Darkly
 
       [Fonts]
       fixed="FiraCode Nerd Font,14,-1,5,50,0,0,0,0,0,Regular"
