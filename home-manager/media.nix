@@ -9,7 +9,6 @@
     ffmpeg
     gimp
     inkscape
-    rawtherapee
     vlc
   ];
 }
