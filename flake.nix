@@ -80,9 +80,7 @@
                 ./home-manager/zellij.nix
                 ./home-manager/zsh.nix
               ];
-              allowedUnfree = ["1password"];
               home.packages = with pkgs; [
-                _1password-gui
                 bitwarden-desktop
                 nyxt
                 qbittorrent
@@ -142,9 +140,7 @@
                 ./home-manager/zellij.nix
                 ./home-manager/zsh.nix
               ];
-              allowedUnfree = ["1password"];
               home.packages = with pkgs; [
-                _1password-gui
                 bitwarden-desktop
                 nyxt
                 rclone
