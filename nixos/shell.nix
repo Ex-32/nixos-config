@@ -8,12 +8,14 @@
   fromSet = set: list: builtins.map (name: builtins.getAttr name set) list;
   pypkgs = [
     "jupyter"
+    "matplotlib"
     "numpy"
     "opencv4"
     "plotille"
     "pwntools"
     "scipy"
     "sympy"
+    "ipympl"
   ];
 in {
   programs.zsh = {
