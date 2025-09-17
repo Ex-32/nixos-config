@@ -541,7 +541,6 @@ require('lazy').setup({
             },
           },
         },
-        kotlin_language_server = {},
         lua_ls = {
           settings = {
             Lua = {
@@ -553,6 +552,7 @@ require('lazy').setup({
             },
           },
         },
+        marksman = {},
         nixd = {},
         pyright = {
           filetypes = { "python" },
@@ -575,12 +575,11 @@ require('lazy').setup({
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>f',
+        '<leader>df',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
-        mode = '',
-        desc = '[F]ormat buffer',
+        desc = '[D]ocument [F]ormat',
       },
     },
     opts = {
@@ -920,6 +919,32 @@ require('lazy').setup({
 
   -- language specific plugins
   -- (these plugins provide extra features that just a language server can't)
+
+  ---- lean
+  {
+    'Julian/lean.nvim',
+    event = { 'BufReadPre *.lean', 'BufNewFile *.lean' },
+
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'nvim-lua/plenary.nvim',
+
+      -- optional dependencies:
+
+      -- a completion engine
+      --    hrsh7th/nvim-cmp or Saghen/blink.cmp are popular choices
+
+      -- 'nvim-telescope/telescope.nvim', -- for 2 Lean-specific pickers
+      -- 'andymass/vim-matchup',          -- for enhanced % motion behavior
+      -- 'andrewradev/switch.vim',        -- for switch support
+      -- 'tomtom/tcomment_vim',           -- for commenting
+    },
+
+    ---@type lean.Config
+    opts = { -- see below for full configuration options
+      mappings = true,
+    }
+  },
 
   ---- haskell
   {

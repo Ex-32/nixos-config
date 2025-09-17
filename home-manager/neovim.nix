@@ -13,6 +13,7 @@
         cargo # rustaceanvim
         clang # nvim-treesitter (and others)
         gnumake # telescope-fzf-native
+        lean4 # lean.nvim
         nodejs # nvim-treesitter
         rust-analyzer # rustaceanvim
         tree-sitter # nvim-treesitter
@@ -20,19 +21,19 @@
         arduino-language-server
         clang-tools # (clangd)
         cmake-language-server
+        erlang-ls
         fortls
         ghc # needed for hls
         gopls
         haskell-language-server
-        kotlin-language-server
         lua-language-server
+        marksman
         nixd
         nodePackages.bash-language-server
         pyright
         texlab
         typescript-language-server
         vscode-langservers-extracted
-        erlang-ls
         # sources ({null,none}-ls)
         alejandra
         clang-tools # (clang-format)
