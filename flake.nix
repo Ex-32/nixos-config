@@ -51,6 +51,7 @@
           ./nixos/sops.nix
           ./nixos/sound.nix
           ./nixos/ssh.nix
+          ./nixos/steam.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
           ./nixos/vial.nix
@@ -80,6 +81,7 @@
                 ./home-manager/zellij.nix
                 ./home-manager/zsh.nix
               ];
+              local.lutris.enable = true;
               home.packages = with pkgs; [
                 bitwarden-desktop
                 nyxt
