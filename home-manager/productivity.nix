@@ -40,6 +40,7 @@ in {
     libreoffice-with-deps
     nextcloud-client
     onlyoffice-desktopeditors
+    presenterm
     slack
     teams-for-linux
     zathura
