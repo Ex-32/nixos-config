@@ -26,22 +26,23 @@
   };
 in {
   allowedUnfree = [
+    "anytype"
+    "anytype-heart"
     "slack"
     "zoom"
   ];
 
-  home.packages = with pkgs;
-    [
-      slack
-      zathura
-      zoom-us
-    ]
-    ++ lib.optionals (builtins.elem pkgs.system lib.platforms.linux) [
-      foliate
-      font-manager
-      libreoffice-with-deps
-      nextcloud-client
-      onlyoffice-desktopeditors
-      teams-for-linux
-    ];
+  home.packages = with pkgs; [
+    # FIXME: anytype implicitly depends on a working mDNS stack
+    anytype
+    foliate
+    font-manager
+    libreoffice-with-deps
+    nextcloud-client
+    onlyoffice-desktopeditors
+    slack
+    teams-for-linux
+    zathura
+    zoom-us
+  ];
 }

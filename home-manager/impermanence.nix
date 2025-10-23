@@ -43,6 +43,7 @@ in {
         (symlink ".config/RawTherapee")
         (symlink ".config/Signal")
         (symlink ".config/Slack")
+        (symlink ".config/anytype")
         (symlink ".config/discord")
         (symlink ".config/emacs")
         (symlink ".config/htop")
