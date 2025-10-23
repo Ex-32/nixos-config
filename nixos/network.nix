@@ -18,6 +18,7 @@
       28785 # super tux kart
       57621 # spotify sync
       35666 # EmptyEpsilon
+      1443 # anytype
     ];
   in {
     enable = true;
