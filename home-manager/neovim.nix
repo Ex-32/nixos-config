@@ -21,7 +21,7 @@
         arduino-language-server
         clang-tools # (clangd)
         cmake-language-server
-        erlang-ls
+        erlang-language-platform
         fortls
         ghc # needed for hls
         gopls

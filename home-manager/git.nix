@@ -22,9 +22,11 @@
 
   programs.git = {
     enable = true;
-    userName = "Jenna Fligor";
-    userEmail = "jenna@fligor.net";
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Jenna Fligor";
+        email = "jenna@fligor.net";
+      };
       init.defaultBranch = "main";
       safe.directory = [
         "/etc/nixos"

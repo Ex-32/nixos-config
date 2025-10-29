@@ -518,7 +518,7 @@ require('lazy').setup({
         cmake = {
           filetypes = { "cmake", "CMakeLists.txt" },
         },
-        erlangls = {},
+        elp = {}, -- erlang language platform
         eslint = {
           on_attach = function(_, buffer)
             vim.api.nvim_create_autocmd("BufWritePre", {
