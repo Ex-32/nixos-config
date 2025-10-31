@@ -6,6 +6,8 @@
   inputs,
   ...
 }: let
+  dash-shebang = "#!" + lib.getExe pkgs.dash;
+
   wallpaper-script = let
     core = let
       cu = pkgs.coreutils;
@@ -22,7 +24,7 @@
     pkgs.writeScript "niri-wallpaper"
     # bash
     ''
-      #!/bin/sh
+      ${dash-shebang}
       set -e
       # FIXME: don't hardcode wallpaper path
       WALLPAPER_PATH="${home}/documents/pictures/wallpapers/${hostname}"
@@ -76,7 +78,7 @@ in {
         pkgs.writeScript "niri-startup-hook"
         # bash
         ''
-          #!${lib.getExe pkgs.dash}
+          ${dash-shebang}
 
           i=0
           used_displays="$(for x in $(find /tmp/.X11-unix/ -not -type d); do basename "$x" ; done | sed -r 's/X([0-9]+)_?/\1/' | uniq)"
@@ -101,7 +103,7 @@ in {
         pkgs.writeScript "launch-kitty"
         # bash
         ''
-          #!${lib.getExe pkgs.dash}
+          ${dash-shebang}
           eval "export DISPLAY=\"$(cat "''${XDG_RUNTIME_DIR}/DISPLAY_''${WAYLAND_DISPLAY}")\""
           exec ${lib.getExe pkgs.kitty} -1
         '';
@@ -109,7 +111,7 @@ in {
         pkgs.writeScript "launch-fuzzel"
         # bash
         ''
-          #!${lib.getExe pkgs.dash}
+          ${dash-shebang}
           eval "export DISPLAY=\"$(cat "''${XDG_RUNTIME_DIR}/DISPLAY_''${WAYLAND_DISPLAY}")\""
           exec ${lib.getExe pkgs.fuzzel}
         '';
@@ -118,7 +120,7 @@ in {
         pkgs.writeScript "toggle-activate-linux"
         # bash
         ''
-          #!/bin/sh
+          ${dash-shebang}
           test "$(${systemctl} --user is-active activate-linux.service)" = "active" \
             && ${systemctl} --user stop activate-linux.service \
             || ${systemctl} --user start activate-linux.service
