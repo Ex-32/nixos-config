@@ -24,6 +24,10 @@
     videos = "${home}/documents/videos";
   };
 
+  # many assorted things expect an xdg secrets implementation, and
+  # gnome-keyring is the least bad option, so we enable it by default
+  services.gnome-keyring.enable = lib.mkDefault true;
+
   # hack to make npm xdg compliant
   home.file.".config/npm/npmrc".text = ''
     prefix=''${XDG_DATA_HOME}/npm
