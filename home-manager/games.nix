@@ -15,9 +15,10 @@
         endless-sky
         mindustry
         prismlauncher
-        # sauerbraten
+        sauerbraten
         superTuxKart
-        EmptyEpsilon
+        # FIXME: serious-proton broken
+        # EmptyEpsilon
       ];
     }
     (lib.mkIf config.local.lutris.enable {
