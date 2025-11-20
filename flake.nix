@@ -117,6 +117,7 @@
           ./nixos/sound.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
+          ./nixos/virt-manager.nix
 
           {
             home-manager.users.jenna = {pkgs, ...}: {
