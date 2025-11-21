@@ -52,6 +52,7 @@
           ./nixos/sound.nix
           ./nixos/ssh.nix
           ./nixos/steam.nix
+          ./nixos/tablet.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
           ./nixos/vial.nix
@@ -115,6 +116,7 @@
           ./nixos/shell.nix
           ./nixos/sops.nix
           ./nixos/sound.nix
+          ./nixos/tablet.nix
           ./nixos/tailscale.nix
           ./nixos/users.nix
           ./nixos/virt-manager.nix

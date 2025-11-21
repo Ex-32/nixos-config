@@ -59,7 +59,8 @@ in {
         "src"
       ]
       ++ (optional config.programs.zsh.enable (symlink ".local/share/zsh"))
-      ++ (optional config.services.kdeconnect.enable (symlink ".config/kdeconnect"));
+      ++ (optional config.services.kdeconnect.enable (symlink ".config/kdeconnect"))
+      ++ (optional osConfig.hardware.opentabletdriver.daemon.enable (symlink ".config/OpenTabletDriver"));
     files = [
       ".config/gh/hosts.yml"
     ];
