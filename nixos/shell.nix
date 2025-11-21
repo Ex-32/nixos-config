@@ -108,7 +108,7 @@ in {
   environment.systemPackages =
     (with pkgs; [
       bat # a modern cat clone with line numbers and syntax highlighting
-      du-dust # a modern du replacement designed for interactive use
+      dust # a modern du replacement designed for interactive use
       duf # a modern df replacement with tailored for human readability
       fselect # and SQL inspired find utility for querying the filesystem
       fzf # fuzzy search the filesystem for files/directories

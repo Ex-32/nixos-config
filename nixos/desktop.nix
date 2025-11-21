@@ -29,7 +29,7 @@
     noto-fonts-cjk-sans
     roboto
     source-sans
-    ubuntu_font_family
+    ubuntu-classic
     xkcd-font
     nerd-fonts.fira-code
     nerd-fonts.symbols-only
