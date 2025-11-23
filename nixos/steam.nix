@@ -24,8 +24,9 @@
   };
 
   environment.systemPackages = with pkgs; [
+    nexusmods-app
+    protontricks
     steamtinkerlaunch
     winetricks
-    protontricks
   ];
 }

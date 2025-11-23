@@ -81,6 +81,7 @@ in {
         (symlink ".config/StardewValley")
         (symlink ".config/Stardrop")
         (symlink ".local/share/EXAPUNKS")
+        (symlink ".local/share/NexusMods.App")
         (symlink ".local/share/Opus Magnum")
         (symlink ".local/share/Steam")
         (symlink ".local/share/Zachtronics Industries")
