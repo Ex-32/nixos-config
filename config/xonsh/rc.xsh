@@ -29,9 +29,14 @@ for i in range(1, 10):
 def ns(args):
     args = [x if x[0:2] == "--" else f"nixpkgs#{x}" for x in args]
     @(["nom", "shell", *args, "--command", "xonsh"])
-
 aliases["ns"] = ns
 del ns
+
+def nsau(args):
+    args = [x if x[0:2] == "--" else f"nixpkgs#{x}" for x in args]
+    @(["env", "NIXPKGS_ALLOW_UNFREE=1", "nom", "shell", "--impure", *args, "--command", "xonsh"])
+aliases["nsau"] = nsau
+del nsau
 
 # def prompt_left():
 #     return "{cwd} {prompt_end} "
