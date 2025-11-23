@@ -24,8 +24,8 @@
     (lib.mkIf config.local.lutris.enable {
       home.packages = let
         lutris = pkgs.lutris.override {
-          extraLibraries = pkgs: with pkgs; [];
-          extraPkgs = pkgs: with pkgs; [];
+          extraLibraries = pkgs: [];
+          extraPkgs = pkgs: [];
           steamSupport = false;
         };
       in [lutris];

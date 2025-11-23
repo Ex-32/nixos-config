@@ -76,7 +76,9 @@
           isDefault = true;
           name = "default";
           extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
-            # bitwarden
+            # tab-reloader
+            # tridactyl
+            bitwarden
             canvasblocker
             clearurls
             decentraleyes
@@ -88,12 +90,11 @@
             onepassword-password-manager
             privacy-badger
             return-youtube-dislikes
+            shinigami-eyes
             sidebery
             sponsorblock
             stylus
-            # tab-reloader
             tampermonkey
-            # tridactyl
             ublock-origin
             youtube-nonstop
           ];
