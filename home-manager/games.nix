@@ -12,13 +12,12 @@
   config = lib.mkMerge [
     {
       home.packages = with pkgs; [
+        empty-epsilon
         endless-sky
         mindustry
         prismlauncher
         sauerbraten
         superTuxKart
-        # FIXME: serious-proton broken
-        # EmptyEpsilon
       ];
     }
     (lib.mkIf config.local.lutris.enable {
