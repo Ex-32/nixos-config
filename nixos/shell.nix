@@ -4,20 +4,7 @@
   lib,
   nixpkgs,
   ...
-}: let
-  fromSet = set: list: builtins.map (name: builtins.getAttr name set) list;
-  pypkgs = [
-    "jupyter"
-    "matplotlib"
-    "numpy"
-    "opencv4"
-    "plotille"
-    "pwntools"
-    "scipy"
-    "sympy"
-    "ipympl"
-  ];
-in {
+}: {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -25,14 +12,9 @@ in {
     autosuggestions.enable = true;
   };
 
-  programs.xonsh = {
+  programs.fish = {
     enable = true;
-    package = pkgs.xonsh;
-    extraPackages = ps:
-      [
-        pkgs.xonsh.xontribs.xonsh-direnv
-      ]
-      ++ (fromSet ps pypkgs);
+    useBabelfish = true;
   };
 
   environment.variables = rec {
@@ -105,7 +87,45 @@ in {
   };
 
   # misc shell utilities for interactive shell use
-  environment.systemPackages =
+  environment.systemPackages = let
+    python = pkgs.python3.withPackages (ps:
+      with ps; [
+        jupyter
+        matplotlib
+        numpy
+        opencv4
+        plotille
+        pwntools
+        scipy
+        sympy
+        ipympl
+      ]);
+    python-bin = lib.getExe python;
+
+    pythonrc = pkgs.writeTextFile {
+      name = "pythonrc";
+      text =
+        # python
+        ''
+          import numpy as np
+          import numpy.linalg as la
+          import scipy as sci
+          import scipy.linalg as sla
+          import sympy as sym
+        '';
+    };
+    py =
+      pkgs.writeScriptBin "py"
+      # bash
+      ''
+        #!${lib.getExe pkgs.dash}
+        if [ -z "$@" ] ; then
+          exec ${python-bin} -i ${pythonrc}
+        else
+          exec ${python-bin} $@
+        fi
+      '';
+  in
     (with pkgs; [
       bat # a modern cat clone with line numbers and syntax highlighting
       dust # a modern du replacement designed for interactive use
@@ -119,5 +139,5 @@ in {
       zellij # tmux but dramatic
       hyperfine
     ])
-    ++ [(pkgs.python3.withPackages (ps: fromSet ps pypkgs))];
+    ++ [py python];
 }

@@ -31,7 +31,7 @@
       ++ (ifExists "nix")
       ++ (ifExists "kvm")
       ++ (ifExists "hidraw");
-    shell = config.programs.xonsh.package;
+    shell = config.programs.fish.package;
 
     # without this any form of rootless containerization will fail
     autoSubUidGidRange = true;

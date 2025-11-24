@@ -67,6 +67,7 @@
               imports = [
                 ./home-manager/base.nix
                 ./home-manager/firefox.nix
+                ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
@@ -83,7 +84,6 @@
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
-                ./home-manager/xonsh.nix
                 ./home-manager/zellij.nix
                 ./home-manager/zsh.nix
               ];
