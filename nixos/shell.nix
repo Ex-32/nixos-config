@@ -57,8 +57,6 @@
     GTK_RC2_FILES = "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
     NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
 
-    # this sets the location for the cuda compute cache
-    # TODO: only enable this environment variable on nvidia systems
     CUDA_CACHE_PATH = "${XDG_CACHE_HOME}/nvidia/ComputeCache";
   };
 

@@ -746,8 +746,21 @@ require('lazy').setup({
     end,
   },
 
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  { -- Highlight todo, notes, etc in comments
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+    opts = { signs = false },
+    config = function(_, opts)
+      local todo = require('todo-comments')
+      todo.setup(opts)
+
+      vim.keymap.set('n', '<leader>ft', "<cmd>TodoTelescope<cr>", { desc = '[F]ind [T]ODOs ' })
+    end,
+  },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
