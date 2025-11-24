@@ -9,14 +9,15 @@
   dash-shebang = "#!" + lib.getExe pkgs.dash;
 
   wallpaper-script = let
-    core = let
-      cu = pkgs.coreutils;
-    in {
-      od = lib.getExe' cu "od";
-      ls = lib.getExe' cu "ls";
-      printf = lib.getExe' cu "printf";
-      shuf = lib.getExe' cu "shuf";
-    };
+    core = builtins.listToAttrs (builtins.map (name: {
+        inherit name;
+        value = lib.getExe' pkgs.coreutils name;
+      }) [
+        "od"
+        "ls"
+        "printf"
+        "shuf"
+      ]);
     home = config.home.homeDirectory;
     hostname = osConfig.networking.hostName;
     rand-file = "/dev/urandom";
@@ -61,13 +62,14 @@ in {
 
       ## packages
       brightnessctl = lib.getExe pkgs.brightnessctl;
+      fuzzel = lib.getExe pkgs.fuzzel;
+      kitty = lib.getExe pkgs.kitty;
       playerctl = lib.getExe pkgs.playerctl;
       wpctl = lib.getExe' pkgs.wireplumber "wpctl";
 
       ## scripts
       startup_hook = let
         variables = builtins.concatStringsSep " " [
-          "DISPLAY"
           "NIRI_SOCKET"
           "WAYLAND_DISPLAY"
           "XDG_CURRENT_DESKTOP"
@@ -79,41 +81,10 @@ in {
         # bash
         ''
           ${dash-shebang}
-
-          i=0
-          used_displays="$(for x in $(find /tmp/.X11-unix/ -not -type d); do basename "$x" ; done | sed -r 's/X([0-9]+)_?/\1/' | uniq)"
-
-          while [ -z "$DISPLAY" ] ; do
-            for curr in $used_displays ; do
-              if [ $curr -eq $i ] ; then
-                ((i++))
-                continue 2
-              fi
-            done
-            export DISPLAY=":$i"
-          done
-          echo "$DISPLAY" > "''${XDG_RUNTIME_DIR}/DISPLAY_''${WAYLAND_DISPLAY}"
-
           ${lib.getExe' pkgs.dbus "dbus-update-activation-environment"} --systemd ${variables}
           ${systemctl} --user import-environment ${variables}
           ${systemctl} --user stop niri-session.target
           ${systemctl} --user start niri-session.target
-        '';
-      launch_kitty =
-        pkgs.writeScript "launch-kitty"
-        # bash
-        ''
-          ${dash-shebang}
-          eval "export DISPLAY=\"$(cat "''${XDG_RUNTIME_DIR}/DISPLAY_''${WAYLAND_DISPLAY}")\""
-          exec ${lib.getExe pkgs.kitty} -1
-        '';
-      launch_fuzzel =
-        pkgs.writeScript "launch-fuzzel"
-        # bash
-        ''
-          ${dash-shebang}
-          eval "export DISPLAY=\"$(cat "''${XDG_RUNTIME_DIR}/DISPLAY_''${WAYLAND_DISPLAY}")\""
-          exec ${lib.getExe pkgs.fuzzel}
         '';
       change_wallpaper = wallpaper-script;
       toggle_activate_linux =
@@ -132,10 +103,20 @@ in {
       DEFAULT_AUDIO_SOURCE = null;
     };
 
-  home.packages = with pkgs; [
-    niri
-    wl-clipboard
-    wl-mirror
+  home.packages = let
+    niri-wrapped = pkgs.symlinkJoin {
+      name = "niri-wrapped";
+      paths = [pkgs.niri];
+      nativeBuildInputs = [pkgs.makeWrapper];
+      postBuild = ''
+        wrapProgram $out/bin/niri \
+          --prefix PATH : ${pkgs.xwayland-satellite}/bin
+      '';
+    };
+  in [
+    niri-wrapped
+    pkgs.wl-clipboard
+    pkgs.wl-mirror
   ];
 
   xdg.portal = {
@@ -235,23 +216,6 @@ in {
         Service = {
           Type = "simple";
           ExecStart = lib.getExe pkgs.activate-linux + " -s 0.8";
-        };
-
-        Install.WantedBy = [niri-target];
-      };
-      xwayland-satellite = {
-        Unit = {
-          Description = "xwayland satellite daemon";
-          Wants = [niri-target];
-          After = [niri-target];
-        };
-
-        Service = {
-          Type = "simple";
-          ExecStart = lib.getExe pkgs.xwayland-satellite + " $DISPLAY";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutSec = "30s";
         };
 
         Install.WantedBy = [niri-target];
