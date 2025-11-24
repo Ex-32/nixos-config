@@ -49,7 +49,7 @@
             };
           };
         in
-          if builtins.elem pkgs.system lib.platforms.darwin
+          if builtins.elem pkgs.stdenv.hostPlatform.system lib.platforms.darwin
           then darwin-firefox
           else pkgs.firefox;
         enableGnomeExtensions = false;
@@ -240,7 +240,7 @@
         };
       };
     }
-    (lib.mkIf (builtins.elem pkgs.system lib.platforms.linux) {
+    (lib.mkIf (builtins.elem pkgs.stdenv.hostPlatform.system lib.platforms.linux) {
       xdg.desktopEntries = let
         firefox = "firefox";
       in {
