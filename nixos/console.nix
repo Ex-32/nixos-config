@@ -14,7 +14,7 @@
     # of 16x32, this will look very big on a low-res display, but looks very
     # nice on most modern displays
     packages = with pkgs; [spleen];
-    font = "spleen-16x32";
+    font = "spleen-12x24";
   };
 
   # this disables the tty login help line about the nixos manual for a
