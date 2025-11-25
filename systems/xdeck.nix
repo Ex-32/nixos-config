@@ -54,18 +54,31 @@ in {
         efiSysMountPoint = "/boot/efi/";
       };
 
-      systemd-boot = {
+      grub = let
+        shell-path = "/EFI/shell/shell.efi";
+      in {
         enable = true;
+        device = "nodev";
+        efiSupport = true;
+        efiInstallAsRemovable = true;
         memtest86.enable = true;
         extraFiles = {
-          "efi/shell/shell.efi" = "${pkgs.edk2-uefi-shell}/shell.efi";
+          "${shell-path}" = "${pkgs.edk2-uefi-shell}/shell.efi";
         };
-        extraEntries = {
-          "z-01-efi-shell.conf" = ''
-            title EFI Shell
-            efi /efi/shell/shell.efi
-          '';
-        };
+        extraEntries = ''
+          menuentry 'Genode on NOVA' {
+            search --set=genode --fs-uuid 67e58266-1089-4750-8900-19ac2db8359c
+            insmod multiboot2
+            insmod gzio
+            multiboot2 ($genode)//boot/bender  intel_hwp_performance
+            module2 ($genode)//boot/hypervisor hypervisor iommu_intel iommu_amd logmem
+            module2 ($genode)//boot/image.elf.gz image.elf
+          }
+
+          menuentry "EFI Shell" {
+            chainloader ${shell-path}
+          }
+        '';
       };
     };
 
