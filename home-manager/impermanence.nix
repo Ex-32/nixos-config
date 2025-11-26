@@ -63,6 +63,7 @@ in {
       ++ (optional osConfig.hardware.opentabletdriver.daemon.enable (symlink ".config/OpenTabletDriver"));
     files = [
       ".config/gh/hosts.yml"
+      ".local/share/fish/fish_history"
     ];
   };
 
