@@ -85,7 +85,6 @@
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/zellij.nix
-                ./home-manager/zsh.nix
               ];
               local.lutris.enable = true;
               home.packages = with pkgs; [
@@ -148,7 +147,6 @@
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/zellij.nix
-                ./home-manager/zsh.nix
               ];
               home.packages = with pkgs; [
                 bitwarden-desktop
