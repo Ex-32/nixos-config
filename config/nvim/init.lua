@@ -562,9 +562,10 @@ require('lazy').setup({
         -- ts_ls = {},
       }
 
-      -- register/configure servers from lua/local/lsp.lua
+      -- register/configure servers from config table above
       for key, value in pairs(servers) do
-        lspconfig[key].setup(value)
+        vim.lsp.config(key, value)
+        vim.lsp.enable(key)
       end
     end,
   },
