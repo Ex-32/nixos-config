@@ -42,47 +42,51 @@
 
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
-    CARGO_HOME = "${XDG_DATA_HOME}/cargo";
-    GNUPGHOME = "${XDG_DATA_HOME}/gnugp";
-    GOPATH = "${XDG_DATA_HOME}/go";
-    GRADLE_USER_HOME = "${XDG_DATA_HOME}/gradle";
-    RBENV_ROOT = "${XDG_DATA_HOME}/rbenv";
-    RUSTUP_HOME = "${XDG_DATA_HOME}/rustup";
-    WINEPREFIX = "${XDG_DATA_HOME}/wine";
+    CARGO_HOME = XDG_DATA_HOME + "/cargo";
+    GNUPGHOME = XDG_DATA_HOME + "/gnugp";
+    GOPATH = XDG_DATA_HOME + "/go";
+    GRADLE_USER_HOME = XDG_DATA_HOME + "/gradle";
+    RBENV_ROOT = XDG_DATA_HOME + "/rbenv";
+    RUSTUP_HOME = XDG_DATA_HOME + "/rustup";
+    WINEPREFIX = XDG_DATA_HOME + "/wine";
 
     # NOTE: using _JAVA_OPTIONS to set the userRoot location and prevent the
     # creation of ~/.java can break poorly designed programs that hardcode
     # paths and so should *not* be set
-    GTK_RC_FILES = "${XDG_CONFIG_HOME}/gtk-1.0/gtkrc";
-    GTK_RC2_FILES = "${XDG_CONFIG_HOME}/gtk-2.0/gtkrc";
-    NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
+    GTK_RC_FILES = XDG_CONFIG_HOME + "/gtk-1.0/gtkrc";
+    GTK_RC2_FILES = XDG_CONFIG_HOME + "/gtk-2.0/gtkrc";
+    NPM_CONFIG_USERCONFIG = XDG_CONFIG_HOME + "/npm/npmrc";
 
-    CUDA_CACHE_PATH = "${XDG_CACHE_HOME}/nvidia/ComputeCache";
+    CUDA_CACHE_PATH = XDG_CACHE_HOME + "/nvidia/ComputeCache";
   };
 
-  environment.shellAliases = {
-    ls = null;
+  environment.shellAliases =
+    {
+      ls = null;
 
-    l = "${lib.getExe pkgs.lsd} -lA --date relative --no-symlink";
-    ll = "${lib.getExe pkgs.lsd} -lA";
+      l = lib.getExe pkgs.lsd + " -lA --date relative --no-symlink";
+      ll = lib.getExe pkgs.lsd + " -lA";
 
-    sc = "doas systemctl";
-    scu = "systemctl --user";
-    jc = "journalctl";
+      sc = "doas systemctl";
+      scu = "systemctl --user";
+      jc = "journalctl";
 
-    nor = "nh os switch -a /etc/nixos";
+      nor = "nh os switch -a /etc/nixos";
 
-    datetime = "${pkgs.coreutils}/bin/date '+%a %Y-%m-%d %H:%M:%S'";
-
-    "..." = "cd ../..";
-    "...." = "cd ../../..";
-    "....." = "cd ../../../..";
-    "......" = "cd ../../../../..";
-    "......." = "cd ../../../../../..";
-    "........" = "cd ../../../../../../..";
-    "........." = "cd ../../../../../../../..";
-    ".........." = "cd ../../../../../../../../..";
-  };
+      datetime = lib.getExe' pkgs.coreutils "date" + " '+%a %Y-%m-%d %H:%M:%S'";
+    }
+    # add entries of 2+i dots corresponding to cd-ing 1+i directories "up" for
+    # values of i in the given range
+    // (let
+      inherit (lib.strings) replicate;
+      inherit (lib.lists) range;
+    in
+      builtins.listToAttrs (
+        builtins.map (i: {
+          name = ".." + (replicate i ".");
+          value = "cd " + (replicate i "../") + "..";
+        }) (range 1 12)
+      ));
 
   # misc shell utilities for interactive shell use
   environment.systemPackages = let
@@ -126,16 +130,17 @@
   in
     (with pkgs; [
       bat # a modern cat clone with line numbers and syntax highlighting
-      dust # a modern du replacement designed for interactive use
       duf # a modern df replacement with tailored for human readability
+      dust # a modern du replacement designed for interactive use
       fselect # and SQL inspired find utility for querying the filesystem
       fzf # fuzzy search the filesystem for files/directories
       htop # the best way to monitor processes this side of the solar system
+      hyperfine
+      jq # cli JSON processor
       lsd # modernized ls rewrite (better version of e{x,z}a imo)
       ripgrep # grep the filesystem crazy fast
       trash-cli # fuck i didn't mean to delete that...
       zellij # tmux but dramatic
-      hyperfine
     ])
     ++ [py python];
 }
