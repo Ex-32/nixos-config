@@ -138,10 +138,5 @@ in {
     };
   };
 
-  # HACK: this stops errors about too many open files when emacs,
-  # obsidian, or steam (probably others too) are open, but causes a
-  # performance hit; remove when fixed upstream
-  environment.variables.MESA_SHADER_CACHE_DISABLE = "true";
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
