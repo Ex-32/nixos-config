@@ -104,6 +104,7 @@
           }
         ];
       };
+
       "reason" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
@@ -177,6 +178,7 @@
           ./nixos/base.nix
           # ./nixos/bluetooth.nix
           ./nixos/console.nix
+          ./nixos/desktop.nix
           # ./nixos/distrobox.nix
           ./nixos/homelab-smb.nix
           ./nixos/impermanence.nix
@@ -195,23 +197,21 @@
               imports = [
                 ./home-manager/base.nix
                 ./home-manager/fish.nix
+                ./home-manager/foot.nix
                 # ./home-manager/fun.nix
                 # ./home-manager/games.nix
                 ./home-manager/git.nix
                 ./home-manager/impermanence.nix
-                # ./home-manager/julia.nix
-                ./home-manager/kitty.nix
                 # ./home-manager/media.nix
                 ./home-manager/neovim.nix
-                # ./home-manager/niri.nix
                 ./home-manager/nix-index.nix
                 # ./home-manager/productivity.nix
-                # ./home-manager/socials.nix
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/zellij.nix
               ];
               home.packages = with pkgs; [
+                cage
               ];
             };
           }

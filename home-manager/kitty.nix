@@ -5,9 +5,6 @@
   inputs,
   ...
 }: {
-  home.packages = with pkgs; [
-    kitty
-    zellij
-  ];
+  home.packages = [pkgs.kitty];
   home.file.".config/kitty/kitty.conf".source = ../config/kitty/kitty.conf;
 }

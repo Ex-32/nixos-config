@@ -2,6 +2,7 @@ keys:
  - &admin_jenna age1h2d2j5mrmyftwatjxzxnfutq2j4l4ru9ua9xl6k825t2ax6x9vvsm6dx3j
  - &host_reason age15h0uxk62493dnjahdy54s2tj0v82pkad4ume2klxpt6kyxy3sdfqckwkgk
  - &host_zion age1fewtc08h8l6rf98tshz0p7fjz96uf3c45843vru9n3urapq9ga4q0793rd
+ - &host_xdeck age132m4vnxqe7kmch7tl4erc0fct4ep0qhxhpzjm0xtm8fjc7cwlv3sxh8jwz
 creation_rules:
   - path_regex: secrets\.yaml
     key_groups:
@@ -9,3 +10,4 @@ creation_rules:
       - *admin_jenna
       - *host_reason
       - *host_zion
+      - *host_xdeck

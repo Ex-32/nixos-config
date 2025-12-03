@@ -6,9 +6,9 @@
   ...
 }: let
   devs = {
-    esp = "/dev/disk/by-uuid/";
-    boot = "/dev/disk/by-uuid/";
-    swap = "/dev/disk/by-uuid/";
+    esp = "/dev/disk/by-uuid/5D3C-775A";
+    boot = "/dev/disk/by-uuid/0201fa14-bca6-4509-9c99-d899c4f08158";
+    swap = "/dev/disk/by-uuid/6bf4084f-2696-41d4-aff3-36d99d77e94a";
   };
 in {
   imports = [
@@ -17,7 +17,7 @@ in {
 
   networking = {
     hostName = "xdeck";
-    hostId = "452fa516";
+    hostId = "d6b02bd3";
     useDHCP = lib.mkDefault true;
   };
 
@@ -35,22 +35,21 @@ in {
       "vsyscall=none"
       "consoleblank=60"
     ];
-    # kernelModules = ["kvm-intel"];
+    kernelModules = [];
     extraModulePackages = [];
 
     initrd = {
       systemd.enable = true;
       availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
       kernelModules = ["dm-snapshot" "cryptd"];
-      luks.devices."cryptroot" = {
-        device = "";
+      luks.devices.cryptroot = {
+        device = "/dev/disk/by-uuid/2de7e7b2-0200-40e3-b4c5-62585e92ddab";
         preLVM = true;
       };
     };
 
     loader = {
       efi = {
-        canTouchEfiVariables = true;
         efiSysMountPoint = "/boot/efi/";
       };
 
@@ -62,6 +61,7 @@ in {
         efiSupport = true;
         efiInstallAsRemovable = true;
         memtest86.enable = true;
+	enableCryptodisk = true;
         extraFiles = {
           "${shell-path}" = "${pkgs.edk2-uefi-shell}/shell.efi";
         };
