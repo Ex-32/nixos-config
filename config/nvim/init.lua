@@ -812,9 +812,8 @@ require('lazy').setup({
         'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'gomod',
         'haskell', 'html', 'java', 'javascript', 'json', 'jsonc', 'latex',
         'linkerscript', 'lua', 'make', 'markdown', 'markdown_inline', 'nasm',
-        'nix', 'nu', 'org', 'passwd', 'python', 'rust', 'scss', 'sql',
-        'ssh_config', 'toml', 'typescript', 'udev', 'vim', 'vimdoc', 'xml',
-        'yuck', 'zig',
+        'nix', 'nu', 'passwd', 'python', 'rust', 'scss', 'sql', 'ssh_config',
+        'toml', 'typescript', 'udev', 'vim', 'vimdoc', 'xml', 'yuck', 'zig',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
