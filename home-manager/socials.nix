@@ -11,8 +11,9 @@
   ];
 
   home.packages = with pkgs; [
+    deltachat-desktop
     discord
-    signal-desktop
     element-desktop
+    signal-desktop
   ];
 }

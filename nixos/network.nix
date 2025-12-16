@@ -19,6 +19,7 @@
       57621 # spotify sync
       35666 # EmptyEpsilon
       1443 # anytype
+      38990 # deltachat
     ];
   in {
     enable = true;

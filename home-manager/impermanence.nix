@@ -39,6 +39,7 @@ in {
 
         (symlink ".config/1Password")
         (symlink ".config/Bitwarden")
+        (symlink ".config/DeltaChat")
         (symlink ".config/Element")
         (symlink ".config/RawTherapee")
         (symlink ".config/Signal")
