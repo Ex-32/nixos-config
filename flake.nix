@@ -42,7 +42,6 @@
           ./nixos/ccc.nix
           ./nixos/console.nix
           ./nixos/desktop.nix
-          ./nixos/distrobox.nix
           ./nixos/flipperzero.nix
           ./nixos/homelab-smb.nix
           ./nixos/impermanence.nix
@@ -109,7 +108,6 @@
           ./nixos/bluetooth.nix
           ./nixos/console.nix
           ./nixos/desktop.nix
-          ./nixos/distrobox.nix
           ./nixos/flipperzero.nix
           ./nixos/homelab-smb.nix
           ./nixos/impermanence.nix
