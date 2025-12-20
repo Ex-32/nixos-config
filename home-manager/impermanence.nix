@@ -66,6 +66,10 @@ in {
             "documents"
             "src"
           ]
+          ++ (optionals config.services.remmina.enable [
+            (symlink ".config/remmina")
+            (symlink ".local/share/remmina")
+          ])
           ++ (optional config.programs.zsh.enable (symlink ".local/share/zsh"))
           ++ (optional config.services.kdeconnect.enable (symlink ".config/kdeconnect"))
           ++ (optional osConfig.hardware.opentabletdriver.daemon.enable (symlink ".config/OpenTabletDriver"));

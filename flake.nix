@@ -79,6 +79,7 @@
                 ./home-manager/nix-index.nix
                 ./home-manager/photos.nix
                 ./home-manager/productivity.nix
+                ./home-manager/remmina.nix
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
