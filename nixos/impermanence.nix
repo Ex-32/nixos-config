@@ -6,8 +6,7 @@
   nixpkgs,
   ...
 }: let
-  optional = lib.lists.optional;
-  optionals = lib.lists.optionals;
+  inherit (lib.lists) optional optionals;
 in {
   imports = [inputs.impermanence.nixosModule];
 
@@ -41,7 +40,6 @@ in {
               || config.networking.networkmanager.wifi.backend == "iwd") "/var/lib/iwd"
           )
           ++ (optional config.hardware.bluetooth.enable "/var/lib/bluetooth")
-          # ++ (optional config.virtualisation.libvirtd.enable "/var/lib/libvirt")
           ++ (optional config.services.fprintd.enable "/var/lib/fprint")
           ++ (optional config.services.tailscale.enable "/var/lib/tailscale")
           ++ (optional config.services.mullvad-vpn.enable "/etc/mullvad-vpn");
@@ -67,12 +65,14 @@ in {
     }
 
     # vm specific impermanence, requires /persist/volatile/vm
-    (lib.mkIf config.virtualisation.libvirtd.enable {
-      environment.persistence."/persist/volatile/vm" = {
-        directories = [
-          "/var/lib/libvirt"
-        ];
-      };
-    })
+    (let
+      directories =
+        optional config.virtualisation.libvirtd.enable "/var/lib/libvirt";
+    in
+      lib.mkIf (builtins.length directories != 0) {
+        environment.persistence."/persist/volatile/vm" = {
+          inherit directories;
+        };
+      })
   ];
 }

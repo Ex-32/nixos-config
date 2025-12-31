@@ -10,15 +10,30 @@
     directory = path;
     method = "symlink";
   };
-  optional = lib.lists.optional;
-  optionals = lib.lists.optionals;
 
-  forPkg-builder = func: (pkg: path: (func
-    (builtins.elem pkg (config.home.packages ++ osConfig.environment.systemPackages))
-    path));
+  installed-pkgs =
+    builtins.map lib.getName
+    (config.home.packages ++ osConfig.environment.systemPackages);
 
-  forPkg = forPkg-builder optional;
-  forPkgs = forPkg-builder optionals;
+  listify = x:
+    if builtins.isList x
+    then x
+    else [x];
+
+  if-set = cond: path: lib.lists.optionals cond (listify path);
+
+  if-pkg = pkgs: path:
+    lib.lists.optionals
+    (builtins.any
+      (pkg:
+        builtins.elem (
+          if lib.isDerivation pkg
+          then lib.getName pkg
+          else pkg
+        )
+        installed-pkgs)
+      (listify pkgs))
+    (listify path);
 in {
   imports = [inputs.impermanence.nixosModules.home-manager.impermanence];
 
@@ -66,13 +81,13 @@ in {
             "documents"
             "src"
           ]
-          ++ (optionals config.services.remmina.enable [
+          ++ (if-set config.services.remmina.enable [
             (symlink ".config/remmina")
             (symlink ".local/share/remmina")
           ])
-          ++ (optional config.programs.zsh.enable (symlink ".local/share/zsh"))
-          ++ (optional config.services.kdeconnect.enable (symlink ".config/kdeconnect"))
-          ++ (optional osConfig.hardware.opentabletdriver.daemon.enable (symlink ".config/OpenTabletDriver"));
+          ++ (if-set config.programs.zsh.enable (symlink ".local/share/zsh"))
+          ++ (if-set config.services.kdeconnect.enable (symlink ".config/kdeconnect"))
+          ++ (if-set osConfig.hardware.opentabletdriver.daemon.enable (symlink ".config/OpenTabletDriver"));
         files = [
           ".config/gh/hosts.yml"
           ".local/share/fish/fish_history"
@@ -90,7 +105,7 @@ in {
       home.persistence."/persist/volatile/games/${config.home.username}" = {
         allowOther = osConfig.programs.fuse.userAllowOther;
         directories =
-          (optionals osConfig.programs.steam.enable [
+          (if-set osConfig.programs.steam.enable [
             ".factorio"
             (symlink ".config/StardewValley")
             (symlink ".config/Stardrop")
@@ -102,18 +117,18 @@ in {
             (symlink ".local/share/vulkan")
             (symlink ".steam")
           ])
-          ++ (optionals config.local.lutris.enable [
+          ++ (if-set config.local.lutris.enable [
             (symlink ".local/share/epic-games")
           ])
-          ++ (forPkg pkgs.prismlauncher (symlink ".local/share/PrismLauncher"))
-          ++ (forPkg pkgs.endless-sky (symlink ".local/share/endless-sky"))
-          ++ (forPkg pkgs.superTuxKart (symlink ".local/share/supertuxkart"));
+          ++ (if-pkg pkgs.prismlauncher (symlink ".local/share/PrismLauncher"))
+          ++ (if-pkg pkgs.endless-sky (symlink ".local/share/endless-sky"))
+          ++ (if-pkg pkgs.superTuxKart (symlink ".local/share/supertuxkart"));
       };
     })
     (lib.mkIf (builtins.hasAttr "/persist/volatile/vm" osConfig.fileSystems) {
       home.persistence."/persist/volatile/vm/home/${config.home.username}" = {
         allowOther = osConfig.programs.fuse.userAllowOther;
-        directories = forPkgs pkgs.winboat [
+        directories = if-pkg pkgs.winboat [
           (symlink ".winboat")
           (symlink ".config/winboat")
           (symlink ".local/share/winboat")
