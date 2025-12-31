@@ -83,7 +83,6 @@
                 ./home-manager/socials.nix
                 ./home-manager/spotify.nix
                 ./home-manager/syncthing.nix
-                ./home-manager/winboat.nix
                 ./home-manager/xdg.nix
                 ./home-manager/zellij.nix
               ];
