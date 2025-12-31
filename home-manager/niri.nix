@@ -175,12 +175,9 @@ in {
     swaylock = lib.getExe pkgs.swaylock;
   in {
     enable = true;
-    events = [
-      {
-        event = "before-sleep";
-        command = swaylock;
-      }
-    ];
+    events = {
+      before-sleep = "swaylock";
+    };
     timeouts = [
       {
         timeout = 180;
