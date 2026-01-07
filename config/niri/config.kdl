@@ -314,6 +314,7 @@ binds {
     Mod+Ctrl+a { spawn "@toggle_activate_linux@"; }
     Mod+Ctrl+S { spawn "swaylock"; }
     Mod+Ctrl+W { spawn "@change_wallpaper@"; }
+    Mod+Ctrl+X { spawn "@systemctl@" "suspend"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.

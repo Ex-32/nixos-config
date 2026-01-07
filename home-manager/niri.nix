@@ -54,54 +54,51 @@ in {
     ./fuzzel.nix
   ];
 
-  xdg.configFile."niri/config.kdl".source = let
+  xdg.configFile."niri/config.kdl".source = pkgs.replaceVars ../config/niri/config.kdl rec {
+    # @variables@ to substitute
+
+    ## packages
+    brightnessctl = lib.getExe pkgs.brightnessctl;
+    fuzzel = lib.getExe pkgs.fuzzel;
+    kitty = lib.getExe pkgs.kitty;
+    playerctl = lib.getExe pkgs.playerctl;
     systemctl = lib.getExe' pkgs.systemd "systemctl";
-  in
-    pkgs.replaceVars ../config/niri/config.kdl {
-      # @variables@ to substitute
+    wpctl = lib.getExe' pkgs.wireplumber "wpctl";
 
-      ## packages
-      brightnessctl = lib.getExe pkgs.brightnessctl;
-      fuzzel = lib.getExe pkgs.fuzzel;
-      kitty = lib.getExe pkgs.kitty;
-      playerctl = lib.getExe pkgs.playerctl;
-      wpctl = lib.getExe' pkgs.wireplumber "wpctl";
+    ## scripts
+    startup_hook = let
+      variables = builtins.concatStringsSep " " [
+        "NIRI_SOCKET"
+        "WAYLAND_DISPLAY"
+        "XDG_CURRENT_DESKTOP"
+        "XDG_SESSION_TYPE"
+      ];
+    in
+      pkgs.writeScript "niri-startup-hook"
+      # bash
+      ''
+        ${dash-shebang}
+        ${lib.getExe' pkgs.dbus "dbus-update-activation-environment"} --systemd ${variables}
+        ${systemctl} --user import-environment ${variables}
+        ${systemctl} --user stop niri-session.target
+        ${systemctl} --user start niri-session.target
+      '';
+    change_wallpaper = wallpaper-script;
+    toggle_activate_linux =
+      pkgs.writeScript "toggle-activate-linux"
+      # bash
+      ''
+        ${dash-shebang}
+        test "$(${systemctl} --user is-active activate-linux.service)" = "active" \
+          && ${systemctl} --user stop activate-linux.service \
+          || ${systemctl} --user start activate-linux.service
+      '';
 
-      ## scripts
-      startup_hook = let
-        variables = builtins.concatStringsSep " " [
-          "NIRI_SOCKET"
-          "WAYLAND_DISPLAY"
-          "XDG_CURRENT_DESKTOP"
-          "XDG_SESSION_TYPE"
-        ];
-        systemctl = lib.getExe' pkgs.systemd "systemctl";
-      in
-        pkgs.writeScript "niri-startup-hook"
-        # bash
-        ''
-          ${dash-shebang}
-          ${lib.getExe' pkgs.dbus "dbus-update-activation-environment"} --systemd ${variables}
-          ${systemctl} --user import-environment ${variables}
-          ${systemctl} --user stop niri-session.target
-          ${systemctl} --user start niri-session.target
-        '';
-      change_wallpaper = wallpaper-script;
-      toggle_activate_linux =
-        pkgs.writeScript "toggle-activate-linux"
-        # bash
-        ''
-          ${dash-shebang}
-          test "$(${systemctl} --user is-active activate-linux.service)" = "active" \
-            && ${systemctl} --user stop activate-linux.service \
-            || ${systemctl} --user start activate-linux.service
-        '';
-
-      # this causes these values (those used by wpctl) to be excluded from the
-      # validation check that makes sure there are no unsubstituted values.
-      DEFAULT_AUDIO_SINK = null;
-      DEFAULT_AUDIO_SOURCE = null;
-    };
+    # this causes these values (those used by wpctl) to be excluded from the
+    # validation check that makes sure there are no unsubstituted values.
+    DEFAULT_AUDIO_SINK = null;
+    DEFAULT_AUDIO_SOURCE = null;
+  };
 
   home.packages = let
     niri-wrapped = pkgs.symlinkJoin {
@@ -176,12 +173,18 @@ in {
   in {
     enable = true;
     events = {
-      before-sleep = "swaylock";
+      lock = swaylock;
+      before-sleep = swaylock;
+      # after-resume = swaylock;
     };
     timeouts = [
       {
         timeout = 180;
         command = swaylock;
+      }
+      {
+        timeout = 600;
+        command = "systemctl suspend";
       }
     ];
   };
