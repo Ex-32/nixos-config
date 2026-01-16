@@ -17,23 +17,42 @@
   # there's a decent serif, sans-serif, and monospace font installed for
   # well... everything
   fonts.enableDefaultPackages = true;
-  fonts.packages = with pkgs; [
-    corefonts
-    (google-fonts.override {
-      fonts = [
-        "Courier Prime"
-        "Permanent Marker"
-      ];
-    })
-    noto-fonts
-    noto-fonts-cjk-sans
-    roboto
-    source-sans
-    ubuntu-classic
-    xkcd-font
-    nerd-fonts.fira-code
-    nerd-fonts.symbols-only
-  ];
+  fonts.packages =
+    (with pkgs; [
+      corefonts
+      (google-fonts.override {
+        fonts = [
+          "Courier Prime"
+          "Permanent Marker"
+        ];
+      })
+      noto-fonts
+      noto-fonts-cjk-sans
+      roboto
+      source-sans
+      ubuntu-classic
+      xkcd-font
+    ])
+    ++ (with pkgs.nerd-fonts; [
+      _3270
+      anonymice
+      bigblue-terminal
+      departure-mono
+      fira-code
+      gohufont
+      heavy-data
+      iosevka-term-slab
+      lekton
+      monofur
+      monoid
+      open-dyslexic
+      proggy-clean-tt
+      recursive-mono
+      space-mono
+      symbols-only
+      terminess-ttf
+      victor-mono
+    ]);
 
   # many gtk applications don't behave properly unless they can query dconf for
   # settings, so regardless of windowing environment it's good to have it

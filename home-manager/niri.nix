@@ -175,7 +175,7 @@ in {
     events = {
       lock = swaylock;
       before-sleep = swaylock;
-      # after-resume = swaylock;
+      after-resume = wallpaper-script;
     };
     timeouts = [
       {
@@ -190,13 +190,13 @@ in {
   };
 
   systemd.user = let
-    niri-target = "niri-session.target";
+    graphical-target = "graphical-session.target";
   in {
     targets.niri-session = {
       Unit = {
         Description = "niri compositor session";
         Documentation = ["man:systemd.special(7)"];
-        BindsTo = ["graphical-session.target"];
+        BindsTo = [graphical-target];
         Wants = [
           "graphical-session-pre.target"
           "xdg-desktop-autostart.target"
@@ -206,11 +206,38 @@ in {
       };
     };
     services = {
+      gammastep = {
+        Unit = {
+          Description = "Blue light reduction service";
+          Wants = [graphical-target];
+          After = [graphical-target];
+        };
+
+        Service = {
+          Type = "simple";
+          ExecStart =
+            (lib.getExe' pkgs.gammastep "gammastep-indicator")
+            + " -c "
+            + (pkgs.writeText "gammastep.conf"
+              # ini
+              ''
+                [general]
+                temp-day=4600
+                temp-night=3600
+                dawn-time=7:00-8:00
+                dusk-time=17:30-18:30
+                brightness-day=1.0
+                brightness-night=0.90
+              '');
+        };
+
+        Install.WantedBy = [graphical-target];
+      };
       activate-linux = {
         Unit = {
           Description = "Activate Linux";
-          Wants = [niri-target];
-          After = [niri-target];
+          Wants = [graphical-target];
+          After = [graphical-target];
         };
 
         Service = {
@@ -218,13 +245,13 @@ in {
           ExecStart = lib.getExe pkgs.activate-linux + " -s 0.8";
         };
 
-        Install.WantedBy = [niri-target];
+        Install.WantedBy = [graphical-target];
       };
       swww-daemon = {
         Unit = {
           Description = "swww wallpaper daemon";
-          Wants = [niri-target];
-          After = [niri-target];
+          Wants = [graphical-target];
+          After = [graphical-target];
         };
 
         Service = {
@@ -235,13 +262,13 @@ in {
           TimeoutSec = "30s";
         };
 
-        Install.WantedBy = [niri-target];
+        Install.WantedBy = [graphical-target];
       };
       swww = {
         Unit = {
           Description = "cycle swww wallpaper";
-          Wants = [niri-target];
-          After = [niri-target "swww-daemon.service"];
+          Wants = [graphical-target];
+          After = [graphical-target "swww-daemon.service"];
         };
 
         Service = {
@@ -249,15 +276,15 @@ in {
           ExecStart = wallpaper-script;
         };
 
-        Install.WantedBy = [niri-target];
+        Install.WantedBy = [graphical-target];
       };
     };
     timers = {
       swww = {
         Unit = {
           Description = "cycle swww wallpaper";
-          Wants = [niri-target];
-          After = [niri-target "swww-daemon.service"];
+          Wants = [graphical-target];
+          After = [graphical-target "swww-daemon.service"];
         };
 
         Timer = {
@@ -266,7 +293,7 @@ in {
           AccuracySec = "30s";
         };
 
-        Install.WantedBy = [niri-target];
+        Install.WantedBy = [graphical-target];
       };
     };
   };
