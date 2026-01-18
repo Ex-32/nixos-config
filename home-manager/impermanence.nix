@@ -106,13 +106,17 @@ in {
         allowOther = osConfig.programs.fuse.userAllowOther;
         directories =
           (if-set osConfig.programs.steam.enable [
+            ".config/unity3d"
             ".factorio"
+            ".local/share/YourOnlyMoveIsHUSTLE"
             (symlink ".config/StardewValley")
             (symlink ".config/Stardrop")
             (symlink ".local/share/EXAPUNKS")
             (symlink ".local/share/NexusMods.App")
             (symlink ".local/share/Opus Magnum")
+            (symlink ".local/share/SHENZHEN IO")
             (symlink ".local/share/Steam")
+            (symlink ".local/share/TIS-100")
             (symlink ".local/share/Zachtronics Industries")
             (symlink ".local/share/vulkan")
             (symlink ".steam")
