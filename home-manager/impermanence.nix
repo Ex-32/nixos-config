@@ -35,46 +35,43 @@
       (listify pkgs))
     (listify path);
 in {
-  imports = [inputs.impermanence.nixosModules.home-manager.impermanence];
-
   config = lib.mkMerge [
     {
-      home.persistence."/persist/safe/home/${config.home.username}" = {
-        allowOther = osConfig.programs.fuse.userAllowOther;
+      home.persistence."/persist/safe" = {
         directories =
           [
             ".local/state"
 
-            (symlink ".local/share/com.github.johnfactotum.Foliate")
-            (symlink ".local/share/containers")
-            (symlink ".local/share/direnv")
-            (symlink ".local/share/doom")
-            (symlink ".local/share/gnupg")
-            (symlink ".local/share/keyrings")
-            (symlink ".local/share/nheko")
-            (symlink ".local/share/nvim")
-            (symlink ".local/share/nyxt")
-            (symlink ".local/share/qBittorrent")
-            (symlink ".local/share/wine")
-            (symlink ".local/share/xonsh")
-            (symlink ".local/share/zoxide")
+            ".local/share/com.github.johnfactotum.Foliate"
+            ".local/share/containers"
+            ".local/share/direnv"
+            ".local/share/doom"
+            ".local/share/gnupg"
+            ".local/share/keyrings"
+            ".local/share/nheko"
+            ".local/share/nvim"
+            ".local/share/nyxt"
+            ".local/share/qBittorrent"
+            ".local/share/wine"
+            ".local/share/xonsh"
+            ".local/share/zoxide"
 
-            (symlink ".config/1Password")
-            (symlink ".config/Bitwarden")
-            (symlink ".config/DeltaChat")
-            (symlink ".config/Element")
-            (symlink ".config/RawTherapee")
-            (symlink ".config/Signal")
-            (symlink ".config/Slack")
-            (symlink ".config/anytype")
-            (symlink ".config/discord")
-            (symlink ".config/emacs")
-            (symlink ".config/htop")
-            (symlink ".config/nvim/spell")
-            (symlink ".config/qBittorrent")
-            (symlink ".config/sops")
-            (symlink ".config/spotify")
-            (symlink ".config/steamtinkerlaunch")
+            ".config/1Password"
+            ".config/Bitwarden"
+            ".config/DeltaChat"
+            ".config/Element"
+            ".config/RawTherapee"
+            ".config/Signal"
+            ".config/Slack"
+            ".config/anytype"
+            ".config/discord"
+            ".config/emacs"
+            ".config/htop"
+            ".config/nvim/spell"
+            ".config/qBittorrent"
+            ".config/sops"
+            ".config/spotify"
+            ".config/steamtinkerlaunch"
 
             ".mozilla"
             ".ssh"
@@ -82,60 +79,56 @@ in {
             "src"
           ]
           ++ (if-set config.services.remmina.enable [
-            (symlink ".config/remmina")
-            (symlink ".local/share/remmina")
+            ".config/remmina"
+            ".local/share/remmina"
           ])
-          ++ (if-set config.programs.zsh.enable (symlink ".local/share/zsh"))
-          ++ (if-set config.services.kdeconnect.enable (symlink ".config/kdeconnect"))
-          ++ (if-set osConfig.hardware.opentabletdriver.daemon.enable (symlink ".config/OpenTabletDriver"));
+          ++ (if-set config.programs.zsh.enable ".local/share/zsh")
+          ++ (if-set config.services.kdeconnect.enable ".config/kdeconnect")
+          ++ (if-set osConfig.hardware.opentabletdriver.daemon.enable ".config/OpenTabletDriver");
         files = [
           ".config/gh/hosts.yml"
           ".local/share/fish/fish_history"
         ];
       };
 
-      home.persistence."/persist/volatile/cache/${config.home.username}" = {
-        allowOther = osConfig.programs.fuse.userAllowOther;
+      home.persistence."/persist/volatile/cache" = {
         directories = [
           ".cache"
         ];
       };
     }
     (lib.mkIf (builtins.hasAttr "/persist/volatile/games" osConfig.fileSystems) {
-      home.persistence."/persist/volatile/games/${config.home.username}" = {
-        allowOther = osConfig.programs.fuse.userAllowOther;
+      home.persistence."/persist/volatile/games" = {
         directories =
           (if-set osConfig.programs.steam.enable [
+            ".config/StardewValley"
+            ".config/Stardrop"
             ".config/unity3d"
             ".factorio"
+            ".local/share/EXAPUNKS"
+            ".local/share/Opus Magnum"
+            ".local/share/SHENZHEN IO"
+            ".local/share/Steam"
+            ".local/share/TIS-100"
             ".local/share/YourOnlyMoveIsHUSTLE"
-            (symlink ".config/StardewValley")
-            (symlink ".config/Stardrop")
-            (symlink ".local/share/EXAPUNKS")
-            (symlink ".local/share/NexusMods.App")
-            (symlink ".local/share/Opus Magnum")
-            (symlink ".local/share/SHENZHEN IO")
-            (symlink ".local/share/Steam")
-            (symlink ".local/share/TIS-100")
-            (symlink ".local/share/Zachtronics Industries")
-            (symlink ".local/share/vulkan")
-            (symlink ".steam")
+            ".local/share/Zachtronics Industries"
+            ".local/share/vulkan"
+            ".steam"
           ])
           ++ (if-set config.local.lutris.enable [
-            (symlink ".local/share/epic-games")
+            ".local/share/epic-games"
           ])
-          ++ (if-pkg pkgs.prismlauncher (symlink ".local/share/PrismLauncher"))
-          ++ (if-pkg pkgs.endless-sky (symlink ".local/share/endless-sky"))
-          ++ (if-pkg pkgs.superTuxKart (symlink ".local/share/supertuxkart"));
+          ++ (if-pkg pkgs.prismlauncher ".local/share/PrismLauncher")
+          ++ (if-pkg pkgs.endless-sky ".local/share/endless-sky")
+          ++ (if-pkg pkgs.superTuxKart ".local/share/supertuxkart");
       };
     })
     (lib.mkIf (builtins.hasAttr "/persist/volatile/vm" osConfig.fileSystems) {
-      home.persistence."/persist/volatile/vm/home/${config.home.username}" = {
-        allowOther = osConfig.programs.fuse.userAllowOther;
+      home.persistence."/persist/volatile/vm" = {
         directories = if-pkg pkgs.winboat [
-          (symlink ".winboat")
-          (symlink ".config/winboat")
-          (symlink ".local/share/winboat")
+          ".winboat"
+          ".config/winboat"
+          ".local/share/winboat"
         ];
       };
     })

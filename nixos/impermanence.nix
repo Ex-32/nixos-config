@@ -12,11 +12,6 @@ in {
 
   config = lib.mkMerge [
     {
-      # this doesn't do anything for the system-wide impermanence, but it allows
-      # home-manager impermanence to set allowOther for fuse bind-mounts, which
-      # prevents weird errors when trying to use sudo on persistence mounts.
-      programs.fuse.userAllowOther = true;
-
       # this defines what files/directories should be bind-mounted from the
       # persistant storage at /persist to the system, any files/directories *not*
       # either in this list, or else mounted from another partition/subvolume (like

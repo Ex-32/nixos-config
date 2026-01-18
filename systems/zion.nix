@@ -83,10 +83,10 @@ in {
     "/persist/safe/system" = boot-dataset "safe/system";
     "/persist/safe/home" = dataset "safe/home";
 
-    "/persist/volatile/cache" = dataset "volatile/cache";
-    "/persist/volatile/games" = dataset "volatile/games";
-    # FIXME: vm dataset isn't *really* needed for boot,
+    # FIXME: these datasets aren't *really* needed for boot,
     # find a way to fix the impermanence requirement
+    "/persist/volatile/cache" = boot-dataset "volatile/cache";
+    "/persist/volatile/games" = boot-dataset "volatile/games";
     "/persist/volatile/vm" = boot-dataset "volatile/vm";
   };
 
