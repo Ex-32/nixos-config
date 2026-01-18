@@ -175,7 +175,7 @@ in {
     events = {
       lock = swaylock;
       before-sleep = swaylock;
-      after-resume = wallpaper-script;
+      after-resume = "${wallpaper-script}";
     };
     timeouts = [
       {
