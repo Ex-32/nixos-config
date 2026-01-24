@@ -7,6 +7,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     impermanence.url = "github:nix-community/impermanence";
@@ -26,6 +33,7 @@
     self,
     nixpkgs,
     home-manager,
+    nix-on-droid,
     ...
   }: {
     nixosConfigurations = {
@@ -209,6 +217,13 @@
           }
         ];
       };
+    };
+
+    nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+      pkgs = nixpkgs.legacyPackages."aarch64-linux";
+      modules = [
+        ./nix-on-droid/base.nix
+      ];
     };
   };
 }
