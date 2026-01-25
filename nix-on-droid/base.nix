@@ -37,7 +37,15 @@
     # networking utilities
     openssh
     nmap
+    iproute2
+
+    # shell utilities
+    fish
+    dust
+    duf
   ];
+
+  user.shell = lib.getExe pkgs.fish;
 
   # Backup etc files instead of failing to activate generation if a file already exists in /etc
   environment.etcBackupExtension = ".bak";
