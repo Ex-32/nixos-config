@@ -24,6 +24,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    gamescope
     protontricks
     steamtinkerlaunch
     winetricks

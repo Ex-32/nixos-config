@@ -90,17 +90,18 @@
 
   # misc shell utilities for interactive shell use
   environment.systemPackages = let
-    python = pkgs.python3.withPackages (ps:
+    python = pkgs.python314.withPackages (ps:
       with ps; [
+        ipympl
         jupyter
         matplotlib
         numpy
         opencv4
+        pandas
         plotille
         pwntools
         scipy
         sympy
-        ipympl
       ]);
     python-bin = lib.getExe python;
 
