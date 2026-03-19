@@ -118,7 +118,7 @@
           ./nixos/console.nix
           ./nixos/desktop.nix
           ./nixos/flipperzero.nix
-          # ./nixos/homelab-smb.nix
+          ./nixos/homelab-smb.nix
           ./nixos/impermanence.nix
           ./nixos/locale.nix
           ./nixos/mullvad.nix
