@@ -6,10 +6,10 @@
   ...
 }: let
   devs = {
-    luks = "/dev/disk/by-uuid/";
-    esp = "/dev/disk/by-uuid/";
-    boot = "/dev/disk/by-uuid/";
-    swap = "/dev/disk/by-uuid/";
+    luks = "/dev/disk/by-uuid/64318bb4-6243-409a-9d38-d55a45a75ce7";
+    esp = "/dev/disk/by-uuid/22D7-AF2F";
+    boot = "/dev/disk/by-uuid/2033d363-0bdd-49c5-8b9d-d816e796a460";
+    swap = "/dev/disk/by-uuid/87842076-b18a-45db-b378-99f3c6fd1d7e";
   };
 in {
   imports = [
@@ -53,7 +53,7 @@ in {
     loader = {
       efi = {
         canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot/efi/";
+        efiSysMountPoint = "/boot/efi";
       };
 
       grub = let
@@ -111,8 +111,9 @@ in {
     "/persist/safe/system" = boot-dataset "safe/system";
     "/persist/safe/home" = dataset "safe/home";
 
-    "/persist/volatile/cache" = dataset "volatile/cache";
-    "/persist/volatile/games" = dataset "volatile/games";
+    # FIXME: not really "boot" datasets, but required to build
+    "/persist/volatile/cache" = boot-dataset "volatile/cache";
+    "/persist/volatile/games" = boot-dataset "volatile/games";
   };
 
   swapDevices = [
