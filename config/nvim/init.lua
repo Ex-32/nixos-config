@@ -160,9 +160,8 @@ require('lazy').setup({
     priority = 1001,
   },
 
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
+  -- NOTE: Plugins can be added with a link
+  -- (or for a github repo: 'owner/repo' link).
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -799,42 +798,6 @@ require('lazy').setup({
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
-  },
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-    opts = {
-      ensure_installed = {
-        'arduino', 'bash', 'c', 'c_sharp', 'cmake', 'commonlisp', 'cpp', 'css',
-        'csv', 'cuda', 'diff', 'dockerfile', 'fish', 'fortran', 'git_config',
-        'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'gomod',
-        'haskell', 'html', 'java', 'javascript', 'json', 'jsonc', 'latex',
-        'linkerscript', 'lua', 'make', 'markdown', 'markdown_inline', 'nasm',
-        'nix', 'nu', 'passwd', 'python', 'rust', 'scss', 'sql', 'ssh_config',
-        'toml', 'typescript', 'udev', 'vim', 'vimdoc', 'xml', 'yuck', 'zig',
-      },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    },
-    dependencies = {
-      'LhKipp/nvim-nu',
-    },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
 
   {
