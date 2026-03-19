@@ -17,7 +17,7 @@
         mindustry
         prismlauncher
         sauerbraten
-        superTuxKart
+        supertuxkart
       ];
     }
     (lib.mkIf config.local.lutris.enable {
