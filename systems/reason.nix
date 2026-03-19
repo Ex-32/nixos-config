@@ -6,8 +6,10 @@
   ...
 }: let
   devs = {
-    boot = "/dev/disk/by-uuid/22D7-AF2F";
-    swap = "/dev/disk/by-uuid/526548fc-b325-4443-8c6e-f132ebf4e190";
+    luks = "/dev/disk/by-uuid/";
+    esp = "/dev/disk/by-uuid/";
+    boot = "/dev/disk/by-uuid/";
+    swap = "/dev/disk/by-uuid/";
   };
 in {
   imports = [
@@ -41,13 +43,17 @@ in {
     initrd = {
       systemd.enable = true;
       availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
-      kernelModules = ["i915"];
+      kernelModules = ["i915" "dm-snapshot" "cryptd"];
+      luks.devices.cryptroot = {
+        device = devs.luks;
+        preLVM = true;
+      };
     };
 
     loader = {
       efi = {
         canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot";
+        efiSysMountPoint = "/boot/efi/";
       };
 
       grub = let
@@ -56,6 +62,7 @@ in {
         enable = true;
         device = "nodev";
         efiSupport = true;
+        enableCryptodisk = true;
         memtest86.enable = true;
         extraFiles = {
           "${shell-path}" = "${pkgs.edk2-uefi-shell}/shell.efi";
@@ -88,12 +95,12 @@ in {
   fileSystems = let
     boot-dataset = subpath: {
       fsType = "zfs";
-      device = "rpool/encrypt/${subpath}";
+      device = "rpool/${subpath}";
       neededForBoot = true;
     };
     dataset = subpath: {
       fsType = "zfs";
-      device = "rpool/encrypt/${subpath}";
+      device = "rpool/${subpath}";
       options = ["nofail"];
     };
   in {
@@ -111,6 +118,8 @@ in {
   swapDevices = [
     {device = devs.swap;}
   ];
+
+  services.lvm.enable = true;
 
   services.fprintd.enable = true;
 

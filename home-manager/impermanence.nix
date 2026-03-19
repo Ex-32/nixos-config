@@ -38,57 +38,58 @@ in {
   config = lib.mkMerge [
     {
       home.persistence."/persist/safe" = {
-        directories =
-          [
-            ".local/state"
+        directories = [
+          ".local/state"
+          ".local/share"
+          ".config"
 
-            ".local/share/com.github.johnfactotum.Foliate"
-            ".local/share/containers"
-            ".local/share/direnv"
-            ".local/share/doom"
-            ".local/share/gnupg"
-            ".local/share/keyrings"
-            ".local/share/nheko"
-            ".local/share/nvim"
-            ".local/share/nyxt"
-            ".local/share/qBittorrent"
-            ".local/share/wine"
-            ".local/share/xonsh"
-            ".local/share/zoxide"
+          # ".local/share/com.github.johnfactotum.Foliate"
+          # ".local/share/containers"
+          # ".local/share/direnv"
+          # ".local/share/doom"
+          # ".local/share/gnupg"
+          # ".local/share/keyrings"
+          # ".local/share/nheko"
+          # ".local/share/nvim"
+          # ".local/share/nyxt"
+          # ".local/share/qBittorrent"
+          # ".local/share/wine"
+          # ".local/share/xonsh"
+          # ".local/share/zoxide"
+          #
+          # ".config/1Password"
+          # ".config/Bitwarden"
+          # ".config/DeltaChat"
+          # ".config/Element"
+          # ".config/RawTherapee"
+          # ".config/Signal"
+          # ".config/Slack"
+          # ".config/anytype"
+          # ".config/discord"
+          # ".config/emacs"
+          # ".config/htop"
+          # ".config/nvim/spell"
+          # ".config/qBittorrent"
+          # ".config/sops"
+          # ".config/spotify"
+          # ".config/steamtinkerlaunch"
 
-            ".config/1Password"
-            ".config/Bitwarden"
-            ".config/DeltaChat"
-            ".config/Element"
-            ".config/RawTherapee"
-            ".config/Signal"
-            ".config/Slack"
-            ".config/anytype"
-            ".config/discord"
-            ".config/emacs"
-            ".config/htop"
-            ".config/nvim/spell"
-            ".config/qBittorrent"
-            ".config/sops"
-            ".config/spotify"
-            ".config/steamtinkerlaunch"
-
-            ".mozilla"
-            ".ssh"
-            "documents"
-            "src"
-          ]
-          ++ (if-set config.services.remmina.enable [
-            ".config/remmina"
-            ".local/share/remmina"
-          ])
-          ++ (if-set config.programs.zsh.enable ".local/share/zsh")
-          ++ (if-set config.services.kdeconnect.enable ".config/kdeconnect")
-          ++ (if-set osConfig.hardware.opentabletdriver.daemon.enable ".config/OpenTabletDriver");
-        files = [
-          ".config/gh/hosts.yml"
-          ".local/share/fish/fish_history"
+          ".mozilla"
+          ".ssh"
+          "documents"
+          "src"
         ];
+        # ++ (if-set config.services.remmina.enable [
+        #   ".config/remmina"
+        #   ".local/share/remmina"
+        # ])
+        # ++ (if-set config.programs.zsh.enable ".local/share/zsh")
+        # ++ (if-set config.services.kdeconnect.enable ".config/kdeconnect")
+        # ++ (if-set osConfig.hardware.opentabletdriver.daemon.enable ".config/OpenTabletDriver");
+        # files = [
+        #   ".config/gh/hosts.yml"
+        #   ".local/share/fish/fish_history"
+        # ];
       };
 
       home.persistence."/persist/volatile/cache" = {
@@ -99,28 +100,27 @@ in {
     }
     (lib.mkIf (builtins.hasAttr "/persist/volatile/games" osConfig.fileSystems) {
       home.persistence."/persist/volatile/games" = {
-        directories =
-          (if-set osConfig.programs.steam.enable [
-            ".config/StardewValley"
-            ".config/Stardrop"
-            ".config/unity3d"
-            ".factorio"
-            ".local/share/EXAPUNKS"
-            ".local/share/Opus Magnum"
-            ".local/share/SHENZHEN IO"
-            ".local/share/Steam"
-            ".local/share/TIS-100"
-            ".local/share/YourOnlyMoveIsHUSTLE"
-            ".local/share/Zachtronics Industries"
-            ".local/share/vulkan"
-            ".steam"
-          ])
-          ++ (if-set config.local.lutris.enable [
-            ".local/share/epic-games"
-          ])
-          ++ (if-pkg pkgs.prismlauncher ".local/share/PrismLauncher")
-          ++ (if-pkg pkgs.endless-sky ".local/share/endless-sky")
-          ++ (if-pkg pkgs.superTuxKart ".local/share/supertuxkart");
+        directories = if-set osConfig.programs.steam.enable [
+          # ".config/StardewValley"
+          # ".config/Stardrop"
+          # ".config/unity3d"
+          # ".factorio"
+          # ".local/share/EXAPUNKS"
+          # ".local/share/Opus Magnum"
+          # ".local/share/SHENZHEN IO"
+          ".local/share/Steam"
+          # ".local/share/TIS-100"
+          # ".local/share/YourOnlyMoveIsHUSTLE"
+          # ".local/share/Zachtronics Industries"
+          # ".local/share/vulkan"
+          ".steam"
+        ];
+        # ++ (if-set config.local.lutris.enable [
+        #   ".local/share/epic-games"
+        # ])
+        # ++ (if-pkg pkgs.prismlauncher ".local/share/PrismLauncher")
+        # ++ (if-pkg pkgs.endless-sky ".local/share/endless-sky")
+        # ++ (if-pkg pkgs.superTuxKart ".local/share/supertuxkart");
       };
     })
     (lib.mkIf (builtins.hasAttr "/persist/volatile/vm" osConfig.fileSystems) {
