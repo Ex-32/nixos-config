@@ -138,7 +138,6 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
-                # ./home-manager/firefox.nix
                 ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
@@ -158,9 +157,10 @@
                 ./home-manager/zellij.nix
               ];
               home.packages = with pkgs; [
+                firefox
                 bitwarden-desktop
-                nyxt
-                rclone
+                # nyxt
+                # rclone
               ];
             };
           }
