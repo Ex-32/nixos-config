@@ -42,54 +42,10 @@ in {
           ".local/state"
           ".local/share"
           ".config"
-
-          # ".local/share/com.github.johnfactotum.Foliate"
-          # ".local/share/containers"
-          # ".local/share/direnv"
-          # ".local/share/doom"
-          # ".local/share/gnupg"
-          # ".local/share/keyrings"
-          # ".local/share/nheko"
-          # ".local/share/nvim"
-          # ".local/share/nyxt"
-          # ".local/share/qBittorrent"
-          # ".local/share/wine"
-          # ".local/share/xonsh"
-          # ".local/share/zoxide"
-          #
-          # ".config/1Password"
-          # ".config/Bitwarden"
-          # ".config/DeltaChat"
-          # ".config/Element"
-          # ".config/RawTherapee"
-          # ".config/Signal"
-          # ".config/Slack"
-          # ".config/anytype"
-          # ".config/discord"
-          # ".config/emacs"
-          # ".config/htop"
-          # ".config/nvim/spell"
-          # ".config/qBittorrent"
-          # ".config/sops"
-          # ".config/spotify"
-          # ".config/steamtinkerlaunch"
-
-          ".mozilla"
           ".ssh"
           "documents"
           "src"
         ];
-        # ++ (if-set config.services.remmina.enable [
-        #   ".config/remmina"
-        #   ".local/share/remmina"
-        # ])
-        # ++ (if-set config.programs.zsh.enable ".local/share/zsh")
-        # ++ (if-set config.services.kdeconnect.enable ".config/kdeconnect")
-        # ++ (if-set osConfig.hardware.opentabletdriver.daemon.enable ".config/OpenTabletDriver");
-        # files = [
-        #   ".config/gh/hosts.yml"
-        #   ".local/share/fish/fish_history"
-        # ];
       };
 
       home.persistence."/persist/volatile/cache" = {

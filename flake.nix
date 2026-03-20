@@ -157,7 +157,7 @@
                 ./home-manager/zellij.nix
               ];
               home.packages = with pkgs; [
-                firefox
+                firefox-devedition
                 bitwarden-desktop
                 # nyxt
                 # rclone

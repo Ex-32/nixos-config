@@ -236,6 +236,12 @@
               #TabsToolbar {
                 visibility: collapse;
               }
+
+              #sidebar-panel-header {
+                background: #100C00;
+                color: #01D2FD;
+                height: 2em;
+              }
             '';
         };
       };
