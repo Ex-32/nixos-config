@@ -11,7 +11,6 @@
 
     plugins = with pkgs.vimPlugins; [
       nvim-treesitter.withAllGrammars
-      vim-sleuth
     ];
 
     extraPackages = with pkgs; [
