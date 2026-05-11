@@ -104,7 +104,10 @@ in {
       options = ["nofail"];
     };
   in {
-    "/boot" = {device = devs.boot;};
+    "/boot" = {
+      device = devs.boot;
+      fsType = "ext4";
+    };
 
     "/nix" = boot-dataset "volatile/nix";
 
