@@ -14,10 +14,16 @@
   users.users.jenna = {
     isNormalUser = true;
     uid = 1000;
-    description = "Jenna Fligor";
+    description = "Jenna";
     extraGroups = let
-      ifSet = lib.lists.optional;
-      ifExists = group: ifSet (builtins.hasAttr group config.users.groups) group;
+      ifGroupExists = groups:
+        builtins.foldl'
+        (acc: group:
+          if builtins.hasAttr group config.users.groups
+          then acc ++ [group]
+          else acc)
+        []
+        groups;
     in
       [
         "wheel" # general admin (sudo) privileges
@@ -25,13 +31,16 @@
         "lp" # printing privileges
         "dialout" # raw serial device access
       ]
-      ++ (ifSet config.networking.networkmanager.enable "networkmanager")
-      ++ (ifSet config.services.jellyfin.enable "jellyfin")
-      ++ (ifSet config.virtualisation.libvirtd.enable "libvirtd")
-      ++ (ifExists "nix")
-      ++ (ifExists "kvm")
-      ++ (ifExists "hidraw");
-    shell = config.programs.fish.package;
+      ++ (ifGroupExists [
+        "networkmanager"
+        "jellyfin"
+        "libvirtd"
+        "nix"
+        "kvm"
+        "hidraw"
+      ]);
+
+    shell = pkgs.zsh;
 
     # without this any form of rootless containerization will fail
     autoSubUidGidRange = true;
