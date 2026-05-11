@@ -35,7 +35,7 @@ in {
   home.packages = with pkgs; [
     # FIXME: anytype implicitly depends on a working mDNS stack
     anytype
-    foliate
+    calibre
     font-manager
     libreoffice-with-deps
     nextcloud-client
