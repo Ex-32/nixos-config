@@ -50,7 +50,7 @@
     # firstly because doing so presents a security risk (the program could've
     # had sensitive info in memory when it crashed) and secondly because they
     # take up an obscene amount of space
-    systemd.coredump.extraConfig = "Storage=none";
+    systemd.coredump.settings.Coredump.Storage = "none";
 
     # after CVE-2025-32463 i'm giving up on sudo, long live doas
     security = {

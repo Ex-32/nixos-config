@@ -38,7 +38,7 @@
       }
       RAND_PAPER="$WALLPAPER_PATH/$(${core.ls} -1 "$WALLPAPER_PATH" |\
         ${core.shuf} --random-source=${rand-file} -n 1)"
-      ${lib.getExe pkgs.swww} img \
+      ${lib.getExe pkgs.awww} img \
         --transition-duration 2 \
         --transition-type grow \
         --transition-pos "$(rand_pos),$(rand_pos)" \
@@ -247,16 +247,16 @@ in {
 
         Install.WantedBy = [graphical-target];
       };
-      swww-daemon = {
+      awww-daemon = {
         Unit = {
-          Description = "swww wallpaper daemon";
+          Description = "awww wallpaper daemon";
           Wants = [graphical-target];
           After = [graphical-target];
         };
 
         Service = {
           Type = "simple";
-          ExecStart = lib.getExe' pkgs.swww "swww-daemon";
+          ExecStart = lib.getExe' pkgs.awww "awww-daemon";
           Restart = "on-failure";
           RestartSec = 1;
           TimeoutSec = "30s";
@@ -264,11 +264,11 @@ in {
 
         Install.WantedBy = [graphical-target];
       };
-      swww = {
+      awww = {
         Unit = {
-          Description = "cycle swww wallpaper";
+          Description = "cycle awww wallpaper";
           Wants = [graphical-target];
-          After = [graphical-target "swww-daemon.service"];
+          After = [graphical-target "awww-daemon.service"];
         };
 
         Service = {
@@ -280,11 +280,11 @@ in {
       };
     };
     timers = {
-      swww = {
+      awww = {
         Unit = {
-          Description = "cycle swww wallpaper";
+          Description = "cycle awww wallpaper";
           Wants = [graphical-target];
-          After = [graphical-target "swww-daemon.service"];
+          After = [graphical-target "awww-daemon.service"];
         };
 
         Timer = {

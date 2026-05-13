@@ -11,6 +11,10 @@
 
   config = lib.mkMerge [
     {
+      allowedUnfree = [
+        "sauerbraten"
+      ];
+
       home.packages = with pkgs; [
         empty-epsilon
         endless-sky

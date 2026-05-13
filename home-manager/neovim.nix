@@ -32,7 +32,7 @@
       lua-language-server
       marksman
       nixd
-      nodePackages.bash-language-server
+      bash-language-server
       pyright
       texlab
       typescript-language-server
@@ -41,7 +41,7 @@
       alejandra
       clang-tools # (clang-format)
       mypy
-      nodePackages.prettier
+      prettier
       statix
     ];
   };
