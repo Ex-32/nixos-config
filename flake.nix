@@ -75,7 +75,6 @@
               imports = [
                 ./home-manager/base.nix
                 ./home-manager/firefox.nix
-                ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
@@ -94,6 +93,7 @@
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/zellij.nix
+                ./home-manager/zsh.nix
               ];
               local.lutris.enable = true;
               home.packages = with pkgs; [
@@ -140,7 +140,6 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
-                ./home-manager/fish.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
@@ -157,6 +156,7 @@
                 ./home-manager/syncthing.nix
                 ./home-manager/xdg.nix
                 ./home-manager/zellij.nix
+                ./home-manager/zsh.nix
               ];
               home.packages = with pkgs; [
                 firefox-devedition

@@ -12,11 +12,6 @@
     autosuggestions.enable = true;
   };
 
-  programs.fish = {
-    enable = true;
-    useBabelfish = true;
-  };
-
   environment.variables = rec {
     # disable the less history file
     LESSHISTFILE = "-";
