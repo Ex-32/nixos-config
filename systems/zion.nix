@@ -76,7 +76,10 @@ in {
       options = ["nofail"];
     };
   in {
-    "/boot" = {device = devs.boot;};
+    "/boot" = {
+      device = devs.boot;
+      fsType = "vfat";
+    };
 
     "/nix" = boot-dataset "volatile/nix";
 

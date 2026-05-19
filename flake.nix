@@ -95,7 +95,7 @@
                 ./home-manager/zellij.nix
                 ./home-manager/zsh.nix
               ];
-              local.lutris.enable = true;
+              # local.lutris.enable = true;
               home.packages = with pkgs; [
                 bitwarden-desktop
                 nyxt

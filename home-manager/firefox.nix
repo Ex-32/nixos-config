@@ -123,12 +123,6 @@
               icon = "fingerprint";
               color = "turquoise";
             };
-            facebook = {
-              id = 0;
-              name = "Facebook";
-              icon = "fence";
-              color = "blue";
-            };
           };
           containersForce = true;
           search = {

@@ -88,7 +88,7 @@
     python = pkgs.python314.withPackages (ps:
       with ps; [
         ipympl
-        jupyter
+        # jupyter
         matplotlib
         numpy
         opencv4
