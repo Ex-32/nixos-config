@@ -109,6 +109,11 @@ in {
       fsType = "ext4";
     };
 
+    "/boot/efi" = {
+      device = devs.esp;
+      fsType = "vfat";
+    };
+
     "/nix" = boot-dataset "volatile/nix";
 
     "/persist/safe/system" = boot-dataset "safe/system";
