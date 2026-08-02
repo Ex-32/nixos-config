@@ -7,6 +7,7 @@
   devs = {
     boot = "/dev/disk/by-uuid/F045-9B7A";
     swap = "/dev/disk/by-uuid/77e77df0-ec36-4bf8-9bb0-a370ed6bd557";
+    xmr = "/dev/disk/by-uuid/b62abbad-6fdb-4c56-b3f3-04d1e34786d7";
   };
 in {
   imports = [
@@ -91,6 +92,11 @@ in {
     "/persist/volatile/cache" = boot-dataset "volatile/cache";
     "/persist/volatile/games" = boot-dataset "volatile/games";
     "/persist/volatile/vm" = boot-dataset "volatile/vm";
+
+    "/mnt/xmr" = {
+      device = devs.xmr;
+      fsType = "xfs";
+    };
   };
 
   swapDevices = [

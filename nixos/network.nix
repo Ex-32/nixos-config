@@ -19,6 +19,7 @@
       57621 # spotify sync
       35666 # EmptyEpsilon
       1443 # anytype
+      3333 # p2pool
     ];
   in {
     enable = true;
