@@ -69,7 +69,6 @@
           ./nixos/tailscale.nix
           ./nixos/users.nix
           ./nixos/vial.nix
-          ./nixos/xmr.nix
 
           {
             home-manager.users.jenna = {pkgs, ...}: {

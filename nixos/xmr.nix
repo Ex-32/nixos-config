@@ -44,12 +44,12 @@ in {
     cpuFreqGovernor = "performance";
   };
 
-  networking.interfaces.enp9s0.ipv4.addresses = [
-    {
-      address = POOL_ADDR;
-      prefixLength = 24;
-    }
-  ];
+  # networking.interfaces.enp9s0.ipv4.addresses = [
+  #   {
+  #     address = POOL_ADDR;
+  #     prefixLength = 24;
+  #   }
+  # ];
 
   services.monero = {
     enable = true;
