@@ -45,6 +45,7 @@ in {
           ".ssh"
           "documents"
           "src"
+          ".mozilla"
         ];
       };
 
