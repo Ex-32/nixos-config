@@ -55,7 +55,6 @@
           ./nixos/homelab-smb.nix
           ./nixos/impermanence.nix
           ./nixos/locale.nix
-          ./nixos/mullvad.nix
           ./nixos/network.nix
           ./nixos/obs-studio.nix
           ./nixos/printing.nix
@@ -122,7 +121,6 @@
           ./nixos/homelab-smb.nix
           ./nixos/impermanence.nix
           ./nixos/locale.nix
-          ./nixos/mullvad.nix
           ./nixos/network.nix
           ./nixos/obs-studio.nix
           ./nixos/printing.nix
