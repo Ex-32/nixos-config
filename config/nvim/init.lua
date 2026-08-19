@@ -82,6 +82,11 @@ vim.o.conceallevel = 1
 -- code rulers
 vim.o.colorcolumn = "80,100"
 
+
+-- set default indentation
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
