@@ -7,6 +7,7 @@
 }: {
   allowedUnfree = [
     "discord"
+    "discord-unwrapped"
     "signal-desktop"
   ];
 
