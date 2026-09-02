@@ -6,12 +6,14 @@
   ...
 }: let
   dash-shebang = "#!" + lib.getExe pkgs.dash;
+  dms = pkgs.dms-shell;
 in {
   imports = [
     ./gtk.nix
     ./kitty.nix
     ./qt.nix
     ./fuzzel.nix
+    ./systray.nix
   ];
 
   wayland.windowManager.niri = {
@@ -61,5 +63,59 @@ in {
       DEFAULT_AUDIO_SINK = null;
       DEFAULT_AUDIO_SOURCE = null;
     });
+  };
+
+  home.packages = [
+    dms
+    pkgs.dgop
+    pkgs.quickshell
+  ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gnome
+      xdg-desktop-portal-gtk
+    ];
+    config.common = {
+      default = ["gtk"];
+      "org.freedesktop.impl.portal.ScreenCast" = ["gnome"];
+      "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
+    };
+  };
+
+  systemd.user = let
+    graphical-target = "graphical-session.target";
+  in {
+    services = {
+      dms = {
+        Unit = {
+          Description = "DankMaterialShell Graphical Shell";
+          Wants = [graphical-target];
+          After = [graphical-target];
+        };
+
+        Service = {
+          Type = "simple";
+          ExecStart = lib.getExe dms + " run";
+        };
+
+        Install.WantedBy = [graphical-target];
+      };
+      activate-linux = {
+        Unit = {
+          Description = "Activate Linux";
+          Wants = [graphical-target];
+          After = [graphical-target];
+        };
+
+        Service = {
+          Type = "simple";
+          ExecStart = lib.getExe pkgs.activate-linux + " -s 0.8";
+        };
+
+        Install.WantedBy = [graphical-target];
+      };
+    };
   };
 }

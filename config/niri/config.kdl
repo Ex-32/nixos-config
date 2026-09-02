@@ -3,7 +3,6 @@
 // Check the wiki for a full description of the configuration:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Overview
 
-spawn-at-startup "@startup_hook@"
 
 // Input device configuration.
 // Find the full list of options on the wiki:
@@ -100,14 +99,14 @@ input {
 }
 
 // zion monitor config
-output "Ancor Communications Inc ASUS VW224 B3LMTF074918" {
-    position x=0 y=390
+output "Lenovo Group Limited LEN-M92z-B 0x00000001" {
+    position x=0 y=160
 }
 output "Dell Inc. DEL 1708FPBLK C182J976F0SS" {
-    position x=4240 y=416
+    position x=4480 y=416
 }
 output "Philips Consumer Electronics Company PHL 276E8V 0x000001B2" {
-    position x=1680 y=0
+    position x=1920 y=0
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -257,7 +256,7 @@ animations {
 
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
-window-rule {
+/-window-rule {
     // This regular expression is intentionally made as specific as possible,
     // since this is the default config, and we want no false positives.
     // You can get away with just app-id="wezterm" if you want.
@@ -310,9 +309,6 @@ binds {
 
     Mod+Q { spawn "@kitty@" "-1"; }
     Mod+D { spawn "@fuzzel@"; }
-    Mod+Ctrl+a { spawn "@toggle_activate_linux@"; }
-    Mod+Ctrl+S { spawn "swaylock"; }
-    Mod+Ctrl+W { spawn "@change_wallpaper@"; }
     Mod+Ctrl+X { spawn "@systemctl@" "suspend"; }
 
     XF86AudioRaiseVolume       allow-when-locked=true { spawn "@wpctl@" "set-volume" "-l" "1.5" "@DEFAULT_AUDIO_SINK@" "5%+"; }
