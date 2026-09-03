@@ -18,7 +18,7 @@
       home.packages = with pkgs; [
         empty-epsilon
         endless-sky
-        mindustry
+        # mindustry
         prismlauncher
         sauerbraten
         supertuxkart

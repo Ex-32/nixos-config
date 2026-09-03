@@ -158,8 +158,8 @@
               home.packages = with pkgs; [
                 firefox-devedition
                 bitwarden-desktop
-                # nyxt
-                # rclone
+                nyxt
+                rclone
               ];
             };
           }
