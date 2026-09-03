@@ -37,6 +37,7 @@ in {
           ++ (optional config.hardware.bluetooth.enable "/var/lib/bluetooth")
           ++ (optional config.services.fprintd.enable "/var/lib/fprint")
           ++ (optional config.services.tailscale.enable "/var/lib/tailscale")
+          ++ (optional config.services.zerotierone.enable "/var/lib/zerotier-one")
           ++ (optional config.services.mullvad-vpn.enable "/etc/mullvad-vpn");
 
         files = [

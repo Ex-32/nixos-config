@@ -132,6 +132,7 @@
           ./nixos/tailscale.nix
           ./nixos/users.nix
           ./nixos/virt-manager.nix
+          ./nixos/zerotier.nix
 
           {
             home-manager.users.jenna = {pkgs, ...}: {
