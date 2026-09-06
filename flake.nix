@@ -138,6 +138,7 @@
             home-manager.users.jenna = {pkgs, ...}: {
               imports = [
                 ./home-manager/base.nix
+                ./home-manager/dms.nix
                 ./home-manager/fun.nix
                 ./home-manager/games.nix
                 ./home-manager/git.nix
@@ -146,7 +147,6 @@
                 ./home-manager/kitty.nix
                 ./home-manager/media.nix
                 ./home-manager/neovim.nix
-                ./home-manager/niri.nix
                 ./home-manager/nix-index.nix
                 ./home-manager/productivity.nix
                 ./home-manager/socials.nix
