@@ -13,10 +13,10 @@
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.arc-theme;
-      name = "Arc-Dark";
-      # package = pkgs.gnome-themes-extra;
-      # name = "Adwaita-dark";
+      # package = pkgs.arc-theme;
+      # name = "Arc-Dark";
+      package = pkgs.gnome-themes-extra;
+      name = "Adwaita-dark";
     };
     font = {
       package = pkgs.source-sans;

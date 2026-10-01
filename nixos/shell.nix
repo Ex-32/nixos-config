@@ -137,6 +137,7 @@
       ripgrep # grep the filesystem crazy fast
       trash-cli # fuck i didn't mean to delete that...
       zellij # tmux but dramatic
+      herdr # zellij but ai
     ])
     ++ [py python];
 }

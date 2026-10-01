@@ -16,11 +16,11 @@
       ];
 
       home.packages = with pkgs; [
-        empty-epsilon
+        # empty-epsilon
         endless-sky
         # mindustry
         prismlauncher
-        sauerbraten
+        # sauerbraten
         supertuxkart
       ];
     }
