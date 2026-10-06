@@ -112,6 +112,10 @@
       extraSpecialArgs = {inherit inputs;};
     };
 
+    # enable fuse for user mounting of filesystems, this is mostly for things
+    # like user-level network filesystems
+    programs.fuse.enable = true;
+
     # This value determines the NixOS release from which the default
     # settings for stateful data, like file locations and database versions
     # on your system were taken. It‘s perfectly fine and recommended to leave
