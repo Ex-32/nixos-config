@@ -18,7 +18,7 @@
       hourly = 48;
       daily = 14;
       weekly = 8;
-      monthly = 24;
+      monthly = 12;
     };
   };
 }
