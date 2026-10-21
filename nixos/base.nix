@@ -41,9 +41,7 @@
 
       # Pending https://github.com/NixOS/nixpkgs/issues/55674
       config.allowUnfreePredicate = pkg:
-        builtins.elem (lib.getName pkg) (config.allowedUnfree
-          ++ (builtins.foldl' (acc: user: acc ++ user.allowedUnfree) []
-            (lib.attrsets.attrValues config.home-manager.users)));
+        builtins.elem (lib.getName pkg) (config.allowedUnfree);
     };
 
     # this stops systemd from keeping coredump images of every crashed program,
@@ -107,7 +105,7 @@
     # this is boilerplate config to allow home-manager and nixos to interface a
     # little more elegantly
     home-manager = {
-      useGlobalPkgs = true;
+      # useGlobalPkgs = true;
       useUserPackages = true;
       extraSpecialArgs = {inherit inputs;};
     };

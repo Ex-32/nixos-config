@@ -52,7 +52,6 @@
           if builtins.elem pkgs.stdenv.hostPlatform.system lib.platforms.darwin
           then darwin-firefox
           else pkgs.firefox;
-        enableGnomeExtensions = false;
         policies = {
           DefaultDownloadDirectory = "${config.home.homeDirectory}/downloads";
           DisableFirefoxStudies = true;
@@ -86,7 +85,6 @@
             duckduckgo-privacy-essentials
             facebook-container
             firefox-color
-            languagetool
             onepassword-password-manager
             privacy-badger
             return-youtube-dislikes
