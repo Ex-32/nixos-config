@@ -39,7 +39,6 @@ in {
     extraModulePackages = [];
 
     initrd = {
-      systemd.enable = true;
       availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
       kernelModules = ["dm-snapshot" "cryptd"];
       luks.devices.cryptroot = {
@@ -61,7 +60,7 @@ in {
         efiSupport = true;
         efiInstallAsRemovable = true;
         memtest86.enable = true;
-	enableCryptodisk = true;
+        enableCryptodisk = true;
         extraFiles = {
           "${shell-path}" = "${pkgs.edk2-uefi-shell}/shell.efi";
         };

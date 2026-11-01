@@ -41,7 +41,6 @@ in {
     extraModulePackages = [];
 
     initrd = {
-      systemd.enable = true;
       availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
       kernelModules = ["i915" "dm-snapshot" "cryptd"];
       luks.devices.cryptroot = {
